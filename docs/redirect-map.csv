@@ -1,0 +1,12 @@
+old_path,new_path,status_code,notes
+/home,/,301,Confirmed alternate home route
+/559-blog,/blog/,301,Confirmed blog index migration
+/559-blog/the-hero-trap-tht2p,/blog/the-hero-trap/,301,Confirmed article migration
+/559-blog/weekend-cto-how-to-choose-ai,/blog/how-to-choose-and-actually-use-ai-tools/,301,Confirmed article migration
+/appointments,/contact/,301,Confirmed closest replacement
+/downloads,/resources/,301,Confirmed listing replacement; individual file paths still require inventory
+/services-store,/services/,301,Confirmed closest replacement
+/email-move-guide,,TBD,Owner must choose migration removal or closest destination before redirecting
+/heic-converter,,TBD,Owner must choose migration removal or closest destination before redirecting
+/services-store/p/ai-coaching-for-you-11,,TBD,Owner must confirm whether the offer continues and where it belongs
+/services-store/p/9amt6rc6hi9w1prz8wgctezjs8s3ks,,TBD,Owner must confirm whether the offer continues and where it belongs

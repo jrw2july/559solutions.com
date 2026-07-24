@@ -1,0 +1,47 @@
+---
+interface Props {
+  label: string;
+  searchPlaceholder: string;
+  categories: string[];
+  secondaryLabel?: string;
+  secondaryOptions?: string[];
+  secondaryAttribute?: "audience" | "topics";
+}
+
+const {
+  label,
+  searchPlaceholder,
+  categories,
+  secondaryLabel,
+  secondaryOptions = [],
+  secondaryAttribute = "topics",
+} = Astro.props;
+---
+
+<form class="filter-bar" data-filter-form data-secondary-attribute={secondaryAttribute} aria-label={label}>
+  <div class="field">
+    <label for="filter-search">Search</label>
+    <input id="filter-search" name="search" type="search" placeholder={searchPlaceholder} data-filter-search />
+  </div>
+  <div class="field">
+    <label for="filter-category">Category</label>
+    <select id="filter-category" name="category" data-filter-category>
+      <option value="">All categories</option>
+      {categories.map((category) => <option value={category.toLowerCase()}>{category}</option>)}
+    </select>
+  </div>
+  {
+    secondaryLabel && secondaryOptions.length > 0 && (
+      <div class="field">
+        <label for="filter-secondary">{secondaryLabel}</label>
+        <select id="filter-secondary" name="secondary" data-filter-secondary>
+          <option value="">All {secondaryLabel.toLowerCase()}</option>
+          {secondaryOptions.map((option) => <option value={option.toLowerCase()}>{option}</option>)}
+        </select>
+      </div>
+    )
+  }
+  <button class="button button-primary button-small" type="submit">Apply filters</button>
+  <button class="button button-secondary button-small" type="reset">Clear filters</button>
+</form>
+<p class="filter-status" data-filter-status aria-live="polite"></p>

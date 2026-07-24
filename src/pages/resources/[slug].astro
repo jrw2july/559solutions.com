@@ -1,0 +1,189 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import CTASection from "@/components/CTASection.astro";
+import FAQ from "@/components/FAQ.astro";
+import PriceDisplay from "@/components/PriceDisplay.astro";
+import ResourceCard from "@/components/ResourceCard.astro";
+import StatusBadge from "@/components/StatusBadge.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const resources = await getCollection("resources", ({ data }) => !data.draft);
+  return resources.map((resource) => ({
+    params: { slug: resource.data.slug },
+    props: { resource },
+  }));
+}
+
+interface Props {
+  resource: CollectionEntry<"resources">;
+}
+
+const { resource } = Astro.props as Props;
+const { Content } = await render(resource);
+const allResources = await getCollection("resources", ({ data }) => !data.draft);
+const related = resource.data.relatedResources
+  .map((slug) => allResources.find((item) => item.data.slug === slug))
+  .filter(Boolean)
+  .slice(0, 3) as CollectionEntry<"resources">[];
+
+const hasAction =
+  Boolean(resource.data.downloadUrl) ||
+  Boolean(resource.data.checkoutUrl) ||
+  Boolean(resource.data.earlyAccessUrl);
+
+const action = resource.data.downloadUrl
+  ? { label: "Download resource", href: resource.data.downloadUrl }
+  : resource.data.checkoutUrl
+    ? { label: "Purchase resource", href: resource.data.checkoutUrl }
+    : resource.data.earlyAccessUrl
+      ? { label: "Request early access", href: resource.data.earlyAccessUrl }
+      : null;
+
+const updated = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+}).format(resource.data.lastUpdated);
+const pageTitle =
+  resource.data.slug === "ai-project-readiness-checklist"
+    ? "AI Project Readiness Checklist | 559 Solutions"
+    : `${resource.data.title} | 559 Solutions`;
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={resource.data.shortDescription}
+  canonicalPath={`/resources/${resource.data.slug}/`}
+>
+  <header class="page-hero">
+    <div class="container">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: "Resources", href: "/resources/" },
+          { label: resource.data.title },
+        ]}
+      />
+      <div class="card-meta">
+        <span>{resource.data.format}</span>
+        <StatusBadge status={resource.data.availability} />
+      </div>
+      <h1>{resource.data.title}</h1>
+      <p class="lede">{resource.data.shortDescription}</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container resource-layout">
+      <article class="resource-content">
+        <h2>Who this is for</h2>
+        <ul class="check-list">
+          {resource.data.intendedAudience.map((audience) => <li>{audience}</li>)}
+        </ul>
+
+        <h2>The problem it addresses</h2>
+        <p>{resource.data.problemSolved}</p>
+
+        {
+          resource.data.includedFiles.length > 0 && (
+            <>
+              <h2>Planned contents</h2>
+              <ul class="check-list">
+                {resource.data.includedFiles.map((item) => <li>{item}</li>)}
+              </ul>
+            </>
+          )
+        }
+
+        <Content />
+
+        <h2>Requirements and support</h2>
+        {
+          resource.data.requirements.length > 0 ? (
+            <ul>
+              {resource.data.requirements.map((item) => <li>{item}</li>)}
+            </ul>
+          ) : (
+            <p>No special requirements are currently published.</p>
+          )
+        }
+        <p><strong>Support:</strong> {resource.data.supportExpectations}</p>
+        <p><strong>License:</strong> {resource.data.licenseSummary}</p>
+
+        {
+          resource.data.faqs.length > 0 && (
+            <>
+              <h2>Frequently asked questions</h2>
+              <FAQ items={resource.data.faqs} />
+            </>
+          )
+        }
+      </article>
+
+      <aside class="resource-sidebar" aria-label="Resource details">
+        <div class="detail-panel">
+          <h2>Resource details</h2>
+          <ul class="detail-list">
+            <li><strong>Status</strong><StatusBadge status={resource.data.availability} /></li>
+            <li><strong>Format</strong>{resource.data.format}</li>
+            <li><strong>Version</strong>{resource.data.version}</li>
+            <li><strong>Last updated</strong><time datetime={resource.data.lastUpdated.toISOString()}>{updated}</time></li>
+            {
+              resource.data.priceDisplay && (
+                <li><strong>Price</strong><PriceDisplay price={resource.data.priceDisplay} status={resource.data.availability} /></li>
+              )
+            }
+          </ul>
+          {
+            action ? (
+              <a class="button button-primary" href={action.href}>{action.label}</a>
+            ) : (
+              <div class="form-notice">
+                <p>
+                  No purchase or download destination is configured. This page will show an action only after the owner supplies a real URL.
+                </p>
+                <a class="text-link" href={`/contact/?inquiry=product-question`}>Ask about this resource</a>
+              </div>
+            )
+          }
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  {
+    related.length > 0 && (
+      <section class="section section-tinted">
+        <div class="container">
+          <h2>Related resources</h2>
+          <div class="card-grid">
+            {related.map((item) => (
+              <ResourceCard
+                title={item.data.title}
+                slug={item.data.slug}
+                description={item.data.shortDescription}
+                audience={item.data.intendedAudience}
+                format={item.data.format}
+                price={item.data.priceDisplay}
+                status={item.data.availability}
+                category={item.data.category}
+                topics={item.data.topics}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <CTASection
+    title={hasAction ? "Use the resource, then improve the system." : "Interested in this resource?"}
+    description={hasAction ? "Start with the smallest useful step." : "Ask a product question or explain what you need the resource to help you do."}
+    primaryLabel={hasAction && action ? action.label : "Ask a Product Question"}
+    primaryHref={hasAction && action ? action.href : "/contact/?inquiry=product-question"}
+    secondaryLabel="Browse All Resources"
+    secondaryHref="/resources/"
+  />
+</BaseLayout>

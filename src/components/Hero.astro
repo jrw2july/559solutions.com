@@ -1,0 +1,52 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description: string;
+  primaryLabel?: string;
+  primaryHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  description,
+  primaryLabel,
+  primaryHref,
+  secondaryLabel,
+  secondaryHref,
+} = Astro.props;
+---
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h1>{title}</h1>
+      <p class="hero-lede">{description}</p>
+      {
+        (primaryLabel || secondaryLabel) && (
+          <div class="button-row">
+            {primaryLabel && primaryHref && (
+              <a class="button button-primary" href={primaryHref}>{primaryLabel}</a>
+            )}
+            {secondaryLabel && secondaryHref && (
+              <a class="button button-secondary" href={secondaryHref}>{secondaryLabel}</a>
+            )}
+          </div>
+        )
+      }
+      <slot name="after-actions" />
+    </div>
+    <div class="hero-system" aria-hidden="true">
+      <div class="system-label">WORK</div>
+      <div class="system-line"></div>
+      <div class="system-node">CLARIFY</div>
+      <div class="system-line"></div>
+      <div class="system-node system-node-accent">SYSTEM</div>
+      <div class="system-caption">the simplest useful response</div>
+    </div>
+  </div>
+</section>

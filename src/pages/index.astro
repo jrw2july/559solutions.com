@@ -1,0 +1,222 @@
+---
+import { getCollection } from "astro:content";
+import ArticleCard from "@/components/ArticleCard.astro";
+import CTASection from "@/components/CTASection.astro";
+import Hero from "@/components/Hero.astro";
+import NewsletterForm from "@/components/NewsletterForm.astro";
+import ProblemCard from "@/components/ProblemCard.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { absoluteUrl, site } from "@/config/site";
+
+const articles = (await getCollection("articles", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publicationDate.valueOf() - a.data.publicationDate.valueOf())
+  .slice(0, 3);
+
+const organizationSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: site.siteName,
+    url: absoluteUrl("/"),
+    description:
+      "Practical AI, automation, low-code resources, and plain-language systems guidance.",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: site.siteName,
+    url: absoluteUrl("/"),
+    logo: absoluteUrl(site.logoPath),
+  },
+];
+---
+
+<BaseLayout
+  title="559 Solutions | Practical AI, Low-Code Tools & Clear Systems"
+  description="Practical AI, automation, low-code resources, and plain-language systems guidance for small teams, business owners, nonprofit leaders, and builders."
+  canonicalPath="/"
+  structuredData={organizationSchema}
+>
+  <Hero
+    eyebrow="Strategy · Tools · AI"
+    title="Turn messy work into clear systems."
+    description="Practical AI, automation, and low-code tools for small teams, business owners, nonprofit leaders, and builders who need clarity without big-consulting overhead."
+    primaryLabel="Get the Free AI Project Checklist"
+    primaryHref="/resources/ai-project-readiness-checklist/"
+    secondaryLabel="Explore Practical Resources"
+    secondaryHref="/resources/"
+  >
+    <div slot="after-actions">
+      <p class="credibility">
+        Built from three decades of solution architecture, technical mentoring, and hands-on problem solving.
+      </p>
+    </div>
+  </Hero>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Start with the work"
+        title="Clarity begins by naming what is not working."
+        description="Before choosing a platform or automation, make the process, decision, and source of friction visible."
+      />
+      <div class="card-grid">
+        <ProblemCard
+          number="01"
+          title="The work is scattered"
+          description="Spreadsheets, inboxes, forms, documents, and disconnected applications may all be doing part of the job, but no one can see the full process."
+          cta="Clarify the System"
+          href="/services/#business-systems-clarity-session"
+        />
+        <ProblemCard
+          number="02"
+          title="The decisions are unclear"
+          description="Teams often select tools or begin building before agreeing on outcomes, ownership, tradeoffs, and measures of success."
+          cta="Start with the Questions"
+          href="/resources/ai-project-readiness-checklist/"
+        />
+        <ProblemCard
+          number="03"
+          title="The technology feels overwhelming"
+          description="AI and automation promise a great deal, but choosing the next useful step is difficult when the problem has not been clearly defined."
+          cta="Choose the Next Useful Step"
+          href="/resources/ai-tool-selection-workbook/"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-blue">
+    <div class="container">
+      <NewsletterForm />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        eyebrow="How 559 Solutions works"
+        title="A simple path from confusion to something reusable."
+        description="AI is one possible tool. The method begins with the work and ends with a system people can understand and maintain."
+      />
+      <div class="process-grid">
+        <article class="process-step">
+          <p class="step-number">01 / CLARIFY</p>
+          <h3>Clarify the work</h3>
+          <p>Identify the decision, repeated task, bottleneck, missing ownership, source of confusion, and desired outcome.</p>
+        </article>
+        <article class="process-step">
+          <p class="step-number">02 / DESIGN</p>
+          <h3>Design the simplest useful system</h3>
+          <p>Choose the smallest appropriate response, such as a checklist, workflow, template, low-code application, dashboard, or automation.</p>
+        </article>
+        <article class="process-step">
+          <p class="step-number">03 / REUSE</p>
+          <h3>Make it reusable</h3>
+          <p>Document, automate, teach, package, and improve what works so the result does not depend on one person remembering everything.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-tinted">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Product-led by design"
+        title="Start with a reusable resource before a live engagement."
+        description="The current catalog is intentionally honest about what is ready. No price, checkout, or download button appears until its destination is configured."
+      />
+      <div class="product-ladder">
+        <article class="ladder-item">
+          <p class="ladder-label">Free</p>
+          <h3>AI Project Readiness Checklist</h3>
+          <p>Ten questions to ask before design starts.</p>
+          <a class="text-link" href="/resources/ai-project-readiness-checklist/">Review questions</a>
+        </article>
+        <article class="ladder-item">
+          <p class="ladder-label">Entry</p>
+          <h3>AI Tool Selection Workbook</h3>
+          <p>A planned tool-neutral comparison workbook.</p>
+          <a class="text-link" href="/resources/ai-tool-selection-workbook/">View outline</a>
+        </article>
+        <article class="ladder-item">
+          <p class="ladder-label">Core</p>
+          <h3>Solution Architect Starter Kit</h3>
+          <p>A planned set of intake, mapping, risk, and decision templates.</p>
+          <a class="text-link" href="/resources/solution-architect-starter-kit/">View planned kit</a>
+        </article>
+        <article class="ladder-item">
+          <p class="ladder-label">Education</p>
+          <h3>First Website Companion Kit</h3>
+          <p>A planned student and instructor resource.</p>
+          <a class="text-link" href="/resources/build-your-first-website-companion-kit/">View concept</a>
+        </article>
+        <article class="ladder-item">
+          <p class="ladder-label">Premium</p>
+          <h3>Recorded Walkthrough Bundle</h3>
+          <p>A template and explanation bundle under review.</p>
+          <a class="text-link" href="/resources/recorded-walkthrough-template-bundle/">View concept</a>
+        </article>
+        <article class="ladder-item">
+          <p class="ladder-label">Limited service</p>
+          <h3>Business Systems Clarity Session</h3>
+          <p>Fixed-scope details are confirmed by inquiry.</p>
+          <a class="text-link" href="/services/#business-systems-clarity-session">Explore service</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  {
+    articles.length > 0 && (
+      <section class="section">
+        <div class="container">
+          <SectionHeading
+            eyebrow="Selected insights"
+            title="Ideas for clearer systems and calmer technology decisions."
+            description="Migrated and reviewed articles from the existing 559 Solutions site."
+          />
+          <div class="card-grid">
+            {articles.map((article) => (
+              <ArticleCard
+                title={article.data.title}
+                slug={article.data.slug}
+                summary={article.data.summary}
+                category={article.data.category}
+                date={article.data.publicationDate}
+                tags={article.data.tags}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section section-compact">
+    <div class="container about-preview">
+      <div class="about-mark" aria-hidden="true">559</div>
+      <div>
+        <p class="eyebrow">About 559 Solutions</p>
+        <h2>Experience translated into practical tools.</h2>
+        <p>
+          I am Joel Wells, a solution architect, mentor, teacher, and builder. For more than three decades, I have helped teams understand complicated work and turn it into systems people can actually use.
+        </p>
+        <p>
+          559 Solutions is where I translate that experience into practical tools, plain-language guidance, and reusable resources.
+        </p>
+        <a class="button button-light" href="/about/">Read the 559 Story</a>
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    title="Start with clarity, not another tool."
+    description="Use the checklist now, or describe the work that keeps repeating."
+    primaryLabel="Download the Free Checklist"
+    primaryHref="/resources/ai-project-readiness-checklist/"
+    secondaryLabel="Tell Me What Is Not Working"
+    secondaryHref="/contact/"
+  />
+</BaseLayout>

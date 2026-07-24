@@ -1,0 +1,37 @@
+---
+import { primaryNavigation } from "@/data/navigation";
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+const isCurrent = (href: string) =>
+  href === "/" ? currentPath === href : currentPath.startsWith(href);
+---
+
+<details class="mobile-nav">
+  <summary aria-label="Open site navigation">
+    <span aria-hidden="true" class="menu-icon"></span>
+    <span>Menu</span>
+  </summary>
+  <nav aria-label="Mobile">
+    <ul>
+      <li><a href="/" aria-current={currentPath === "/" ? "page" : undefined}>Home</a></li>
+      {
+        primaryNavigation.map((item) => (
+          <li>
+            <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a class="button button-primary button-small" href="/resources/ai-project-readiness-checklist/">
+          Get the Free Checklist
+        </a>
+      </li>
+    </ul>
+  </nav>
+</details>

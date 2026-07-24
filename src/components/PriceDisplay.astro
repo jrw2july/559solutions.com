@@ -1,0 +1,10 @@
+---
+interface Props {
+  price?: string;
+  status?: string;
+}
+
+const { price = "", status = "" } = Astro.props;
+---
+
+{price ? <span class="price">{price}</span> : status === "free" ? <span class="price">Free</span> : null}

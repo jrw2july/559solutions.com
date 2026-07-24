@@ -1,0 +1,62 @@
+---
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import CTASection from "@/components/CTASection.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import ServiceCard from "@/components/ServiceCard.astro";
+import { services } from "@/data/services";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Practical Services | 559 Solutions"
+  description="Focused systems clarity, AI workflow assessment, low-code solution design, technical mentoring, and fixed-scope systems work by inquiry."
+  canonicalPath="/services/"
+>
+  <header class="page-hero">
+    <div class="container">
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Services" }]} />
+      <p class="eyebrow">Focused help</p>
+      <h1>Live services when a reusable resource is not enough.</h1>
+      <p class="lede">
+        559 Solutions starts with the work, decision, process, or source of confusion. Technology comes after the problem is understood.
+      </p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        eyebrow="By inquiry"
+        title="Defined services, without big-consulting overhead."
+        description="Every engagement begins with a clear scope. No duration, capacity, result, or price is promised until it is confirmed directly."
+      />
+      <div class="card-grid card-grid-2">
+        {services.map((service, index) => <ServiceCard {service} index={index + 1} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-blue">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Before an engagement"
+        title="Start with four practical questions."
+      />
+      <ol class="question-list">
+        <li>What work, decision, or handoff is creating friction?</li>
+        <li>Who owns the current process and the desired result?</li>
+        <li>What is the smallest useful improvement?</li>
+        <li>What must the team be able to understand and maintain afterward?</li>
+      </ol>
+    </div>
+  </section>
+
+  <CTASection
+    title="Tell me what is not working."
+    description="Describe the work in plain language. A useful first response does not require a polished requirements document."
+    primaryLabel="Start an Inquiry"
+    primaryHref="/contact/"
+    secondaryLabel="Explore Resources First"
+    secondaryHref="/resources/"
+  />
+</BaseLayout>

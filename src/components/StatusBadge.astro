@@ -1,0 +1,10 @@
+---
+interface Props {
+  status: string;
+}
+
+const { status } = Astro.props;
+const className = status.toLowerCase().replace(/\s+/g, "-");
+---
+
+<span class={`status-badge status-${className}`}>{status}</span>

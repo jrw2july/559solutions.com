@@ -1,0 +1,22 @@
+---
+// Prepared page template. Move to src/pages/case-studies/index.astro only after
+// site.features.caseStudies is enabled and verified case-study content exists.
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Case Studies | 559 Solutions"
+  description="Verified case studies from 559 Solutions."
+  canonicalPath="/case-studies/"
+  noindex
+>
+  <header class="page-hero">
+    <div class="container">
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Case Studies" }]} />
+      <p class="eyebrow">Prepared feature</p>
+      <h1>Case Studies</h1>
+      <p class="lede">Publish only after real, approved client material is supplied.</p>
+    </div>
+  </header>
+</BaseLayout>

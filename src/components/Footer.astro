@@ -1,0 +1,36 @@
+---
+import { copyrightYear, site } from "@/config/site";
+import { legalNavigation, primaryNavigation } from "@/data/navigation";
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-intro">
+      <a class="footer-brand" href="/" aria-label="559 Solutions home">559 Solutions</a>
+      <p>Practical AI, automation, low-code tools, and plain-language systems guidance.</p>
+      <p class="footer-note">The real product is clarity.</p>
+    </div>
+    <nav aria-label="Footer">
+      <h2>Explore</h2>
+      <ul>
+        {primaryNavigation.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+    <nav aria-label="Legal">
+      <h2>Site information</h2>
+      <ul>
+        {legalNavigation.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        <li><a href="/rss.xml">RSS feed</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h2>Start with the work</h2>
+      <p>Tell 559 Solutions what is confusing, repeated, or difficult to maintain.</p>
+      <a class="text-link" href="/contact/">Contact 559 Solutions</a>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>&copy; {copyrightYear} {site.siteName}. All rights reserved.</p>
+    <p><a href="/accessibility/">Accessibility commitment</a></p>
+  </div>
+</footer>

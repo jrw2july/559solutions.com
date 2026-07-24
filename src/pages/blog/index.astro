@@ -1,0 +1,73 @@
+---
+import { getCollection } from "astro:content";
+import ArticleCard from "@/components/ArticleCard.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import EmptyState from "@/components/EmptyState.astro";
+import FilterBar from "@/components/FilterBar.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const articles = (await getCollection("articles", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publicationDate.valueOf() - a.data.publicationDate.valueOf(),
+);
+
+const categories = [
+  "AI Without the Hype",
+  "Systems Thinking",
+  "Small Business Tools",
+  "Builder Notes",
+  "The Curious Architect",
+];
+
+const tags = [...new Set(articles.flatMap((article) => article.data.tags))].sort();
+---
+
+<BaseLayout
+  title="Blog | 559 Solutions"
+  description="Plain-language articles about practical AI, systems thinking, small-business tools, architecture, decisions, and building useful things."
+  canonicalPath="/blog/"
+>
+  <header class="page-hero">
+    <div class="container">
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog" }]} />
+      <p class="eyebrow">Ideas for practical builders</p>
+      <h1>AI without the hype. Systems without the fog.</h1>
+      <p class="lede">
+        Articles about clearer decisions, resilient work, useful architecture, and the consequences of the systems we build.
+      </p>
+    </div>
+  </header>
+
+  <section class="section" data-filter-list>
+    <div class="container">
+      <SectionHeading
+        eyebrow="559 Solutions journal"
+        title="The practical business, with a curious architect's lens."
+        description="Published articles are reviewed, dated, and separate from the draft editorial outlines kept in source."
+      />
+      <FilterBar
+        label="Filter articles"
+        searchPlaceholder="Search titles, summaries, or tags"
+        {categories}
+        secondaryLabel="Tag"
+        secondaryOptions={tags}
+        secondaryAttribute="topics"
+      />
+      <div class="card-grid" data-filter-results>
+        {
+          articles.map((article) => (
+            <ArticleCard
+              title={article.data.title}
+              slug={article.data.slug}
+              summary={article.data.summary}
+              category={article.data.category}
+              date={article.data.publicationDate}
+              tags={article.data.tags}
+            />
+          ))
+        }
+      </div>
+      <EmptyState title="No matching articles" message="Try another category, tag, or search phrase." />
+    </div>
+  </section>
+</BaseLayout>

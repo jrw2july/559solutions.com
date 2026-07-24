@@ -1,0 +1,75 @@
+---
+import Analytics from "@/components/Analytics.astro";
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+import SEO from "@/components/SEO.astro";
+import StructuredData from "@/components/StructuredData.astro";
+import { absoluteUrl, site } from "@/config/site";
+import "@/styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  canonicalOverride?: string;
+  image?: string;
+  type?: "website" | "article";
+  noindex?: boolean;
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+  bodyClass?: string;
+}
+
+const {
+  title,
+  description,
+  canonicalPath,
+  canonicalOverride,
+  image,
+  type,
+  noindex,
+  structuredData,
+  bodyClass = "",
+} = Astro.props;
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: site.siteName,
+  url: absoluteUrl("/"),
+  description:
+    "Practical AI, automation, low-code resources, and plain-language systems guidance.",
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="color-scheme" content="light" />
+    <SEO
+      {title}
+      {description}
+      {canonicalPath}
+      {canonicalOverride}
+      {image}
+      {type}
+      {noindex}
+    />
+    <link rel="icon" href={site.faviconPath} />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="559 Solutions articles" href="/rss.xml" />
+    <StructuredData data={structuredData || websiteSchema} />
+    <Analytics />
+  </head>
+  <body class={bodyClass}>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <Header currentPath={Astro.url.pathname} />
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    <script is:inline src="/scripts/site.js" defer></script>
+  </body>
+</html>
