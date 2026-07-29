@@ -1,6 +1,6 @@
 # 559 Solutions Website
 
-A fast, accessible, static marketing site for 559 Solutions. It is built with Astro and designed to deploy directly to an Apache/cPanel `public_html` directory with no server runtime, database, or build step on the host.
+A fast, accessible, static marketing site for 559 Solutions. It is built with Astro for GitHub Pages and direct Apache/cPanel deployment, with no server runtime or database.
 
 ## What is included
 
@@ -10,6 +10,7 @@ A fast, accessible, static marketing site for 559 Solutions. It is built with As
 - RSS, XML sitemap, robots rules, social metadata, structured data, and a generated social card
 - Contact and newsletter forms that remain safely disabled until real endpoints are configured
 - Apache redirects, HTTPS/canonical-host rules, security headers, compression, and cache policy
+- A GitHub Actions workflow for GitHub Pages
 - A cPanel deployment archive and a separate source archive
 
 ## Requirements
@@ -56,7 +57,7 @@ src/
   page-templates/    Prepared, unpublished Courses and Case Studies pages
   pages/             Published routes
   styles/            Global design system
-public/               Static images, scripts, robots, manifest, and .htaccess
+public/               Static images, scripts, and .htaccess
 docs/                 Content, deployment, setup, SEO, accessibility, and maintenance guides
 scripts/              Build checks, browser QA, Lighthouse, and packaging
 tests/                Production-output tests
@@ -83,6 +84,21 @@ After any change, run:
 pnpm validate
 pnpm browser:qa
 pnpm package
+```
+
+## GitHub Pages
+
+The published project site is [jrw2july.github.io/559solutions.com](https://jrw2july.github.io/559solutions.com/).
+
+The workflow in [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) builds and deploys the site after pushes to `main`, or when run manually. The Pages build sets Astro's repository base path and validates the generated canonical URLs, internal links, sitemap, robots file, and web manifest before deployment. See Astro's [GitHub Pages deployment guide](https://docs.astro.build/en/guides/deploy/github/) for the workflow pattern.
+
+To reproduce the Pages build in PowerShell:
+
+```powershell
+$env:GITHUB_PAGES = "true"
+pnpm build
+pnpm validate:pages
+Remove-Item Env:GITHUB_PAGES
 ```
 
 ## Release artifacts
