@@ -1,0 +1,60 @@
+---
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import ContactForm from "@/components/ContactForm.astro";
+import { site } from "@/config/site";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Contact 559 Solutions | Start with the Work"
+  description="Contact 559 Solutions about a practical resource, business systems clarity, AI workflow assessment, low-code solution design, mentoring, or a workshop."
+  canonicalPath="/contact/"
+>
+  <header class="page-hero">
+    <div class="container">
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Contact Us" }]} />
+      <p class="eyebrow">Contact 559 Solutions</p>
+      <h1>Tell me what is not working.</h1>
+      <p class="lede">
+        Describe the decision, repeated task, handoff, or source of confusion. Plain language is enough.
+      </p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container contact-layout">
+      <div>
+        <h2>Start with the work.</h2>
+        <p>A useful inquiry often answers three questions:</p>
+        <ol class="question-list">
+          <li>What are you trying to accomplish?</li>
+          <li>What keeps getting in the way?</li>
+          <li>What would a useful next step look like?</li>
+        </ol>
+        <div class="detail-panel">
+          <h2>Email fallback</h2>
+          {
+            site.publicEmail ? (
+              <p>Email <a href={`mailto:${site.publicEmail}`}>{site.publicEmail}</a>.</p>
+            ) : (
+              <p>
+                A public business email has not been supplied. The owner must configure it before production launch.
+              </p>
+            )
+          }
+          {
+            site.schedulingUrl ? (
+              <p><a class="text-link" href={site.schedulingUrl}>Open the scheduling page</a></p>
+            ) : (
+              <p class="small-note">Scheduling is not enabled.</p>
+            )
+          }
+        </div>
+      </div>
+      <div>
+        <h2>Send an inquiry</h2>
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

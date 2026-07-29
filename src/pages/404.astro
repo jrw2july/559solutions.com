@@ -1,0 +1,26 @@
+---
+import { sitePath } from "@/config/site";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Page Not Found | 559 Solutions"
+  description="The requested page could not be found. Explore practical resources, services, and articles from 559 Solutions."
+  canonicalPath="/404.html"
+  noindex
+>
+  <section class="section">
+    <div class="narrow">
+      <p class="eyebrow">404 / Page not found</p>
+      <h1>This path does not lead to a useful system.</h1>
+      <p class="hero-lede">
+        The page may have moved during the site rebuild, or the address may be incomplete.
+      </p>
+      <div class="button-row">
+        <a class="button button-primary" href={sitePath("/")}>Return Home</a>
+        <a class="button button-secondary" href={sitePath("/resources/")}>Explore Resources</a>
+        <a class="text-link" href={sitePath("/contact/")}>Report a broken link</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

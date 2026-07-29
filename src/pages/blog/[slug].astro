@@ -1,0 +1,150 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import ArticleCard from "@/components/ArticleCard.astro";
+import AuthorBio from "@/components/AuthorBio.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import CTASection from "@/components/CTASection.astro";
+import TagList from "@/components/TagList.astro";
+import { absoluteUrl } from "@/config/site";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const articles = await getCollection("articles", ({ data }) => !data.draft);
+  return articles.map((article) => ({
+    params: { slug: article.data.slug },
+    props: { article },
+  }));
+}
+
+interface Props {
+  article: CollectionEntry<"articles">;
+}
+
+const { article } = Astro.props as Props;
+const { Content, headings } = await render(article);
+const readingTime = Math.max(1, Math.ceil((article.body || "").split(/\s+/).length / 225));
+const publicationDate = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+}).format(article.data.publicationDate);
+const updatedDate = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+}).format(article.data.updatedDate);
+const allArticles = await getCollection("articles", ({ data }) => !data.draft);
+const related = article.data.relatedArticles
+  .map((slug) => allArticles.find((item) => item.data.slug === slug))
+  .filter(Boolean)
+  .slice(0, 3) as CollectionEntry<"articles">[];
+
+const canonical =
+  article.data.canonicalOverride || absoluteUrl(`/blog/${article.data.slug}/`);
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: article.data.title,
+  description: article.data.summary,
+  datePublished: article.data.publicationDate.toISOString(),
+  dateModified: article.data.updatedDate.toISOString(),
+  mainEntityOfPage: canonical,
+  author: {
+    "@type": "Person",
+    name: article.data.author,
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "559 Solutions",
+    url: absoluteUrl("/"),
+  },
+};
+---
+
+<BaseLayout
+  title={article.data.seoTitle}
+  description={article.data.seoDescription}
+  canonicalPath={`/blog/${article.data.slug}/`}
+  canonicalOverride={article.data.canonicalOverride}
+  image={article.data.featuredImage}
+  type="article"
+  structuredData={schema}
+>
+  <header class="article-header">
+    <div class="container">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: "Blog", href: "/blog/" },
+          { label: article.data.title },
+        ]}
+      />
+      <p class="eyebrow">{article.data.category}</p>
+      <h1>{article.data.title}</h1>
+      <p class="article-summary">{article.data.summary}</p>
+      <div class="article-byline">
+        <span>By {article.data.author}</span>
+        <span>Published <time datetime={article.data.publicationDate.toISOString()}>{publicationDate}</time></span>
+        <span>Updated <time datetime={article.data.updatedDate.toISOString()}>{updatedDate}</time></span>
+        <span>{readingTime} min read</span>
+      </div>
+      <TagList tags={article.data.tags} />
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container article-shell">
+      <article class="article-content">
+        <Content />
+        <AuthorBio />
+      </article>
+      <aside class="article-sidebar" aria-label="Article navigation">
+        {
+          headings.length > 2 && (
+            <nav class="toc" aria-label="On this page">
+              <h2>On this page</h2>
+              <ol>
+                {headings
+                  .filter((heading) => heading.depth === 2)
+                  .map((heading) => (
+                    <li><a href={`#${heading.slug}`}>{heading.text}</a></li>
+                  ))}
+              </ol>
+            </nav>
+          )
+        }
+      </aside>
+    </div>
+  </section>
+
+  {
+    related.length > 0 && (
+      <section class="section section-tinted">
+        <div class="container">
+          <h2>Related articles</h2>
+          <div class="card-grid">
+            {related.map((item) => (
+              <ArticleCard
+                title={item.data.title}
+                slug={item.data.slug}
+                summary={item.data.summary}
+                category={item.data.category}
+                date={item.data.publicationDate}
+                tags={item.data.tags}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <CTASection
+    title="Start with the next useful question."
+    description="Use a related resource to make the work, decision, and ownership clearer."
+    primaryLabel={article.data.relatedResourceCta?.label || "Explore Practical Resources"}
+    primaryHref={article.data.relatedResourceCta?.href || "/resources/"}
+    secondaryLabel="Read Another Article"
+    secondaryHref="/blog/"
+  />
+</BaseLayout>

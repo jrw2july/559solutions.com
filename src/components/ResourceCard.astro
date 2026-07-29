@@ -1,0 +1,52 @@
+---
+import { sitePath } from "@/config/site";
+import PriceDisplay from "./PriceDisplay.astro";
+import StatusBadge from "./StatusBadge.astro";
+
+interface Props {
+  title: string;
+  slug: string;
+  description: string;
+  audience: string[];
+  format: string;
+  price?: string;
+  status: string;
+  category: string;
+  topics?: string[];
+}
+
+const {
+  title,
+  slug,
+  description,
+  audience,
+  format,
+  price = "",
+  status,
+  category,
+  topics = [],
+} = Astro.props;
+---
+
+<article
+  class="card resource-card"
+  data-filter-card
+  data-category={category.toLowerCase()}
+  data-audience={audience.join(" ").toLowerCase()}
+  data-topics={topics.join(" ").toLowerCase()}
+  data-search={`${title} ${description} ${audience.join(" ")} ${topics.join(" ")}`.toLowerCase()}
+>
+  <div class="card-meta">
+    <span>{format}</span>
+    <StatusBadge {status} />
+  </div>
+  <h3><a href={sitePath(`/resources/${slug}/`)}>{title}</a></h3>
+  <p>{description}</p>
+  <p class="card-audience"><strong>For:</strong> {audience.slice(0, 3).join(", ")}</p>
+  <div class="card-footer">
+    <PriceDisplay price={price} {status} />
+    <a class="text-link" href={sitePath(`/resources/${slug}/`)} aria-label={`View details for ${title}`}>
+      View details
+    </a>
+  </div>
+</article>

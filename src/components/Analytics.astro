@@ -1,0 +1,28 @@
+---
+import { site } from "@/config/site";
+
+const { analytics } = site;
+const enabled = site.features.analytics && analytics.enabled && Boolean(analytics.siteId || analytics.scriptUrl);
+---
+
+{
+  enabled && analytics.provider === "google" && analytics.siteId && (
+    <>
+      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${analytics.siteId}`}></script>
+      <script
+        is:inline
+        set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","${analytics.siteId}",{"anonymize_ip":true});`}
+      />
+    </>
+  )
+}
+{
+  enabled && analytics.provider === "privacy" && analytics.scriptUrl && analytics.siteId && (
+    <script is:inline defer data-site={analytics.siteId} src={analytics.scriptUrl}></script>
+  )
+}
+{
+  enabled && analytics.provider === "custom" && analytics.scriptUrl && (
+    <script is:inline defer src={analytics.scriptUrl}></script>
+  )
+}

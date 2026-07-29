@@ -1,0 +1,63 @@
+---
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Privacy Policy | 559 Solutions"
+  description="Draft privacy information for the 559 Solutions website, including forms, newsletters, analytics, external services, and cookies."
+  canonicalPath="/privacy/"
+>
+  <header class="page-hero">
+    <div class="container">
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Privacy Policy" }]} />
+      <p class="eyebrow">Site information</p>
+      <h1>Privacy Policy</h1>
+      <p class="lede">How this site is intended to handle information.</p>
+    </div>
+  </header>
+  <section class="section">
+    <article class="narrow legal-content">
+      <p class="legal-banner">OWNER AND LEGAL REVIEW REQUIRED</p>
+      <p><strong>Draft last updated:</strong> July 23, 2026</p>
+      <p>
+        This draft describes the planned data practices for 559 Solutions. It is not a legal guarantee and must be reviewed before production launch.
+      </p>
+
+      <h2>Information submitted through forms</h2>
+      <p>
+        Contact and lead-magnet forms may collect the information shown on the form, such as a name, email address, organization, inquiry type, and message. A configured external form provider may process the submission. The active provider and its privacy terms must be added before forms are enabled.
+      </p>
+
+      <h2>Newsletters and lead magnets</h2>
+      <p>
+        If newsletter or lead-magnet signup is enabled, the site should explain what will be delivered and whether follow-up messages are included. Marketing consent must not be preselected.
+      </p>
+
+      <h2>Analytics</h2>
+      <p>
+        Analytics are disabled by default. If analytics are enabled, this policy must identify the provider, the information collected, the retention approach, and any available opt-out method.
+      </p>
+
+      <h2>Checkout, scheduling, and embedded services</h2>
+      <p>
+        Product checkout, scheduling, video, and other embedded services may operate under their own terms and privacy policies. The owner must identify each enabled service and provide appropriate notice.
+      </p>
+
+      <h2>Cookies</h2>
+      <p>
+        The first release does not require nonessential cookies. A consent banner should be added only if enabled services make it necessary.
+      </p>
+
+      <h2>Security and retention</h2>
+      <p>
+        The site should collect only information needed for the stated purpose. Form handlers must not store submissions in the website files. The owner must define retention, access, and deletion practices with the selected providers.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        A public privacy contact must be added to the site configuration before launch.
+      </p>
+    </article>
+  </section>
+</BaseLayout>

@@ -1,0 +1,60 @@
+---
+import { site, sitePath } from "@/config/site";
+
+interface Props {
+  heading?: string;
+  description?: string;
+}
+
+const {
+  heading = "Get the free AI project checklist",
+  description = "Use ten practical questions to define the work before choosing tools.",
+} = Astro.props;
+const configured = Boolean(site.newsletterEndpoint && site.leadMagnetDeliveryUrl);
+---
+
+<section class="signup-card" aria-labelledby="newsletter-heading">
+  <div>
+    <p class="eyebrow">Free practical resource</p>
+    <h2 id="newsletter-heading">{heading}</h2>
+    <p>{description}</p>
+  </div>
+  <form
+    class="form-panel"
+    action={configured ? site.newsletterEndpoint : undefined}
+    method="post"
+    data-ajax-form={configured ? "newsletter" : undefined}
+    data-success-url={configured ? site.leadMagnetDeliveryUrl : undefined}
+  >
+    <div class="form-grid">
+      <div class="field">
+        <label for="newsletter-first-name">First name</label>
+        <input id="newsletter-first-name" name="first_name" type="text" autocomplete="given-name" required />
+      </div>
+      <div class="field">
+        <label for="newsletter-email">Email</label>
+        <input id="newsletter-email" name="email" type="email" autocomplete="email" required />
+      </div>
+    </div>
+    <div class="honeypot" aria-hidden="true">
+      <label for="newsletter-company-website">Leave this field blank</label>
+      <input id="newsletter-company-website" name={site.antiSpamField} type="text" tabindex="-1" autocomplete="off" />
+    </div>
+    <label class="checkbox-field">
+      <input name="consent" type="checkbox" required />
+      <span>I agree that 559 Solutions may use this information to deliver the requested resource. See the <a href={sitePath("/privacy/")}>Privacy Policy</a>.</span>
+    </label>
+    <button class="button button-primary" type="submit" disabled={!configured}>
+      Download the Free Checklist
+    </button>
+    {
+      !configured && (
+        <p class="form-notice" role="status">
+          The final checklist file and delivery form are being configured. You can review the ten questions on the resource page now.
+        </p>
+      )
+    }
+    <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+    <p><a class="text-link" href={sitePath("/resources/ai-project-readiness-checklist/")}>Review the checklist questions</a></p>
+  </form>
+</section>

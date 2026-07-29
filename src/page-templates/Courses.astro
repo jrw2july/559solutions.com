@@ -1,0 +1,22 @@
+---
+// Prepared page template. Move to src/pages/courses/index.astro only after
+// site.features.courses is enabled and real course content is supplied.
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Courses | 559 Solutions"
+  description="Self-paced learning resources from 559 Solutions."
+  canonicalPath="/courses/"
+  noindex
+>
+  <header class="page-hero">
+    <div class="container">
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Courses" }]} />
+      <p class="eyebrow">Prepared feature</p>
+      <h1>Courses</h1>
+      <p class="lede">Add approved course content before publishing this route.</p>
+    </div>
+  </header>
+</BaseLayout>

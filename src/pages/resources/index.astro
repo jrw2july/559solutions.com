@@ -1,0 +1,90 @@
+---
+import { getCollection } from "astro:content";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import EmptyState from "@/components/EmptyState.astro";
+import FilterBar from "@/components/FilterBar.astro";
+import ResourceCard from "@/components/ResourceCard.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const resources = (await getCollection("resources", ({ data }) => !data.draft)).sort((a, b) => {
+  if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+  return a.data.title.localeCompare(b.data.title);
+});
+
+const categories = [
+  "Free",
+  "Templates",
+  "Guides and Workbooks",
+  "Starter Kits",
+  "Courses and Walkthroughs",
+  "Tools",
+  "Coming Soon",
+];
+
+const audiences = [
+  "Business owners",
+  "Nonprofit leaders",
+  "Small teams",
+  "Solution architects",
+  "Business analysts",
+  "Project leads",
+  "Technical builders",
+  "Adult beginners",
+  "Tutors",
+  "Instructors",
+];
+---
+
+<BaseLayout
+  title="Practical Resources | 559 Solutions"
+  description="A curated library of practical checklists, workbooks, starter kits, and learning resources for clearer systems and technology decisions."
+  canonicalPath="/resources/"
+>
+  <header class="page-hero">
+    <div class="container">
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Resources" }]} />
+      <p class="eyebrow">Practical library</p>
+      <h1>Resources for clearer decisions and reusable work.</h1>
+      <p class="lede">
+        Start with a checklist, guide, or template. Live services remain available when the work needs focused help.
+      </p>
+    </div>
+  </header>
+
+  <section class="section" data-filter-list>
+    <div class="container">
+      <SectionHeading
+        eyebrow="Browse the library"
+        title="Useful before impressive."
+        description="Every resource states its real status. Coming-soon concepts do not display invented prices, purchase links, or download buttons."
+      />
+      <FilterBar
+        label="Filter practical resources"
+        searchPlaceholder="Search by title, audience, or topic"
+        {categories}
+        secondaryLabel="Audience"
+        secondaryOptions={audiences}
+        secondaryAttribute="audience"
+      />
+      <div class="card-grid" data-filter-results>
+        {
+          resources.map((resource) => (
+            <ResourceCard
+              title={resource.data.title}
+              slug={resource.data.slug}
+              description={resource.data.shortDescription}
+              audience={resource.data.intendedAudience}
+              format={resource.data.format}
+              price={resource.data.priceDisplay}
+              status={resource.data.availability}
+              category={resource.data.category}
+              topics={resource.data.topics}
+            />
+          ))
+        }
+      </div>
+      <EmptyState />
+    </div>
+  </section>
+</BaseLayout>

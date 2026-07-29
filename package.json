@@ -1,0 +1,37 @@
+{
+  "name": "559-solutions-website",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "scripts": {
+    "dev": "node scripts/run-astro.mjs dev",
+    "build": "node scripts/run-astro.mjs build && node scripts/postbuild.mjs",
+    "preview": "node scripts/run-astro.mjs preview",
+    "check": "node scripts/run-astro.mjs check",
+    "lint": "node scripts/run-astro.mjs check && node scripts/validate-content.mjs",
+    "test": "pnpm build && node --test tests/*.test.mjs",
+    "validate:html": "html-validate \"dist/**/*.html\"",
+    "validate:links": "node scripts/validate-build.mjs",
+    "validate:pages": "node scripts/validate-pages-build.mjs",
+    "validate": "pnpm lint && pnpm test && pnpm validate:html && pnpm validate:links",
+    "lighthouse": "node scripts/run-lighthouse.mjs",
+    "browser:qa": "node scripts/browser-qa.mjs",
+    "package": "node scripts/package-release.mjs"
+  },
+  "dependencies": {
+    "astro": "7.1.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.9",
+    "chrome-launcher": "1.2.1",
+    "html-validate": "11.5.6",
+    "lighthouse": "13.4.1",
+    "playwright-core": "1.61.1",
+    "sharp": "0.35.0",
+    "typescript": "5.9.3"
+  }
+}

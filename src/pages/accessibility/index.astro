@@ -1,0 +1,50 @@
+---
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Accessibility Statement | 559 Solutions"
+  description="The accessibility approach, current measures, limitations, and feedback process for the 559 Solutions website."
+  canonicalPath="/accessibility/"
+>
+  <header class="page-hero">
+    <div class="container">
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Accessibility Statement" }]} />
+      <p class="eyebrow">Accessibility</p>
+      <h1>Accessibility Statement</h1>
+      <p class="lede">559 Solutions is designed so more people can understand and use it.</p>
+    </div>
+  </header>
+  <section class="section">
+    <article class="narrow legal-content">
+      <p class="legal-banner">OWNER AND LEGAL REVIEW REQUIRED</p>
+      <p><strong>Draft last updated:</strong> July 23, 2026</p>
+      <p>
+        559 Solutions aims to meet WCAG 2.2 Level AA. Accessibility is treated as part of useful system design, not a final decoration.
+      </p>
+
+      <h2>Measures included in this release</h2>
+      <ul class="check-list">
+        <li>Semantic landmarks and a consistent heading structure</li>
+        <li>A skip link and visible keyboard focus</li>
+        <li>Keyboard-accessible navigation and disclosure controls</li>
+        <li>Labels, instructions, and status messages for forms</li>
+        <li>High-contrast text and controls</li>
+        <li>Responsive layouts that support zoom and narrow screens</li>
+        <li>Reduced-motion support</li>
+        <li>Print-friendly article and resource pages</li>
+      </ul>
+
+      <h2>Known limitations</h2>
+      <p>
+        Final form-provider behavior, downloadable documents, product files, and any future embedded services require accessibility review when they are configured. The current logo is a web-ready public asset, but a transparent production master is still requested.
+      </p>
+
+      <h2>Feedback</h2>
+      <p>
+        A public accessibility contact must be configured before launch. When reporting a problem, include the page, the task you were trying to complete, and the browser or assistive technology used when practical.
+      </p>
+    </article>
+  </section>
+</BaseLayout>

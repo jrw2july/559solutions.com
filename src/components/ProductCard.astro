@@ -1,0 +1,19 @@
+---
+import ResourceCard from "./ResourceCard.astro";
+
+interface Props {
+  title: string;
+  slug: string;
+  description: string;
+  audience: string[];
+  format: string;
+  price?: string;
+  status: string;
+  category: string;
+  topics?: string[];
+}
+
+const props = Astro.props as Props;
+---
+
+<ResourceCard {...props} />

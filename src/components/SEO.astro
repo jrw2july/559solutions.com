@@ -1,0 +1,42 @@
+---
+import { absoluteUrl, site } from "@/config/site";
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  canonicalOverride?: string;
+  image?: string;
+  type?: "website" | "article";
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonicalPath = Astro.url.pathname,
+  canonicalOverride,
+  image = site.defaultSocialImage,
+  type = "website",
+  noindex = false,
+} = Astro.props;
+
+const canonical = canonicalOverride || absoluteUrl(canonicalPath);
+const socialImage = image ? absoluteUrl(image) : undefined;
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
+<meta property="og:site_name" content={site.siteName} />
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+{socialImage && <meta property="og:image" content={socialImage} />}
+{socialImage && <meta property="og:image:alt" content="559 Solutions: Turn messy work into clear systems." />}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{socialImage && <meta name="twitter:image" content={socialImage} />}

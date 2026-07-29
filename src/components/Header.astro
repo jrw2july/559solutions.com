@@ -1,0 +1,44 @@
+---
+import { site, sitePath } from "@/config/site";
+import { primaryNavigation } from "@/data/navigation";
+import MobileNavigation from "./MobileNavigation.astro";
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+const isCurrent = (href: string) =>
+  href === "/" ? currentPath === href : currentPath.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href={sitePath("/")} aria-label="559 Solutions home">
+      <img
+        src={sitePath(site.logoPath)}
+        alt="559 Solutions"
+        width="680"
+        height="228"
+        decoding="async"
+      />
+    </a>
+    <nav class="desktop-nav" aria-label="Primary">
+      <ul>
+        {
+          primaryNavigation.map((item) => (
+            <li>
+              <a href={sitePath(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <a class="button button-primary header-cta" href={sitePath("/resources/ai-project-readiness-checklist/")}>
+      Get the Free Checklist
+    </a>
+    <MobileNavigation {currentPath} />
+  </div>
+</header>
