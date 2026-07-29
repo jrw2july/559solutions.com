@@ -46,7 +46,12 @@ for (const scanRoot of scanRoots) {
 }
 
 const config = await readFile(path.join(root, "src", "config", "site.ts"), "utf8");
-if (!config.includes('siteDomain: "https://559solutions.com"')) {
+if (
+  !config.includes(
+    'const configuredSite = import.meta.env.SITE || "https://559solutions.com"',
+  ) ||
+  !config.includes("siteDomain: configuredSite")
+) {
   errors.push("src/config/site.ts: canonical site domain is incorrect");
 }
 if (!config.includes("enabled: false")) {

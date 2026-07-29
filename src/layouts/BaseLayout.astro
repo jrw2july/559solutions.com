@@ -4,7 +4,7 @@ import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
 import SEO from "@/components/SEO.astro";
 import StructuredData from "@/components/StructuredData.astro";
-import { absoluteUrl, site } from "@/config/site";
+import { absoluteUrl, site, sitePath, stripBase } from "@/config/site";
 import "@/styles/global.css";
 
 interface Props {
@@ -57,19 +57,19 @@ const websiteSchema = {
       {type}
       {noindex}
     />
-    <link rel="icon" href={site.faviconPath} />
-    <link rel="manifest" href="/site.webmanifest" />
-    <link rel="alternate" type="application/rss+xml" title="559 Solutions articles" href="/rss.xml" />
+    <link rel="icon" href={sitePath(site.faviconPath)} />
+    <link rel="manifest" href={sitePath("/site.webmanifest")} />
+    <link rel="alternate" type="application/rss+xml" title="559 Solutions articles" href={sitePath("/rss.xml")} />
     <StructuredData data={structuredData || websiteSchema} />
     <Analytics />
   </head>
   <body class={bodyClass}>
     <a class="skip-link" href="#main-content">Skip to main content</a>
-    <Header currentPath={Astro.url.pathname} />
+    <Header currentPath={stripBase(Astro.url.pathname)} />
     <main id="main-content" tabindex="-1">
       <slot />
     </main>
     <Footer />
-    <script is:inline src="/scripts/site.js" defer></script>
+    <script is:inline src={sitePath("/scripts/site.js")} defer></script>
   </body>
 </html>

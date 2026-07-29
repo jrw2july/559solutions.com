@@ -1,4 +1,5 @@
 ---
+import { sitePath } from "@/config/site";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
@@ -16,9 +17,9 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
         The page may have moved during the site rebuild, or the address may be incomplete.
       </p>
       <div class="button-row">
-        <a class="button button-primary" href="/">Return Home</a>
-        <a class="button button-secondary" href="/resources/">Explore Resources</a>
-        <a class="text-link" href="/contact/">Report a broken link</a>
+        <a class="button button-primary" href={sitePath("/")}>Return Home</a>
+        <a class="button button-secondary" href={sitePath("/resources/")}>Explore Resources</a>
+        <a class="text-link" href={sitePath("/contact/")}>Report a broken link</a>
       </div>
     </div>
   </section>

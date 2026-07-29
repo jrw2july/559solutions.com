@@ -1,5 +1,5 @@
 ---
-import { site } from "@/config/site";
+import { site, sitePath } from "@/config/site";
 import { primaryNavigation } from "@/data/navigation";
 import MobileNavigation from "./MobileNavigation.astro";
 
@@ -14,9 +14,9 @@ const isCurrent = (href: string) =>
 
 <header class="site-header">
   <div class="container header-inner">
-    <a class="brand" href="/" aria-label="559 Solutions home">
+    <a class="brand" href={sitePath("/")} aria-label="559 Solutions home">
       <img
-        src={site.logoPath}
+        src={sitePath(site.logoPath)}
         alt="559 Solutions"
         width="680"
         height="228"
@@ -28,7 +28,7 @@ const isCurrent = (href: string) =>
         {
           primaryNavigation.map((item) => (
             <li>
-              <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>
+              <a href={sitePath(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>
                 {item.label}
               </a>
             </li>
@@ -36,7 +36,7 @@ const isCurrent = (href: string) =>
         }
       </ul>
     </nav>
-    <a class="button button-primary header-cta" href="/resources/ai-project-readiness-checklist/">
+    <a class="button button-primary header-cta" href={sitePath("/resources/ai-project-readiness-checklist/")}>
       Get the Free Checklist
     </a>
     <MobileNavigation {currentPath} />

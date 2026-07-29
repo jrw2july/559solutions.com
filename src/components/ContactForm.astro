@@ -1,5 +1,5 @@
 ---
-import { site } from "@/config/site";
+import { site, sitePath } from "@/config/site";
 
 const configured = Boolean(site.contactFormEndpoint);
 ---
@@ -48,7 +48,7 @@ const configured = Boolean(site.contactFormEndpoint);
   </div>
   <label class="checkbox-field">
     <input name="privacy_consent" type="checkbox" required />
-    <span>I agree that 559 Solutions may use this information to respond to my inquiry. See the <a href="/privacy/">Privacy Policy</a>.</span>
+    <span>I agree that 559 Solutions may use this information to respond to my inquiry. See the <a href={sitePath("/privacy/")}>Privacy Policy</a>.</span>
   </label>
   <button class="button button-primary" type="submit" disabled={!configured}>Send inquiry</button>
   {

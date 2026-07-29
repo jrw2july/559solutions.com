@@ -1,5 +1,5 @@
 ---
-import { site } from "@/config/site";
+import { site, sitePath } from "@/config/site";
 
 interface Props {
   heading?: string;
@@ -42,7 +42,7 @@ const configured = Boolean(site.newsletterEndpoint && site.leadMagnetDeliveryUrl
     </div>
     <label class="checkbox-field">
       <input name="consent" type="checkbox" required />
-      <span>I agree that 559 Solutions may use this information to deliver the requested resource. See the <a href="/privacy/">Privacy Policy</a>.</span>
+      <span>I agree that 559 Solutions may use this information to deliver the requested resource. See the <a href={sitePath("/privacy/")}>Privacy Policy</a>.</span>
     </label>
     <button class="button button-primary" type="submit" disabled={!configured}>
       Download the Free Checklist
@@ -55,6 +55,6 @@ const configured = Boolean(site.newsletterEndpoint && site.leadMagnetDeliveryUrl
       )
     }
     <p class="form-status" data-form-status role="status" aria-live="polite"></p>
-    <p><a class="text-link" href="/resources/ai-project-readiness-checklist/">Review the checklist questions</a></p>
+    <p><a class="text-link" href={sitePath("/resources/ai-project-readiness-checklist/")}>Review the checklist questions</a></p>
   </form>
 </section>

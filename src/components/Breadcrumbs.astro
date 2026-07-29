@@ -1,5 +1,5 @@
 ---
-import { absoluteUrl } from "@/config/site";
+import { absoluteUrl, sitePath } from "@/config/site";
 import StructuredData from "./StructuredData.astro";
 
 export type BreadcrumbItem = {
@@ -30,7 +30,7 @@ const schema = {
       items.map((item, index) => (
         <li>
           {item.href && index < items.length - 1 ? (
-            <a href={item.href}>{item.label}</a>
+            <a href={sitePath(item.href)}>{item.label}</a>
           ) : (
             <span aria-current="page">{item.label}</span>
           )}

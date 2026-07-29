@@ -16,6 +16,7 @@
     "test": "pnpm build && node --test tests/*.test.mjs",
     "validate:html": "html-validate \"dist/**/*.html\"",
     "validate:links": "node scripts/validate-build.mjs",
+    "validate:pages": "node scripts/validate-pages-build.mjs",
     "validate": "pnpm lint && pnpm test && pnpm validate:html && pnpm validate:links",
     "lighthouse": "node scripts/run-lighthouse.mjs",
     "browser:qa": "node scripts/browser-qa.mjs",

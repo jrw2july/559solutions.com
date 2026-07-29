@@ -1,4 +1,5 @@
 ---
+import { sitePath } from "@/config/site";
 import type { Service } from "@/data/services";
 import StatusBadge from "./StatusBadge.astro";
 
@@ -22,7 +23,7 @@ const { service, index } = Astro.props;
     {service.deliverables.map((item) => <li>{item}</li>)}
   </ul>
   {service.note && <p class="small-note">{service.note}</p>}
-  <a class="text-link" href={`/contact/?inquiry=${service.slug}`}>
+  <a class="text-link" href={sitePath(`/contact/?inquiry=${service.slug}`)}>
     Ask about {service.title}
   </a>
 </article>

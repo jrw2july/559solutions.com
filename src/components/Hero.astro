@@ -1,4 +1,6 @@
 ---
+import { sitePath } from "@/config/site";
+
 interface Props {
   eyebrow?: string;
   title: string;
@@ -30,10 +32,10 @@ const {
         (primaryLabel || secondaryLabel) && (
           <div class="button-row">
             {primaryLabel && primaryHref && (
-              <a class="button button-primary" href={primaryHref}>{primaryLabel}</a>
+              <a class="button button-primary" href={sitePath(primaryHref)}>{primaryLabel}</a>
             )}
             {secondaryLabel && secondaryHref && (
-              <a class="button button-secondary" href={secondaryHref}>{secondaryLabel}</a>
+              <a class="button button-secondary" href={sitePath(secondaryHref)}>{secondaryLabel}</a>
             )}
           </div>
         )

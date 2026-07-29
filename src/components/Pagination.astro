@@ -1,4 +1,6 @@
 ---
+import { sitePath } from "@/config/site";
+
 interface Props {
   currentPage: number;
   totalPages: number;
@@ -12,10 +14,10 @@ const { currentPage, totalPages, basePath } = Astro.props;
   totalPages > 1 && (
     <nav class="pagination" aria-label="Pagination">
       {currentPage > 1 && (
-        <a href={currentPage === 2 ? basePath : `${basePath}page/${currentPage - 1}/`}>Previous</a>
+        <a href={sitePath(currentPage === 2 ? basePath : `${basePath}page/${currentPage - 1}/`)}>Previous</a>
       )}
       <span>Page {currentPage} of {totalPages}</span>
-      {currentPage < totalPages && <a href={`${basePath}page/${currentPage + 1}/`}>Next</a>}
+      {currentPage < totalPages && <a href={sitePath(`${basePath}page/${currentPage + 1}/`)}>Next</a>}
     </nav>
   )
 }

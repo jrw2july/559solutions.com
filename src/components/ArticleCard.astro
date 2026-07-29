@@ -1,4 +1,5 @@
 ---
+import { sitePath } from "@/config/site";
 import TagList from "./TagList.astro";
 
 interface Props {
@@ -26,8 +27,8 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
   data-search={`${title} ${summary} ${category} ${tags.join(" ")}`.toLowerCase()}
 >
   <p class="article-kicker">{category} <span aria-hidden="true">·</span> <time datetime={date.toISOString()}>{formattedDate}</time></p>
-  <h3><a href={`/blog/${slug}/`}>{title}</a></h3>
+  <h3><a href={sitePath(`/blog/${slug}/`)}>{title}</a></h3>
   <p>{summary}</p>
   <TagList {tags} />
-  <a class="text-link" href={`/blog/${slug}/`} aria-label={`Read ${title}`}>Read article</a>
+  <a class="text-link" href={sitePath(`/blog/${slug}/`)} aria-label={`Read ${title}`}>Read article</a>
 </article>

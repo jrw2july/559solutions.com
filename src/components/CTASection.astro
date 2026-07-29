@@ -1,4 +1,6 @@
 ---
+import { sitePath } from "@/config/site";
+
 interface Props {
   title: string;
   description?: string;
@@ -26,10 +28,10 @@ const {
       {description && <p>{description}</p>}
     </div>
     <div class="button-row">
-      <a class="button button-light" href={primaryHref}>{primaryLabel}</a>
+      <a class="button button-light" href={sitePath(primaryHref)}>{primaryLabel}</a>
       {
         secondaryLabel && secondaryHref && (
-          <a class="button button-outline-light" href={secondaryHref}>{secondaryLabel}</a>
+          <a class="button button-outline-light" href={sitePath(secondaryHref)}>{secondaryLabel}</a>
         )
       }
     </div>

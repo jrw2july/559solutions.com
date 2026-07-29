@@ -1,4 +1,5 @@
 ---
+import { sitePath } from "@/config/site";
 import PriceDisplay from "./PriceDisplay.astro";
 import StatusBadge from "./StatusBadge.astro";
 
@@ -39,12 +40,12 @@ const {
     <span>{format}</span>
     <StatusBadge {status} />
   </div>
-  <h3><a href={`/resources/${slug}/`}>{title}</a></h3>
+  <h3><a href={sitePath(`/resources/${slug}/`)}>{title}</a></h3>
   <p>{description}</p>
   <p class="card-audience"><strong>For:</strong> {audience.slice(0, 3).join(", ")}</p>
   <div class="card-footer">
     <PriceDisplay price={price} {status} />
-    <a class="text-link" href={`/resources/${slug}/`} aria-label={`View details for ${title}`}>
+    <a class="text-link" href={sitePath(`/resources/${slug}/`)} aria-label={`View details for ${title}`}>
       View details
     </a>
   </div>
