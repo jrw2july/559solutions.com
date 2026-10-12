@@ -88,4 +88,16 @@ const resources = defineCollection({
   }),
 });
 
-export const collections = { articles, resources };
+// Code559 course pages, copied from the Code559 repository by scripts/sync-code559.mjs
+const code559 = defineCollection({
+  loader: glob({ pattern: "*.md", base: "./src/content/code559" }),
+  schema: z.object({
+    title: z.string(),
+    subtitle: z.string(),
+    module: z.number().optional(),
+    series: z.string(),
+    estimated_time: z.string().optional(),
+  }),
+});
+
+export const collections = { articles, resources, code559 };

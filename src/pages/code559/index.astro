@@ -1,0 +1,26 @@
+---
+import { getCollection, getEntry, render } from "astro:content";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const home = await getEntry("code559", "index");
+if (!home) throw new Error("Code559 home page missing: run node scripts/sync-code559.mjs");
+const { Content } = await render(home);
+const modules = await getCollection("code559", ({ id }) => id !== "index");
+---
+
+<BaseLayout
+  title={`${home.data.title} | Code559`}
+  description={home.data.subtitle}
+  canonicalPath="/code559/"
+  bodyClass="code559"
+>
+  <section class="section">
+    <div class="container code559-shell">
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Code559" }]} />
+      <article class="article-content code559-content" data-modules={modules.length}>
+        <Content />
+      </article>
+    </div>
+  </section>
+</BaseLayout>

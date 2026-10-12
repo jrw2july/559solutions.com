@@ -1,0 +1,63 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import { sitePath } from "@/config/site";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const pages = (await getCollection("code559", ({ id }) => id !== "index")).sort(
+    (a, b) => (a.data.module ?? 0) - (b.data.module ?? 0),
+  );
+  return pages.map((page, i) => ({
+    params: { slug: page.id },
+    props: { page, prev: pages[i - 1], next: pages[i + 1] },
+  }));
+}
+
+interface Props {
+  page: CollectionEntry<"code559">;
+  prev?: CollectionEntry<"code559">;
+  next?: CollectionEntry<"code559">;
+}
+
+const { page, prev, next } = Astro.props as Props;
+const { Content } = await render(page);
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  name: page.data.title,
+  description: page.data.subtitle,
+  isPartOf: { "@type": "Course", name: page.data.series },
+  timeRequired: page.data.estimated_time,
+  provider: { "@type": "Organization", name: "559 Solutions" },
+};
+---
+
+<BaseLayout
+  title={`${page.data.title} | Code559`}
+  description={page.data.subtitle}
+  canonicalPath={`/code559/${page.id}/`}
+  type="article"
+  structuredData={schema}
+  bodyClass="code559"
+>
+  <section class="section">
+    <div class="container code559-shell">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: "Code559", href: "/code559/" },
+          { label: `Module ${page.data.module}` },
+        ]}
+      />
+      <article class="article-content code559-content">
+        <Content />
+      </article>
+      <nav class="code559-pager" aria-label="Course modules">
+        {prev ? <a href={sitePath(`/code559/${prev.id}/`)}>&larr; {prev.data.title}</a> : <span></span>}
+        <a href={sitePath("/code559/")}>All modules</a>
+        {next ? <a href={sitePath(`/code559/${next.id}/`)}>{next.data.title} &rarr;</a> : <span></span>}
+      </nav>
+    </div>
+  </section>
+</BaseLayout>

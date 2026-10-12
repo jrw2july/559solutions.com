@@ -8,6 +8,7 @@
     "node": ">=22.14.0"
   },
   "scripts": {
+    "sync:code559": "node scripts/sync-code559.mjs",
     "dev": "node scripts/run-astro.mjs dev",
     "build": "node scripts/run-astro.mjs build && node scripts/postbuild.mjs",
     "preview": "node scripts/run-astro.mjs preview",

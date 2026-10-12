@@ -1570,3 +1570,103 @@ button:disabled {
     widows: 3;
   }
 }
+
+/* Code559 course pages (2026-10-12) */
+.code559-shell {
+  max-width: 50rem;
+}
+
+.code559-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+.code559-content img[src*="/brand/marker-"] {
+  display: inline-block;
+}
+
+.code559-content pre {
+  overflow-x: auto;
+  padding: var(--space-4);
+  background: var(--color-warm);
+  border: var(--border);
+}
+
+.code559-content table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.code559-content th,
+.code559-content td {
+  padding: var(--space-2) var(--space-3);
+  border: var(--border);
+  vertical-align: top;
+}
+
+.code559-content details {
+  margin-block: var(--space-5);
+  padding: var(--space-3) var(--space-5);
+  background: var(--color-blue-pale);
+  border-left: 4px solid var(--color-blue-bright);
+}
+
+.code559-content summary {
+  cursor: pointer;
+  padding-block: var(--space-2);
+}
+
+.code559-content .contains-task-list {
+  list-style: none;
+  padding-left: var(--space-3);
+}
+
+.code559-pager {
+  display: flex;
+  margin-top: var(--space-7);
+  padding-top: var(--space-4);
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  border-top: var(--border);
+}
+
+.code559-content :not(pre) > code {
+  overflow-wrap: anywhere;
+}
+
+/* Code559 stage badges and floor-plan dividers (same look as the inline styles in the course source) */
+.code559-content img.c559-badge {
+  display: inline-block;
+  vertical-align: -0.35em;
+}
+
+.code559-content .c559-divider {
+  display: flex;
+  margin: 1.5em 0;
+  align-items: flex-end;
+}
+
+.code559-content .c559-divider img {
+  max-width: none;
+  height: 34px;
+}
+
+.code559-content .c559-divider .c559-wall-1 {
+  flex: 1;
+  min-width: 0;
+}
+
+.code559-content .c559-divider .c559-wall-3 {
+  flex: 3;
+  min-width: 0;
+}
+
+.code559-content .c559-divider .c559-window {
+  width: 70px;
+}
+
+.code559-content .c559-divider .c559-door {
+  width: 46px;
+}

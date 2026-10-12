@@ -14,6 +14,7 @@ const escapeXml = (value: string) =>
 export async function GET() {
   const resources = await getCollection("resources", ({ data }) => !data.draft);
   const articles = await getCollection("articles", ({ data }) => !data.draft);
+  const course = await getCollection("code559");
   const staticPaths = [
     "/",
     "/resources/",
@@ -35,6 +36,10 @@ export async function GET() {
     ...articles.map((article) => ({
       loc: absoluteUrl(`/blog/${article.data.slug}/`),
       lastmod: article.data.updatedDate.toISOString().slice(0, 10),
+    })),
+    ...course.map((page) => ({
+      loc: absoluteUrl(page.id === "index" ? "/code559/" : `/code559/${page.id}/`),
+      lastmod: "2026-10-12",
     })),
   ];
 
