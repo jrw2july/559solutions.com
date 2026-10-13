@@ -57,6 +57,38 @@ export async function createZip({ root, destination, shouldInclude }) {
   const centralParts = [];
   let offset = 0;
 
+  // Folder entries with Unix mode rwxr-xr-x (0755), so the server can open every folder.
+  const folders = [...new Set(files.flatMap((relative) => {
+    const parts = relative.split(path.sep).slice(0, -1);
+    return parts.map((_, index) => parts.slice(0, index + 1).join("/") + "/");
+  }))].sort();
+  const now = dosDateTime(new Date());
+  for (const folder of folders) {
+    const name = Buffer.from(folder, "utf8");
+    const localHeader = Buffer.alloc(30);
+    localHeader.writeUInt32LE(0x04034b50, 0);
+    localHeader.writeUInt16LE(20, 4);
+    localHeader.writeUInt16LE(0x0800, 6);
+    localHeader.writeUInt16LE(0, 8);
+    localHeader.writeUInt16LE(now.time, 10);
+    localHeader.writeUInt16LE(now.day, 12);
+    localHeader.writeUInt16LE(name.length, 26);
+    localParts.push(localHeader, name);
+    const centralHeader = Buffer.alloc(46);
+    centralHeader.writeUInt32LE(0x02014b50, 0);
+    centralHeader.writeUInt16LE(0x0314, 4);
+    centralHeader.writeUInt16LE(20, 6);
+    centralHeader.writeUInt16LE(0x0800, 8);
+    centralHeader.writeUInt16LE(0, 10);
+    centralHeader.writeUInt16LE(now.time, 12);
+    centralHeader.writeUInt16LE(now.day, 14);
+    centralHeader.writeUInt16LE(name.length, 28);
+    centralHeader.writeUInt32LE((((0o040755 << 16) >>> 0) | 0x10) >>> 0, 38);
+    centralHeader.writeUInt32LE(offset, 42);
+    centralParts.push(centralHeader, name);
+    offset += localHeader.length + name.length;
+  }
+
   for (const relative of files) {
     const absolute = path.join(root, relative);
     const metadata = await stat(absolute);
@@ -97,7 +129,9 @@ export async function createZip({ root, destination, shouldInclude }) {
     centralHeader.writeUInt16LE(0, 32);
     centralHeader.writeUInt16LE(0, 34);
     centralHeader.writeUInt16LE(0, 36);
-    centralHeader.writeUInt32LE(0, 38);
+    // External attributes: Unix mode rw-r--r-- (0644) in the high 16 bits. Without it, servers that
+    // unzip on Linux (cPanel File Manager) can create files nobody may read, so CSS and new pages fail.
+    centralHeader.writeUInt32LE(((0o100644 << 16) >>> 0), 38);
     centralHeader.writeUInt32LE(offset, 42);
     centralParts.push(centralHeader, name);
 
@@ -109,8 +143,8 @@ export async function createZip({ root, destination, shouldInclude }) {
   end.writeUInt32LE(0x06054b50, 0);
   end.writeUInt16LE(0, 4);
   end.writeUInt16LE(0, 6);
-  end.writeUInt16LE(files.length, 8);
-  end.writeUInt16LE(files.length, 10);
+  end.writeUInt16LE(files.length + folders.length, 8);
+  end.writeUInt16LE(files.length + folders.length, 10);
   end.writeUInt32LE(centralDirectory.length, 12);
   end.writeUInt32LE(offset, 16);
   end.writeUInt16LE(0, 20);

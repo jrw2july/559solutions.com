@@ -246,7 +246,8 @@ Finally, style the label from the radio's **state**. Put each input right before
 
 ```css
 :root {
-  --ring: #2a9d8f;
+  --ring: #b45309;
+  --hover: #fde2b8;
   --on: #1d3557;
 }
 
@@ -262,14 +263,14 @@ Finally, style the label from the radio's **state**. Put each input right before
   border: 0;
 }
 
-.choices label:hover { background: var(--ring); }
+.choices label:hover { background: var(--hover); }
 .choices input:focus-visible + label { outline: 3px solid var(--ring); }
 .choices input:checked + label { background: var(--on); color: white; }
 ```
 
 <div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
 
-<img src="../images/m04-state-selectors.png" alt="Three round buttons labeled 1, 2 and 3. Button 2 is dark with a teal ring around it; button 3 is teal." loading="lazy">
+<img src="../images/m04-state-selectors.png" alt="Three round buttons labeled 1, 2 and 3. Button 2 is dark with a dark orange ring around it; button 3 is light orange." loading="lazy">
 
 <img src="../images/brand/marker-illustrate.svg" alt="Illustrate" width="24" height="24" class="c559-badge"> *2 is checked (dark) and has keyboard focus (ring); the mouse is over 3 (`:hover`). The radios are invisible, yet Tab landed on the checked one, and Send produced `?pick=2`. When the inputs were set to `display: none` instead, the first Tab skipped the group and went straight to Send. (real: rendered in Chromium at 420 px)*
 

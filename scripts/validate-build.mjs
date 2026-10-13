@@ -97,14 +97,6 @@ if (files.some((file) => file.endsWith(".map"))) {
 }
 
 const draftSlugs = [
-  "start-with-the-decision-not-the-ai-tool",
-  "the-simplest-useful-architecture-diagram",
-  "when-a-process-depends-on-one-person",
-  "what-chess-teaches-about-technology-decisions",
-  "how-to-run-a-better-discovery-meeting",
-  "why-good-processes-fail",
-  "science-fiction-and-architecture-of-consequences",
-  "what-architects-should-document",
 ];
 for (const slug of draftSlugs) {
   if (files.some((file) => file.replaceAll("\\", "/").includes(`/blog/${slug}/`))) {

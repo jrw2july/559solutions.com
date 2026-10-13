@@ -402,7 +402,7 @@ live || year === 2026
 
 ## Project (in the full packet)
 
-The project is a `site-data.js` file for your personal site: your real Projects and Milestones written as two arrays of objects (title, year, a short description, tags, and whether each one is live), plus a few small functions that summarize the data, written from one-sentence descriptions and tested in Node. One counts the live projects, one lists every title as a single line of text, and one collects the milestones from a given year. In Module 9 you use the same patterns on a web page, building a list from an array of objects.
+The project is a `site-data.js` file for your personal site: your real Projects and Milestones written as two arrays of objects (each with a title, year and short description; projects also have tags and whether each one is live), plus a few small functions that summarize the data, written from one-sentence descriptions and tested in Node. One counts the live projects, one lists every title as a single line of text, and one collects the milestones from a given year. In Module 9 you use the same patterns on a web page, building a list from an array of objects.
 
 The full brief, the step-by-step build, and the finishing work in Git are in the Module 8 packet. <a href="https://code559.gumroad.com/l/module-08-arrays-loops-objects" target="_blank" rel="noopener">Get the packet →<span class="visually-hidden"> (opens in a new tab)</span></a>
 

@@ -45,14 +45,18 @@ test("forms fail safely when endpoints are not configured", async () => {
   assert.doesNotMatch(checklist, /href=""/);
 });
 
-test("draft article outlines are excluded from the production blog", async () => {
+test("only published articles (draft: false) are in the production blog", async () => {
   const blogRoot = path.join(dist, "blog");
   const entries = await readdir(blogRoot, { withFileTypes: true });
   const names = entries.map((entry) => entry.name);
-  assert.deepEqual(
-    names.filter((name) => name !== "index.html").sort(),
-    ["how-to-choose-and-actually-use-ai-tools", "the-hero-trap"],
-  );
+  const articleRoot = path.join(dist, "..", "src", "content", "articles");
+  const published = [];
+  for (const entry of await readdir(articleRoot, { withFileTypes: true })) {
+    if (!entry.isFile() || !entry.name.endsWith(".md")) continue;
+    const source = await readFile(path.join(articleRoot, entry.name), "utf8");
+    if (/^draft:\s*false\s*$/m.test(source)) published.push(entry.name.replace(/\.md$/, ""));
+  }
+  assert.deepEqual(names.filter((name) => name !== "index.html").sort(), published.sort());
 });
 
 test("sitemap, RSS, robots, and Apache configuration use the canonical host", async () => {

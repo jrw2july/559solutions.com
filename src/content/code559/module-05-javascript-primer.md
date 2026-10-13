@@ -144,7 +144,7 @@ console.log("This line runs second.");
 console.log(2 + 3); // a number, not text
 ```
 
-<img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> Point at each semicolon and say "end of instruction" to yourself, out loud.[^recite] Then find the comment at the end of line 4.
+<img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> Point at each semicolon in lines 2 to 4 and explain it to yourself, out loud: "This semicolon ends the instruction on this line."[^recite] Say it three times, once per line. Your memory aid is the short form, **"semicolon: end of instruction"**; recite it until it comes without thinking. Then find the comment at the end of line 4 and explain it out loud too: "Everything after the two slashes is a note the computer skips."
 
 ### 4. How do you see a value?
 
