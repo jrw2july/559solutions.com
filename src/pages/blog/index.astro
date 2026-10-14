@@ -1,50 +1,76 @@
 ---
 import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
 import ArticleCard from "@/components/ArticleCard.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import CategoryIcon from "@/components/CategoryIcon.astro";
+import DoodleDivider from "@/components/DoodleDivider.astro";
 import EmptyState from "@/components/EmptyState.astro";
 import FilterBar from "@/components/FilterBar.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { blogCategories } from "@/data/blog-categories";
+import drawing from "@/assets/curious-architect/drawing-david-wells.jpg";
+import hero from "@/assets/curious-architect/hero-curious-architect.webp";
+import questionPair from "@/assets/curious-architect/question-pair.png";
 
 const articles = (await getCollection("articles", ({ data }) => !data.draft)).sort(
   (a, b) => b.data.publicationDate.valueOf() - a.data.publicationDate.valueOf(),
 );
 
-const categories = [
-  "AI Without the Hype",
-  "Systems Thinking",
-  "Small Business Tools",
-  "Builder Notes",
-  "The Curious Architect",
-];
+const categories = blogCategories.map((item) => item.name);
 
 const tags = [...new Set(articles.flatMap((article) => article.data.tags))].sort();
 ---
 
 <BaseLayout
-  title="Blog | 559 Solutions"
-  description="Plain-language articles about practical AI, systems thinking, small-business tools, architecture, decisions, and building useful things."
+  title="The Curious Architect | 559 Solutions Blog"
+  description="The Curious Architect is the 559 Solutions blog: plain-language articles about practical AI, systems thinking, small-business tools, architecture, decisions, and building useful things."
   canonicalPath="/blog/"
+  bodyClass="curious"
 >
-  <header class="page-hero">
-    <div class="container">
-      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog" }]} />
-      <p class="eyebrow">Ideas for practical builders</p>
-      <h1>AI without the hype. Systems without the fog.</h1>
-      <p class="lede">
-        Articles about clearer decisions, resilient work, useful architecture, and the consequences of the systems we build.
-      </p>
+  <header class="ca-hero">
+    <div class="container ca-hero-grid">
+      <div>
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "The Curious Architect" }]} />
+        <p class="eyebrow">The 559 Solutions blog</p>
+        <h1>
+          The Curious Architect
+          <Image class="ca-title-marks" src={questionPair} alt="" height={48} densities={[1, 2]} format="webp" />
+        </h1>
+        <p class="lede">
+          Questions first, then answers. Articles about clearer decisions, resilient work, useful architecture, and the consequences of the systems we build.
+        </p>
+      </div>
+      <Image
+        class="ca-hero-art"
+        src={hero}
+        alt="A marker drawing of a curious person looking up at a glowing lightbulb, surrounded by a question mark, an exclamation mark, a cloud, a gear, a shield and a checklist."
+        widths={[480, 768, 1152]}
+        sizes="(max-width: 52rem) 100vw, 36rem"
+        format="webp"
+        loading="eager"
+      />
     </div>
   </header>
 
   <section class="section" data-filter-list>
     <div class="container">
       <SectionHeading
-        eyebrow="559 Solutions journal"
-        title="The practical business, with a curious architect's lens."
-        description="Published articles are reviewed, dated, and separate from the draft editorial outlines kept in source."
+        eyebrow="All articles"
+        title="AI without the hype. Systems without the fog."
+        description="Filter by category or tag, or search by title."
       />
+      <ul class="ca-legend" aria-label="Categories">
+        {
+          blogCategories.map((item) => (
+            <li>
+              <CategoryIcon category={item.name} size={28} />
+              {item.name}
+            </li>
+          ))
+        }
+      </ul>
       <FilterBar
         label="Filter articles"
         searchPlaceholder="Search titles, summaries, or tags"
@@ -63,11 +89,37 @@ const tags = [...new Set(articles.flatMap((article) => article.data.tags))].sort
               category={article.data.category}
               date={article.data.publicationDate}
               tags={article.data.tags}
+              showIcon
             />
           ))
         }
       </div>
       <EmptyState title="No matching articles" message="Try another category, tag, or search phrase." />
+      <DoodleDivider />
+    </div>
+  </section>
+
+  <section class="section ca-about" id="about-this-blog" aria-labelledby="about-this-blog-heading">
+    <div class="container ca-about-grid">
+      <figure class="ca-drawing">
+        <Image
+          src={drawing}
+          alt="A child's marker drawing: a yellow lightbulb with orange rays above a round head with big eyes, surrounded by question marks, exclamation marks and arrows."
+          widths={[280, 560]}
+          sizes="17.5rem"
+          format="webp"
+        />
+        <figcaption>Drawing by David Wells, age 6.</figcaption>
+      </figure>
+      <div>
+        <p class="eyebrow">About this blog</p>
+        <h2 id="about-this-blog-heading">Why a lightbulb and question marks?</h2>
+        <p>
+          This blog's look starts with a drawing my son, David Wells, made of me when he was about six: a lightbulb
+          over my head, with question marks, exclamation marks and arrows all around it.
+        </p>
+        {/* Joel: add your own words about the drawing here. */}
+      </div>
     </div>
   </section>
 </BaseLayout>

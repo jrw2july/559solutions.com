@@ -1,6 +1,6 @@
 ---
 import { site, sitePath } from "@/config/site";
-import { primaryNavigation } from "@/data/navigation";
+import { headerNavigation } from "@/data/navigation";
 import MobileNavigation from "./MobileNavigation.astro";
 
 interface Props {
@@ -26,7 +26,7 @@ const isCurrent = (href: string) =>
     <nav class="desktop-nav" aria-label="Primary">
       <ul>
         {
-          primaryNavigation.map((item) => (
+          headerNavigation.map((item) => (
             <li>
               <a href={sitePath(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>
                 {item.label}

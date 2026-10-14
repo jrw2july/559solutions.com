@@ -1,7 +1,7 @@
 export const primaryNavigation = [
   { label: "Resources", href: "/resources/" },
   { label: "Services", href: "/services/" },
-  { label: "Blog", href: "/blog/" },
+  { label: "The Curious Architect", href: "/blog/" },
   { label: "Code559", href: "/code559/" },
   { label: "About 559", href: "/about/" },
   { label: "Contact Us", href: "/contact/" },
@@ -12,3 +12,8 @@ export const legalNavigation = [
   { label: "Terms", href: "/terms/" },
   { label: "Accessibility", href: "/accessibility/" },
 ] as const;
+
+// Header menu (desktop and mobile). Resources and Services are left out for now (2026-10-14);
+// they stay in the footer and their pages are unchanged.
+const hiddenFromHeader: string[] = ["/resources/", "/services/"];
+export const headerNavigation = primaryNavigation.filter((item) => !hiddenFromHeader.includes(item.href));

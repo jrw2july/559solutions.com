@@ -19,9 +19,9 @@ export async function GET() {
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>${escapeXml(site.siteName)} Articles</title>
+    <title>The Curious Architect | ${escapeXml(site.siteName)}</title>
     <link>${escapeXml(absoluteUrl("/blog/"))}</link>
-    <description>Practical articles about AI, systems thinking, architecture, and clearer work.</description>
+    <description>The 559 Solutions blog. Practical articles about AI, systems thinking, architecture, and clearer work.</description>
     <language>en-us</language>
 ${articles
   .map(

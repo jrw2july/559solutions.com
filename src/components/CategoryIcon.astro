@@ -1,0 +1,15 @@
+---
+import { Image } from "astro:assets";
+import { categoryIcon } from "@/data/blog-categories";
+
+// Decorative category icon for The Curious Architect. The category name is always shown as text beside it.
+interface Props {
+  category: string;
+  size?: number;
+}
+
+const { category, size = 32 } = Astro.props;
+const icon = categoryIcon(category);
+---
+
+{icon && <Image class="category-icon" src={icon} alt="" width={size} height={size} densities={[1, 2]} format="webp" />}

@@ -103,7 +103,7 @@ Remove-Item Env:GITHUB_PAGES
 
 ## Release artifacts
 
-- `release/559solutions-cpanel-deploy.zip`: upload and extract directly inside `public_html`
+- `release/claude-code-559solutions-cpanel-deploy-YYYY-MM-DDx.zip`: upload and extract directly inside `public_html` (a new name each run)
 - `release/559solutions-source.zip`: editable project source, documentation, and lockfile
 - `release/OWNER_ACTIONS.md`: values and assets the owner still needs to supply
 - `release/TEST_REPORT.md`: completed verification and known limits

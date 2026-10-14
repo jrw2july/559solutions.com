@@ -95,8 +95,8 @@ try {
   assert.equal(await page.evaluate(() => window.location.hash), "#main-content");
   results.interactions.push("keyboard skip link");
 
-  await page.getByRole("link", { name: "Resources", exact: true }).first().click();
-  await page.waitForURL("**/resources/");
+  await page.locator("nav.desktop-nav").getByRole("link", { name: "The Curious Architect", exact: true }).click();
+  await page.waitForURL("**/blog/");
   assert.equal(await page.locator('[aria-current="page"]').count() > 0, true);
   results.interactions.push("desktop navigation");
 
@@ -144,7 +144,7 @@ try {
   const mobileMenu = page.locator("details.mobile-nav");
   await mobileMenu.locator("summary").click();
   assert.equal(await mobileMenu.getAttribute("open"), "");
-  assert.equal(await mobileMenu.getByRole("link", { name: "Resources", exact: true }).isVisible(), true);
+  assert.equal(await mobileMenu.getByRole("link", { name: "The Curious Architect", exact: true }).isVisible(), true);
   await page.screenshot({ path: path.join(screenshotDir, "home-mobile.png"), fullPage: true });
   results.screenshots.push("home-mobile.png");
   results.interactions.push("mobile navigation");

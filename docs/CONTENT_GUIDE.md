@@ -37,30 +37,37 @@ Do not publish a price unless the owner has confirmed the amount, currency, taxe
 
 ## Blog articles
 
-Production articles live in `src/content/articles/`. Unpublished outlines live in `src/content/articles/drafts/`.
+The blog is called **The Curious Architect**. Its address stays `/blog/`.
 
-Use this frontmatter:
+Production articles live in `src/content/articles/`. Unpublished drafts live in `src/content/articles/drafts/`. Name each file after its slug (`the-hero-trap.md` for slug `the-hero-trap`); the site test compares the two.
+
+Use this frontmatter (the full schema is in `src/content.config.ts`):
 
 ```yaml
 title: "Article title"
-description: "Unique article summary."
-publishDate: 2026-07-23
-updatedDate: 2026-07-23
+slug: "article-title"
+summary: "Unique article summary."
+publicationDate: "2026-10-14"
+updatedDate: "2026-10-14"
 author: "Joel Wells"
-category: "Systems"
+category: "Systems Thinking"
 tags:
-  - "Process"
-featured: false
+  - "process"
+imageAlt: ""
 draft: true
-legacyPath: ""
+featured: false
 seoTitle: "Article title | 559 Solutions"
 seoDescription: "A unique search description."
+relatedArticles:
+  - "the-hero-trap"
 ```
+
+`category` must be one of: AI Without the Hype, Systems Thinking, Small Business Tools, Builder Notes, Architect's Notebook. Optional fields: `featuredImage`, `canonicalOverride`, `relatedResourceCta` (`label` and `href`).
 
 To publish a reviewed draft:
 
-1. Fact-check and edit the article.
-2. Confirm the title, description, category, tags, and dates.
+1. Fact-check and edit the article. Every factual claim is listed in a "Sources" section at the end.
+2. Confirm the title, summary, category, tags, and dates.
 3. Change `draft` to `false`.
 4. Move the file out of `articles/drafts/` into `articles/`.
 5. Add a redirect if the article replaces an older URL.

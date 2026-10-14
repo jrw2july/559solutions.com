@@ -4,7 +4,7 @@ The deployment archive is a complete static site. cPanel does not need Node.js, 
 
 ## Before deployment
 
-1. Download `release/559solutions-cpanel-deploy.zip`.
+1. Download the newest `release/claude-code-559solutions-cpanel-deploy-YYYY-MM-DDx.zip` (`pnpm package` prints its exact name and size; each run gets a new letter).
 2. Sign in to cPanel and open File Manager.
 3. Open the document root for `559solutions.com`, normally `public_html`.
 4. Confirm the exact document root in cPanel's Domains screen if the account hosts more than one domain.
@@ -17,7 +17,7 @@ The deployment archive is a complete static site. cPanel does not need Node.js, 
 
 9. Put the site into a maintenance window if the current host provides that option.
 10. Remove only the old website files that the new archive replaces. Preserve unrelated account files identified above.
-11. Upload `559solutions-cpanel-deploy.zip` into the document root.
+11. Upload that zip into the document root.
 12. Select the archive and choose **Extract**.
 13. Confirm that `index.html`, `.htaccess`, `404.html`, `images/`, `scripts/`, and route folders are directly inside the document root. There must not be an extra `dist/` or `559solutions-cpanel-deploy/` folder.
 14. Delete the uploaded ZIP from the server after extraction if storage policy requires it.

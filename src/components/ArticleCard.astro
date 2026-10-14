@@ -1,5 +1,6 @@
 ---
 import { sitePath } from "@/config/site";
+import CategoryIcon from "./CategoryIcon.astro";
 import TagList from "./TagList.astro";
 
 interface Props {
@@ -9,13 +10,16 @@ interface Props {
   category: string;
   date: Date;
   tags: string[];
+  /** Show the Curious Architect category icon (blog pages). */
+  showIcon?: boolean;
 }
 
-const { title, slug, summary, category, date, tags } = Astro.props;
+const { title, slug, summary, category, date, tags, showIcon = false } = Astro.props;
 const formattedDate = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
   month: "short",
   day: "numeric",
+  timeZone: "UTC",
 }).format(date);
 ---
 
@@ -26,7 +30,7 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
   data-topics={tags.join(" ").toLowerCase()}
   data-search={`${title} ${summary} ${category} ${tags.join(" ")}`.toLowerCase()}
 >
-  <p class="article-kicker">{category} <span aria-hidden="true">·</span> <time datetime={date.toISOString()}>{formattedDate}</time></p>
+  <p class="article-kicker">{showIcon && <CategoryIcon category={category} />}{category} <span aria-hidden="true">·</span> <time datetime={date.toISOString()}>{formattedDate}</time></p>
   <h3><a href={sitePath(`/blog/${slug}/`)}>{title}</a></h3>
   <p>{summary}</p>
   <TagList {tags} />

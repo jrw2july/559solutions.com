@@ -1,6 +1,6 @@
 ---
 import { sitePath } from "@/config/site";
-import { primaryNavigation } from "@/data/navigation";
+import { headerNavigation } from "@/data/navigation";
 
 interface Props {
   currentPath: string;
@@ -20,7 +20,7 @@ const isCurrent = (href: string) =>
     <ul>
       <li><a href={sitePath("/")} aria-current={currentPath === "/" ? "page" : undefined}>Home</a></li>
       {
-        primaryNavigation.map((item) => (
+        headerNavigation.map((item) => (
           <li>
             <a href={sitePath(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>
               {item.label}

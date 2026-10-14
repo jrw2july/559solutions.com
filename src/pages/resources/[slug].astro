@@ -46,6 +46,7 @@ const updated = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
   month: "long",
   day: "numeric",
+  timeZone: "UTC",
 }).format(resource.data.lastUpdated);
 const pageTitle =
   resource.data.slug === "ai-project-readiness-checklist"

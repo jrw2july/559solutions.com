@@ -5,7 +5,7 @@ summary: "Good speculative stories ask what happens after a technology works. Ar
 publicationDate: "2026-10-13"
 updatedDate: "2026-10-13"
 author: "Joel Wells"
-category: "The Curious Architect"
+category: "Architect's Notebook"
 tags: ["systems thinking", "technology and society", "consequences"]
 imageAlt: ""
 draft: false

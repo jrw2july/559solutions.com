@@ -16,7 +16,7 @@ const articles = defineCollection({
       "Systems Thinking",
       "Small Business Tools",
       "Builder Notes",
-      "The Curious Architect",
+      "Architect's Notebook",
     ]),
     tags: z.array(z.string()).default([]),
     featuredImage: z.string().optional(),

@@ -1,0 +1,11 @@
+---
+import { Image } from "astro:assets";
+import questionPair from "@/assets/curious-architect/question-pair.png";
+// Decorative divider for The Curious Architect: two marker lines around the drawing's question marks.
+---
+
+<div class="doodle-divider" aria-hidden="true">
+  <span class="doodle-line"></span>
+  <Image src={questionPair} alt="" height={44} densities={[1, 2]} format="webp" />
+  <span class="doodle-line"></span>
+</div>

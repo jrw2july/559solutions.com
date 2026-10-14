@@ -3,6 +3,7 @@ import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import CTASection from "@/components/CTASection.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { sitePath } from "@/config/site";
 ---
 
 <BaseLayout
@@ -75,7 +76,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
           <strong>559 Solutions</strong> is the practical business. It is the home for resources, services, and systems guidance.
         </p>
         <p>
-          <strong>The Curious Architect</strong> is a subtle editorial theme behind selected articles and commentary about systems thinking, decisions, technology and society, leadership, craftsmanship, chess, and strategy.
+          <strong>The Curious Architect</strong> is the <a href={sitePath("/blog/")}>559 Solutions blog</a>. It holds articles and commentary about systems thinking, decisions, technology and society, leadership, craftsmanship, chess, and strategy.
         </p>
         <p>It is not a separate company or a competing brand.</p>
       </div>

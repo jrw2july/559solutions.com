@@ -5,7 +5,7 @@ summary: "Chess players learn to judge the whole position before reaching for on
 publicationDate: "2026-10-13"
 updatedDate: "2026-10-13"
 author: "Joel Wells"
-category: "The Curious Architect"
+category: "Architect's Notebook"
 tags: ["chess", "strategy", "decision-making"]
 imageAlt: ""
 draft: false
