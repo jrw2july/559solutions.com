@@ -2,6 +2,7 @@
 import Analytics from "@/components/Analytics.astro";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
+import KeyPlan from "@/components/KeyPlan.astro";
 import SEO from "@/components/SEO.astro";
 import StructuredData from "@/components/StructuredData.astro";
 import { absoluteUrl, site, sitePath, stripBase } from "@/config/site";
@@ -41,6 +42,10 @@ const {
   bodyClass = "",
 } = Astro.props;
 
+// The homepage is the full plan; every other page gets the key plan under the header.
+const currentPath = stripBase(Astro.url.pathname);
+const showKeyPlan = currentPath !== "/";
+
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -75,7 +80,8 @@ const websiteSchema = {
   </head>
   <body class={bodyClass}>
     <a class="skip-link" href="#main-content">Skip to main content</a>
-    <Header currentPath={stripBase(Astro.url.pathname)} />
+    <Header {currentPath} />
+    {showKeyPlan && <KeyPlan {currentPath} />}
     <main id="main-content" tabindex="-1">
       <slot />
     </main>

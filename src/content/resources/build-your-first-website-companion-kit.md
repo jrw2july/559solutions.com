@@ -37,8 +37,7 @@ includedFiles:
 lastUpdated: "2026-07-23"
 version: "Planned release"
 relatedArticles: []
-relatedResources:
-  - "ai-project-readiness-checklist"
+relatedResources: []
 supportExpectations: "Support and instructor-use terms will be confirmed before release."
 licenseSummary: "License terms are not final."
 refundPolicyLink: ""

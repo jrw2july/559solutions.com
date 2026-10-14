@@ -26,8 +26,7 @@ lastUpdated: "2026-07-23"
 version: "Preliminary outline"
 relatedArticles:
   - "how-to-choose-and-actually-use-ai-tools"
-relatedResources:
-  - "ai-project-readiness-checklist"
+relatedResources: []
 supportExpectations: "Planned as a self-guided workbook. Final support terms will be published with the finished product."
 licenseSummary: "License terms are not final."
 refundPolicyLink: ""

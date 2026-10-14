@@ -12,9 +12,6 @@ draft: false
 featured: false
 seoTitle: "Start with the Decision, Not the AI Tool | 559 Solutions"
 seoDescription: "Name the decision, the owner, the evidence, and the human checkpoint before choosing an AI tool. A short decision-first checklist included."
-relatedResourceCta:
-  label: "Use the AI Project Readiness Checklist"
-  href: "/resources/ai-project-readiness-checklist/"
 relatedArticles: ["how-to-choose-and-actually-use-ai-tools", "what-architects-should-document"]
 ---
 

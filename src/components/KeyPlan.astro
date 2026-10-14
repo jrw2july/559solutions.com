@@ -1,0 +1,53 @@
+---
+import { sitePath } from "@/config/site";
+import { roomForPath, rooms } from "@/data/rooms";
+
+// The small key plan under the header: the whole site in miniature, with the current room filled in.
+// Pages that are not rooms (privacy, terms, accessibility, 404) show the plan with nothing filled.
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+const here = roomForPath(currentPath);
+
+// Room rectangles in a 160 x 82 drawing, matching the homepage plan's layout.
+const cells: Record<string, { x: number; y: number; w: number; h: number }> = {
+  entry: { x: 1, y: 1, w: 40, h: 80 },
+  library: { x: 41, y: 1, w: 78, h: 40 },
+  study: { x: 119, y: 1, w: 40, h: 40 },
+  workshop: { x: 41, y: 41, w: 39, h: 40 },
+  office: { x: 80, y: 41, w: 39, h: 40 },
+  frontdesk: { x: 119, y: 41, w: 40, h: 40 },
+};
+
+const label = here ? `Key plan: you are in ${here.label}` : "Key plan of the site";
+---
+
+<div class="keyplan-bar">
+  <div class="container keyplan-inner">
+    <svg class="keyplan" viewBox="0 0 160 82" role="img" aria-label={label} focusable="false">
+      {
+        rooms.map((room) => {
+          const c = cells[room.id];
+          return (
+            <rect
+              class:list={["kp-room", here?.id === room.id && "kp-here"]}
+              x={c.x}
+              y={c.y}
+              width={c.w}
+              height={c.h}
+            />
+          );
+        })
+      }
+      <line class="kp-door" x1="12" y1="81" x2="26" y2="81"></line>
+    </svg>
+    <p class="keyplan-caption">
+      <span class="plan-tag">{here ? "You are here" : "Site information"}</span>
+      {here && <strong>{here.label}</strong>}
+      {here && <span>{here.page}</span>}
+    </p>
+    <a class="keyplan-back" href={sitePath("/")}>Back to the plan</a>
+  </div>
+</div>

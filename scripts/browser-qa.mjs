@@ -65,7 +65,6 @@ try {
   const routes = [
     "/",
     "/resources/",
-    "/resources/ai-project-readiness-checklist/",
     "/services/",
     "/blog/",
     "/blog/the-hero-trap/",

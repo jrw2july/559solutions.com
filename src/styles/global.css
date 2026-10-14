@@ -2069,3 +2069,563 @@ body.curious {
     max-width: 17.5rem;
   }
 }
+
+/* Blueprint theme (2026-10-14): the site drawn as one floor plan. The homepage plan is the navigation;
+   every other page carries a small key plan with its own room filled in. Linework is the brand blue. */
+:root {
+  --bp-line: var(--color-blue);
+  --bp-grid-minor: rgb(16 77 201 / 0.07);
+  --bp-grid-major: rgb(16 77 201 / 0.14);
+  --bp-wall: 2px;
+}
+
+.plan-ground {
+  background-color: var(--color-white);
+  background-image:
+    linear-gradient(var(--bp-grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--bp-grid-major) 1px, transparent 1px),
+    linear-gradient(var(--bp-grid-minor) 1px, transparent 1px),
+    linear-gradient(90deg, var(--bp-grid-minor) 1px, transparent 1px);
+  background-size:
+    8.75rem 8.75rem,
+    8.75rem 8.75rem,
+    1.75rem 1.75rem,
+    1.75rem 1.75rem;
+}
+
+.plan-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  color: var(--color-ink-soft);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+/* Walled grids: the gaps between cells are the walls. */
+.walled {
+  display: grid;
+  gap: var(--bp-wall);
+  padding: 0;
+  margin: 0;
+  background: var(--bp-line);
+  border: 0.5rem solid var(--bp-line);
+  list-style: none;
+}
+
+.walled > * {
+  min-width: 0;
+  background: var(--color-white);
+}
+
+/* Homepage hero */
+.plan-hero {
+  padding-block: var(--space-8) var(--space-9);
+  border-bottom: var(--border);
+}
+
+.plan-hero-copy {
+  max-width: 46rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.plan-hero-copy .eyebrow {
+  justify-content: center;
+}
+
+.plan-hero h1 {
+  max-width: 18ch;
+  margin-inline: auto;
+}
+
+.plan-hero .hero-lede {
+  margin-inline: auto;
+}
+
+/* The plan: six rooms, one front door. */
+.plan-wrap {
+  position: relative;
+  margin-top: var(--space-7);
+}
+
+.plan {
+  grid-template-columns: 1.15fr 1fr 1fr 1fr;
+  grid-template-areas:
+    "entry library library study"
+    "entry workshop office frontdesk";
+}
+
+.plan-entry {
+  grid-area: entry;
+}
+
+.plan-library {
+  grid-area: library;
+}
+
+.plan-study {
+  grid-area: study;
+}
+
+.plan-workshop {
+  grid-area: workshop;
+}
+
+.plan-office {
+  grid-area: office;
+}
+
+.plan-frontdesk {
+  grid-area: frontdesk;
+}
+
+.plan > li {
+  display: flex;
+}
+
+.plan-room {
+  position: relative;
+  display: flex;
+  min-height: 13.5rem;
+  flex: 1;
+  padding: calc(var(--space-5) + 2rem) var(--space-5) var(--space-5);
+  flex-direction: column;
+  justify-content: flex-end;
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: background-color var(--transition);
+}
+
+.plan-room:hover,
+.plan-room:focus-visible {
+  background: var(--color-blue-pale);
+}
+
+.plan-room:focus-visible {
+  outline-offset: -6px;
+}
+
+.plan-entry .plan-room {
+  background: var(--color-blue-pale);
+}
+
+.plan-entry .plan-room:hover,
+.plan-entry .plan-room:focus-visible {
+  background: var(--color-sky);
+}
+
+.plan-room .plan-tag {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-5);
+}
+
+.plan-name {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-size: var(--step-1);
+  font-weight: 750;
+  letter-spacing: -0.025em;
+  line-height: var(--leading-heading);
+}
+
+.plan-entry .plan-name {
+  font-size: var(--step-2);
+}
+
+.plan-page {
+  display: block;
+  margin-bottom: var(--space-2);
+  color: var(--color-blue);
+  font-size: var(--step--1);
+  font-weight: 800;
+}
+
+.plan-blurb {
+  display: block;
+  margin-bottom: var(--space-2);
+  color: var(--color-ink-soft);
+  font-size: var(--step--1);
+  line-height: 1.5;
+}
+
+.plan-go {
+  color: var(--color-blue);
+  font-weight: 780;
+}
+
+.plan-go::after {
+  content: "→";
+  margin-left: 0.4rem;
+  display: inline-block;
+  transition: transform var(--transition);
+}
+
+.plan-room:hover .plan-go::after {
+  transform: translateX(0.2rem);
+}
+
+.plan-room .plan-logo {
+  width: auto;
+  height: 3.4rem;
+  margin: -0.6rem 0 0 -0.1rem;
+}
+
+/* Door openings in the right-hand wall of a room, with the leaf and its swing drawn into the next room. */
+.plan-door {
+  position: absolute;
+  top: 50%;
+  right: calc(-1 * var(--bp-wall));
+  z-index: 1;
+  width: var(--bp-wall);
+  height: 3.25rem;
+  margin-top: -1.625rem;
+  background: var(--color-white);
+}
+
+/* The entry is two rooms tall: its door opens into the lower corridor, not the corner. */
+.plan-entry .plan-door {
+  top: 72%;
+}
+
+.plan-door::before,
+.plan-door::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--bp-wall);
+}
+
+.plan-door::before {
+  width: 3.25rem;
+  height: 3.25rem;
+  border: 1.5px dashed var(--bp-line);
+  border-top: 0;
+  border-left: 0;
+  border-bottom-right-radius: 100%;
+}
+
+.plan-door::after {
+  width: 3.25rem;
+  height: 2px;
+  background: var(--bp-line);
+}
+
+/* The front door: a gap in the outer wall below the entry, with the leaf swung outward. */
+.plan-front-door {
+  position: absolute;
+  bottom: -0.5rem;
+  left: 7%;
+  width: 4rem;
+  height: 0.5rem;
+  background: var(--color-white);
+}
+
+.plan-front-door::before {
+  content: "";
+  position: absolute;
+  top: 0.5rem;
+  left: 0;
+  width: 4rem;
+  height: 4rem;
+  border: 1.5px dashed var(--bp-line);
+  border-top: 0;
+  border-left: 0;
+  border-bottom-right-radius: 100%;
+}
+
+.plan-front-door::after {
+  content: "";
+  position: absolute;
+  top: 0.5rem;
+  left: 0;
+  width: 2px;
+  height: 4rem;
+  background: var(--bp-line);
+}
+
+.plan-footer {
+  display: flex;
+  padding-left: 7%;
+  margin-top: 5.5rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.plan-here {
+  color: var(--color-blue);
+}
+
+/* The method: three rooms, one path through. */
+.rooms {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: var(--space-6);
+}
+
+.door-card {
+  position: relative;
+  display: flex;
+  padding: var(--space-6) var(--space-5) var(--space-5);
+  flex-direction: column;
+}
+
+.door-card .plan-tag {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-5);
+}
+
+.door-card h3 {
+  margin: var(--space-3) 0 var(--space-2);
+}
+
+.door-card p {
+  margin-bottom: var(--space-3);
+  color: var(--color-ink-soft);
+}
+
+.door-card > .text-link {
+  margin-top: auto;
+}
+
+.door-swing {
+  width: 4rem;
+  height: 2.75rem;
+  overflow: visible;
+}
+
+.door-swing line,
+.door-swing path {
+  fill: none;
+  stroke: var(--bp-line);
+}
+
+.door-swing .door-leaf {
+  transform-origin: 4px 40px;
+  transition: transform 350ms ease;
+}
+
+.door-card:hover .door-leaf,
+.door-card:focus-within .door-leaf,
+.plan-room:hover .door-leaf,
+.plan-room:focus-visible .door-leaf {
+  transform: rotate(-90deg);
+}
+
+/* About strip with the title block. */
+.about-strip {
+  display: grid;
+  align-items: center;
+  gap: var(--space-8);
+  grid-template-columns: minmax(0, 1.3fr) minmax(18rem, 0.7fr);
+}
+
+/* Title block: the label box in the corner of a drawing sheet. */
+.title-block {
+  display: grid;
+  margin: 0;
+  color: var(--color-ink-soft);
+  border: 2px solid var(--bp-line);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  text-transform: uppercase;
+}
+
+.title-block > div {
+  padding: 0.4rem 0.7rem;
+  border-right: 1px solid var(--bp-line);
+  border-bottom: 1px solid var(--bp-line);
+}
+
+.title-block > div:nth-child(even),
+.title-block > .span {
+  border-right: 0;
+}
+
+.title-block > .span {
+  grid-column: 1 / -1;
+}
+
+.title-block dt {
+  margin: 0;
+}
+
+.title-block dd {
+  margin: 0.1rem 0 0;
+  color: var(--color-ink);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.site-footer .title-block {
+  max-width: 22rem;
+  margin-top: var(--space-5);
+  color: #c7d3e2;
+  border-color: #4a6a95;
+}
+
+.site-footer .title-block > div {
+  border-color: #4a6a95;
+}
+
+.site-footer .title-block dd {
+  color: var(--color-white);
+}
+
+/* Key plan bar: under the header on every page but the homepage. */
+.keyplan-bar {
+  background: var(--color-warm);
+  border-bottom: var(--border);
+}
+
+.keyplan-inner {
+  display: flex;
+  min-height: 3.5rem;
+  padding-block: var(--space-2);
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.keyplan {
+  flex: 0 0 auto;
+  width: 6.5rem;
+  height: auto;
+}
+
+.keyplan .kp-room {
+  fill: var(--color-white);
+  stroke: var(--bp-line);
+  stroke-width: 2;
+}
+
+.keyplan .kp-here {
+  fill: var(--color-blue);
+}
+
+.keyplan .kp-door {
+  stroke: var(--color-white);
+  stroke-width: 4;
+}
+
+.keyplan-caption {
+  display: flex;
+  margin: 0;
+  align-items: baseline;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  font-size: var(--step--1);
+}
+
+.keyplan-caption strong {
+  color: var(--color-ink);
+  font-size: var(--step-0);
+}
+
+.keyplan-back {
+  margin-left: auto;
+  font-size: var(--step--1);
+  font-weight: 750;
+}
+
+.curious .keyplan-bar {
+  background: transparent;
+  border-bottom: 2px dashed var(--ca-charcoal);
+}
+
+/* Header: the Code559 link is its logo, Contact is the button. */
+.nav-logo img,
+.mobile-nav .nav-logo img {
+  width: auto;
+  height: 3.1rem;
+}
+
+.desktop-nav .nav-logo a {
+  padding-inline: 0.15rem;
+}
+
+.desktop-nav .nav-logo a[aria-current="page"] {
+  box-shadow: inset 0 -0.16rem var(--color-blue-bright);
+}
+
+.desktop-nav .nav-logo a:hover img {
+  opacity: 0.8;
+}
+
+@media (max-width: 68rem) {
+  .plan {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "entry library"
+      "entry study"
+      "workshop office"
+      "frontdesk frontdesk";
+  }
+
+  .plan-office .plan-door,
+  .plan-library .plan-door {
+    display: none;
+  }
+
+  .about-strip {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 50rem) {
+  .plan {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "entry"
+      "library"
+      "study"
+      "workshop"
+      "office"
+      "frontdesk";
+  }
+
+  .plan-room {
+    min-height: 0;
+    padding: calc(var(--space-4) + 1.6rem) var(--space-4) var(--space-4);
+  }
+
+  .plan-room .plan-tag {
+    top: var(--space-3);
+    left: var(--space-4);
+  }
+
+  .plan-door,
+  .plan-front-door {
+    display: none;
+  }
+
+  .plan-footer {
+    padding-left: 0;
+    margin-top: var(--space-5);
+  }
+
+  .rooms {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .keyplan-back {
+    margin-left: 0;
+  }
+}
+
+@media print {
+  .keyplan-bar {
+    display: none !important;
+  }
+}

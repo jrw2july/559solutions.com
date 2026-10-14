@@ -9,6 +9,9 @@ interface Props {
 const { currentPath } = Astro.props;
 const isCurrent = (href: string) =>
   href === "/" ? currentPath === href : currentPath.startsWith(href);
+
+const links = headerNavigation.filter((item) => item.href !== "/contact/");
+const contact = headerNavigation.find((item) => item.href === "/contact/");
 ---
 
 <details class="mobile-nav">
@@ -20,19 +23,27 @@ const isCurrent = (href: string) =>
     <ul>
       <li><a href={sitePath("/")} aria-current={currentPath === "/" ? "page" : undefined}>Home</a></li>
       {
-        headerNavigation.map((item) => (
-          <li>
+        links.map((item) => (
+          <li class:list={[item.href === "/code559/" && "nav-logo"]}>
             <a href={sitePath(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>
-              {item.label}
+              {item.href === "/code559/" ? (
+                <img src={sitePath("/images/code559-logo.png")} alt="Code559" width="760" height="308" decoding="async" />
+              ) : (
+                item.label
+              )}
             </a>
           </li>
         ))
       }
-      <li>
-        <a class="button button-primary button-small" href={sitePath("/resources/ai-project-readiness-checklist/")}>
-          Get the Free Checklist
-        </a>
-      </li>
+      {
+        contact && (
+          <li>
+            <a class="button button-primary button-small" href={sitePath(contact.href)}>
+              {contact.label}
+            </a>
+          </li>
+        )
+      }
     </ul>
   </nav>
 </details>

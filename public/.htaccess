@@ -18,6 +18,9 @@ ErrorDocument 404 /404.html
   RewriteRule ^downloads/?$ /resources/ [R=301,L]
   RewriteRule ^services-store/?$ /services/ [R=301,L]
 
+  # The free checklist is no longer offered (2026-10-14).
+  RewriteRule ^resources/ai-project-readiness-checklist/?$ /resources/ [R=301,L]
+
   # Code559 course pages: old-style .html addresses go to the folder addresses.
   RewriteRule ^code559/index\.html$ /code559/front-end-developer/ [R=301,L]
   RewriteRule ^code559/(module-[0-9][0-9]-[a-z0-9-]+)\.html$ /code559/$1/ [R=301,L]

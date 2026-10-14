@@ -39,8 +39,7 @@ lastUpdated: "2026-07-23"
 version: "Planned release"
 relatedArticles:
   - "the-hero-trap"
-relatedResources:
-  - "ai-project-readiness-checklist"
+relatedResources: []
 supportExpectations: "Planned as a self-guided starter kit. Final support expectations will be published before release."
 licenseSummary: "License terms are not final."
 refundPolicyLink: ""

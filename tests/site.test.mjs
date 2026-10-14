@@ -10,8 +10,9 @@ test("required routes exist", async () => {
   const routes = [
     "index.html",
     "resources/index.html",
-    "resources/ai-project-readiness-checklist/index.html",
+    "resources/ai-tool-selection-workbook/index.html",
     "services/index.html",
+    "code559/index.html",
     "blog/index.html",
     "blog/the-hero-trap/index.html",
     "about/index.html",
@@ -26,29 +27,36 @@ test("required routes exist", async () => {
   }
 });
 
-test("homepage communicates the core promise and product-first path", async () => {
+test("homepage communicates the core promise and the floor plan of the site", async () => {
   const html = await readFile(path.join(dist, "index.html"), "utf8");
   assert.match(html, /Turn messy work into clear systems\./);
-  assert.match(html, /Product-led by design/);
-  assert.match(html, /AI Project Readiness Checklist/);
-  assert.match(html, /Business Systems Clarity Session/);
+  assert.match(html, /aria-label="Site map"/);
+  for (const room of ["The Library", "The Study", "The Workshop", "The Office", "The Front Desk"]) {
+    assert.match(html, new RegExp(room), room);
+  }
+  assert.match(html, /Clarify the work/);
+});
+
+test("the free checklist is no longer promoted anywhere", async () => {
+  const pages = ["index.html", "about/index.html", "resources/index.html", "blog/the-hero-trap/index.html"];
+  for (const page of pages) {
+    const html = await readFile(path.join(dist, page), "utf8");
+    assert.doesNotMatch(html, /Free Checklist/i, page);
+    assert.doesNotMatch(html, /ai-project-readiness-checklist/, page);
+  }
+  await assert.rejects(access(path.join(dist, "resources", "ai-project-readiness-checklist")));
 });
 
 test("forms post to the configured endpoint and never to an empty address", async () => {
   const contact = await readFile(path.join(dist, "contact", "index.html"), "utf8");
-  const home = await readFile(path.join(dist, "index.html"), "utf8");
-  const checklist = await readFile(
-    path.join(dist, "resources", "ai-project-readiness-checklist", "index.html"),
-    "utf8",
-  );
+  const code559 = await readFile(path.join(dist, "code559", "index.html"), "utf8");
   const endpoint = /action="https:\/\/script\.google\.com\/[^"]+\/exec"/;
   assert.match(contact, endpoint);
   assert.match(contact, /data-ajax-form="contact-form"/);
-  assert.match(home, endpoint);
-  assert.match(home, /data-ajax-form="checklist-form"/);
+  assert.match(code559, endpoint);
+  assert.match(code559, /data-ajax-form="code559-coming-soon"/);
   assert.doesNotMatch(contact, /The online form is not active/);
   assert.doesNotMatch(contact, /action=""/);
-  assert.doesNotMatch(checklist, /href=""/);
 });
 
 test("only published articles (draft: false) are in the production blog", async () => {

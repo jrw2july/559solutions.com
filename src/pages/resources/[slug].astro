@@ -48,10 +48,7 @@ const updated = new Intl.DateTimeFormat("en-US", {
   day: "numeric",
   timeZone: "UTC",
 }).format(resource.data.lastUpdated);
-const pageTitle =
-  resource.data.slug === "ai-project-readiness-checklist"
-    ? "AI Project Readiness Checklist | 559 Solutions"
-    : `${resource.data.title} | 559 Solutions`;
+const pageTitle = `${resource.data.title} | 559 Solutions`;
 ---
 
 <BaseLayout

@@ -16,9 +16,6 @@ draft: false
 featured: true
 seoTitle: "The Hero Trap | 559 Solutions"
 seoDescription: "Why the best technical teams make heroics unnecessary by improving systems, sharing knowledge, and rewarding prevention."
-relatedResourceCta:
-  label: "Use the AI Project Readiness Checklist"
-  href: "/resources/ai-project-readiness-checklist/"
 relatedArticles:
   - "how-to-choose-and-actually-use-ai-tools"
 ---
