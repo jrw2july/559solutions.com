@@ -26,6 +26,7 @@ export async function GET() {
     "/terms/",
     "/accessibility/",
     "/code559/",
+    "/code559/choose-the-right-ai-tool/",
   ];
 
   const urls = [

@@ -7,6 +7,8 @@ import { site, sitePath } from "@/config/site";
 import { code559Offerings } from "@/data/code559-offerings";
 
 const comingSoon = code559Offerings.filter((item) => item.status === "Coming soon");
+const ready = code559Offerings.length - comingSoon.length;
+const readyWords = ["None", "One", "Two", "Three", "Four", "Five", "Six"][ready] ?? String(ready);
 const notifyReady = Boolean(site.newsletterEndpoint);
 ---
 
@@ -69,7 +71,7 @@ const notifyReady = Boolean(site.newsletterEndpoint);
       <SectionHeading
         eyebrow="Courses"
         title="Start where you are."
-        description="One course is ready now. The next ones are being written."
+        description={`${readyWords} ${ready === 1 ? "is" : "are"} ready now. The next ones are being written.`}
       />
       <div class="offering-grid">
         {

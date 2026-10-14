@@ -1,0 +1,168 @@
+---
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import ExternalLink from "@/components/ExternalLink.astro";
+import FloorplanDivider from "@/components/FloorplanDivider.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { sitePath } from "@/config/site";
+import { aiTools, aiToolsCheckedOn } from "@/data/ai-tools";
+
+// Code559: How to Choose the Right AI Tool (2026-10-14). The method comes from the 559 "Weekend CTO"
+// quick reference; the tool table lives in src/data/ai-tools.ts.
+const assessment = "/contact/?inquiry=ai-workflow-assessment";
+const steps = [
+  {
+    title: "Start with the outcome",
+    text: "Name one result you can see. “Write one sales email a day” beats “learn AI.” Write down who it helps, how you measure it today, and what better would look like.",
+  },
+  {
+    title: "Pick a category, not a brand",
+    text: "Decide what kind of tool the job needs first: an image generator, a work copilot, an answer engine. Then compare two or three tools in that category against the same test.",
+  },
+  {
+    title: "Check the fit with what you already use",
+    text: "Does it work inside Microsoft 365, Google Workspace, Slack or your customer system? A tool that lives where the work happens gets used. One that needs copying and pasting usually does not.",
+  },
+  {
+    title: "Pilot with one or two playbooks",
+    text: "A playbook is a short, repeatable process: the trigger, the input, the prompt, who approves the result, and where it is saved. Run it enough times to see a pattern, then keep, adjust or stop.",
+  },
+  {
+    title: "Mind the data",
+    text: "Use business or enterprise plans where you can, and keep personal, financial and confidential information out of tools that are not approved for it. Check privacy and retention terms before you start.",
+  },
+];
+const worksheet = [
+  "What one result should improve, and how do we measure it now?",
+  "Who owns the work, and who checks the AI's output?",
+  "What kind of tool does the job need?",
+  "Which two or three tools in that category will we compare, using the same test?",
+  "Does each one work inside the apps we already use?",
+  "What information must never go into it?",
+  "What does one playbook look like, start to finish?",
+  "What result after the pilot means we keep it, adjust it, or stop?",
+];
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  name: "How to Choose the Right AI Tool",
+  description: "A five-step way to choose an AI tool, a checked quick reference of popular tools, and a one-page worksheet.",
+  isPartOf: { "@type": "Course", name: "Code559" },
+  provider: { "@type": "Organization", name: "559 Solutions" },
+};
+---
+
+<BaseLayout
+  title="How to Choose the Right AI Tool | Code559"
+  description="A five-step way to choose an AI tool, a checked quick reference of 17 popular tools, a one-page worksheet, and help if you want it."
+  canonicalPath="/code559/choose-the-right-ai-tool/"
+  structuredData={schema}
+  bodyClass="code559"
+>
+  <section class="section">
+    <div class="container">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: "Code559", href: "/code559/" },
+          { label: "How to Choose the Right AI Tool" },
+        ]}
+      />
+      <div class="section-heading guide-intro">
+        <p class="eyebrow">Code559 · Free guide</p>
+        <h1>How to Choose the Right AI Tool</h1>
+        <p>
+          Most disappointing AI projects start with a tool instead of a result. This guide turns that around: five
+          steps to choose well, a quick reference of popular tools, and a one-page worksheet you can use today.
+        </p>
+        <div class="button-row">
+          <a class="button button-primary" href="#steps">Start with the five steps</a>
+          <a class="button button-secondary" href={sitePath(assessment)}>Ask for an AI workflow assessment</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-tinted" id="steps">
+    <div class="container">
+      <SectionHeading eyebrow="The method" title="Five steps to the right tool" />
+      <ol class="guide-steps">
+        {
+          steps.map((step, i) => (
+            <li class="card">
+              <p class="card-number" aria-hidden="true">{String(i + 1).padStart(2, "0")}</p>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="quick-reference">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Quick reference"
+        title="Popular AI tools, by the job they do"
+        description={`Each row was checked against the tool's own website on ${aiToolsCheckedOn}. Tools change quickly: check pricing, privacy and business controls before you adopt one.`}
+      />
+      <section class="table-scroll" aria-label="AI tools quick reference" tabindex="0">
+        <table class="tools-table">
+          <caption class="visually-hidden">Popular AI tools: category, tool, best for, standout strength</caption>
+          <thead>
+            <tr><th scope="col">Category</th><th scope="col">Tool</th><th scope="col">Best for</th><th scope="col">Standout strength</th></tr>
+          </thead>
+          <tbody>
+            {
+              aiTools.map((row) => (
+                <tr>
+                  <td>{row.category}</td>
+                  <th scope="row">
+                    <ExternalLink href={row.url}>{row.tool}</ExternalLink>
+                    {row.note && <span class="tool-note">{row.note}</span>}
+                  </th>
+                  <td>{row.bestFor}</td>
+                  <td>{row.strength}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </section>
+      <p class="small-note">Tool names are trademarks of their owners. This table is for education and planning, not an endorsement.</p>
+    </div>
+  </section>
+
+  <section class="section section-tinted" id="worksheet">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Worksheet"
+        title="Answer these before you open a trial account"
+        description="If the answers fit on one page, you are ready to compare tools. If they don't, you have found the real work."
+      />
+      <ol class="worksheet-list">{worksheet.map((q) => <li>{q}</li>)}</ol>
+      <FloorplanDivider />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="signup-card">
+        <div>
+          <p class="eyebrow">Want help?</p>
+          <h2>Get an AI workflow assessment</h2>
+          <p>
+            Bring the work that keeps repeating. We look at how it runs today, find the places where AI could
+            realistically help, and agree on one small pilot you can measure.
+          </p>
+        </div>
+        <div class="form-panel">
+          <p>Tell 559 Solutions about the work, the result you want, and the tools you already use. You'll get a reply about whether an assessment fits and what it would cover.</p>
+          <a class="button button-primary" href={sitePath(assessment)}>Request an assessment</a>
+          <p class="small-note">Prefer to read first? <a href={sitePath("/blog/how-to-choose-and-actually-use-ai-tools/")}>How to Choose and Actually Use AI Tools</a> and <a href={sitePath("/blog/start-with-the-decision-not-the-ai-tool/")}>Start with the Decision, Not the AI Tool</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

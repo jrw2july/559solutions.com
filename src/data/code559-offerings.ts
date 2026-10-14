@@ -39,6 +39,8 @@ export const code559Offerings: Code559Offering[] = [
     title: "How to Choose the Right AI Tool",
     summary:
       "Start with the result you need, compare a few tools against the same test, and try one small, safe experiment before you commit.",
-    status: "Coming soon",
+    status: "Available",
+    href: "/code559/choose-the-right-ai-tool/",
+    facts: ["Free guide", "17 tools checked", "Assessment on request"],
   },
 ];

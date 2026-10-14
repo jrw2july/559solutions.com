@@ -3,7 +3,7 @@ title: "How to Choose and Actually Use AI Tools"
 slug: "how-to-choose-and-actually-use-ai-tools"
 summary: "A practical, tool-neutral approach to define one outcome, check workflow fit, run a small pilot, and protect sensitive information."
 publicationDate: "2025-12-01"
-updatedDate: "2026-07-23"
+updatedDate: "2026-10-14"
 author: "Joel Wells"
 category: "AI Without the Hype"
 tags:
@@ -17,9 +17,10 @@ featured: true
 seoTitle: "How to Choose and Actually Use AI Tools | 559 Solutions"
 seoDescription: "Choose AI tools by starting with a measurable outcome, workflow fit, a small repeatable pilot, and sensible data rules."
 relatedResourceCta:
-  label: "Review the AI Tool Selection Workbook"
-  href: "/resources/ai-tool-selection-workbook/"
+  label: "Use the free Code559 guide and tool reference"
+  href: "/code559/choose-the-right-ai-tool/"
 relatedArticles:
+  - "start-with-the-decision-not-the-ai-tool"
   - "the-hero-trap"
 ---
 
@@ -32,6 +33,8 @@ A calmer approach looks like this:
 3. Check how it fits the people, data, and existing workflow.
 4. Run one or two small playbooks.
 5. Set clear boundaries for sensitive information and human review.
+
+For the full method, a one-page worksheet, and a quick reference of 17 popular tools checked in October 2026, see the free Code559 guide, [How to Choose the Right AI Tool](/code559/choose-the-right-ai-tool/).
 
 ## Start with the outcome
 
@@ -77,6 +80,8 @@ Then compare a small number of options. Score each one against the same criteria
 - clear ownership.
 
 The goal is not to find the most impressive tool. It is to find the smallest useful fit.
+
+Tool names change quickly, which is one more reason to choose the category first. In the past year alone, OpenAI replaced DALL·E with ChatGPT Images, and Canva renamed Magic Studio to Canva AI. The [Code559 quick reference](/code559/choose-the-right-ai-tool/#quick-reference) lists current tools by the job they do.
 
 ## Pilot with one or two playbooks
 
@@ -128,3 +133,7 @@ Ask:
 > What work needs to improve, what is the smallest useful change, and how will we know whether it helped?
 
 That question keeps the technology in its proper place.
+
+## Want a second set of eyes?
+
+If you would rather not run the first pilot alone, 559 Solutions offers an AI workflow assessment. We look at how the work runs today, find the places where AI could realistically help, and agree on one small pilot you can measure. [Request an assessment](/contact/?inquiry=ai-workflow-assessment) and describe the work that keeps repeating.
