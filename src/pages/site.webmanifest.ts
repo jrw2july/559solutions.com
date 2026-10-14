@@ -12,11 +12,11 @@ export function GET() {
       start_url: sitePath("/"),
       display: "standalone",
       background_color: "#ffffff",
-      theme_color: "#1554b8",
+      theme_color: "#104dc9",
       icons: [
         {
-          src: sitePath("/images/559-solutions-logo.png"),
-          sizes: "680x228",
+          src: sitePath("/images/559-icon-512.png"),
+          sizes: "512x512",
           type: "image/png",
           purpose: "any",
         },

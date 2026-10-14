@@ -71,7 +71,7 @@ const manifest = JSON.parse(
 if (manifest.start_url !== `${base}/`) {
   errors.push("site.webmanifest has an incorrect start_url.");
 }
-if (manifest.icons?.[0]?.src !== `${base}/images/559-solutions-logo.png`) {
+if (manifest.icons?.[0]?.src !== `${base}/images/559-icon-512.png`) {
   errors.push("site.webmanifest has an incorrect icon URL.");
 }
 

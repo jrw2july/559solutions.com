@@ -46,7 +46,7 @@ export const site = {
   linkedInUrl: "",
   socialLinks: [] as Array<{ label: string; url: string }>,
   logoPath: "/images/559-solutions-logo.png",
-  faviconPath: "/images/559-solutions-logo.png",
+  faviconPath: "/images/559-icon-48.png",
   defaultSocialImage: "/images/og.png",
   antiSpamField: "company_website",
   checkoutProvider: {

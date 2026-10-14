@@ -2,6 +2,7 @@
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import ArticleCard from "@/components/ArticleCard.astro";
 import AuthorBio from "@/components/AuthorBio.astro";
+import FloorplanDivider from "@/components/FloorplanDivider.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import CTASection from "@/components/CTASection.astro";
 import TagList from "@/components/TagList.astro";
@@ -96,6 +97,7 @@ const schema = {
     <div class="container article-shell">
       <article class="article-content">
         <Content />
+        <FloorplanDivider />
         <AuthorBio />
       </article>
       <aside class="article-sidebar" aria-label="Article navigation">
