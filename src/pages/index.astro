@@ -59,11 +59,11 @@ const doorsOnTheRight = new Set(["entry", "library", "workshop", "office"]);
               rooms.map((room, index) => (
                 <li class={`plan-${room.id}`}>
                   <a class="plan-room" href={sitePath(room.href)}>
-                    <span class="plan-tag">{index === 0 ? "Entry" : `Room 0${index}`}</span>
+                    <span class="plan-tag">{index === 0 ? "Entry" : `Room ${String(index).padStart(2, "0")}`}</span>
                     {room.id === "workshop" && (
                       <img
                         class="plan-logo"
-                        src={sitePath("/images/code559-logo.png")}
+                        src={sitePath("/images/code559-logo.webp")}
                         alt=""
                         width="760"
                         height="308"
@@ -101,17 +101,17 @@ const doorsOnTheRight = new Set(["entry", "library", "workshop", "office"]);
       />
       <div class="walled rooms">
         <ProblemCard
-          number="1"
+          number="01"
           title="Clarify the work"
           description="Identify the decision, repeated task, bottleneck, missing ownership, source of confusion, and desired outcome."
         />
         <ProblemCard
-          number="2"
+          number="02"
           title="Design the simplest useful system"
           description="Choose the smallest appropriate response, such as a workflow, template, low-code application, dashboard, or automation."
         />
         <ProblemCard
-          number="3"
+          number="03"
           title="Make it reusable"
           description="Document, automate, teach, package, and improve what works so the result does not depend on one person remembering everything."
         />

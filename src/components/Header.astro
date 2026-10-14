@@ -1,6 +1,7 @@
 ---
 import { site, sitePath } from "@/config/site";
 import { headerNavigation } from "@/data/navigation";
+import { rooms } from "@/data/rooms";
 import MobileNavigation from "./MobileNavigation.astro";
 
 interface Props {
@@ -11,9 +12,12 @@ const { currentPath } = Astro.props;
 const isCurrent = (href: string) =>
   href === "/" ? currentPath === href : currentPath.startsWith(href);
 
-// Code559 keeps its own brand: its menu entry is its logo. Contact is the header button.
-const links = headerNavigation.filter((item) => item.href !== "/contact/");
+// The Code559 link is labeled with its room on the plan, "The Workshop", and sits in the center of the header.
+// The other links sit at the far right, ending with Contact as the button.
+const code559 = headerNavigation.find((item) => item.href === "/code559/");
 const contact = headerNavigation.find((item) => item.href === "/contact/");
+const links = headerNavigation.filter((item) => item !== code559 && item !== contact);
+const workshopLabel = rooms.find((room) => room.id === "workshop")?.label ?? "The Workshop";
 ---
 
 <header class="site-header">
@@ -28,33 +32,34 @@ const contact = headerNavigation.find((item) => item.href === "/contact/");
       />
     </a>
     <nav class="desktop-nav" aria-label="Primary">
-      <ul>
+      {
+        code559 && (
+          <a class="nav-center" href={sitePath(code559.href)} aria-current={isCurrent(code559.href) ? "page" : undefined}>
+            {workshopLabel}
+          </a>
+        )
+      }
+      <ul class="nav-links">
         {
-          links.map((item) =>
-            item.href === "/code559/" ? (
-              <li class="nav-logo">
-                <a href={sitePath(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>
-                  <img src={sitePath("/images/code559-logo.png")} alt="Code559" width="760" height="308" decoding="async" />
-                </a>
-              </li>
-            ) : (
-              <li>
-                <a href={sitePath(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>
-                  {item.label}
-                </a>
-              </li>
-            ),
+          links.map((item) => (
+            <li>
+              <a href={sitePath(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        {
+          contact && (
+            <li>
+              <a class="button button-primary header-cta" href={sitePath(contact.href)}>
+                {contact.label}
+              </a>
+            </li>
           )
         }
       </ul>
     </nav>
-    {
-      contact && (
-        <a class="button button-primary header-cta" href={sitePath(contact.href)}>
-          {contact.label}
-        </a>
-      )
-    }
     <MobileNavigation {currentPath} />
   </div>
 </header>

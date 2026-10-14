@@ -46,7 +46,7 @@ const label = here ? `Key plan: you are in ${here.label}` : "Key plan of the sit
     <p class="keyplan-caption">
       <span class="plan-tag">{here ? "You are here" : "Site information"}</span>
       {here && <strong>{here.label}</strong>}
-      {here && <span>{here.page}</span>}
+      {here && <span class="keyplan-page">{here.page}</span>}
     </p>
     <a class="keyplan-back" href={sitePath("/")}>Back to the plan</a>
   </div>

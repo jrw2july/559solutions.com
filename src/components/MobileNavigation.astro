@@ -1,6 +1,7 @@
 ---
 import { sitePath } from "@/config/site";
 import { headerNavigation } from "@/data/navigation";
+import { rooms } from "@/data/rooms";
 
 interface Props {
   currentPath: string;
@@ -12,6 +13,8 @@ const isCurrent = (href: string) =>
 
 const links = headerNavigation.filter((item) => item.href !== "/contact/");
 const contact = headerNavigation.find((item) => item.href === "/contact/");
+// Code559 is labeled with its room on the plan, as in the desktop header.
+const workshopLabel = rooms.find((room) => room.id === "workshop")?.label ?? "The Workshop";
 ---
 
 <details class="mobile-nav">
@@ -24,13 +27,9 @@ const contact = headerNavigation.find((item) => item.href === "/contact/");
       <li><a href={sitePath("/")} aria-current={currentPath === "/" ? "page" : undefined}>Home</a></li>
       {
         links.map((item) => (
-          <li class:list={[item.href === "/code559/" && "nav-logo"]}>
+          <li>
             <a href={sitePath(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>
-              {item.href === "/code559/" ? (
-                <img src={sitePath("/images/code559-logo.png")} alt="Code559" width="760" height="308" decoding="async" />
-              ) : (
-                item.label
-              )}
+              {item.href === "/code559/" ? workshopLabel : item.label}
             </a>
           </li>
         ))

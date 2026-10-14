@@ -1,7 +1,6 @@
 ---
 import { copyrightYear, site, sitePath } from "@/config/site";
-import { legalNavigation, primaryNavigation } from "@/data/navigation";
-import TitleBlock from "./TitleBlock.astro";
+import { headerNavigation, legalNavigation } from "@/data/navigation";
 ---
 
 <footer class="site-footer">
@@ -10,12 +9,11 @@ import TitleBlock from "./TitleBlock.astro";
       <a class="footer-brand" href={sitePath("/")} aria-label="559 Solutions home">559 Solutions</a>
       <p>Practical AI, automation, low-code tools, and plain-language systems guidance.</p>
       <p class="footer-note">The real product is clarity.</p>
-      <TitleBlock />
     </div>
     <nav aria-label="Footer">
       <h2>Explore</h2>
       <ul>
-        {primaryNavigation.map((item) => <li><a href={sitePath(item.href)}>{item.label}</a></li>)}
+        {headerNavigation.map((item) => <li><a href={sitePath(item.href)}>{item.label}</a></li>)}
       </ul>
     </nav>
     <nav aria-label="Legal">

@@ -297,7 +297,7 @@ button:disabled {
   list-style: none;
 }
 
-.desktop-nav a {
+.desktop-nav a:not(.button) {
   display: inline-flex;
   min-height: 2.75rem;
   align-items: center;
@@ -307,12 +307,12 @@ button:disabled {
   text-decoration: none;
 }
 
-.desktop-nav a:hover,
-.desktop-nav a[aria-current="page"] {
+.desktop-nav a:not(.button):hover,
+.desktop-nav a:not(.button)[aria-current="page"] {
   color: var(--color-blue);
 }
 
-.desktop-nav a[aria-current="page"] {
+.desktop-nav a:not(.button)[aria-current="page"] {
   box-shadow: inset 0 -0.16rem var(--color-blue-bright);
 }
 
@@ -2468,21 +2468,6 @@ body.curious {
   letter-spacing: 0.04em;
 }
 
-.site-footer .title-block {
-  max-width: 22rem;
-  margin-top: var(--space-5);
-  color: #c7d3e2;
-  border-color: #4a6a95;
-}
-
-.site-footer .title-block > div {
-  border-color: #4a6a95;
-}
-
-.site-footer .title-block dd {
-  color: var(--color-white);
-}
-
 /* Key plan bar: under the header on every page but the homepage. */
 .keyplan-bar {
   background: var(--color-warm);
@@ -2544,25 +2529,6 @@ body.curious {
   border-bottom: 2px dashed var(--ca-charcoal);
 }
 
-/* Header: the Code559 link is its logo, Contact is the button. */
-.nav-logo img,
-.mobile-nav .nav-logo img {
-  width: auto;
-  height: 3.1rem;
-}
-
-.desktop-nav .nav-logo a {
-  padding-inline: 0.15rem;
-}
-
-.desktop-nav .nav-logo a[aria-current="page"] {
-  box-shadow: inset 0 -0.16rem var(--color-blue-bright);
-}
-
-.desktop-nav .nav-logo a:hover img {
-  opacity: 0.8;
-}
-
 @media (max-width: 68rem) {
   .plan {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2619,13 +2585,57 @@ body.curious {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  /* Phone key plan: one short row with the small plan and the room name. The 559 logo still links home. */
+  .keyplan-inner {
+    min-height: 0;
+    gap: var(--space-3);
+    flex-wrap: nowrap;
+  }
+
+  .keyplan {
+    width: 2.75rem;
+  }
+
+  .keyplan-caption {
+    gap: var(--space-2);
+    flex-wrap: nowrap;
+  }
+
+  .keyplan-page,
   .keyplan-back {
-    margin-left: 0;
+    display: none;
   }
 }
 
 @media print {
   .keyplan-bar {
     display: none !important;
+  }
+}
+
+/* Header layout (2026-10-14): brand at the left, The Workshop (Code559) in the center, the other links at the
+   far right. All header links keep the standard nav size. */
+@media (min-width: 68.0625rem) {
+  .header-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
+  .desktop-nav {
+    display: grid;
+    margin-left: 0;
+    align-items: center;
+    grid-column: 2 / 4;
+    grid-template-columns: subgrid;
+  }
+
+  .desktop-nav .nav-center {
+    grid-column: 1;
+  }
+
+  .desktop-nav .nav-links {
+    justify-self: end;
+    grid-column: 2;
   }
 }
