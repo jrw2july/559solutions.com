@@ -65,15 +65,25 @@ document.querySelectorAll("[data-ajax-form]").forEach((form) => {
     if (status) status.textContent = "Sending your request.";
 
     try {
-      const response = await fetch(form.action, {
+      // The endpoint is a Google Apps Script web app. It sends no CORS headers, so the
+      // reply cannot be read: post JSON as text/plain with no-cors and treat a request
+      // that does not throw as delivered (the script validates the data itself).
+      const data = Object.fromEntries(new FormData(form));
+      delete data.company_website;
+      data.source = form.dataset.ajaxForm;
+      data.page = window.location.pathname;
+      await fetch(form.action, {
         method: "POST",
-        body: new FormData(form),
-        headers: { Accept: "application/json" },
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(data),
       });
-      if (!response.ok) throw new Error("The form provider returned an error.");
 
       const successUrl = form.dataset.successUrl;
-      if (status) status.textContent = "Thank you. Your request was received.";
+      if (status) {
+        status.textContent =
+          form.dataset.successMessage || "Thank you. Your request was received.";
+      }
       form.reset();
       if (successUrl) window.location.assign(successUrl);
     } catch {

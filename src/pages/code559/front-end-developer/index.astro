@@ -1,0 +1,33 @@
+---
+import { getCollection, getEntry, render } from "astro:content";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+// The Front-End Developer Course home (moved from /code559/ on 2026-10-14; /code559/ now introduces the initiative).
+const home = await getEntry("code559", "index");
+if (!home) throw new Error("Code559 course home missing: run node scripts/sync-code559.mjs");
+const { Content } = await render(home);
+const modules = await getCollection("code559", ({ id }) => id !== "index");
+---
+
+<BaseLayout
+  title={`${home.data.title} | Code559`}
+  description={home.data.subtitle}
+  canonicalPath="/code559/front-end-developer/"
+  bodyClass="code559"
+>
+  <section class="section">
+    <div class="container code559-shell">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: "Code559", href: "/code559/" },
+          { label: "Front-End Developer Course" },
+        ]}
+      />
+      <article class="article-content code559-content" data-modules={modules.length}>
+        <Content />
+      </article>
+    </div>
+  </section>
+</BaseLayout>

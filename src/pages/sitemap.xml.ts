@@ -25,6 +25,7 @@ export async function GET() {
     "/privacy/",
     "/terms/",
     "/accessibility/",
+    "/code559/",
   ];
 
   const urls = [
@@ -38,7 +39,7 @@ export async function GET() {
       lastmod: article.data.updatedDate.toISOString().slice(0, 10),
     })),
     ...course.map((page) => ({
-      loc: absoluteUrl(page.id === "index" ? "/code559/" : `/code559/${page.id}/`),
+      loc: absoluteUrl(page.id === "index" ? "/code559/front-end-developer/" : `/code559/${page.id}/`),
       lastmod: "2026-10-12",
     })),
   ];

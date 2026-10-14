@@ -10,7 +10,8 @@ const {
   heading = "Get the free AI project checklist",
   description = "Use ten practical questions to define the work before choosing tools.",
 } = Astro.props;
-const configured = Boolean(site.newsletterEndpoint && site.leadMagnetDeliveryUrl);
+const configured = Boolean(site.newsletterEndpoint);
+const delivers = Boolean(site.leadMagnetDeliveryUrl);
 ---
 
 <section class="signup-card" aria-labelledby="newsletter-heading">
@@ -23,8 +24,9 @@ const configured = Boolean(site.newsletterEndpoint && site.leadMagnetDeliveryUrl
     class="form-panel"
     action={configured ? site.newsletterEndpoint : undefined}
     method="post"
-    data-ajax-form={configured ? "newsletter" : undefined}
-    data-success-url={configured ? site.leadMagnetDeliveryUrl : undefined}
+    data-ajax-form={configured ? "checklist-form" : undefined}
+    data-success-url={delivers ? site.leadMagnetDeliveryUrl : undefined}
+    data-success-message={delivers ? undefined : "Thanks, you're on the list. You'll get one email when the checklist is ready. Until then, you can review the ten questions below."}
   >
     <div class="form-grid">
       <div class="field">
@@ -45,7 +47,7 @@ const configured = Boolean(site.newsletterEndpoint && site.leadMagnetDeliveryUrl
       <span>I agree that 559 Solutions may use this information to deliver the requested resource. See the <a href={sitePath("/privacy/")}>Privacy Policy</a>.</span>
     </label>
     <button class="button button-primary" type="submit" disabled={!configured}>
-      Download the Free Checklist
+      {delivers ? "Download the Free Checklist" : "Notify Me When It's Ready"}
     </button>
     {
       !configured && (

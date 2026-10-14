@@ -1,26 +1,148 @@
 ---
-import { getCollection, getEntry, render } from "astro:content";
-import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import FloorplanDivider from "@/components/FloorplanDivider.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import StatusBadge from "@/components/StatusBadge.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site, sitePath } from "@/config/site";
+import { code559Offerings } from "@/data/code559-offerings";
 
-const home = await getEntry("code559", "index");
-if (!home) throw new Error("Code559 home page missing: run node scripts/sync-code559.mjs");
-const { Content } = await render(home);
-const modules = await getCollection("code559", ({ id }) => id !== "index");
+const comingSoon = code559Offerings.filter((item) => item.status === "Coming soon");
+const notifyReady = Boolean(site.newsletterEndpoint);
 ---
 
 <BaseLayout
-  title={`${home.data.title} | Code559`}
-  description={home.data.subtitle}
+  title="Code559 | Coding and AI Tools for Regular People"
+  description="Code559 is an initiative of 559 Solutions to help regular people use coding and AI tools to get results."
   canonicalPath="/code559/"
   bodyClass="code559"
 >
+  <section class="hero code559-hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Code559 · Powered by 559 Solutions</p>
+        <h1>Coding and AI tools, for people who want results.</h1>
+        <p class="hero-lede">
+          Code559 is an initiative to help regular people use coding and AI tools to get results. No computer
+          science degree and no hype: plain language, the real tools, and work you can see when you finish.
+        </p>
+        <div class="button-row">
+          <a class="button button-primary" href={sitePath("/code559/front-end-developer/")}>Start the Front-End Developer Course</a>
+          <a class="button button-secondary" href="#offerings">See all courses</a>
+        </div>
+      </div>
+      <div class="code559-hero-mark">
+        <img src={sitePath("/images/code559-logo.png")} alt="Code559" width="760" height="308" />
+      </div>
+    </div>
+  </section>
+
   <section class="section">
-    <div class="container code559-shell">
-      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Code559" }]} />
-      <article class="article-content code559-content" data-modules={modules.length}>
-        <Content />
-      </article>
+    <div class="container">
+      <SectionHeading
+        eyebrow="How Code559 teaches"
+        title="Learn it once, the way you will actually use it."
+        description="Every Code559 course is built the same way, so the habits you learn in one carry into the next."
+      />
+      <div class="card-grid">
+        <article class="card problem-card">
+          <p class="card-number" aria-hidden="true">01</p>
+          <h3>Plain language</h3>
+          <p>Short sentences and one idea at a time. New words are explained when they first appear.</p>
+        </article>
+        <article class="card problem-card">
+          <p class="card-number" aria-hidden="true">02</p>
+          <h3>The real tools</h3>
+          <p>You work in the same tools professionals use, and every example is run for real before it is written down.</p>
+        </article>
+        <article class="card problem-card">
+          <p class="card-number" aria-hidden="true">03</p>
+          <h3>A result you can show</h3>
+          <p>Each lesson follows four steps: Introduce, Explain, Illustrate, Apply. Each ends with something you made yourself.</p>
+        </article>
+      </div>
+      <FloorplanDivider />
+    </div>
+  </section>
+
+  <section class="section section-tinted" id="offerings">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Courses"
+        title="Start where you are."
+        description="One course is ready now. The next ones are being written."
+      />
+      <div class="offering-grid">
+        {
+          code559Offerings.map((item) => (
+            <article class:list={["card", "offering-card", item.status === "Available" && "offering-available"]} id={item.id}>
+              <StatusBadge status={item.status} />
+              <h3>
+                {item.href ? <a href={sitePath(item.href)}>{item.title}</a> : item.title}
+              </h3>
+              <p>{item.summary}</p>
+              {item.facts && (
+                <ul class="offering-facts">
+                  {item.facts.map((fact) => <li>{fact}</li>)}
+                </ul>
+              )}
+              {item.href ? (
+                <a class="text-link" href={sitePath(item.href)}>Go to the course</a>
+              ) : (
+                <a class="text-link offering-soon" href="#code559-notify">Get notified when it opens</a>
+              )}
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="code559-notify">
+    <div class="container">
+      <div class="signup-card">
+        <div>
+          <p class="eyebrow">Coming soon</p>
+          <h2 id="code559-notify-heading">Hear when the next course opens</h2>
+          <p>Leave your email and pick a course. You will get one email when it opens.</p>
+        </div>
+        <form
+          class="form-panel"
+          action={notifyReady ? site.newsletterEndpoint : undefined}
+          method="post"
+          aria-labelledby="code559-notify-heading"
+          data-ajax-form={notifyReady ? "code559-coming-soon" : undefined}
+          data-success-message="Thanks, you're on the list. You'll get one email when that course opens."
+        >
+          <div class="form-grid">
+            <div class="field">
+              <label for="code559-first-name">First name</label>
+              <input id="code559-first-name" name="first_name" type="text" autocomplete="given-name" required />
+            </div>
+            <div class="field">
+              <label for="code559-email">Email</label>
+              <input id="code559-email" name="email" type="email" autocomplete="email" required />
+            </div>
+          </div>
+          <div class="field">
+            <label for="code559-course">Course</label>
+            <select id="code559-course" name="course" required>
+              <option value="">Choose one</option>
+              {comingSoon.map((item) => <option value={item.id}>{item.title}</option>)}
+              <option value="all">All of them</option>
+            </select>
+          </div>
+          <div class="honeypot" aria-hidden="true">
+            <label for="code559-company-website">Leave this field blank</label>
+            <input id="code559-company-website" name={site.antiSpamField} type="text" tabindex="-1" autocomplete="off" />
+          </div>
+          <label class="checkbox-field">
+            <input name="consent" type="checkbox" required />
+            <span>I agree that 559 Solutions may email me when this course opens. See the <a href={sitePath("/privacy/")}>Privacy Policy</a>.</span>
+          </label>
+          <button class="button button-primary" type="submit" disabled={!notifyReady}>Notify Me</button>
+          <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+        </form>
+      </div>
     </div>
   </section>
 </BaseLayout>

@@ -47,6 +47,7 @@ const schema = {
         items={[
           { label: "Home", href: "/" },
           { label: "Code559", href: "/code559/" },
+          { label: "Front-End Developer Course", href: "/code559/front-end-developer/" },
           { label: `Module ${page.data.module}` },
         ]}
       />
@@ -55,7 +56,7 @@ const schema = {
       </article>
       <nav class="code559-pager" aria-label="Course modules">
         {prev ? <a href={sitePath(`/code559/${prev.id}/`)}>&larr; {prev.data.title}</a> : <span></span>}
-        <a href={sitePath("/code559/")}>All modules</a>
+        <a href={sitePath("/code559/front-end-developer/")}>All modules</a>
         {next ? <a href={sitePath(`/code559/${next.id}/`)}>{next.data.title} &rarr;</a> : <span></span>}
       </nav>
     </div>

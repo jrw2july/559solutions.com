@@ -32,20 +32,25 @@ export const stripBase = (path: string) => {
 
 const configuredSite = import.meta.env.SITE || "https://559solutions.com";
 
+// Google Apps Script web app that records form submissions in a Google Sheet
+// (the same endpoint as the "Notify me" form on the coming-soon page).
+const formEndpoint =
+  "https://script.google.com/macros/s/AKfycbzcwptrsBzbwFIcjNBwhYSCZxJvPrbFtnemWdxKNCXd_osP-vsE9S6E8pJqrTfxs--BZw/exec";
+
 export const site = {
   siteName: "559 Solutions",
   siteDomain: configuredSite,
   canonicalHost: new URL(configuredSite).host,
   ownerName: "Joel Wells",
   publicEmail: "",
-  contactFormEndpoint: "",
-  newsletterEndpoint: "",
+  contactFormEndpoint: formEndpoint,
+  newsletterEndpoint: formEndpoint,
   formSuccessUrl: "",
   leadMagnetDeliveryUrl: "",
   schedulingUrl: "",
   linkedInUrl: "",
   socialLinks: [] as Array<{ label: string; url: string }>,
-  logoPath: "/images/559-solutions-logo.png",
+  logoPath: "/images/559-solutions-logo-2026.png",
   faviconPath: "/images/559-icon-48.png",
   defaultSocialImage: "/images/og.png",
   antiSpamField: "company_website",

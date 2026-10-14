@@ -16,20 +16,20 @@ You need a Windows 11 computer, an internet connection, and a free GitHub accoun
 
 | # | Module | What you can do afterward |
 |---|---|---|
-| 0 | [Setup](module-00-setup/) | Install VS Code, Git, the GitHub CLI and Node.js, and prove each one works |
-| 1 | [HTML Foundations](module-01-html-foundations/) | Build pages with real structure, link them, and publish your first page |
-| 2 | [CSS Foundations](module-02-css-foundations/) | Style a site with one shared stylesheet and predict which rule wins |
-| 3 | [Responsive Layout](module-03-responsive-layout/) | Make layouts that work on a phone and a desktop, with Flexbox and Grid |
-| 4 | [Forms and Accessibility](module-04-forms-accessibility/) | Build forms that work with a keyboard and a screen reader |
-| 5 | [JavaScript Primer](module-05-javascript-primer/) | Run JavaScript, read its output, and read its error messages |
-| 6 | [JavaScript Language Foundations](module-06-language-foundations/) | Work with values, types, operators and decisions |
-| 7 | [Functions](module-07-functions/) | Write, call and test functions, and tell a function from its result |
-| 8 | [Arrays, Loops, and Objects](module-08-arrays-loops-objects/) | Store lists and records, and loop through them |
-| 9 | [DOM and Events](module-09-dom-events/) | Make a page respond to clicks and keys |
-| 10 | [Forms and Validation with JavaScript](module-10-forms-validation/) | Check what visitors type and show clear, accessible messages |
-| 11 | [Debugging and Testing](module-11-debugging-testing/) | Find bugs on purpose and prove features work with a test plan |
-| 12 | [Git/GitHub and Publishing](module-12-git-github/) | Use branches, pull requests, issues and releases like a working developer |
-| 13 | [Capstone](module-13-capstone/) | Build a complete app from a written requirement and explain every line |
+| 0 | [Setup](../module-00-setup/) | Install VS Code, Git, the GitHub CLI and Node.js, and prove each one works |
+| 1 | [HTML Foundations](../module-01-html-foundations/) | Build pages with real structure, link them, and publish your first page |
+| 2 | [CSS Foundations](../module-02-css-foundations/) | Style a site with one shared stylesheet and predict which rule wins |
+| 3 | [Responsive Layout](../module-03-responsive-layout/) | Make layouts that work on a phone and a desktop, with Flexbox and Grid |
+| 4 | [Forms and Accessibility](../module-04-forms-accessibility/) | Build forms that work with a keyboard and a screen reader |
+| 5 | [JavaScript Primer](../module-05-javascript-primer/) | Run JavaScript, read its output, and read its error messages |
+| 6 | [JavaScript Language Foundations](../module-06-language-foundations/) | Work with values, types, operators and decisions |
+| 7 | [Functions](../module-07-functions/) | Write, call and test functions, and tell a function from its result |
+| 8 | [Arrays, Loops, and Objects](../module-08-arrays-loops-objects/) | Store lists and records, and loop through them |
+| 9 | [DOM and Events](../module-09-dom-events/) | Make a page respond to clicks and keys |
+| 10 | [Forms and Validation with JavaScript](../module-10-forms-validation/) | Check what visitors type and show clear, accessible messages |
+| 11 | [Debugging and Testing](../module-11-debugging-testing/) | Find bugs on purpose and prove features work with a test plan |
+| 12 | [Git/GitHub and Publishing](../module-12-git-github/) | Use branches, pull requests, issues and releases like a working developer |
+| 13 | [Capstone](../module-13-capstone/) | Build a complete app from a written requirement and explain every line |
 
 ## How to use this course
 

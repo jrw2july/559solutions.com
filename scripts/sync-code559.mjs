@@ -27,8 +27,9 @@ const STYLE_CLASSES = [
 
 function fixPart(text, file) {
   // Relative addresses, so the pages work at any base path:
-  // the course home is /code559/ and each module is /code559/module-NN-slug/; pictures are /code559/images/.
-  const up = file === "index.md" ? "" : "../";
+  // the course home is /code559/front-end-developer/ and each module is /code559/module-NN-slug/ (both one level
+  // below /code559/); pictures are /code559/images/. /code559/ itself introduces the Code559 initiative.
+  const up = "../";
   // Markdown pictures become plain <img> tags so the build serves the original files unchanged (real captures stay exact).
   text = text.replace(/!\[(.*?)\]\(images\/([^)\s]+)\)/g,
     (_, alt, file) => `<img src="${up}images/${file}" alt="${alt.replace(/&/g, "&amp;").replace(/"/g, "&quot;")}" loading="lazy">`);

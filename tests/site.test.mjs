@@ -34,13 +34,19 @@ test("homepage communicates the core promise and product-first path", async () =
   assert.match(html, /Business Systems Clarity Session/);
 });
 
-test("forms fail safely when endpoints are not configured", async () => {
+test("forms post to the configured endpoint and never to an empty address", async () => {
   const contact = await readFile(path.join(dist, "contact", "index.html"), "utf8");
+  const home = await readFile(path.join(dist, "index.html"), "utf8");
   const checklist = await readFile(
     path.join(dist, "resources", "ai-project-readiness-checklist", "index.html"),
     "utf8",
   );
-  assert.match(contact, /The online form is not active/);
+  const endpoint = /action="https:\/\/script\.google\.com\/[^"]+\/exec"/;
+  assert.match(contact, endpoint);
+  assert.match(contact, /data-ajax-form="contact-form"/);
+  assert.match(home, endpoint);
+  assert.match(home, /data-ajax-form="checklist-form"/);
+  assert.doesNotMatch(contact, /The online form is not active/);
   assert.doesNotMatch(contact, /action=""/);
   assert.doesNotMatch(checklist, /href=""/);
 });

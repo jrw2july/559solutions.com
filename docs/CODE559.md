@@ -1,6 +1,6 @@
 # Code559 course pages
 
-The free Code559 lessons live at `/code559/` (course home) and `/code559/module-NN-slug/` (one page per module).
+`/code559/` introduces Code559, the initiative to help regular people use coding and AI tools to get results, and lists its courses (`src/pages/code559/index.astro`, with the course list in `src/data/code559-offerings.ts`). The free Front-End Developer Course lives at `/code559/front-end-developer/` (course home) and `/code559/module-NN-slug/` (one page per module). To open a new course, give its entry `status: "Available"` and an `href`.
 
 ## Where the content comes from
 

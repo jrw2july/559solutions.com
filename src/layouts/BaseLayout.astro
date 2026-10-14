@@ -6,6 +6,16 @@ import SEO from "@/components/SEO.astro";
 import StructuredData from "@/components/StructuredData.astro";
 import { absoluteUrl, site, sitePath, stripBase } from "@/config/site";
 import "@/styles/global.css";
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import path from "node:path";
+
+// Browsers keep /scripts/site.js for a year (see .htaccess), so its address carries a fingerprint of its
+// contents: when the script changes, the address changes and every browser fetches the new copy.
+const scriptVersion = createHash("sha256")
+  .update(readFileSync(path.join(process.cwd(), "public", "scripts", "site.js")))
+  .digest("hex")
+  .slice(0, 10);
 
 interface Props {
   title: string;
@@ -70,6 +80,6 @@ const websiteSchema = {
       <slot />
     </main>
     <Footer />
-    <script is:inline src={sitePath("/scripts/site.js")} defer></script>
+    <script is:inline src={`${sitePath("/scripts/site.js")}?v=${scriptVersion}`} defer></script>
   </body>
 </html>
