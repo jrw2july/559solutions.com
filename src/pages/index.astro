@@ -9,7 +9,6 @@ import OwnerName from "@/components/OwnerName.astro";
 // import ProblemCard from "@/components/ProblemCard.astro";
 import RoomDoor from "@/components/RoomDoor.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
-import TitleBlock from "@/components/TitleBlock.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { absoluteUrl, site, sitePath } from "@/config/site";
 import { rooms } from "@/data/rooms";
@@ -146,23 +145,6 @@ const organizationSchema = [
       </section>
     )
   }
-
-  <section class="section">
-    <div class="container about-strip">
-      <div>
-        <p class="eyebrow">From the Office</p>
-        <h2>Experience translated into practical tools.</h2>
-        <p>
-          I am <OwnerName />, a solution architect, mentor, teacher, and builder. For more than three decades, I have helped teams understand complicated work and turn it into systems people can actually use.
-        </p>
-        <p>
-          559 Solutions is where I translate that experience into practical tools, plain-language guidance, and reusable resources.
-        </p>
-        <a class="button button-secondary" href={sitePath("/about/")}>Read the 559 Story</a>
-      </div>
-      <TitleBlock />
-    </div>
-  </section>
 
   <CTASection
     title="Start with clarity, not another tool."

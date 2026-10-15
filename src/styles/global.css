@@ -2885,3 +2885,24 @@ body.curious {
   color: inherit;
   text-decoration-color: currentColor;
 }
+
+/* Code559 page (2026-10-14): the logo, then the introduction at full width, then the courses. */
+.code559-intro {
+  padding-bottom: var(--space-7);
+  border-bottom: var(--border);
+}
+
+.code559-logo {
+  max-width: none;
+  margin-bottom: var(--space-5);
+}
+
+.code559-logo img {
+  width: 100%;
+  max-width: 22rem;
+  height: auto;
+}
+
+.code559-intro .hero-lede {
+  max-width: none;
+}

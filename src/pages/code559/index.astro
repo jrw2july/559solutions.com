@@ -1,5 +1,4 @@
 ---
-import FloorplanDivider from "@/components/FloorplanDivider.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import StatusBadge from "@/components/StatusBadge.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -18,51 +17,15 @@ const notifyReady = Boolean(site.newsletterEndpoint);
   canonicalPath="/code559/"
   bodyClass="code559"
 >
-  <section class="hero code559-hero">
-    <div class="container hero-grid">
-      <div class="hero-copy">
-        <p class="eyebrow">The Classroom · Code559, powered by 559 Solutions</p>
-        <h1>Coding and AI tools, for people who want results.</h1>
-        <p class="hero-lede">
-          Code559 is an initiative to help regular people use coding and AI tools to get results. No computer
-          science degree and no hype: plain language, the real tools, and work you can see when you finish.
-        </p>
-        <div class="button-row">
-          <a class="button button-primary" href={sitePath("/code559/front-end-developer/")}>Start the Front-End Developer Course</a>
-          <a class="button button-secondary" href="#offerings">See all courses</a>
-        </div>
-      </div>
-      <div class="code559-hero-mark">
-        <img src={sitePath("/images/code559-logo.webp")} alt="Code559" width="760" height="308" />
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
+  <section class="section code559-intro">
     <div class="container">
-      <SectionHeading
-        eyebrow="How Code559 teaches"
-        title="Learn it once, the way you will actually use it."
-        description="Every Code559 course is built the same way, so the habits you learn in one carry into the next."
-      />
-      <div class="card-grid">
-        <article class="card problem-card">
-          <p class="card-number" aria-hidden="true">01</p>
-          <h3>Plain language</h3>
-          <p>Short sentences and one idea at a time. New words are explained when they first appear.</p>
-        </article>
-        <article class="card problem-card">
-          <p class="card-number" aria-hidden="true">02</p>
-          <h3>The real tools</h3>
-          <p>You work in the same tools professionals use, and every example is run for real before it is written down.</p>
-        </article>
-        <article class="card problem-card">
-          <p class="card-number" aria-hidden="true">03</p>
-          <h3>A result you can show</h3>
-          <p>Each lesson follows four steps: Introduce, Explain, Illustrate, Apply. Each ends with something you made yourself.</p>
-        </article>
-      </div>
-      <FloorplanDivider />
+      <h1 class="code559-logo">
+        <img src={sitePath("/images/code559-logo.png")} alt="Code559" width="760" height="308" />
+      </h1>
+      <p class="hero-lede">
+        Code559 is an initiative to help regular people use coding and AI tools to get results. No computer
+        science degree and no hype: plain language, the real tools, and work you can see when you finish.
+      </p>
     </div>
   </section>
 
