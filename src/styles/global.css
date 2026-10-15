@@ -2738,19 +2738,21 @@ body.curious {
   align-items: center;
 }
 
-/* About page (2026-10-14): who the architect is, then the site plan read as the kinds of help 559 gives.
-   The hero is the about-me text on the blueprint grid; the plan section pairs a drawing sheet with a room
-   schedule, the list of rooms on an architect's sheet. */
+/* About page (2026-10-14): the about-me text at the left, the room schedule (the list of rooms on an
+   architect's sheet, read as the kinds of help 559 gives) at the right, on the blueprint grid. */
 .about-hero::after {
   display: none;
 }
 
-.about-hero h1 {
-  margin-bottom: var(--space-5);
+.about-grid {
+  display: grid;
+  align-items: start;
+  gap: var(--space-8);
+  grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
 }
 
-.about-me {
-  max-width: 46rem;
+.about-hero h1 {
+  margin-bottom: var(--space-5);
 }
 
 .about-me p {
@@ -2761,34 +2763,12 @@ body.curious {
   margin-bottom: var(--space-5);
 }
 
-.plan-explainer {
-  display: grid;
-  align-items: start;
-  gap: var(--space-7);
-  grid-template-columns: minmax(16rem, 0.8fr) minmax(0, 1.2fr);
+.about-rooms {
+  padding-top: var(--space-2);
 }
 
-.sheet {
-  display: grid;
-  max-width: 26rem;
-  padding: var(--space-5);
-  gap: var(--space-4);
-  background: var(--color-white);
-  border: 1px solid var(--color-line-strong);
-  box-shadow: var(--shadow);
-}
-
-.sheet .plan-tag {
-  justify-content: flex-end;
-}
-
-.sheet-plan {
-  width: 100%;
-  max-width: none;
-}
-
-.sheet-plan .kp-room {
-  stroke-width: 1.25;
+.about-rooms .plan-tag {
+  margin-bottom: var(--space-3);
 }
 
 .keyplan .kp-label {
@@ -2850,7 +2830,7 @@ body.curious {
 }
 
 @media (max-width: 68rem) {
-  .plan-explainer {
+  .about-grid {
     grid-template-columns: minmax(0, 1fr);
   }
 }

@@ -2,9 +2,6 @@
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import CTASection from "@/components/CTASection.astro";
 import OwnerName from "@/components/OwnerName.astro";
-import PlanDrawing from "@/components/PlanDrawing.astro";
-import SectionHeading from "@/components/SectionHeading.astro";
-import TitleBlock from "@/components/TitleBlock.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { sitePath } from "@/config/site";
 import { rooms } from "@/data/rooms";
@@ -35,41 +32,28 @@ const roomNotes: Record<string, { analogy: string; go: string }> = {
   canonicalPath="/about/"
   planCaption="The architect"
 >
-  <header class="page-hero plan-ground about-hero">
+  <section class="page-hero plan-ground about-hero">
     <div class="container">
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About 559" }]} />
-      <p class="eyebrow">About 559 Solutions</p>
-      <h1>About me</h1>
-      <div class="about-me">
-        <p class="lede">
-          I am <OwnerName />, a solution architect, mentor, teacher, and builder. For more than three decades, I have helped teams understand complicated work and turn it into systems people can actually use.
-        </p>
-        <p>
-          559 Solutions is where I translate that experience into practical tools, plain-language guidance, reusable resources, and focused services.
-        </p>
-        <p>
-          The method is deliberately calm: understand the work, name the decision, make ownership visible, choose the smallest useful response, then make the result easier to repeat and maintain.
-        </p>
-        <p class="small-note">
-          Practical themes: solution architecture, enterprise systems, low-code platforms, AI-assisted design, mentoring and teaching, systems thinking.
-        </p>
-      </div>
-    </div>
-  </header>
-
-  <section class="section">
-    <div class="container">
-      <SectionHeading
-        eyebrow="The plan"
-        title="An architect draws the plan before anyone builds."
-        description="That is how 559 Solutions works. Before a tool is chosen, the work is understood. This site is drawn the same way: each room is one kind of help."
-      />
-      <div class="plan-explainer">
-        <div class="sheet">
-          <p class="plan-tag">Cover sheet</p>
-          <PlanDrawing class="sheet-plan" labels label="The site plan: the Library and the Study above the hall, the Classroom below." />
-          <TitleBlock project="559 Solutions" sheet="A-000 · Cover" />
+      <div class="about-grid">
+        <div class="about-me">
+          <p class="eyebrow">About 559 Solutions</p>
+          <h1>About me</h1>
+          <p class="lede">
+            I am <OwnerName />, a solution architect, mentor, teacher, and builder. For more than three decades, I have helped teams understand complicated work and turn it into systems people can actually use.
+          </p>
+          <p>
+            559 Solutions is where I translate that experience into practical tools, plain-language guidance, reusable resources, and focused services.
+          </p>
+          <p>
+            The method is deliberately calm: understand the work, name the decision, make ownership visible, choose the smallest useful response, then make the result easier to repeat and maintain.
+          </p>
+          <p>
+            An architect draws the plan before anyone builds. That is how 559 Solutions works: before a tool is chosen, the work is understood. This site is drawn the same way. Each room is one kind of help.
+          </p>
         </div>
+        <div class="about-rooms">
+          <p class="plan-tag">Room schedule</p>
         <ol class="schedule room-schedule">
           {
             rooms.map((room, index) => {
@@ -97,6 +81,7 @@ const roomNotes: Record<string, { analogy: string; go: string }> = {
             </div>
           </li>
         </ol>
+        </div>
       </div>
     </div>
   </section>
