@@ -1,5 +1,6 @@
 ---
 import { site } from "@/config/site";
+import OwnerName from "./OwnerName.astro";
 
 // The title block from the corner of an architect's drawing sheet: who drew it, for whom, at what scale.
 interface Props {
@@ -13,7 +14,7 @@ const { project = "Your business, clearer", sheet = "A-101" } = Astro.props;
 <dl class="title-block">
   <div class="span"><dt>Project</dt><dd>{project}</dd></div>
   <div><dt>Sheet</dt><dd>{sheet}</dd></div>
-  <div><dt>Drawn by</dt><dd>{site.ownerName}</dd></div>
+  <div><dt>Drawn by</dt><dd><OwnerName /></dd></div>
   <div><dt>Scale</dt><dd>1 : simplest useful</dd></div>
   <div><dt>Studio</dt><dd>{site.siteName}</dd></div>
 </dl>

@@ -53,4 +53,4 @@ The planned workbook will help a team compare tools based on:
 - ownership;
 - measurable outcomes.
 
-This outline is not the final workbook. Product files, final price, support terms, and a checkout destination still require owner approval.
+This outline is not the final workbook. Product files, price, and support terms will be published with it.

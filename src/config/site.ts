@@ -48,7 +48,7 @@ export const site = {
   formSuccessUrl: "",
   leadMagnetDeliveryUrl: "",
   schedulingUrl: "",
-  linkedInUrl: "",
+  linkedInUrl: "https://www.linkedin.com/in/jrw2july/",
   socialLinks: [] as Array<{ label: string; url: string }>,
   logoPath: "/images/559-solutions-logo-2026.png",
   faviconPath: "/images/559-icon-48.png",

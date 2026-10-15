@@ -51,19 +51,5 @@ const configured = Boolean(site.contactFormEndpoint);
     <span>I agree that 559 Solutions may use this information to respond to my inquiry. See the <a href={sitePath("/privacy/")}>Privacy Policy</a>.</span>
   </label>
   <button class="button button-primary" type="submit" disabled={!configured}>Send inquiry</button>
-  {
-    !configured && (
-      <div class="form-notice" role="status">
-        <p>The online form is not active because a secure endpoint has not been configured.</p>
-        {
-          site.publicEmail ? (
-            <p>Email <a href={`mailto:${site.publicEmail}`}>{site.publicEmail}</a> instead.</p>
-          ) : (
-            <p>A public email address also requires owner configuration before this site is published.</p>
-          )
-        }
-      </div>
-    )
-  }
   <p class="form-status" data-form-status role="status" aria-live="polite"></p>
 </form>

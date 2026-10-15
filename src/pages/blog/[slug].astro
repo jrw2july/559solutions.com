@@ -6,6 +6,7 @@ import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import CategoryIcon from "@/components/CategoryIcon.astro";
 import CTASection from "@/components/CTASection.astro";
 import DoodleDivider from "@/components/DoodleDivider.astro";
+import OwnerName from "@/components/OwnerName.astro";
 import TagList from "@/components/TagList.astro";
 import { absoluteUrl } from "@/config/site";
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -88,7 +89,7 @@ const schema = {
       <h1>{article.data.title}</h1>
       <p class="article-summary">{article.data.summary}</p>
       <div class="article-byline">
-        <span>By {article.data.author}</span>
+        <span>By <OwnerName name={article.data.author} /></span>
         <span>Published <time datetime={article.data.publicationDate.toISOString()}>{publicationDate}</time></span>
         <span>Updated <time datetime={article.data.updatedDate.toISOString()}>{updatedDate}</time></span>
         <span>{readingTime} min read</span>

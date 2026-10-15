@@ -2867,3 +2867,10 @@ body.curious {
   max-width: 14ch;
   font-size: var(--step-4);
 }
+
+/* The owner's name links to LinkedIn (2026-10-14). Inside drawing labels it keeps the label's color. */
+.title-block .owner-link,
+.plan-tag .owner-link {
+  color: inherit;
+  text-decoration-color: currentColor;
+}

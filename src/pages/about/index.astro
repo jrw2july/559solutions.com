@@ -1,6 +1,7 @@
 ---
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import CTASection from "@/components/CTASection.astro";
+import OwnerName from "@/components/OwnerName.astro";
 import PlanDrawing from "@/components/PlanDrawing.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import TitleBlock from "@/components/TitleBlock.astro";
@@ -41,7 +42,7 @@ const roomNotes: Record<string, { analogy: string; go: string }> = {
       <h1>About me</h1>
       <div class="about-me">
         <p class="lede">
-          I am Joel Wells, a solution architect, mentor, teacher, and builder. For more than three decades, I have helped teams understand complicated work and turn it into systems people can actually use.
+          I am <OwnerName />, a solution architect, mentor, teacher, and builder. For more than three decades, I have helped teams understand complicated work and turn it into systems people can actually use.
         </p>
         <p>
           559 Solutions is where I translate that experience into practical tools, plain-language guidance, reusable resources, and focused services.

@@ -1,0 +1,20 @@
+---
+import { site } from "@/config/site";
+
+// The owner's name, linked to his LinkedIn profile wherever it appears on the site (2026-10-14).
+interface Props {
+  name?: string;
+}
+
+const { name = site.ownerName } = Astro.props;
+---
+
+{
+  site.linkedInUrl ? (
+    <a class="owner-link" href={site.linkedInUrl} rel="noopener" target="_blank">
+      {name}<span class="visually-hidden"> (opens in a new tab)</span>
+    </a>
+  ) : (
+    name
+  )
+}

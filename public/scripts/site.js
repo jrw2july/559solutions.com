@@ -89,7 +89,7 @@ document.querySelectorAll("[data-ajax-form]").forEach((form) => {
     } catch {
       if (status) {
         status.textContent =
-          "Your request could not be sent. Please try again or use the listed contact fallback.";
+          "Your request could not be sent. Please try again.";
       }
     } finally {
       if (submit) {

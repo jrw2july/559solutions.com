@@ -5,6 +5,7 @@ import CTASection from "@/components/CTASection.astro";
 // Used only by the "How 559 Solutions works" section, which is commented out below (2026-10-14).
 // import FloorplanDivider from "@/components/FloorplanDivider.astro";
 import FrontDoor from "@/components/FrontDoor.astro";
+import OwnerName from "@/components/OwnerName.astro";
 // import ProblemCard from "@/components/ProblemCard.astro";
 import RoomDoor from "@/components/RoomDoor.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
@@ -81,7 +82,7 @@ const organizationSchema = [
       </div>
 
       <div class="plan-footer">
-        <p class="plan-tag">Sheet A-101 · Plan view · Drawn by {site.ownerName}</p>
+        <p class="plan-tag">Sheet A-101 · Plan view · Drawn by <OwnerName /></p>
       </div>
     </div>
   </section>
@@ -152,7 +153,7 @@ const organizationSchema = [
         <p class="eyebrow">From the Office</p>
         <h2>Experience translated into practical tools.</h2>
         <p>
-          I am Joel Wells, a solution architect, mentor, teacher, and builder. For more than three decades, I have helped teams understand complicated work and turn it into systems people can actually use.
+          I am <OwnerName />, a solution architect, mentor, teacher, and builder. For more than three decades, I have helped teams understand complicated work and turn it into systems people can actually use.
         </p>
         <p>
           559 Solutions is where I translate that experience into practical tools, plain-language guidance, and reusable resources.
