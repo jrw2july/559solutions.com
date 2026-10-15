@@ -1239,36 +1239,42 @@ button:disabled {
   color: var(--color-ink-soft);
 }
 
-.author-bio {
-  display: grid;
-  padding: var(--space-6);
-  margin-top: var(--space-7);
-  align-items: start;
-  gap: var(--space-5);
-  background: var(--color-warm);
-  border: var(--border);
-  grid-template-columns: 4rem 1fr;
+/* Collapsed folds at the end of an article: Sources and About the author (2026-10-14). */
+.article-fold {
+  margin-top: var(--space-6);
+  padding-top: var(--space-3);
+  border-top: var(--border);
 }
 
-.author-mark {
-  display: grid;
-  width: 4rem;
-  height: 4rem;
-  place-items: center;
-  color: var(--color-white);
-  background: var(--color-blue);
-  font-weight: 850;
+.article-fold summary {
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.5em;
+  color: var(--color-ink);
+  cursor: pointer;
 }
 
-.author-bio h2 {
-  margin: 0 0 var(--space-2);
-  padding: 0;
-  font-size: var(--step-1);
-  border: 0;
+.article-fold summary::before {
+  content: "▸";
+  color: var(--color-ink-soft);
+}
+
+.article-fold[open] summary::before {
+  content: "▾";
+}
+
+.article-fold summary h4 {
+  margin: 0;
+}
+
+.article-fold > :last-child {
+  margin-bottom: 0;
 }
 
 .author-bio p {
-  margin-bottom: var(--space-2);
+  margin-top: var(--space-3);
+  color: var(--color-ink-soft);
 }
 
 .cta-section {
@@ -2038,23 +2044,6 @@ body.curious {
   font-style: italic;
 }
 
-/* Arrow from the drawing in the left margin of article headings, where there is room for it. */
-@media (min-width: 82rem) {
-  .curious .article-content h2 {
-    border-top: 0;
-  }
-
-  .curious .article-content h2::before {
-    content: "";
-    position: absolute;
-    top: var(--space-2);
-    left: -3.25rem;
-    width: 1.5rem;
-    height: 2.75rem;
-    background: url("../assets/curious-architect/marker-arrow.webp") center / contain no-repeat;
-  }
-}
-
 @media (max-width: 52rem) {
   .ca-hero-grid,
   .ca-about-grid {
@@ -2329,6 +2318,7 @@ body.curious {
 
 /* Front door: a gap in the outer wall at the left end of the hall, both leaves swung out to the left. */
 .front-door {
+  --fd-leaf: 1.5rem;
   top: 0.25rem;
   left: -0.5rem;
   width: 0.5rem;
@@ -2342,18 +2332,29 @@ body.curious {
 .front-door svg {
   top: 0;
   right: 100%;
-  width: 1.5rem;
+  width: var(--fd-leaf);
   height: 3rem;
 }
 
+/* "You are here" sits left of the open leaves, its arrow centred on the doorway and pointing in. */
 .front-door-label {
   position: absolute;
-  top: calc(100% + 0.5rem);
-  right: 1rem;
-  width: 4.25rem;
-  justify-content: flex-end;
+  top: 50%;
+  right: calc(100% + var(--fd-leaf) + 0.3rem);
   color: var(--color-blue);
   text-align: right;
+  white-space: nowrap;
+  transform: translateY(-50%);
+}
+
+.here-wide {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.here-text {
+  line-height: 1.15;
 }
 
 .plan-footer {
@@ -2424,11 +2425,11 @@ body.curious {
   }
 
   .front-door {
+    --fd-leaf: 1.25rem;
     height: 2.5rem;
   }
 
   .front-door svg {
-    width: 1.25rem;
     height: 2.5rem;
   }
 }
@@ -2603,6 +2604,11 @@ body.curious {
   .about-strip {
     grid-template-columns: minmax(0, 1fr);
   }
+
+  /* Room for "You are here" beside the open leaves when the plan spans the page. */
+  .plan-wrap {
+    padding-left: 6.5rem;
+  }
 }
 
 @media (max-width: 50rem) {
@@ -2691,6 +2697,7 @@ body.curious {
     width: 10rem;
     justify-content: flex-start;
     text-align: left;
+    transform: none;
   }
 
   .rooms {
@@ -2725,31 +2732,10 @@ body.curious {
   }
 }
 
-/* Header layout (2026-10-14): brand at the left, The Workshop (Code559) in the center, the other links at the
-   far right. All header links keep the standard nav size. */
-@media (min-width: 68.0625rem) {
-  .header-inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-    gap: var(--space-4);
-  }
-
-  .desktop-nav {
-    display: grid;
-    margin-left: 0;
-    align-items: center;
-    grid-column: 2 / 4;
-    grid-template-columns: subgrid;
-  }
-
-  .desktop-nav .nav-center {
-    grid-column: 1;
-  }
-
-  .desktop-nav .nav-links {
-    justify-self: end;
-    grid-column: 2;
-  }
+/* Header links (2026-10-14): all links at the right, in one row, ending with the Contact button. */
+.desktop-nav .nav-links li {
+  display: flex;
+  align-items: center;
 }
 
 /* About page (2026-10-14): who the architect is, then the site plan read as the kinds of help 559 gives.
@@ -2874,4 +2860,10 @@ body.curious {
     gap: var(--space-2);
     grid-template-columns: minmax(0, 1fr);
   }
+}
+
+/* Contact page (2026-10-14): no hero; the page opens on the heading beside the form. */
+.contact-title {
+  max-width: 14ch;
+  font-size: var(--step-4);
 }

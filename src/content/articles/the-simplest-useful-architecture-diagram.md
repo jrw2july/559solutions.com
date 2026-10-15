@@ -100,6 +100,9 @@ A non-specialist also catches jargon. If a word needs explaining, replace it.
 
 Simple is not the same as shallow. A simple diagram is one where every element earns its place.
 
-## Sources
+<details class="article-fold">
+<summary><h4>Sources</h4></summary>
 
 - Simon Brown, [The C4 model for visualising software architecture](https://c4model.com/), and its page on the [system context diagram](https://c4model.com/diagrams/system-context).
+
+</details>

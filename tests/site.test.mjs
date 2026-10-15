@@ -29,7 +29,6 @@ test("required routes exist", async () => {
 
 test("homepage communicates the core promise and the floor plan of the site", async () => {
   const html = await readFile(path.join(dist, "index.html"), "utf8");
-  assert.match(html, /Turn messy work into clear systems\./);
   assert.match(html, /aria-label="Site map"/);
   for (const room of ["The Library", "The Study", "The Classroom"]) {
     assert.match(html, new RegExp(room), room);

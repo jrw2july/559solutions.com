@@ -84,7 +84,10 @@ Write the answers down next to the design. Some will turn into requirements. Som
 
 The automobile was always going to get built. The traffic jam was the part worth thinking about in advance.
 
-## Sources
+<details class="article-fold">
+<summary><h4>Sources</h4></summary>
 
 - Quote Investigator, ["It Is Easy To Predict an Automobile in 1880; It Is Very Hard To Predict a Traffic Problem"](https://quoteinvestigator.com/2019/10/23/traffic/), October 23, 2019 (traces the idea to Isaac Asimov's 1953 essay "Social Science Fiction" and Frederik Pohl's December 1968 *Galaxy* editorial).
 - E. M. Forster, "The Machine Stops," *The Oxford and Cambridge Review*, November 1909. Overview: [Wikipedia, "The Machine Stops"](https://en.wikipedia.org/wiki/The_Machine_Stops).
+
+</details>

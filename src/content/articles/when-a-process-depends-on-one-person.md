@@ -87,6 +87,9 @@ The goal is not to make anyone replaceable. People who carry this knowledge are 
 
 That is good for the business, and it is kind to the person.
 
-## Sources
+<details class="article-fold">
+<summary><h4>Sources</h4></summary>
 
 - Haynes AB, Weiser TG, Berry WR, et al., "A Surgical Safety Checklist to Reduce Morbidity and Mortality in a Global Population," *New England Journal of Medicine* 360(5), 2009, 491–499. Summary: [AHRQ Patient Safety Network](https://psnet.ahrq.gov/issue/surgical-safety-checklist-reduce-morbidity-and-mortality-global-population).
+
+</details>

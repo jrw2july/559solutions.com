@@ -94,7 +94,10 @@ A simple template:
 
 Future teams rarely need more pages. They need the reasons.
 
-## Sources
+<details class="article-fold">
+<summary><h4>Sources</h4></summary>
 
 - Michael Nygard, [Documenting Architecture Decisions](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions), November 15, 2011.
 - Martin Fowler, [Architecture Decision Record](https://www.martinfowler.com/bliki/ArchitectureDecisionRecord.html).
+
+</details>

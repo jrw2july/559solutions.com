@@ -95,6 +95,9 @@ A good process is not one that is well written. It is one that a second person c
 
 Whatever is on that list is where to start.
 
-## Sources
+<details class="article-fold">
+<summary><h4>Sources</h4></summary>
 
 - Michael Polanyi, *The Tacit Dimension* (1966), source of "we can know more than we can tell." Overview: [Wikipedia, "Tacit knowledge"](https://en.wikipedia.org/wiki/Tacit_knowledge).
+
+</details>

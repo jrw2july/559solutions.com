@@ -12,11 +12,10 @@ const { currentPath } = Astro.props;
 const isCurrent = (href: string) =>
   href === "/" ? currentPath === href : currentPath.startsWith(href);
 
-// The Code559 link is labeled with its room on the plan, "The Classroom", and sits in the center of the header.
-// The other links sit at the far right, ending with Contact as the button.
-const code559 = headerNavigation.find((item) => item.href === "/code559/");
+// The Code559 link is labeled with its room on the plan, "The Classroom". All links sit at the right,
+// ending with Contact as the button (2026-10-14).
 const contact = headerNavigation.find((item) => item.href === "/contact/");
-const links = headerNavigation.filter((item) => item !== code559 && item !== contact);
+const links = headerNavigation.filter((item) => item !== contact);
 const classroomLabel = rooms.find((room) => room.id === "classroom")?.label ?? "The Classroom";
 ---
 
@@ -32,19 +31,12 @@ const classroomLabel = rooms.find((room) => room.id === "classroom")?.label ?? "
       />
     </a>
     <nav class="desktop-nav" aria-label="Primary">
-      {
-        code559 && (
-          <a class="nav-center" href={sitePath(code559.href)} aria-current={isCurrent(code559.href) ? "page" : undefined}>
-            {classroomLabel}
-          </a>
-        )
-      }
       <ul class="nav-links">
         {
           links.map((item) => (
             <li>
               <a href={sitePath(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>
-                {item.label}
+                {item.href === "/code559/" ? classroomLabel : item.label}
               </a>
             </li>
           ))

@@ -102,6 +102,9 @@ The useful question is not "Which AI tool should we use?" It is:
 
 Answer that first. The tool choice gets much easier, and much cheaper to get wrong.
 
-## Sources
+<details class="article-fold">
+<summary><h4>Sources</h4></summary>
 
 - National Institute of Standards and Technology, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework) (AI RMF 1.0, released January 26, 2023; intended for voluntary use).
+
+</details>

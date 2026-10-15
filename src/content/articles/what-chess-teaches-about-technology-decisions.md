@@ -91,6 +91,9 @@ Before the next technology decision, try one chess question:
 
 > If I make this move, what will the position look like three moves from now?
 
-## Sources
+<details class="article-fold">
+<summary><h4>Sources</h4></summary>
 
 - Jeff Bezos, [2015 Letter to Shareholders](https://www.sec.gov/Archives/edgar/data/1018724/000119312516530910/d168744dex991.htm), Amazon.com, Inc. (filed with the U.S. Securities and Exchange Commission, 2016).
+
+</details>
