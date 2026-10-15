@@ -46,9 +46,11 @@ const updated = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
   month: "long",
   day: "numeric",
-  timeZone: "UTC",
 }).format(resource.data.lastUpdated);
-const pageTitle = `${resource.data.title} | 559 Solutions`;
+const pageTitle =
+  resource.data.slug === "ai-project-readiness-checklist"
+    ? "AI Project Readiness Checklist | 559 Solutions"
+    : `${resource.data.title} | 559 Solutions`;
 ---
 
 <BaseLayout
@@ -88,7 +90,7 @@ const pageTitle = `${resource.data.title} | 559 Solutions`;
         {
           resource.data.includedFiles.length > 0 && (
             <>
-              <h2>Planned contents</h2>
+              <h2>{resource.data.availability === "coming soon" && resource.data.version.toLowerCase().includes("plan") ? "Planned contents" : "What is included"}</h2>
               <ul class="check-list">
                 {resource.data.includedFiles.map((item) => <li>{item}</li>)}
               </ul>
@@ -139,7 +141,12 @@ const pageTitle = `${resource.data.title} | 559 Solutions`;
             action ? (
               <a class="button button-primary" href={sitePath(action.href)}>{action.label}</a>
             ) : (
-              <a class="text-link" href={sitePath("/contact/?inquiry=product-question")}>Ask about this resource</a>
+              <div class="form-notice">
+                <p>
+                  No purchase or download destination is configured. This page will show an action only after the owner supplies a real URL.
+                </p>
+                <a class="text-link" href={sitePath("/contact/?inquiry=product-question")}>Ask about this resource</a>
+              </div>
             )
           }
         </div>

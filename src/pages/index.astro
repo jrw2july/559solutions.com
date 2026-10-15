@@ -1,17 +1,14 @@
 ---
 import { getCollection } from "astro:content";
 import ArticleCard from "@/components/ArticleCard.astro";
+import FloorplanDivider from "@/components/FloorplanDivider.astro";
 import CTASection from "@/components/CTASection.astro";
-// Used only by the "How 559 Solutions works" section, which is commented out below (2026-10-14).
-// import FloorplanDivider from "@/components/FloorplanDivider.astro";
-import FrontDoor from "@/components/FrontDoor.astro";
-import OwnerName from "@/components/OwnerName.astro";
-// import ProblemCard from "@/components/ProblemCard.astro";
-import RoomDoor from "@/components/RoomDoor.astro";
+import Hero from "@/components/Hero.astro";
+import NewsletterForm from "@/components/NewsletterForm.astro";
+import ProblemCard from "@/components/ProblemCard.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { absoluteUrl, site, sitePath } from "@/config/site";
-import { rooms } from "@/data/rooms";
 
 const articles = (await getCollection("articles", ({ data }) => !data.draft))
   .sort((a, b) => b.data.publicationDate.valueOf() - a.data.publicationDate.valueOf())
@@ -34,7 +31,6 @@ const organizationSchema = [
     logo: absoluteUrl(site.logoPath),
   },
 ];
-
 ---
 
 <BaseLayout
@@ -43,90 +39,140 @@ const organizationSchema = [
   canonicalPath="/"
   structuredData={organizationSchema}
 >
-  <section class="plan-hero plan-ground">
-    <div class="container">
-      <div class="plan-hero-copy">
-        <h1><span class="h1-lead">C’mon in.</span> <span class="h1-rest">Every room opens onto a clearer way to work.</span></h1>
-        {/*
-          Hero lede set aside (2026-10-14). To bring it back, remove this comment wrapper.
-
-        <p class="hero-lede">
-          Turn messy work into clear systems. This is the whole site on one floor plan: come in the front door, or walk straight into the room you need.
-        </p>
-        */}
-      </div>
-
-      <div class="plan-wrap">
-        <nav aria-label="Site map">
-          <ul class="walled plan">
-            {
-              rooms.map((room, index) => (
-                <li class={`plan-${room.id}`}>
-                  <a class="plan-room" href={sitePath(room.href)}>
-                    <span class="plan-tag">Room {String(index + 1).padStart(2, "0")}</span>
-                    <span class="plan-name">{room.label}</span>
-                    {room.showPage && <span class="plan-page">{room.page}</span>}
-                    <span class="plan-blurb">{room.blurb}</span>
-                    <span class="plan-go">{room.go}</span>
-                    <RoomDoor side={room.side} />
-                  </a>
-                </li>
-              ))
-            }
-            <li class="plan-hall" aria-hidden="true">
-              <FrontDoor />
-            </li>
-          </ul>
-        </nav>
-      </div>
-
-      <div class="plan-footer">
-        <p class="plan-tag">Sheet A-101 · Plan view · Drawn by <OwnerName /></p>
-      </div>
+  <Hero
+    eyebrow="Strategy · Tools · AI"
+    title="Turn messy work into clear systems."
+    description="Practical AI, automation, and low-code tools for small teams, business owners, nonprofit leaders, and builders who need clarity without big-consulting overhead."
+    primaryLabel="Get the Free AI Project Checklist"
+    primaryHref="/resources/ai-project-readiness-checklist/"
+    secondaryLabel="Explore Practical Resources"
+    secondaryHref="/resources/"
+  >
+    <div slot="after-actions">
+      <p class="credibility">
+        Built from three decades of solution architecture, technical mentoring, and hands-on problem solving.
+      </p>
     </div>
-  </section>
+  </Hero>
 
-  {/*
-    "How 559 Solutions works" (three method rooms) is set aside for now (2026-10-14): its rooms clash with the
-    floor plan above. To bring it back, remove this comment wrapper and restore the two imports at the top.
-
-  <section class="section" id="how-it-works">
+  <section class="section">
     <div class="container">
       <SectionHeading
-        eyebrow="How 559 Solutions works"
-        title="Three rooms, one path through."
-        description="AI is one possible tool. The method begins with the work and ends with a system people can understand and maintain."
+        eyebrow="Start with the work"
+        title="Clarity begins by naming what is not working."
+        description="Before choosing a platform or automation, make the process, decision, and source of friction visible."
       />
-      <div class="walled rooms">
+      <div class="card-grid">
         <ProblemCard
           number="01"
-          title="Clarify the work"
-          description="Identify the decision, repeated task, bottleneck, missing ownership, source of confusion, and desired outcome."
+          title="The work is scattered"
+          description="Spreadsheets, inboxes, forms, documents, and disconnected applications may all be doing part of the job, but no one can see the full process."
+          cta="Clarify the System"
+          href="/services/#business-systems-clarity-session"
         />
         <ProblemCard
           number="02"
-          title="Design the simplest useful system"
-          description="Choose the smallest appropriate response, such as a workflow, template, low-code application, dashboard, or automation."
+          title="The decisions are unclear"
+          description="Teams often select tools or begin building before agreeing on outcomes, ownership, tradeoffs, and measures of success."
+          cta="Start with the Questions"
+          href="/resources/ai-project-readiness-checklist/"
         />
         <ProblemCard
           number="03"
-          title="Make it reusable"
-          description="Document, automate, teach, package, and improve what works so the result does not depend on one person remembering everything."
+          title="The technology feels overwhelming"
+          description="AI and automation promise a great deal, but choosing the next useful step is difficult when the problem has not been clearly defined."
+          cta="Choose the Next Useful Step"
+          href="/resources/ai-tool-selection-workbook/"
         />
       </div>
       <FloorplanDivider />
     </div>
   </section>
-  */}
+
+  <section class="section section-blue">
+    <div class="container">
+      <NewsletterForm />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        eyebrow="How 559 Solutions works"
+        title="A simple path from confusion to something reusable."
+        description="AI is one possible tool. The method begins with the work and ends with a system people can understand and maintain."
+      />
+      <div class="process-grid">
+        <article class="process-step">
+          <p class="step-number">01 / CLARIFY</p>
+          <h3>Clarify the work</h3>
+          <p>Identify the decision, repeated task, bottleneck, missing ownership, source of confusion, and desired outcome.</p>
+        </article>
+        <article class="process-step">
+          <p class="step-number">02 / DESIGN</p>
+          <h3>Design the simplest useful system</h3>
+          <p>Choose the smallest appropriate response, such as a checklist, workflow, template, low-code application, dashboard, or automation.</p>
+        </article>
+        <article class="process-step">
+          <p class="step-number">03 / REUSE</p>
+          <h3>Make it reusable</h3>
+          <p>Document, automate, teach, package, and improve what works so the result does not depend on one person remembering everything.</p>
+        </article>
+      </div>
+      <FloorplanDivider />
+    </div>
+  </section>
+
+  <section class="section section-tinted">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Product-led by design"
+        title="Start with a reusable resource before a live engagement."
+        description="Each resource is built to be used on its own. Checkout appears on a resource page only once its price and delivery are set up."
+      />
+      <div class="product-ladder">
+        <article class="ladder-item">
+          <p class="ladder-label">Free</p>
+          <h3>AI Project Readiness Checklist</h3>
+          <p>Ten questions to ask before design starts.</p>
+          <a class="text-link" href={sitePath("/resources/ai-project-readiness-checklist/")}>Review questions</a>
+        </article>
+        <article class="ladder-item">
+          <p class="ladder-label">Entry</p>
+          <h3>AI Tool Selection Workbook</h3>
+          <p>Eight worksheets, a scorecard and a worked example for choosing one AI tool.</p>
+          <a class="text-link" href={sitePath("/resources/ai-tool-selection-workbook/")}>See what is inside</a>
+        </article>
+        <article class="ladder-item">
+          <p class="ladder-label">Core</p>
+          <h3>Solution Architect Starter Kit</h3>
+          <p>Ten templates from intake to decision log, with a completed sample.</p>
+          <a class="text-link" href={sitePath("/resources/solution-architect-starter-kit/")}>See the ten pieces</a>
+        </article>
+        <article class="ladder-item">
+          <p class="ladder-label">Free course</p>
+          <h3>Code559</h3>
+          <p>Coding and AI tools for people who want results.</p>
+          <a class="text-link" href={sitePath("/code559/")}>See the courses</a>
+        </article>
+        <article class="ladder-item">
+          <p class="ladder-label">Limited service</p>
+          <h3>Business Systems Clarity Session</h3>
+          <p>Fixed-scope details are confirmed by inquiry.</p>
+          <a class="text-link" href={sitePath("/services/#business-systems-clarity-session")}>Explore service</a>
+        </article>
+      </div>
+    </div>
+  </section>
 
   {
     articles.length > 0 && (
-      <section class="section section-tinted">
+      <section class="section">
         <div class="container">
           <SectionHeading
-            eyebrow="From the Study"
+            eyebrow="Selected insights"
             title="Ideas for clearer systems and calmer technology decisions."
-            description="The latest from The Curious Architect, the 559 Solutions blog."
+            description="Migrated and reviewed articles from the existing 559 Solutions site."
           />
           <div class="card-grid">
             {articles.map((article) => (
@@ -140,18 +186,34 @@ const organizationSchema = [
               />
             ))}
           </div>
-          <p><a class="text-link" href={sitePath("/blog/")}>All articles</a></p>
         </div>
       </section>
     )
   }
 
+  <section class="section section-compact">
+    <div class="container about-preview">
+      <div class="about-mark" aria-hidden="true">559</div>
+      <div>
+        <p class="eyebrow">About 559 Solutions</p>
+        <h2>Experience translated into practical tools.</h2>
+        <p>
+          I am Joel Wells, a solution architect, mentor, teacher, and builder. For more than three decades, I have helped teams understand complicated work and turn it into systems people can actually use.
+        </p>
+        <p>
+          559 Solutions is where I translate that experience into practical tools, plain-language guidance, and reusable resources.
+        </p>
+        <a class="button button-light" href={sitePath("/about/")}>Read the 559 Story</a>
+      </div>
+    </div>
+  </section>
+
   <CTASection
     title="Start with clarity, not another tool."
-    description="Describe the work that keeps repeating. Plain language is enough."
-    primaryLabel="Tell Me What Is Not Working"
-    primaryHref="/contact/"
-    secondaryLabel="Explore Practical Resources"
-    secondaryHref="/resources/"
+    description="Use the checklist now, or describe the work that keeps repeating."
+    primaryLabel="Download the Free Checklist"
+    primaryHref="/resources/ai-project-readiness-checklist/"
+    secondaryLabel="Tell Me What Is Not Working"
+    secondaryHref="/contact/"
   />
 </BaseLayout>

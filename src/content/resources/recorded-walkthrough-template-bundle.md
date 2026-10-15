@@ -35,7 +35,7 @@ faqs:
   - question: "What is included?"
     answer: "The bundle concept is still being scoped. Final contents will be published only after the owner approves them."
 featured: false
-draft: false
+draft: true
 ---
 
 ## A product concept under review

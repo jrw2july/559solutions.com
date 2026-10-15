@@ -37,7 +37,8 @@ includedFiles:
 lastUpdated: "2026-07-23"
 version: "Planned release"
 relatedArticles: []
-relatedResources: []
+relatedResources:
+  - "ai-project-readiness-checklist"
 supportExpectations: "Support and instructor-use terms will be confirmed before release."
 licenseSummary: "License terms are not final."
 refundPolicyLink: ""
@@ -50,7 +51,7 @@ faqs:
   - question: "Are the starter files available?"
     answer: "Not in this release. The planned contents are listed for owner review."
 featured: false
-draft: false
+draft: true
 ---
 
 ## Planned learning sequence

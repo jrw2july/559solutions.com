@@ -39,8 +39,8 @@ faqs:
     answer: "The checklist content is prepared, but the final downloadable file and delivery link still require owner approval and configuration."
   - question: "Do I need to choose an AI tool first?"
     answer: "No. The checklist is designed to help you clarify the work before comparing tools."
-featured: false
-draft: true
+featured: true
+draft: false
 ---
 
 ## Define the work before the technology
