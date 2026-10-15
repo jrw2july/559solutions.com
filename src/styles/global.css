@@ -2886,23 +2886,46 @@ body.curious {
   text-decoration-color: currentColor;
 }
 
-/* Code559 page (2026-10-14): the logo, then the introduction at full width, then the courses. */
+/* Code559 page (2026-10-14): a simplified cover sheet, the logo beside the introduction, then the courses. */
 .code559-intro {
-  padding-bottom: var(--space-7);
-  border-bottom: var(--border);
+  padding-block: var(--space-6) var(--space-5);
+}
+
+.code559-sheet {
+  display: grid;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-5) var(--space-6);
+  border: 2px solid var(--bp-line);
+  grid-template-columns: minmax(12rem, 18rem) minmax(0, 1fr);
 }
 
 .code559-logo {
   max-width: none;
-  margin-bottom: var(--space-5);
+  margin: 0;
 }
 
 .code559-logo img {
   width: 100%;
-  max-width: 22rem;
   height: auto;
 }
 
-.code559-intro .hero-lede {
-  max-width: none;
+.code559-sheet p {
+  margin: 0;
+  color: var(--color-ink-soft);
+  font-size: var(--step-0);
+}
+
+.code559-intro + .section {
+  padding-top: var(--space-6);
+}
+
+@media (max-width: 50rem) {
+  .code559-sheet {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .code559-logo img {
+    max-width: 14rem;
+  }
 }
