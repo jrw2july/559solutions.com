@@ -1,0 +1,56 @@
+---
+import { rooms } from "@/data/rooms";
+
+// The site plan in miniature: the Library and Study above the hall, the Classroom below, the front door in the
+// left wall at the end of the hall. Used by the key plan bar (small, one room filled) and the About page's
+// drawing sheet (larger, with room names).
+interface Props {
+  /** id of the room to fill in, if any. */
+  hereId?: string;
+  /** Write each room's name on the drawing. */
+  labels?: boolean;
+  class?: string;
+  label: string;
+}
+
+const { hereId, labels = false, class: className, label } = Astro.props;
+
+// Room rectangles in a 160 x 82 drawing, matching the homepage plan.
+const cells: Record<string, { x: number; y: number; w: number; h: number }> = {
+  library: { x: 1, y: 1, w: 86, h: 33 },
+  study: { x: 87, y: 1, w: 72, h: 33 },
+  classroom: { x: 1, y: 48, w: 158, h: 33 },
+};
+---
+
+<svg class:list={["keyplan", className]} viewBox="0 0 160 82" role="img" aria-label={label} focusable="false">
+  {
+    rooms.map((room) => {
+      const c = cells[room.id];
+      if (!c) return null;
+      return (
+        <rect
+          class:list={["kp-room", hereId === room.id && "kp-here"]}
+          x={c.x}
+          y={c.y}
+          width={c.w}
+          height={c.h}
+        />
+      );
+    })
+  }
+  <rect class="kp-room" x="1" y="34" width="158" height="14"></rect>
+  <line class="kp-door" x1="1" y1="36" x2="1" y2="46"></line>
+  {
+    labels &&
+      rooms.map((room) => {
+        const c = cells[room.id];
+        if (!c) return null;
+        return (
+          <text class:list={["kp-label", hereId === room.id && "kp-label-here"]} x={c.x + 5} y={c.y + c.h - 5}>
+            {room.label}
+          </text>
+        );
+      })
+  }
+</svg>

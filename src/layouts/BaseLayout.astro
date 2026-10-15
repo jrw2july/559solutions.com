@@ -28,6 +28,8 @@ interface Props {
   noindex?: boolean;
   structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
   bodyClass?: string;
+  /** Key plan caption for a page that is not a room on the plan (default "Site information"). */
+  planCaption?: string;
 }
 
 const {
@@ -40,6 +42,7 @@ const {
   noindex,
   structuredData,
   bodyClass = "",
+  planCaption,
 } = Astro.props;
 
 // The homepage is the full plan; every other page gets the key plan under the header.
@@ -81,7 +84,7 @@ const websiteSchema = {
   <body class={bodyClass}>
     <a class="skip-link" href="#main-content">Skip to main content</a>
     <Header {currentPath} />
-    {showKeyPlan && <KeyPlan {currentPath} />}
+    {showKeyPlan && <KeyPlan {currentPath} caption={planCaption} />}
     <main id="main-content" tabindex="-1">
       <slot />
     </main>

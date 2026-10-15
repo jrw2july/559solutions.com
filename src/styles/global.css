@@ -2751,3 +2751,127 @@ body.curious {
     grid-column: 2;
   }
 }
+
+/* About page (2026-10-14): who the architect is, then the site plan read as the kinds of help 559 gives.
+   The hero is the about-me text on the blueprint grid; the plan section pairs a drawing sheet with a room
+   schedule, the list of rooms on an architect's sheet. */
+.about-hero::after {
+  display: none;
+}
+
+.about-hero h1 {
+  margin-bottom: var(--space-5);
+}
+
+.about-me {
+  max-width: 46rem;
+}
+
+.about-me p {
+  margin-bottom: var(--space-4);
+}
+
+.about-me .lede {
+  margin-bottom: var(--space-5);
+}
+
+.plan-explainer {
+  display: grid;
+  align-items: start;
+  gap: var(--space-7);
+  grid-template-columns: minmax(16rem, 0.8fr) minmax(0, 1.2fr);
+}
+
+.sheet {
+  display: grid;
+  max-width: 26rem;
+  padding: var(--space-5);
+  gap: var(--space-4);
+  background: var(--color-white);
+  border: 1px solid var(--color-line-strong);
+  box-shadow: var(--shadow);
+}
+
+.sheet .plan-tag {
+  justify-content: flex-end;
+}
+
+.sheet-plan {
+  width: 100%;
+  max-width: none;
+}
+
+.sheet-plan .kp-room {
+  stroke-width: 1.25;
+}
+
+.keyplan .kp-label {
+  fill: var(--color-ink-soft);
+  font-family: var(--font-mono);
+  font-size: 5.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.keyplan .kp-label-here {
+  fill: var(--color-white);
+}
+
+.schedule {
+  padding: 0;
+  margin: 0;
+  border-top: 2px solid var(--bp-line);
+  list-style: none;
+}
+
+.schedule li {
+  display: grid;
+  padding-block: var(--space-4);
+  align-items: baseline;
+  gap: var(--space-4);
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  border-bottom: 1px solid var(--bp-line);
+}
+
+.schedule .plan-tag {
+  color: var(--color-blue);
+}
+
+.schedule p {
+  margin-bottom: var(--space-2);
+  color: var(--color-ink-soft);
+}
+
+.schedule-name {
+  color: var(--color-ink) !important;
+  font-size: var(--step-1);
+  font-weight: 750;
+  letter-spacing: -0.025em;
+  line-height: var(--leading-heading);
+}
+
+.schedule-page {
+  margin-left: 0.35em;
+  color: var(--color-blue);
+  font-size: var(--step--1);
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.schedule .text-link {
+  min-height: 2.25rem;
+}
+
+@media (max-width: 68rem) {
+  .plan-explainer {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 34rem) {
+  .schedule li {
+    gap: var(--space-2);
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

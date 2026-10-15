@@ -1,35 +1,46 @@
 ---
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import CTASection from "@/components/CTASection.astro";
+import PlanDrawing from "@/components/PlanDrawing.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
+import TitleBlock from "@/components/TitleBlock.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { sitePath } from "@/config/site";
+import { rooms } from "@/data/rooms";
+
+// The About page: who the architect is, then the plan of the site read as the kinds of help 559 Solutions gives.
+// Each room on the plan is one kind of help; the hall is where a conversation starts.
+const roomNotes: Record<string, { analogy: string; go: string }> = {
+  library: {
+    analogy:
+      "An architect keeps a library of standards and references. Here it holds workbooks, starter kits, and templates: guidance you take back to your own work.",
+    go: "Browse the Library",
+  },
+  study: {
+    analogy:
+      "Where the thinking is written down. Articles about clearer systems and calmer technology decisions. The Curious Architect is the 559 Solutions blog, not a separate company.",
+    go: "Read the blog",
+  },
+  classroom: {
+    analogy: "Where the instruction happens. Coding and AI tools for regular people, taught one course at a time.",
+    go: "Go to Code559",
+  },
+};
 ---
 
 <BaseLayout
   title="About 559 Solutions | Practical Systems by Joel Wells"
   description="Learn how Joel Wells and 559 Solutions turn complicated work into practical tools, plain-language guidance, and reusable systems."
   canonicalPath="/about/"
+  planCaption="The architect"
 >
-  <header class="page-hero">
+  <header class="page-hero plan-ground about-hero">
     <div class="container">
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About 559" }]} />
       <p class="eyebrow">About 559 Solutions</p>
-      <h1>I do not start with software. I start with the work.</h1>
-      <p class="lede">
-        559 Solutions helps small teams and business owners turn messy work into clear systems using practical AI, low-code tools, and plain-language design.
-      </p>
-    </div>
-  </header>
-
-  <section class="section">
-    <div class="container resource-layout">
-      <div>
-        <SectionHeading
-          eyebrow="The practical business"
-          title="Experience translated into systems people can use."
-        />
-        <p>
+      <h1>About me</h1>
+      <div class="about-me">
+        <p class="lede">
           I am Joel Wells, a solution architect, mentor, teacher, and builder. For more than three decades, I have helped teams understand complicated work and turn it into systems people can actually use.
         </p>
         <p>
@@ -38,59 +49,54 @@ import { sitePath } from "@/config/site";
         <p>
           The method is deliberately calm: understand the work, name the decision, make ownership visible, choose the smallest useful response, then make the result easier to repeat and maintain.
         </p>
-      </div>
-      <aside class="detail-panel" aria-label="559 Solutions approach">
-        <h2>The real product is clarity.</h2>
-        <p>
-          AI, automation, and low-code platforms can be useful. They are selected only after the problem, people, risks, and desired outcome are understood.
+        <p class="small-note">
+          Practical themes: solution architecture, enterprise systems, low-code platforms, AI-assisted design, mentoring and teaching, systems thinking.
         </p>
-      </aside>
+      </div>
     </div>
-  </section>
-
-  <section class="section section-tinted">
-    <div class="container">
-      <SectionHeading
-        eyebrow="What this means for you"
-        title="Begin with the questions that reveal the system."
-      />
-      <ul class="question-list">
-        <li>What is confusing?</li>
-        <li>What keeps repeating?</li>
-        <li>Where are people losing time?</li>
-        <li>What decisions are unclear?</li>
-        <li>What could be simplified, automated, or taught better?</li>
-      </ul>
-      <p class="hero-lede"><strong>Then we design the simplest useful system.</strong></p>
-    </div>
-  </section>
+  </header>
 
   <section class="section">
-    <div class="container resource-layout">
-      <div>
-        <SectionHeading
-          eyebrow="One business, two lenses"
-          title="559 Solutions and The Curious Architect."
-        />
-        <p>
-          <strong>559 Solutions</strong> is the practical business. It is the home for resources, services, and systems guidance.
-        </p>
-        <p>
-          <strong>The Curious Architect</strong> is the <a href={sitePath("/blog/")}>559 Solutions blog</a>. It holds articles and commentary about systems thinking, decisions, technology and society, leadership, craftsmanship, chess, and strategy.
-        </p>
-        <p>It is not a separate company or a competing brand.</p>
+    <div class="container">
+      <SectionHeading
+        eyebrow="The plan"
+        title="An architect draws the plan before anyone builds."
+        description="That is how 559 Solutions works. Before a tool is chosen, the work is understood. This site is drawn the same way: each room is one kind of help."
+      />
+      <div class="plan-explainer">
+        <div class="sheet">
+          <p class="plan-tag">Cover sheet</p>
+          <PlanDrawing class="sheet-plan" labels label="The site plan: the Library and the Study above the hall, the Classroom below." />
+          <TitleBlock project="559 Solutions" sheet="A-000 · Cover" />
+        </div>
+        <ol class="schedule room-schedule">
+          {
+            rooms.map((room, index) => {
+              const note = roomNotes[room.id];
+              return (
+                <li>
+                  <span class="plan-tag">Room {String(index + 1).padStart(2, "0")}</span>
+                  <div>
+                    <p class="schedule-name">
+                      {room.label} <span class="schedule-page">{room.page}</span>
+                    </p>
+                    {note && <p>{note.analogy}</p>}
+                    {note && <a class="text-link" href={sitePath(room.href)}>{note.go}</a>}
+                  </div>
+                </li>
+              );
+            })
+          }
+          <li>
+            <span class="plan-tag">Hall</span>
+            <div>
+              <p class="schedule-name">The hall <span class="schedule-page">Contact</span></p>
+              <p>Where we meet. If the work is confusing, repeated, or hard to maintain, start here.</p>
+              <a class="text-link" href={sitePath("/contact/")}>Tell me what is not working</a>
+            </div>
+          </li>
+        </ol>
       </div>
-      <aside class="detail-panel" aria-label="Practical themes">
-        <h2>Practical themes</h2>
-        <ul class="check-list">
-          <li>Solution architecture</li>
-          <li>Enterprise systems</li>
-          <li>Low-code platforms</li>
-          <li>AI-assisted design</li>
-          <li>Mentoring and teaching</li>
-          <li>Systems thinking</li>
-        </ul>
-      </aside>
     </div>
   </section>
 
