@@ -1349,32 +1349,70 @@ button:disabled {
 }
 
 .site-footer {
+  --sheet-line: #4a6a95;
+  padding-block: var(--space-7);
   color: #e9f1fb;
   background: #071629;
 }
 
-.footer-grid {
+/* The title block: a bordered grid of labelled cells. Four cells across the top, six small ones below. */
+.sheet-block {
   display: grid;
-  padding-block: var(--space-8);
-  gap: var(--space-7);
-  grid-template-columns: 1.4fr repeat(3, 1fr);
+  border: 2px solid var(--sheet-line);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.sheet-cell {
+  min-width: 0;
+  padding: var(--space-4) var(--space-5);
+  border-right: 1px solid var(--sheet-line);
+  border-bottom: 1px solid var(--sheet-line);
+  grid-column: span 3;
+}
+
+.sheet-cell-project {
+  grid-column: span 3;
+}
+
+.sheet-cell-small {
+  padding-block: var(--space-3);
+  border-bottom: 0;
+  grid-column: span 2;
+}
+
+.sheet-cell:nth-child(4),
+.sheet-cell:last-child {
+  border-right: 0;
 }
 
 .site-footer h2 {
-  color: var(--color-white);
-  font-size: 0.88rem;
-  letter-spacing: 0.08em;
+  margin: 0 0 var(--space-2);
+  color: #c7d3e2;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .site-footer p {
+  margin-bottom: var(--space-2);
   color: #c7d3e2;
   font-size: var(--step--1);
 }
 
+.sheet-cell-small p {
+  margin: 0;
+  color: var(--color-white);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
 .footer-brand {
   display: inline-block;
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--space-2);
   color: var(--color-white);
   font-size: var(--step-1);
   font-weight: 850;
@@ -1393,7 +1431,7 @@ button:disabled {
 }
 
 .site-footer li {
-  margin-bottom: var(--space-2);
+  margin-bottom: var(--space-1);
 }
 
 .site-footer a {
@@ -1404,16 +1442,8 @@ button:disabled {
   color: var(--color-white);
 }
 
-.footer-bottom {
-  display: flex;
-  padding-block: var(--space-4);
-  justify-content: space-between;
-  gap: var(--space-4);
-  border-top: 1px solid #29405b;
-}
-
-.footer-bottom p {
-  margin: 0;
+.site-footer .text-link {
+  min-height: 2.25rem;
 }
 
 @media (max-width: 68rem) {
@@ -1439,8 +1469,27 @@ button:disabled {
     border-bottom: var(--border);
   }
 
-  .footer-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .sheet-cell {
+    grid-column: span 6;
+  }
+
+  .sheet-cell:nth-child(2),
+  .sheet-cell:nth-child(4) {
+    border-right: 0;
+  }
+
+  .sheet-cell-small {
+    border-bottom: 1px solid var(--sheet-line);
+    grid-column: span 4;
+  }
+
+  .sheet-cell:nth-child(7),
+  .sheet-cell:nth-child(10) {
+    border-right: 0;
+  }
+
+  .sheet-cell:nth-child(n + 8) {
+    border-bottom: 0;
   }
 }
 
@@ -1521,13 +1570,16 @@ button:disabled {
     padding: var(--space-5);
   }
 
-  .footer-grid {
-    grid-template-columns: minmax(0, 1fr);
+  .sheet-cell,
+  .sheet-cell-small,
+  .sheet-cell:nth-child(n + 8) {
+    border-right: 0;
+    border-bottom: 1px solid var(--sheet-line);
+    grid-column: span 12;
   }
 
-  .footer-bottom {
-    align-items: flex-start;
-    flex-direction: column;
+  .sheet-cell:last-child {
+    border-bottom: 0;
   }
 }
 
@@ -2738,37 +2790,22 @@ body.curious {
   align-items: center;
 }
 
-/* About page (2026-10-14): the about-me text at the left, the room schedule (the list of rooms on an
-   architect's sheet, read as the kinds of help 559 gives) at the right, on the blueprint grid. */
+/* About page (2026-10-14): a short full-width narrative on the blueprint grid. */
 .about-hero::after {
   display: none;
 }
 
-.about-grid {
-  display: grid;
-  align-items: start;
-  gap: var(--space-8);
-  grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
-}
-
-.about-hero h1 {
+/* The eyebrow is the page's heading; the text under it is all plain body copy. */
+.about-hero h1.eyebrow {
+  max-width: none;
   margin-bottom: var(--space-5);
+  font-size: var(--step--1);
+  letter-spacing: 0.15em;
+  line-height: 1.4;
 }
 
 .about-me p {
   margin-bottom: var(--space-4);
-}
-
-.about-me .lede {
-  margin-bottom: var(--space-5);
-}
-
-.about-rooms {
-  padding-top: var(--space-2);
-}
-
-.about-rooms .plan-tag {
-  margin-bottom: var(--space-3);
 }
 
 .keyplan .kp-label {
@@ -2827,12 +2864,6 @@ body.curious {
 
 .schedule .text-link {
   min-height: 2.25rem;
-}
-
-@media (max-width: 68rem) {
-  .about-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
 }
 
 @media (max-width: 34rem) {
