@@ -2,8 +2,11 @@
 import { getCollection } from "astro:content";
 import ArticleCard from "@/components/ArticleCard.astro";
 import CTASection from "@/components/CTASection.astro";
-import FloorplanDivider from "@/components/FloorplanDivider.astro";
-import ProblemCard from "@/components/ProblemCard.astro";
+// Used only by the "How 559 Solutions works" section, which is commented out below (2026-10-14).
+// import FloorplanDivider from "@/components/FloorplanDivider.astro";
+import FrontDoor from "@/components/FrontDoor.astro";
+// import ProblemCard from "@/components/ProblemCard.astro";
+import RoomDoor from "@/components/RoomDoor.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import TitleBlock from "@/components/TitleBlock.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -32,8 +35,6 @@ const organizationSchema = [
   },
 ];
 
-// Rooms whose right-hand wall has a door into the next room on the plan.
-const doorsOnTheRight = new Set(["entry", "library", "workshop", "office"]);
 ---
 
 <BaseLayout
@@ -45,10 +46,9 @@ const doorsOnTheRight = new Set(["entry", "library", "workshop", "office"]);
   <section class="plan-hero plan-ground">
     <div class="container">
       <div class="plan-hero-copy">
-        <p class="eyebrow">Strategy · Tools · AI</p>
-        <h1>Come in. Every room opens onto a clearer way to work.</h1>
+        <h1><span class="h1-lead">C’mon in.</span> <span class="h1-rest">Every room opens onto a clearer way to work.</span></h1>
         <p class="hero-lede">
-          Turn messy work into clear systems. This is the whole site on one floor plan: start at the entry, or walk straight into the room you need.
+          Turn messy work into clear systems. This is the whole site on one floor plan: come in the front door, or walk straight into the room you need.
         </p>
       </div>
 
@@ -59,38 +59,32 @@ const doorsOnTheRight = new Set(["entry", "library", "workshop", "office"]);
               rooms.map((room, index) => (
                 <li class={`plan-${room.id}`}>
                   <a class="plan-room" href={sitePath(room.href)}>
-                    <span class="plan-tag">{index === 0 ? "Entry" : `Room ${String(index).padStart(2, "0")}`}</span>
-                    {room.id === "workshop" && (
-                      <img
-                        class="plan-logo"
-                        src={sitePath("/images/code559-logo.webp")}
-                        alt=""
-                        width="760"
-                        height="308"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    )}
-                    <span class="plan-name">{room.id === "entry" ? "Not sure where to begin?" : room.label}</span>
-                    <span class="plan-page">{room.page}</span>
+                    <span class="plan-tag">Room {String(index + 1).padStart(2, "0")}</span>
+                    <span class="plan-name">{room.label}</span>
+                    {room.showPage && <span class="plan-page">{room.page}</span>}
                     <span class="plan-blurb">{room.blurb}</span>
                     <span class="plan-go">{room.go}</span>
-                    {doorsOnTheRight.has(room.id) && <span class="plan-door" aria-hidden="true"></span>}
+                    <RoomDoor side={room.side} />
                   </a>
                 </li>
               ))
             }
+            <li class="plan-hall" aria-hidden="true">
+              <FrontDoor />
+            </li>
           </ul>
         </nav>
-        <span class="plan-front-door" aria-hidden="true"></span>
       </div>
 
       <div class="plan-footer">
-        <p class="plan-tag"><span class="plan-here">▲ Front door · You are here</span></p>
         <p class="plan-tag">Sheet A-101 · Plan view · Drawn by {site.ownerName}</p>
       </div>
     </div>
   </section>
+
+  {/*
+    "How 559 Solutions works" (three method rooms) is set aside for now (2026-10-14): its rooms clash with the
+    floor plan above. To bring it back, remove this comment wrapper and restore the two imports at the top.
 
   <section class="section" id="how-it-works">
     <div class="container">
@@ -119,6 +113,7 @@ const doorsOnTheRight = new Set(["entry", "library", "workshop", "office"]);
       <FloorplanDivider />
     </div>
   </section>
+  */}
 
   {
     articles.length > 0 && (

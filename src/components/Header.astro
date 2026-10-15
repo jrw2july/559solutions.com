@@ -12,12 +12,12 @@ const { currentPath } = Astro.props;
 const isCurrent = (href: string) =>
   href === "/" ? currentPath === href : currentPath.startsWith(href);
 
-// The Code559 link is labeled with its room on the plan, "The Workshop", and sits in the center of the header.
+// The Code559 link is labeled with its room on the plan, "The Classroom", and sits in the center of the header.
 // The other links sit at the far right, ending with Contact as the button.
 const code559 = headerNavigation.find((item) => item.href === "/code559/");
 const contact = headerNavigation.find((item) => item.href === "/contact/");
 const links = headerNavigation.filter((item) => item !== code559 && item !== contact);
-const workshopLabel = rooms.find((room) => room.id === "workshop")?.label ?? "The Workshop";
+const classroomLabel = rooms.find((room) => room.id === "classroom")?.label ?? "The Classroom";
 ---
 
 <header class="site-header">
@@ -35,7 +35,7 @@ const workshopLabel = rooms.find((room) => room.id === "workshop")?.label ?? "Th
       {
         code559 && (
           <a class="nav-center" href={sitePath(code559.href)} aria-current={isCurrent(code559.href) ? "page" : undefined}>
-            {workshopLabel}
+            {classroomLabel}
           </a>
         )
       }

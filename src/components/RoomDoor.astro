@@ -1,0 +1,33 @@
+---
+// A room's door off the hall on the homepage plan: an opening in the wall, the leaf (solid) and its swing
+// (dashed). Every room door swings in, right-hand: standing in the hall facing the door, the hinges are on
+// your right and the door swings away from you into the room.
+// "above": the room is above the hall (opening in its bottom wall). "below": the room is below the hall.
+// On phones the hall runs down the left side, so the opening moves to the room's left wall (.door-phone).
+interface Props {
+  side: "above" | "below";
+}
+
+const { side } = Astro.props;
+---
+
+<span class={`room-door room-door-${side}`} aria-hidden="true">
+  <span class="door-gap"></span>
+  {
+    side === "above" ? (
+      <svg class="door-wide" viewBox="0 0 48 48" focusable="false">
+        <line x1="47" y1="48" x2="47" y2="2" stroke-width="2"></line>
+        <path d="M47 2 A46 46 0 0 0 1 48" stroke-width="1.2" stroke-dasharray="3 3"></path>
+      </svg>
+    ) : (
+      <svg class="door-wide" viewBox="0 0 48 48" focusable="false">
+        <line x1="1" y1="0" x2="1" y2="46" stroke-width="2"></line>
+        <path d="M1 46 A46 46 0 0 0 47 0" stroke-width="1.2" stroke-dasharray="3 3"></path>
+      </svg>
+    )
+  }
+  <svg class="door-phone" viewBox="0 0 36 36" focusable="false">
+    <line x1="0" y1="35" x2="34" y2="35" stroke-width="2"></line>
+    <path d="M34 35 A34 34 0 0 0 0 1" stroke-width="1.2" stroke-dasharray="3 3"></path>
+  </svg>
+</span>

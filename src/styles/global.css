@@ -2122,7 +2122,7 @@ body.curious {
   background: var(--color-white);
 }
 
-/* Homepage hero */
+/* Homepage hero (2026-10-14): on wide screens the heading sits at the left and the floor plan at the right. */
 .plan-hero {
   padding-block: var(--space-8) var(--space-9);
   border-bottom: var(--border);
@@ -2130,38 +2130,37 @@ body.curious {
 
 .plan-hero-copy {
   max-width: 46rem;
-  margin-inline: auto;
-  text-align: center;
-}
-
-.plan-hero-copy .eyebrow {
-  justify-content: center;
 }
 
 .plan-hero h1 {
-  max-width: 18ch;
-  margin-inline: auto;
+  max-width: none;
 }
 
-.plan-hero .hero-lede {
-  margin-inline: auto;
+/* "C’mon in." keeps the full heading size; the rest of the heading sits on its own line, smaller and quieter. */
+.h1-rest {
+  display: block;
+  margin-top: var(--space-2);
+  font-size: 0.6em;
+  line-height: var(--leading-heading);
 }
 
-/* The plan: six rooms, one front door. */
+/* The plan: open double doors in the left wall lead into a hall. The Library and Study are above the hall,
+   the Classroom below. Every room door swings in, right-hand; the front doors swing out. */
 .plan-wrap {
   position: relative;
   margin-top: var(--space-7);
+  padding-left: 4.75rem;
 }
 
 .plan {
-  grid-template-columns: 1.15fr 1fr 1fr 1fr;
+  --hall: 3.5rem;
+  --leaf: 3rem;
+  grid-template-columns: 1.2fr 1fr;
+  grid-template-rows: auto var(--hall) auto;
   grid-template-areas:
-    "entry library library study"
-    "entry workshop office frontdesk";
-}
-
-.plan-entry {
-  grid-area: entry;
+    "library study"
+    "hall hall"
+    "classroom classroom";
 }
 
 .plan-library {
@@ -2172,16 +2171,13 @@ body.curious {
   grid-area: study;
 }
 
-.plan-workshop {
-  grid-area: workshop;
+.plan-classroom {
+  grid-area: classroom;
 }
 
-.plan-office {
-  grid-area: office;
-}
-
-.plan-frontdesk {
-  grid-area: frontdesk;
+.plan-hall {
+  position: relative;
+  grid-area: hall;
 }
 
 .plan > li {
@@ -2201,6 +2197,12 @@ body.curious {
   transition: background-color var(--transition);
 }
 
+/* Rooms above the hall keep their text clear of the door swinging in from the bottom wall. */
+.plan-library .plan-room,
+.plan-study .plan-room {
+  padding-bottom: calc(var(--leaf) + var(--space-5));
+}
+
 .plan-room:hover,
 .plan-room:focus-visible {
   background: var(--color-blue-pale);
@@ -2208,15 +2210,6 @@ body.curious {
 
 .plan-room:focus-visible {
   outline-offset: -6px;
-}
-
-.plan-entry .plan-room {
-  background: var(--color-blue-pale);
-}
-
-.plan-entry .plan-room:hover,
-.plan-entry .plan-room:focus-visible {
-  background: var(--color-sky);
 }
 
 .plan-room .plan-tag {
@@ -2232,10 +2225,6 @@ body.curious {
   font-weight: 750;
   letter-spacing: -0.025em;
   line-height: var(--leading-heading);
-}
-
-.plan-entry .plan-name {
-  font-size: var(--step-2);
 }
 
 .plan-page {
@@ -2270,97 +2259,178 @@ body.curious {
   transform: translateX(0.2rem);
 }
 
-.plan-room .plan-logo {
-  width: auto;
-  height: 3.4rem;
-  margin: -0.6rem 0 0 -0.1rem;
+/* Door drawings: an opening in the wall (.door-gap), the leaf and its dashed swing. */
+.room-door,
+.front-door {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
 }
 
-/* Door openings in the right-hand wall of a room, with the leaf and its swing drawn into the next room. */
-.plan-door {
+.door-gap {
   position: absolute;
-  top: 50%;
-  right: calc(-1 * var(--bp-wall));
-  z-index: 1;
-  width: var(--bp-wall);
-  height: 3.25rem;
-  margin-top: -1.625rem;
   background: var(--color-white);
 }
 
-/* The entry is two rooms tall: its door opens into the lower corridor, not the corner. */
-.plan-entry .plan-door {
-  top: 72%;
+.room-door svg,
+.front-door svg {
+  position: absolute;
+  max-width: none;
+  overflow: visible;
 }
 
-.plan-door::before,
-.plan-door::after {
-  content: "";
-  position: absolute;
+.room-door svg *,
+.front-door svg * {
+  fill: none;
+  stroke: var(--bp-line);
+}
+
+.door-phone,
+.here-phone {
+  display: none;
+}
+
+.room-door {
+  width: var(--leaf);
+  height: var(--leaf);
+}
+
+.room-door svg {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Room above the hall: the opening is in its bottom wall, hinge at the right as seen from the hall. */
+.room-door-above {
+  right: var(--space-5);
+  bottom: 0;
+}
+
+.room-door-above .door-gap {
+  right: 0;
+  bottom: calc(-1 * var(--bp-wall));
+  left: 0;
+  height: var(--bp-wall);
+}
+
+/* Room below the hall: the opening is in its top wall, hinge at the left of the drawing (your right from the hall). */
+.room-door-below {
   top: 0;
-  left: var(--bp-wall);
+  left: 42%;
 }
 
-.plan-door::before {
-  width: 3.25rem;
-  height: 3.25rem;
-  border: 1.5px dashed var(--bp-line);
-  border-top: 0;
-  border-left: 0;
-  border-bottom-right-radius: 100%;
-}
-
-.plan-door::after {
-  width: 3.25rem;
-  height: 2px;
-  background: var(--bp-line);
-}
-
-/* The front door: a gap in the outer wall below the entry, with the leaf swung outward. */
-.plan-front-door {
-  position: absolute;
-  bottom: -0.5rem;
-  left: 7%;
-  width: 4rem;
-  height: 0.5rem;
-  background: var(--color-white);
-}
-
-.plan-front-door::before {
-  content: "";
-  position: absolute;
-  top: 0.5rem;
+.room-door-below .door-gap {
+  top: calc(-1 * var(--bp-wall));
+  right: 0;
   left: 0;
-  width: 4rem;
-  height: 4rem;
-  border: 1.5px dashed var(--bp-line);
-  border-top: 0;
-  border-left: 0;
-  border-bottom-right-radius: 100%;
+  height: var(--bp-wall);
 }
 
-.plan-front-door::after {
-  content: "";
+/* Front door: a gap in the outer wall at the left end of the hall, both leaves swung out to the left. */
+.front-door {
+  top: 0.25rem;
+  left: -0.5rem;
+  width: 0.5rem;
+  height: 3rem;
+}
+
+.front-door .door-gap {
+  inset: 0;
+}
+
+.front-door svg {
+  top: 0;
+  right: 100%;
+  width: 1.5rem;
+  height: 3rem;
+}
+
+.front-door-label {
   position: absolute;
-  top: 0.5rem;
-  left: 0;
-  width: 2px;
-  height: 4rem;
-  background: var(--bp-line);
+  top: calc(100% + 0.5rem);
+  right: 1rem;
+  width: 4.25rem;
+  justify-content: flex-end;
+  color: var(--color-blue);
+  text-align: right;
 }
 
 .plan-footer {
   display: flex;
-  padding-left: 7%;
-  margin-top: 5.5rem;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
-  flex-wrap: wrap;
+  margin-top: var(--space-5);
+  justify-content: flex-end;
 }
 
-.plan-here {
-  color: var(--color-blue);
+/* Wide screens: the heading at the left, the plan at the right, drawn a little smaller. */
+@media (min-width: 68.0625rem) {
+  .plan-hero .container {
+    display: grid;
+    align-items: center;
+    column-gap: var(--space-7);
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  }
+
+  .plan-hero-copy {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .plan-wrap {
+    margin-top: 0;
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .plan-footer {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .plan {
+    --hall: 3rem;
+    --leaf: 2.5rem;
+  }
+
+  .plan-room {
+    min-height: 0;
+    padding: calc(var(--space-4) + 1.75rem) var(--space-4) var(--space-4);
+  }
+
+  .plan-library .plan-room,
+  .plan-study .plan-room {
+    padding-bottom: calc(var(--leaf) + var(--space-4));
+  }
+
+  .plan-room .plan-tag {
+    left: var(--space-4);
+  }
+
+  .plan-name {
+    font-size: var(--step-0);
+  }
+
+  .plan-page,
+  .plan-blurb {
+    font-size: 0.8rem;
+  }
+
+  .plan-go {
+    font-size: 0.9rem;
+  }
+
+  .room-door-above {
+    right: var(--space-4);
+  }
+
+  .front-door {
+    height: 2.5rem;
+  }
+
+  .front-door svg {
+    width: 1.25rem;
+    height: 2.5rem;
+  }
 }
 
 /* The method: three rooms, one path through. */
@@ -2530,55 +2600,97 @@ body.curious {
 }
 
 @media (max-width: 68rem) {
-  .plan {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-areas:
-      "entry library"
-      "entry study"
-      "workshop office"
-      "frontdesk frontdesk";
-  }
-
-  .plan-office .plan-door,
-  .plan-library .plan-door {
-    display: none;
-  }
-
   .about-strip {
     grid-template-columns: minmax(0, 1fr);
   }
 }
 
 @media (max-width: 50rem) {
-  .plan {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas:
-      "entry"
-      "library"
-      "study"
-      "workshop"
-      "office"
-      "frontdesk";
+  /* Phone plan: the hall becomes a narrow strip down the left side, with the front doors at its top and a
+     door off it into each room. */
+  .plan-wrap {
+    padding-top: 4rem;
+    padding-left: 0;
   }
 
-  .plan-room {
+  .plan {
+    --leaf: 2.25rem;
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+    grid-template-rows: none;
+    grid-template-areas:
+      "hall library"
+      "hall study"
+      "hall classroom";
+  }
+
+  .plan-room,
+  .plan-library .plan-room,
+  .plan-study .plan-room {
     min-height: 0;
-    padding: calc(var(--space-4) + 1.6rem) var(--space-4) var(--space-4);
+    padding: calc(var(--space-4) + var(--leaf) + var(--space-3)) var(--space-4) var(--space-4);
   }
 
   .plan-room .plan-tag {
-    top: var(--space-3);
-    left: var(--space-4);
+    top: var(--space-4);
+    right: var(--space-4);
+    left: auto;
   }
 
-  .plan-door,
-  .plan-front-door {
+  .room-door-above,
+  .room-door-below {
+    top: var(--space-4);
+    right: auto;
+    bottom: auto;
+    left: 0;
+  }
+
+  .room-door-above .door-gap,
+  .room-door-below .door-gap {
+    top: 0;
+    right: auto;
+    bottom: 0;
+    left: calc(-1 * var(--bp-wall));
+    width: var(--bp-wall);
+    height: auto;
+  }
+
+  .door-wide,
+  .here-wide {
     display: none;
   }
 
-  .plan-footer {
-    padding-left: 0;
-    margin-top: var(--space-5);
+  .door-phone {
+    display: block;
+  }
+
+  .here-phone {
+    display: inline;
+  }
+
+  .front-door {
+    top: -0.5rem;
+    left: 0.25rem;
+    width: 1.75rem;
+    height: 0.5rem;
+  }
+
+  .front-door svg {
+    top: auto;
+    right: auto;
+    bottom: 100%;
+    left: 0;
+    width: 1.75rem;
+    height: 0.875rem;
+  }
+
+  .front-door-label {
+    top: auto;
+    right: auto;
+    bottom: calc(100% + 1.6rem);
+    left: 0;
+    width: 10rem;
+    justify-content: flex-start;
+    text-align: left;
   }
 
   .rooms {

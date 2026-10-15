@@ -1,0 +1,25 @@
+---
+// The front door on the homepage plan: open double doors in the outer wall at the end of the hall, both leaves
+// swung out. On wide screens the hall runs across the plan and the doors are in the left wall; on phones the
+// hall runs down the left side and the doors are in its top wall (.door-phone).
+---
+
+<span class="front-door">
+  <span class="door-gap" aria-hidden="true"></span>
+  <svg class="door-wide" viewBox="0 0 32 64" aria-hidden="true" focusable="false">
+    <line x1="32" y1="1" x2="1" y2="1" stroke-width="2"></line>
+    <line x1="32" y1="63" x2="1" y2="63" stroke-width="2"></line>
+    <path d="M1 1 A31 31 0 0 0 32 32" stroke-width="1.2" stroke-dasharray="3 3"></path>
+    <path d="M1 63 A31 31 0 0 1 32 32" stroke-width="1.2" stroke-dasharray="3 3"></path>
+  </svg>
+  <svg class="door-phone" viewBox="0 0 36 18" aria-hidden="true" focusable="false">
+    <line x1="1" y1="18" x2="1" y2="1" stroke-width="2"></line>
+    <line x1="35" y1="18" x2="35" y2="1" stroke-width="2"></line>
+    <path d="M1 1 A17 17 0 0 1 18 18" stroke-width="1.2" stroke-dasharray="3 3"></path>
+    <path d="M35 1 A17 17 0 0 0 18 18" stroke-width="1.2" stroke-dasharray="3 3"></path>
+  </svg>
+  <span class="plan-tag front-door-label">
+    <span class="here-wide">You are here ▶</span>
+    <span class="here-phone">▼ You are here</span>
+  </span>
+</span>

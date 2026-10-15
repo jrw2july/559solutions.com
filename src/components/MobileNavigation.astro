@@ -14,7 +14,7 @@ const isCurrent = (href: string) =>
 const links = headerNavigation.filter((item) => item.href !== "/contact/");
 const contact = headerNavigation.find((item) => item.href === "/contact/");
 // Code559 is labeled with its room on the plan, as in the desktop header.
-const workshopLabel = rooms.find((room) => room.id === "workshop")?.label ?? "The Workshop";
+const classroomLabel = rooms.find((room) => room.id === "classroom")?.label ?? "The Classroom";
 ---
 
 <details class="mobile-nav">
@@ -29,7 +29,7 @@ const workshopLabel = rooms.find((room) => room.id === "workshop")?.label ?? "Th
         links.map((item) => (
           <li>
             <a href={sitePath(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>
-              {item.href === "/code559/" ? workshopLabel : item.label}
+              {item.href === "/code559/" ? classroomLabel : item.label}
             </a>
           </li>
         ))

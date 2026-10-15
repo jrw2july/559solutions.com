@@ -31,10 +31,10 @@ test("homepage communicates the core promise and the floor plan of the site", as
   const html = await readFile(path.join(dist, "index.html"), "utf8");
   assert.match(html, /Turn messy work into clear systems\./);
   assert.match(html, /aria-label="Site map"/);
-  for (const room of ["The Library", "The Study", "The Workshop", "The Office", "The Front Desk"]) {
+  for (const room of ["The Library", "The Study", "The Classroom"]) {
     assert.match(html, new RegExp(room), room);
   }
-  assert.match(html, /Clarify the work/);
+  assert.match(html, /C’mon in\./);
 });
 
 test("the free checklist is no longer promoted anywhere", async () => {

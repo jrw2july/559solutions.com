@@ -3,7 +3,7 @@ import { sitePath } from "@/config/site";
 import { roomForPath, rooms } from "@/data/rooms";
 
 // The small key plan under the header: the whole site in miniature, with the current room filled in.
-// Pages that are not rooms (privacy, terms, accessibility, 404) show the plan with nothing filled.
+// Pages that are not rooms (About, Contact, privacy, terms, accessibility, 404) show the plan with nothing filled.
 interface Props {
   currentPath: string;
 }
@@ -11,14 +11,12 @@ interface Props {
 const { currentPath } = Astro.props;
 const here = roomForPath(currentPath);
 
-// Room rectangles in a 160 x 82 drawing, matching the homepage plan's layout.
+// Room rectangles in a 160 x 82 drawing, matching the homepage plan: Library and Study above the hall,
+// the Classroom below, the front door in the left wall at the end of the hall.
 const cells: Record<string, { x: number; y: number; w: number; h: number }> = {
-  entry: { x: 1, y: 1, w: 40, h: 80 },
-  library: { x: 41, y: 1, w: 78, h: 40 },
-  study: { x: 119, y: 1, w: 40, h: 40 },
-  workshop: { x: 41, y: 41, w: 39, h: 40 },
-  office: { x: 80, y: 41, w: 39, h: 40 },
-  frontdesk: { x: 119, y: 41, w: 40, h: 40 },
+  library: { x: 1, y: 1, w: 86, h: 33 },
+  study: { x: 87, y: 1, w: 72, h: 33 },
+  classroom: { x: 1, y: 48, w: 158, h: 33 },
 };
 
 const label = here ? `Key plan: you are in ${here.label}` : "Key plan of the site";
@@ -41,7 +39,8 @@ const label = here ? `Key plan: you are in ${here.label}` : "Key plan of the sit
           );
         })
       }
-      <line class="kp-door" x1="12" y1="81" x2="26" y2="81"></line>
+      <rect class="kp-room" x="1" y="34" width="158" height="14"></rect>
+      <line class="kp-door" x1="1" y1="36" x2="1" y2="46"></line>
     </svg>
     <p class="keyplan-caption">
       <span class="plan-tag">{here ? "You are here" : "Site information"}</span>
