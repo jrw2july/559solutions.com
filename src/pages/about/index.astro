@@ -2,6 +2,7 @@
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import CTASection from "@/components/CTASection.astro";
 import OwnerName from "@/components/OwnerName.astro";
+import { sitePath } from "@/config/site";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 ---
@@ -24,7 +25,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
           <OwnerName /> is a solution architect, mentor, teacher, and builder. For more than three decades, he has helped teams understand complicated work and turn it into systems people can actually use.
         </p>
         <p>
-          559 Solutions is where he translates that experience into practical tools, plain-language guidance, reusable resources, and focused services.
+          559 Solutions is where he translates that experience into <a href={sitePath("/resources/")}>practical tools and reusable resources</a>, plain-language guidance, and <a href={sitePath("/services/")}>focused services</a>.
         </p>
       </div>
     </div>

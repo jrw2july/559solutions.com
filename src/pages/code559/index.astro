@@ -1,4 +1,5 @@
 ---
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import StatusBadge from "@/components/StatusBadge.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -17,9 +18,11 @@ const notifyReady = Boolean(site.newsletterEndpoint);
 >
   <section class="section-compact code559-intro">
     <div class="container">
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Code559" }]} />
       <div class="code559-sheet">
         <h1 class="code559-logo">
-          <img src={sitePath("/images/code559-logo.png")} alt="Code559" width="760" height="308" />
+          <img src={sitePath("/images/code559-logo.png")} alt="" width="760" height="308" />
+          <span class="visually-hidden">Code559: coding and AI tools for regular people</span>
         </h1>
         <p>
           Code559 is an initiative to help regular people use coding and AI tools to get results. No computer

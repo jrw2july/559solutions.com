@@ -14,6 +14,6 @@ export const legalNavigation = [
 ] as const;
 
 // Header and footer menus. Resources and Services are left out for now (2026-10-14);
-// their pages are unchanged. Resources is still linked from the homepage plan; Services has no menu link.
+// their pages are unchanged. Both are listed in the footer drawing index, and Resources is a room on the homepage plan.
 const hiddenFromHeader: string[] = ["/resources/", "/services/"];
 export const headerNavigation = primaryNavigation.filter((item) => !hiddenFromHeader.includes(item.href));

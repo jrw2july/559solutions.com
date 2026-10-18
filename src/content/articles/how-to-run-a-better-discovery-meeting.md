@@ -11,7 +11,7 @@ imageAlt: ""
 draft: false
 featured: false
 seoTitle: "How to Run a Better Discovery Meeting | 559 Solutions"
-seoDescription: "Five habits for discovery meetings: share the decision first, ask about current work, surface assumptions, record owners, and end with the next small decision."
+seoDescription: "Five habits for better discovery meetings: share the decision first, ask about current work, surface assumptions, and record owners."
 relatedArticles: ["start-with-the-decision-not-the-ai-tool", "the-simplest-useful-architecture-diagram"]
 ---
 

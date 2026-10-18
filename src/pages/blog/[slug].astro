@@ -8,7 +8,7 @@ import CTASection from "@/components/CTASection.astro";
 import DoodleDivider from "@/components/DoodleDivider.astro";
 import OwnerName from "@/components/OwnerName.astro";
 import TagList from "@/components/TagList.astro";
-import { absoluteUrl } from "@/config/site";
+import { absoluteUrl, site } from "@/config/site";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
@@ -57,11 +57,14 @@ const schema = {
   author: {
     "@type": "Person",
     name: article.data.author,
+    url: site.linkedInUrl,
   },
+  image: absoluteUrl(article.data.featuredImage ?? site.defaultSocialImage),
   publisher: {
     "@type": "Organization",
     name: "559 Solutions",
     url: absoluteUrl("/"),
+    logo: { "@type": "ImageObject", url: absoluteUrl(site.logoPath) },
   },
 };
 ---

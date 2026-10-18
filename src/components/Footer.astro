@@ -1,6 +1,6 @@
 ---
 import { copyrightYear, site, sitePath } from "@/config/site";
-import { headerNavigation, legalNavigation } from "@/data/navigation";
+import { legalNavigation, primaryNavigation } from "@/data/navigation";
 import OwnerName from "./OwnerName.astro";
 
 // The footer is the title block of the drawing set (2026-10-14): the strip of labelled cells an architect
@@ -19,7 +19,7 @@ import OwnerName from "./OwnerName.astro";
       <nav class="sheet-cell" aria-label="Footer">
         <h2>Drawing index</h2>
         <ul>
-          {headerNavigation.map((item) => <li><a href={sitePath(item.href)}>{item.label}</a></li>)}
+          {primaryNavigation.map((item) => <li><a href={sitePath(item.href)}>{item.label}</a></li>)}
         </ul>
       </nav>
       <nav class="sheet-cell" aria-label="Legal">

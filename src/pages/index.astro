@@ -32,13 +32,14 @@ const organizationSchema = [
     name: site.siteName,
     url: absoluteUrl("/"),
     logo: absoluteUrl(site.logoPath),
+    sameAs: [site.linkedInUrl],
   },
 ];
 
 ---
 
 <BaseLayout
-  title="559 Solutions | Practical AI, Low-Code Tools & Clear Systems"
+  title="559 Solutions | Practical AI & Low-Code Systems"
   description="Practical AI, automation, low-code resources, and plain-language systems guidance for small teams, business owners, nonprofit leaders, and builders."
   canonicalPath="/"
   structuredData={organizationSchema}
@@ -46,7 +47,7 @@ const organizationSchema = [
   <section class="plan-hero plan-ground">
     <div class="container">
       <div class="plan-hero-copy">
-        <h1><span class="h1-lead">C’mon in.</span> <span class="h1-rest">Every room opens onto a clearer way to work.</span></h1>
+        <h1><span class="h1-lead">C’mon in.</span> <span class="h1-rest">Practical AI, low-code tools, and clear systems for small teams.</span></h1>
         {/*
           Hero lede set aside (2026-10-14). To bring it back, remove this comment wrapper.
 

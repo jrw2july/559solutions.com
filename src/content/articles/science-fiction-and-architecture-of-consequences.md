@@ -10,7 +10,7 @@ tags: ["systems thinking", "technology and society", "consequences"]
 imageAlt: ""
 draft: false
 featured: false
-seoTitle: "Science Fiction and the Architecture of Consequences | 559 Solutions"
+seoTitle: "Science Fiction and the Architecture of Consequences"
 seoDescription: "How speculative fiction maps second-order effects, incentives, and uneven impact, and the questions architects can bring back to real systems work."
 relatedArticles: ["what-chess-teaches-about-technology-decisions", "why-good-processes-fail"]
 ---

@@ -10,7 +10,7 @@ tags: ["chess", "strategy", "decision-making"]
 imageAlt: ""
 draft: false
 featured: false
-seoTitle: "What Chess Teaches About Technology Decisions | 559 Solutions"
+seoTitle: "What Chess Teaches About Technology Decisions"
 seoDescription: "Position, trade-offs, tempo, reversible moves, and reviewing the whole board: five chess habits that make technology decisions better."
 relatedArticles: ["start-with-the-decision-not-the-ai-tool", "what-architects-should-document"]
 ---
