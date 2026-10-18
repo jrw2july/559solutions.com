@@ -1,7 +1,7 @@
 ---
 title: "AI-Era Solution Architect Starter Kit"
 slug: "solution-architect-starter-kit"
-shortDescription: "Move from a vague request to a clear, reviewable solution structure without starting from a blank page."
+shortDescription: "Move from a vague request to a clear, reviewable solution structure without starting from a blank page. Ten templates with instructions, an AI prompt pack, and one project run through every template."
 intendedAudience:
   - "Solution architects"
   - "Business analysts"
@@ -16,7 +16,7 @@ topics:
   - "business analysis"
   - "AI"
   - "decision-making"
-format: "Template and worksheet kit"
+format: "PDF guide with editable Word and Excel templates"
 priceDisplay: ""
 currency: "USD"
 availability: "coming soon"
@@ -25,26 +25,23 @@ downloadUrl: ""
 earlyAccessUrl: ""
 imageAlt: ""
 includedFiles:
-  - "Project intake checklist"
-  - "Stakeholder interview guide"
-  - "Capability-map template"
-  - "Context-diagram template"
-  - "Integration-inventory worksheet"
-  - "Risk and dependency tracker"
-  - "AI prompt pack for architects and analysts"
-  - "Architecture-review agenda"
-  - "Decision-log template"
-  - "Completed sample"
-lastUpdated: "2026-07-23"
-version: "Planned release"
+  - "Guide PDF (43 pages): every template with instructions, tips and a done-when test"
+  - "Editable Word edition of every template"
+  - "Excel worksheets: capability map, integration inventory, risk and dependency tracker (scores itself), decision log and more"
+  - "Completed sample in Excel: Maple Street Food Pantry, a fictional project"
+  - "Context-diagram text templates (PlantUML), blank and completed"
+lastUpdated: "2026-10-15"
+version: "1.0 (October 2026)"
 relatedArticles:
   - "the-hero-trap"
-relatedResources: []
-supportExpectations: "Planned as a self-guided starter kit. Final support expectations will be published before release."
-licenseSummary: "License terms are not final."
+relatedResources:
+  - "ai-tool-selection-workbook"
+supportExpectations: "Self-guided. The guide explains each template; the Word and Excel files hold the same tables for filling in."
+licenseSummary: "Licensed to the purchaser for use inside their own organization. Fill it in, adapt it and share the results with your team and clients. Do not resell or redistribute the blank files."
 refundPolicyLink: ""
 requirements:
-  - "Final file formats will be confirmed before release"
+  - "Word and Excel, or any app that opens .docx and .xlsx files"
+  - "Any PlantUML renderer for the context-diagram text (optional; the diagram can also be drawn by hand)"
 faqs:
   - question: "Can I purchase the kit now?"
     answer: "Not yet. No checkout link will appear until the files, final price, license, and support terms are approved."
@@ -53,9 +50,23 @@ faqs:
 featured: true
 draft: false
 ---
+## The ten pieces
 
-## A reusable starting structure
+1. **Project intake checklist.** Separates the decision from the technology, names the owner, classes the data, and defines the smallest useful first version.
+2. **Stakeholder interview guide.** How to run a 30-to-45-minute discovery interview, a question bank, and a capture table.
+3. **Capability map.** What the organization does, in three levels, with who does it today, which tool, and where the pain is.
+4. **Context diagram.** One system in the middle, its users and the other systems it exchanges information with, built from a fill-in table and a PlantUML text template, following the C4 system context diagram.
+5. **Integration inventory.** Every path information takes between systems, including the spreadsheet someone emails every Friday.
+6. **Risk and dependency tracker.** Two tables with 1-to-3 scales, owners, responses and triggers. The Excel version scores itself.
+7. **AI prompt pack.** Ten prompts for using an AI assistant as a drafting aid at each stage, with the rules that keep restricted information out and the human in charge.
+8. **Architecture review agenda.** A 60-minute review, who attends, what to send ahead, and what comes out.
+9. **Decision log.** Architecture decision records: context, decision, assumptions, alternatives, consequences, owner and a revisit trigger.
+10. **Completed sample.** Maple Street Food Pantry, a made-up project, run through every template: the request said "AI app," the outcome was reliable volunteer scheduling, and the first version uses no AI at all.
 
-The planned kit brings the first stages of solution design into one coherent set of templates. It is intended to help a small team move from intake and discovery through context, risk, and review.
+## How much of it you need
 
-The contents above describe the planned package. The actual files and completed sample do not ship with this website release and must be supplied before the product becomes available.
+The minimum set for a small project is four pieces: intake, context diagram, risks and the decision log. The rest are there when you need them. Each template works on paper, in Word or in Excel, and the guide says what "done" looks like for each one.
+
+## About the "AI-era" part
+
+Requests now arrive as "can AI do this?" The intake checklist is built to separate the outcome from the technology. The prompt pack treats an AI assistant as a drafting aid for interview questions, capability lists, diagram text and decision write-ups, with one rule throughout: the assistant drafts, you decide, and nothing restricted is pasted in.

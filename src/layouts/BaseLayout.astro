@@ -24,6 +24,8 @@ interface Props {
   canonicalPath?: string;
   canonicalOverride?: string;
   image?: string;
+  /** Alt text for the share image. Defaults to the 559 Solutions share image text. */
+  imageAlt?: string;
   type?: "website" | "article";
   noindex?: boolean;
   structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
@@ -38,6 +40,7 @@ const {
   canonicalPath,
   canonicalOverride,
   image,
+  imageAlt,
   type,
   noindex,
   structuredData,
@@ -72,6 +75,7 @@ const websiteSchema = {
       {canonicalPath}
       {canonicalOverride}
       {image}
+      {imageAlt}
       {type}
       {noindex}
     />

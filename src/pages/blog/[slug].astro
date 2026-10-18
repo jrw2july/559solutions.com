@@ -57,7 +57,8 @@ const schema = {
   author: {
     "@type": "Person",
     name: article.data.author,
-    url: site.linkedInUrl,
+    // The About page is Joel Wells's profile; other authors get no link.
+    ...(article.data.author === "Joel Wells" && { url: absoluteUrl("/about/"), sameAs: [site.linkedInUrl] }),
   },
   image: absoluteUrl(article.data.featuredImage ?? site.defaultSocialImage),
   publisher: {
