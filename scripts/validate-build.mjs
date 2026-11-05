@@ -71,7 +71,6 @@ for (const file of htmlFiles) {
 
 for (const required of [
   "index.html",
-  "resources/index.html",
   "services/index.html",
   "blog/index.html",
   "about/index.html",

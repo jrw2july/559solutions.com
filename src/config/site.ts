@@ -42,7 +42,8 @@ export const site = {
   siteDomain: configuredSite,
   canonicalHost: new URL(configuredSite).host,
   ownerName: "Joel Wells",
-  publicEmail: "",
+  // General address for website questions, including accessibility and privacy.
+  publicEmail: "info@559solutions.com",
   contactFormEndpoint: formEndpoint,
   newsletterEndpoint: formEndpoint,
   formSuccessUrl: "",

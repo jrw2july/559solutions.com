@@ -15,9 +15,6 @@ draft: false
 featured: false
 seoTitle: "What Architects Should Document | 559 Solutions"
 seoDescription: "Document the decision and when it became necessary, the assumptions, the alternatives, ownership and failure handling, and the trigger for revisiting it."
-relatedResourceCta:
-  label: "Get one email when the Starter Kit is released"
-  href: "/resources/solution-architect-starter-kit/#waitlist"
 relatedArticles: ["the-simplest-useful-architecture-diagram", "start-with-the-decision-not-the-ai-tool"]
 ---
 

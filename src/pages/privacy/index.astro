@@ -1,5 +1,6 @@
 ---
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import { site } from "@/config/site";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
@@ -18,7 +19,6 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
   </header>
   <section class="section">
     <article class="narrow legal-content">
-      <p class="legal-banner">OWNER AND LEGAL REVIEW REQUIRED</p>
       <p><strong>Draft last updated:</strong> November 5, 2026</p>
       <p>
         This draft describes the planned data practices for 559 Solutions. It is not a legal guarantee and must be reviewed before production launch.
@@ -56,7 +56,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 
       <h2>Contact</h2>
       <p>
-        A public privacy contact must be added to the site configuration before launch.
+        For questions about this policy or your information, email <a href={`mailto:${site.publicEmail}`}>{site.publicEmail}</a>.
       </p>
     </article>
   </section>

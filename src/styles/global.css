@@ -1073,7 +1073,6 @@ button:disabled {
   color: var(--color-ink-soft);
 }
 
-.resource-layout,
 .contact-layout {
   display: grid;
   align-items: start;
@@ -1081,29 +1080,24 @@ button:disabled {
   grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr);
 }
 
-.resource-content,
 .article-content {
   min-width: 0;
 }
 
-.resource-content > :where(h2, h3),
 .article-content > :where(h2, h3) {
   scroll-margin-top: 7rem;
 }
 
-.resource-content h2,
 .article-content h2 {
   margin-top: var(--space-7);
   padding-top: var(--space-3);
   border-top: var(--border);
 }
 
-.resource-content h3,
 .article-content h3 {
   margin-top: var(--space-6);
 }
 
-.resource-content blockquote,
 .article-content blockquote {
   padding: var(--space-5);
   margin-inline: 0;
@@ -1113,7 +1107,6 @@ button:disabled {
   font-size: var(--step-1);
 }
 
-.resource-sidebar,
 .article-sidebar {
   position: sticky;
   top: 7rem;
@@ -1303,15 +1296,6 @@ button:disabled {
 
 .cta-inner .eyebrow {
   opacity: 0.72;
-}
-
-.legal-banner {
-  padding: var(--space-4);
-  margin-bottom: var(--space-6);
-  color: #662311;
-  background: #fff4e8;
-  border: 2px solid #de8d5b;
-  font-weight: 800;
 }
 
 .legal-content h2 {
@@ -1510,7 +1494,6 @@ button:disabled {
   .hero-grid,
   .signup-card,
   .about-preview,
-  .resource-layout,
   .contact-layout,
   .article-shell {
     grid-template-columns: minmax(0, 1fr);
@@ -1546,7 +1529,6 @@ button:disabled {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .resource-sidebar,
   .article-sidebar {
     position: static;
   }
@@ -1604,7 +1586,6 @@ button:disabled {
   .cta-section,
   .filter-bar,
   .button-row,
-  .resource-sidebar,
   .article-sidebar,
   .skip-link {
     display: none !important;
@@ -1620,8 +1601,7 @@ button:disabled {
     color: #000;
   }
 
-  .article-shell,
-  .resource-layout {
+  .article-shell {
     display: block;
   }
 
@@ -2201,7 +2181,7 @@ body.curious {
   line-height: var(--leading-heading);
 }
 
-/* The plan: open double doors in the left wall lead into a hall. The Library and Study are above the hall,
+/* The plan: open double doors in the left wall lead into a hall. The Study is above the hall,
    the Classroom below. Every room door swings in, right-hand; the front doors swing out. */
 .plan-wrap {
   position: relative;
@@ -2212,16 +2192,12 @@ body.curious {
 .plan {
   --hall: 3.5rem;
   --leaf: 3rem;
-  grid-template-columns: 1.2fr 1fr;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto var(--hall) auto;
   grid-template-areas:
-    "library study"
-    "hall hall"
-    "classroom classroom";
-}
-
-.plan-library {
-  grid-area: library;
+    "study"
+    "hall"
+    "classroom";
 }
 
 .plan-study {
@@ -2255,7 +2231,6 @@ body.curious {
 }
 
 /* Rooms above the hall keep their text clear of the door swinging in from the bottom wall. */
-.plan-library .plan-room,
 .plan-study .plan-room {
   padding-bottom: calc(var(--leaf) + var(--space-5));
 }
@@ -2466,7 +2441,6 @@ body.curious {
     padding: calc(var(--space-4) + 1.75rem) var(--space-4) var(--space-4);
   }
 
-  .plan-library .plan-room,
   .plan-study .plan-room {
     padding-bottom: calc(var(--leaf) + var(--space-4));
   }
@@ -2692,13 +2666,11 @@ body.curious {
     grid-template-columns: 2.25rem minmax(0, 1fr);
     grid-template-rows: none;
     grid-template-areas:
-      "hall library"
       "hall study"
       "hall classroom";
   }
 
   .plan-room,
-  .plan-library .plan-room,
   .plan-study .plan-room {
     min-height: 0;
     padding: calc(var(--space-4) + var(--leaf) + var(--space-3)) var(--space-4) var(--space-4);

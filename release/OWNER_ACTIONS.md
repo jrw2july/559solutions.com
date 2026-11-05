@@ -17,7 +17,7 @@ The site is complete and safely deployable as a static build. These items requir
 - [ ] Provide a real scheduling URL if scheduling should appear.
 - [ ] Complete a production form-delivery test from an outside email address.
 - [ ] Redeploy the Google Apps Script from `docs/apps-script-form-handler.gs` (Deploy > Manage deployments > edit > New version), so forms posted without JavaScript are accepted. Added 2026-11-05; see `docs/FORM_SETUP.md`.
-- [ ] After uploading the release, submit one real Curious Architect email signup and one waitlist signup on the live site, and confirm both rows appear in the Submissions sheet with their `source` values.
+- [ ] After uploading the release, submit one real Curious Architect email signup on the live site, and confirm the row appears in the Submissions sheet with its `source` value.
 - [ ] Decide whether to publish the fixed-scope entry offer (`entryOffer` in `src/config/site.ts`). It stays out of the build until every field is filled in.
 
 ## Public links
@@ -26,20 +26,18 @@ The site is complete and safely deployable as a static build. These items requir
 - [ ] Provide any other approved social-profile URLs.
 - [ ] Confirm whether social links should open in a new tab.
 
-## Resources and commerce
+## Downloads and commerce
 
 - [ ] Supply the final lead-magnet/checklist PDF and approve its unrestricted or gated delivery method.
 - [ ] Inventory and preserve every file from the old Downloads area.
 - [ ] Decide whether the email-move guide and HEIC converter will be migrated, retired, or redirected.
 - [ ] Confirm the status of both legacy store-product URLs.
-- [ ] Supply final resource files, cover art, prices, currency, tax/refund/license terms, and support details.
 - [ ] Choose the checkout/fulfillment provider and provide verified public checkout URLs.
 - [ ] Test at least one complete transaction and one download using a non-owner account before promotion.
 
 ## Content and offers
 
 - [ ] Review the two migrated articles for final editorial and legal accuracy.
-- [ ] Review the five resource descriptions and availability labels.
 - [ ] Review service names, deliverables, availability, and inquiry language.
 - [ ] Decide when, if ever, to complete and publish the eight draft article outlines.
 - [ ] Decide whether Courses and Case Studies should be completed and published.
@@ -57,7 +55,7 @@ The site is complete and safely deployable as a static build. These items requir
 ## Policy and operations
 
 - [ ] Have Privacy, Terms, Accessibility, refund, licensing, and email-consent language reviewed by the appropriate adviser.
-- [ ] Confirm the accessibility contact method and response process.
+- [ ] Confirm the response process for the accessibility contact (info@559solutions.com).
 - [ ] Establish owner responsibility for form messages, customer support, refunds, downloads, and content updates.
 - [ ] Take and download a full cPanel backup before deployment.
 - [ ] Keep source, release archives, checksums, and production assets outside `public_html`.
@@ -66,7 +64,7 @@ The site is complete and safely deployable as a static build. These items requir
 ## Current implementation assumptions
 
 - Canonical host is non-`www` over HTTPS.
-- Unconfirmed resources are marked `coming soon`; services are `by inquiry`.
+- Services are `by inquiry`.
 - Forms and analytics remain disabled until configured.
 - Only the two verified existing articles are published.
 - Courses and Case Studies remain unpublished templates.

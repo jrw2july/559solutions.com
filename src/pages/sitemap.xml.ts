@@ -12,12 +12,10 @@ const escapeXml = (value: string) =>
     .replaceAll("'", "&apos;");
 
 export async function GET() {
-  const resources = await getCollection("resources", ({ data }) => !data.draft);
   const articles = await getCollection("articles", ({ data }) => !data.draft);
   const course = await getCollection("code559");
   const staticPaths = [
     "/",
-    "/resources/",
     "/services/",
     "/blog/",
     "/subscribe/",
@@ -32,10 +30,6 @@ export async function GET() {
 
   const urls = [
     ...staticPaths.map((path) => ({ loc: absoluteUrl(path), lastmod: "2026-07-23" })),
-    ...resources.map((resource) => ({
-      loc: absoluteUrl(`/resources/${resource.data.slug}/`),
-      lastmod: resource.data.lastUpdated.toISOString().slice(0, 10),
-    })),
     ...articles.map((article) => ({
       loc: absoluteUrl(`/blog/${article.data.slug}/`),
       lastmod: article.data.updatedDate.toISOString().slice(0, 10),

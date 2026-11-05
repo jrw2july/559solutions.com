@@ -14,12 +14,12 @@
 
 ## Monthly
 
-- Test contact/newsletter delivery and resource links.
+- Test contact/newsletter delivery.
 - Check the site at desktop and mobile sizes.
 - Review cPanel storage, SSL status, error logs, and backup success.
 - Check for broken links and 404 traffic.
 - Review analytics only if an approved privacy-conscious configuration is enabled.
-- Confirm service availability and resource statuses remain accurate.
+- Confirm service availability remains accurate.
 
 ## Quarterly
 

@@ -4,8 +4,7 @@ A fast, accessible, static marketing site for 559 Solutions. It is built with As
 
 ## What is included
 
-- Home, resources, services, blog, about, contact, legal, accessibility, and custom 404 pages
-- Five resource detail pages with safe availability states
+- Home, services, blog, Code559, about, contact, legal, accessibility, and custom 404 pages
 - Two migrated production articles and eight unpublished draft outlines
 - RSS, XML sitemap, robots rules, social metadata, structured data, and a generated social card
 - Contact and newsletter forms that remain safely disabled until real endpoints are configured
@@ -51,7 +50,7 @@ pnpm package
 src/
   components/        Reusable Astro components
   config/site.ts     Owner-controlled URLs, forms, analytics, and features
-  content/           Articles and resources
+  content/           Articles and Code559 course copies
   data/              Navigation and service data
   layouts/           Shared document layout
   page-templates/    Prepared, unpublished Courses and Case Studies pages
@@ -76,7 +75,7 @@ Most owner-controlled values live in [`src/config/site.ts`](src/config/site.ts):
 - Checkout provider/origin
 - Optional Courses and Case Studies feature flags
 
-Products/resources are Markdown files in `src/content/resources/`. Blog content is in `src/content/articles/`; drafts are excluded when `draft: true`.
+Blog content is in `src/content/articles/`; drafts are excluded when `draft: true`.
 
 After any change, run:
 

@@ -26,7 +26,8 @@ const articles = defineCollection({
     seoTitle: z.string(),
     seoDescription: z.string(),
     canonicalOverride: z.string().optional(),
-    relatedResourceCta: z
+    // Optional second button in the closing "Work with me" band. Without it, the band links to /blog/.
+    secondaryCta: z
       .object({
         label: z.string(),
         href: z.string(),
@@ -51,58 +52,6 @@ const articles = defineCollection({
   }),
 });
 
-const resources = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/resources" }),
-  schema: z.object({
-    title: z.string(),
-    slug: z.string(),
-    shortDescription: z.string(),
-    intendedAudience: z.array(z.string()),
-    problemSolved: z.string(),
-    category: z.enum([
-      "Free",
-      "Templates",
-      "Guides and Workbooks",
-      "Starter Kits",
-      "Courses and Walkthroughs",
-      "Tools",
-      "Coming Soon",
-    ]),
-    topics: z.array(z.string()),
-    format: z.string(),
-    priceDisplay: z.string().default(""),
-    currency: z.string().default("USD"),
-    availability: z.enum([
-      "available",
-      "free",
-      "coming soon",
-      "early access",
-      "by inquiry",
-      "unavailable",
-      "draft",
-    ]),
-    checkoutUrl: z.string().default(""),
-    downloadUrl: z.string().default(""),
-    earlyAccessUrl: z.string().default(""),
-    image: z.string().optional(),
-    imageAlt: z.string().default(""),
-    includedFiles: z.array(z.string()).default([]),
-    lastUpdated: z.coerce.date(),
-    version: z.string(),
-    relatedArticles: z.array(z.string()).default([]),
-    relatedResources: z.array(z.string()).default([]),
-    supportExpectations: z.string(),
-    licenseSummary: z.string(),
-    refundPolicyLink: z.string().default(""),
-    requirements: z.array(z.string()).default([]),
-    faqs: z
-      .array(z.object({ question: z.string(), answer: z.string() }))
-      .default([]),
-    featured: z.boolean().default(false),
-    draft: z.boolean().default(false),
-  }),
-});
-
 // Code559 course pages, copied from the Code559 repository by scripts/sync-code559.mjs
 const code559 = defineCollection({
   loader: glob({ pattern: "*.md", base: "./src/content/code559" }),
@@ -115,4 +64,4 @@ const code559 = defineCollection({
   }),
 });
 
-export const collections = { articles, resources, code559 };
+export const collections = { articles, code559 };

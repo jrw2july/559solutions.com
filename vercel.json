@@ -6,9 +6,8 @@
     { "source": "/559-blog/the-hero-trap-tht2p", "destination": "/blog/the-hero-trap/", "permanent": true },
     { "source": "/559-blog/weekend-cto-how-to-choose-ai", "destination": "/blog/how-to-choose-and-actually-use-ai-tools/", "permanent": true },
     { "source": "/appointments", "destination": "/contact/", "permanent": true },
-    { "source": "/downloads", "destination": "/resources/", "permanent": true },
-    { "source": "/services-store", "destination": "/services/", "permanent": true },
-    { "source": "/resources/ai-project-readiness-checklist", "destination": "/resources/", "permanent": true }
+    { "source": "/downloads", "destination": "/", "permanent": true },
+    { "source": "/services-store", "destination": "/services/", "permanent": true }
   ],
   "headers": [
     {

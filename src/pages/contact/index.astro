@@ -1,12 +1,13 @@
 ---
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import ContactForm from "@/components/ContactForm.astro";
+import { site } from "@/config/site";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
 <BaseLayout
   title="Contact 559 Solutions | Start with the Work"
-  description="Contact 559 Solutions about a practical resource, business systems clarity, AI workflow assessment, low-code solution design, mentoring, or a workshop."
+  description="Contact 559 Solutions about business systems clarity, AI workflow assessment, low-code solution design, mentoring, or a workshop."
   canonicalPath="/contact/"
 >
   <section class="section">
@@ -23,6 +24,10 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
           <li>What keeps getting in the way?</li>
           <li>What would a useful next step look like?</li>
         </ol>
+        <p>
+          For general questions about the website, including accessibility, email
+          <a href={`mailto:${site.publicEmail}`}>{site.publicEmail}</a>.
+        </p>
       </div>
       <div>
         <h2>Send an inquiry</h2>
