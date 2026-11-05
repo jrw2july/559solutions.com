@@ -177,3 +177,24 @@ test("the entry offer stays out of the build until the owner fills it in", async
   const contact = await readFile(path.join(dist, "contact", "index.html"), "utf8");
   assert.match(contact, /<option value="systems-clarity-sprint">/, "the Services sprint link has a matching option");
 });
+
+test("every link to a coming-soon resource lands on a page with a waitlist form", async () => {
+  const resourceRoot = path.join(root, "src", "content", "resources");
+  const comingSoon = [];
+  for (const entry of await readdir(resourceRoot)) {
+    const source = await readFile(path.join(resourceRoot, entry), "utf8");
+    if (/^availability:\s*"coming soon"/m.test(source) && /^draft:\s*false/m.test(source)) {
+      comingSoon.push(/^slug:\s*"([^"]+)"/m.exec(source)[1]);
+    }
+  }
+  assert.ok(comingSoon.length > 0);
+  for (const slug of comingSoon) {
+    const html = await readFile(path.join(dist, "resources", slug, "index.html"), "utf8");
+    assert.match(html, /<section class="newsletter-card" id="waitlist"/, slug);
+    assert.match(html, /name="source" value="waitlist:/, slug);
+  }
+  for (const slug of ["the-simplest-useful-architecture-diagram", "what-architects-should-document"]) {
+    const html = await readFile(path.join(dist, "blog", slug, "index.html"), "utf8");
+    assert.match(html, /href="\/resources\/solution-architect-starter-kit\/#waitlist"/, slug);
+  }
+});

@@ -5,6 +5,8 @@
 // With JavaScript, site.js posts it and shows the result here. Without JavaScript the browser posts the
 // form itself, and the script answers with a short thank-you page (docs/apps-script-form-handler.gs).
 // No popups or overlays, and no subscriber counts. Worksheet text is never part of this form.
+// The same form is a waitlist for a resource that is not out yet (kind "waitlist", 2026-11-05): the
+// source is then "waitlist:<tag>" and the wording promises one email when it is released.
 import { site, sitePath } from "@/config/site";
 
 interface Props {
@@ -14,22 +16,37 @@ interface Props {
   tag: string;
   heading?: string;
   offer?: string;
+  /** "newsletter" (default) or "waitlist" for a resource that is not released yet. */
+  kind?: "newsletter" | "waitlist";
+  /** For a waitlist: the resource's name, used in the consent sentence. */
+  resourceTitle?: string;
+  /** Id for the section, so a link can jump to it (e.g. "waitlist"). */
+  anchor?: string;
 }
 
+const { id, tag, kind = "newsletter", resourceTitle = "", anchor } = Astro.props;
+const waitlist = kind === "waitlist";
 const {
-  id,
-  tag,
-  heading = "Get the next article by email",
-  offer = "Get an email when a new Curious Architect article is published. Nothing else. Unsubscribe anytime by replying.",
+  heading = waitlist ? "Get one email when it is released" : "Get the next article by email",
+  offer = waitlist
+    ? "Leave your email and you will get one email when it is ready. Nothing else."
+    : "Get an email when a new Curious Architect article is published. Nothing else. Unsubscribe anytime by replying.",
 } = Astro.props;
+const eyebrow = waitlist ? "Not released yet" : "The Curious Architect by email";
+const consent = waitlist
+  ? `I agree that 559 Solutions may email me once when the ${resourceTitle} is released.`
+  : "I agree that 559 Solutions may email me when a new article is published.";
+const success = waitlist
+  ? "Thanks. You'll get one email when it is released."
+  : "Thanks, you're on the list. You'll get an email when a new article is published.";
 const configured = Boolean(site.newsletterEndpoint);
-const source = `newsletter:${tag}`;
+const source = `${waitlist ? "waitlist" : "newsletter"}:${tag}`;
 const page = Astro.url.pathname;
 ---
 
-<section class="newsletter-card" aria-labelledby={`${id}-heading`}>
+<section class="newsletter-card" id={anchor} aria-labelledby={`${id}-heading`}>
   <div>
-    <p class="eyebrow">The Curious Architect by email</p>
+    <p class="eyebrow">{eyebrow}</p>
     <h2 id={`${id}-heading`} data-toc-skip>{heading}</h2>
     <p>{offer}</p>
   </div>
@@ -39,7 +56,7 @@ const page = Astro.url.pathname;
     method="post"
     aria-labelledby={`${id}-heading`}
     data-ajax-form={configured ? source : undefined}
-    data-success-message="Thanks, you're on the list. You'll get an email when a new article is published."
+    data-success-message={success}
   >
     <input type="hidden" name="source" value={source} />
     <input type="hidden" name="page" value={page} />
@@ -53,7 +70,7 @@ const page = Astro.url.pathname;
     </div>
     <label class="checkbox-field">
       <input name="consent" type="checkbox" required />
-      <span>I agree that 559 Solutions may email me when a new article is published. See the <a href={sitePath("/privacy/")}>Privacy Policy</a>.</span>
+      <span>{consent} See the <a href={sitePath("/privacy/")}>Privacy Policy</a>.</span>
     </label>
     <button class="button button-primary button-small" type="submit" disabled={!configured}>Sign up</button>
     {

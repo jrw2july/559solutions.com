@@ -32,7 +32,6 @@ version: "1.0 (October 2026)"
 relatedArticles:
   - "how-to-choose-and-actually-use-ai-tools"
 relatedResources:
-  - "ai-project-readiness-checklist"
   - "solution-architect-starter-kit"
 supportExpectations: "Self-guided. The workbook, the Word file and the Excel files cover the same worksheets, so you can work in whichever you prefer."
 licenseSummary: "Licensed to the purchaser for use inside their own organization. Fill it in, adapt it and share the results with your team and clients. Do not resell or redistribute the blank files."

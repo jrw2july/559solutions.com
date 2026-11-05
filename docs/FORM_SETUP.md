@@ -49,6 +49,7 @@ The Curious Architect signup (`src/components/NewsletterForm.astro`, 2026-11-05)
 - `newsletter:<article-slug>`: after an article's exercise
 - `newsletter:article-end-<article-slug>`: at the end of an article
 - `newsletter:subscribe-page`: on `/subscribe/`
+- `waitlist:starter-kit` and `waitlist:ai-workbook`: the waitlist on a coming-soon resource page (2026-11-05). These readers asked for one email when that resource is released, not for the newsletter.
 
 The `page` column holds the page address. Worksheet answers are never part of this form.
 
