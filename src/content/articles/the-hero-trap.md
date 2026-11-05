@@ -23,6 +23,8 @@ relatedArticles:
   - "how-to-choose-and-actually-use-ai-tools"
 ---
 
+<!-- ieia:introduce -->
+
 ## Why the best technical teams make heroics unnecessary
 
 There is always that person.
@@ -34,6 +36,8 @@ In every technical team I have worked with, there has been a hero. Early in my c
 Today, my quiet goal is different: use the hero, celebrate the hero, then replace the need for the hero.
 
 Not the person. Keep the person. The problem is the system that treats heroics as normal. That is a fragile system.
+
+<!-- ieia:explain -->
 
 ## How hero culture sneaks in
 
@@ -89,6 +93,8 @@ Then make one small change. It might be a runbook, a script, a clearer alert, or
 
 Over time, fire drills become design inputs.
 
+<!-- ieia:illustrate -->
+
 ## Get knowledge moving
 
 Hero culture depends on concentrated knowledge. Only one person knows the job. Only one person can deploy safely. Only one person understands the integration.
@@ -124,6 +130,8 @@ Set limits. Give them backup. Support them when they push back. Reframe their ro
 > Your job is not to be the emergency button. Your job is to help us build a team that does not need one.
 
 Give them room for strategic work, not just firefighting. This is kind, and it is good system design.
+
+<!-- ieia:apply -->
 
 ## Make the boring day the win
 

@@ -276,3 +276,24 @@ test("the reading sequence chains from step 1 to the last with no dead end, and 
   }
   assert.match(index, /<select id="filter-format"/);
 });
+
+test("every published article now has one lesson exercise, and the pilot has Go deeper", async () => {
+  const articleRoot = path.join(root, "src", "content", "articles");
+  for (const entry of await readdir(articleRoot, { withFileTypes: true })) {
+    if (!entry.isFile() || !entry.name.endsWith(".md")) continue;
+    const source = await readFile(path.join(articleRoot, entry.name), "utf8");
+    if (!/^draft:\s*false\s*$/m.test(source)) continue;
+    const slug = entry.name.replace(/\.md$/, "");
+    const html = await readFile(path.join(dist, "blog", slug, "index.html"), "utf8");
+    assert.equal((html.match(/id="lesson-apply"/g) || []).length, 1, `${slug}: one Apply step`);
+    assert.match(html, /id="lesson-deeper"/, `${slug}: Go deeper`);
+    assert.doesNotMatch(html, /ieia:/, `${slug}: markers replaced`);
+    assert.doesNotMatch(html, /style="/, `${slug}: no inline styles`);
+  }
+  const diagram = await readFile(path.join(dist, "blog", "the-simplest-useful-architecture-diagram", "index.html"), "utf8");
+  assert.equal((diagram.match(/<svg class="context-diagram-(wide|tall)"[^>]*role="img"/g) || []).length, 2);
+  assert.match(diagram, /href="https:\/\/c4model\.com\/"/, "C4 citation unchanged");
+  const record = await readFile(path.join(dist, "blog", "what-architects-should-document", "index.html"), "utf8");
+  assert.match(record, /data-worksheet="decision-record"/);
+  assert.match(record, /cognitect\.com\/blog\/2011\/11\/15\/documenting-architecture-decisions/, "Nygard citation unchanged");
+});

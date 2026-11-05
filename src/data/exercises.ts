@@ -97,6 +97,24 @@ export type TradeDiagramData = {
   rows: { label: string; cells: [string[], string[], string[]] }[];
 };
 
+/**
+ * A system context diagram (SVG): the question at the top, our system in the middle inside a dashed
+ * boundary, people on one side, other systems on the other, and labeled flows. Direction "in" means the
+ * flow goes toward our system. Every box names an owner, as the article recommends.
+ */
+export type ContextDiagramData = {
+  title: string;
+  description: string;
+  caption: string;
+  /** The question, as one line for the wide layout and as wrapped lines for the stacked layout. */
+  question: string;
+  questionLines: string[];
+  boundaryLabel: string;
+  ours: { name: string[]; owner: string };
+  people: { name: string; flow: string; direction: "in" | "out" }[];
+  systems: { name: string; owner: string; flow: string; direction: "in" | "out" }[];
+};
+
 /** A short, clearly made-up scenario shown at the start of a lesson. */
 export type ScenarioData = {
   label: string;
@@ -125,6 +143,7 @@ export type Exercise = {
   illustrate?: WorkedExampleData;
   /** Optional diagram shown first in the Illustrate step. */
   diagram?: TradeDiagramData;
+  contextDiagram?: ContextDiagramData;
   apply?: ApplyData;
   /** One connecting sentence before the Apply worksheet. */
   applyLead?: string;
@@ -480,6 +499,205 @@ export const exercises: Record<string, Exercise> = {
         { id: "experiment", label: "Smallest useful experiment", hint: "Past cases where you already know the right answer are the safest start." },
         { id: "measure", label: "How we'll know it worked" },
       ],
+    },
+    goDeeper: {
+      summary: "Go deeper (optional): five questions to think through",
+      questions: standingQuestions.map((question) => ({ question })),
+    },
+  },
+  // The remaining four articles (2026-11-05). New text approved by the owner; worked examples reuse each
+  // article's own examples, and anything made up or inferred is labeled so.
+  "the-simplest-useful-architecture-diagram": {
+    introduce: {
+      question: "What question must this diagram answer?",
+      answer: [
+        "One question, written at the top, for one named audience. If you have three questions, you may need three simple diagrams.",
+      ],
+    },
+    explain: true,
+    contextDiagram: {
+      title: "A system context diagram built with this article's recipe",
+      description:
+        "The question at the top reads: where does customer information go after someone fills in the form? In the middle, inside a dashed boundary labeled what we own, is our system, the order form and order list, owned by the Ops team. On the left are two people: a customer, who sends order details to our system, and staff, who receive the order list from it. On the right are three other systems: a payment provider owned by a vendor, which receives payment from us; an email service owned by a vendor, which receives the confirmation email from us; and a reporting tool owned by another team, which receives a nightly customer export from us.",
+      caption:
+        "A made-up example built only from this article's lists: one question, people on one side, other systems on the other, labeled flows, a boundary, and an owner in every box.",
+      question: "Where does customer information go after someone fills in the form?",
+      questionLines: ["Where does customer information go", "after someone fills in the form?"],
+      boundaryLabel: "What we own",
+      ours: { name: ["Order form and", "order list"], owner: "Ops team" },
+      people: [
+        { name: "Customer", flow: "order details", direction: "in" },
+        { name: "Staff", flow: "order list", direction: "out" },
+      ],
+      systems: [
+        { name: "Payment provider", owner: "Vendor", flow: "payment", direction: "out" },
+        { name: "Email service", owner: "Vendor", flow: "confirmation email", direction: "out" },
+        { name: "Reporting tool", owner: "Another team", flow: "nightly customer export", direction: "out" },
+      ],
+    },
+    illustrate: {
+      heading: "The recipe, drawn once",
+      lead: "Here is the recipe below applied to one made-up system, using only the examples from this article.",
+      rows: [
+        { label: "The question", value: "Where does customer information go after someone fills in the form?" },
+        { label: "The audience", value: "The staff who handle orders, and the person deciding whether to replace the form." },
+        { label: "What was removed", value: "Server names, the database engine, and the version of the form plugin. None changes the answer." },
+      ],
+      caption: "The three decisions that shaped the drawing above.",
+    },
+    applyLead: "Now plan a diagram for a system you work with. Your answers stay on this page.",
+    apply: {
+      kind: "worksheet",
+      id: "diagram-worksheet",
+      title: "Diagram question worksheet",
+      fields: [
+        { id: "question", label: "The question", hint: "One question this diagram must answer." },
+        { id: "audience", label: "The audience", hint: "Who needs the answer, and what will they decide with it?" },
+        { id: "people", label: "People, by role" },
+        { id: "systems", label: "Systems", hint: "Yours in the middle. The others it talks to around it." },
+        { id: "flows", label: "Information flows", hint: "Each arrow labeled with what moves and why." },
+        { id: "boundary", label: "Boundary and owners", hint: "What you own, and a name for every box." },
+        { id: "remove", label: "Detail to remove", hint: "If I removed this, would the reader make a different decision?" },
+      ],
+    },
+    goDeeper: {
+      summary: "Go deeper (optional): five questions to think through",
+      questions: standingQuestions.map((question) => ({ question })),
+    },
+  },
+  "what-architects-should-document": {
+    introduce: {
+      question: "Which field do teams skip most?",
+      answer: [
+        "The reasons: the alternatives set aside and the assumptions that felt too obvious to write down. The system can show what was built. Only a record can say why.",
+      ],
+    },
+    explain: true,
+    illustrate: {
+      heading: "A completed record",
+      lead: "Here is this article's warehouse example written into every field of the template below.",
+      rows: [
+        { label: "Title and date", value: "Send order updates through a message queue. March." },
+        { label: "Context", value: "The warehouse system's outages started stopping checkout. Orders needed to keep flowing while it was down." },
+        { label: "Decision", value: "Send order updates through a message queue instead of calling the warehouse system directly." },
+        { label: "Assumptions", value: "Order volume stays under a few thousand a day. The vendor keeps supporting this version through next year." },
+        {
+          label: "Alternatives set aside",
+          value: "Call the warehouse directly with retries: checkout would still wait on the warehouse. Nightly batch file: the warehouse needs orders within minutes.",
+        },
+        {
+          label: "Consequences",
+          value: "Good: checkout keeps working during warehouse outages. Bad: one more system to run. Neutral: the queue is shared with the returns process.",
+        },
+        {
+          label: "Owner, constraints, failure handling",
+          value: "Owner: the operations team. Messages older than seven days are deleted. If the queue backs up, orders still save; the warehouse catches up when it recovers. Alert goes to the operations channel.",
+        },
+        { label: "Revisit when", value: "Daily orders pass ten thousand, the warehouse system is replaced, or the vendor contract comes up for renewal." },
+      ],
+      caption:
+        "Everything here comes from this article's examples, except the owner, which is inferred from the alert going to the operations channel, and the \"bad\" consequence, which is a reasonable guess.",
+    },
+    applyLead: "Now write the record for a decision your team has already made. Copy gives you Markdown to store beside the code.",
+    apply: {
+      kind: "worksheet",
+      id: "decision-record",
+      title: "Decision-record builder",
+      fields: [
+        { id: "title", label: "Title and date" },
+        { id: "context", label: "Context", hint: "What prompted the decision, and when." },
+        { id: "decision", label: "Decision", hint: "One or two plain sentences." },
+        { id: "assumptions", label: "Assumptions", hint: "Especially the ones that feel too obvious to mention." },
+        { id: "alternatives", label: "Alternatives set aside, with reasons" },
+        { id: "consequences", label: "Consequences", hint: "Good, bad, and neutral." },
+        { id: "operations", label: "Owner, constraints, and failure handling", hint: "The part the person on call at night needs." },
+        { id: "revisit", label: "Revisit when", hint: "What would make this decision worth looking at again?" },
+      ],
+    },
+    goDeeper: {
+      summary: "Go deeper (optional): five questions to think through",
+      questions: standingQuestions.map((question) => ({ question })),
+    },
+  },
+  "how-to-choose-and-actually-use-ai-tools": {
+    introduce: {
+      question: "Category or brand first?",
+      answer: [
+        "Category. Products change quickly and the underlying job changes slowly, so describe the work first, then compare a few options against the same criteria.",
+      ],
+    },
+    explain: true,
+    illustrate: {
+      heading: "A sample run-log entry",
+      lead: "One made-up entry, in the eight columns this article suggests.",
+      rows: [
+        { label: "Date", value: "Week 2 of the pilot, Tuesday." },
+        { label: "Tool and account type", value: "An AI writing assistant, team account." },
+        { label: "Process or playbook", value: "First draft of the weekly customer update." },
+        { label: "Input category", value: "Internal. No customer names or contract terms." },
+        { label: "Output location", value: "The drafts folder, as a document named with the date." },
+        { label: "Reviewer", value: "The account manager." },
+        { label: "Correction or issue", value: "The draft invented a release date. The reviewer removed it." },
+        { label: "Result measure", value: "Draft ready for review in 10 minutes. The week before the pilot it took 45." },
+      ],
+      caption: "A made-up example. The tool, the people and the numbers are not real; the columns are the article's.",
+    },
+    applyLead: "Now plan your own pilot and keep its log here. Your answers stay on this page.",
+    apply: {
+      kind: "worksheet",
+      id: "pilot-plan",
+      title: "Pilot plan and run log",
+      fields: [
+        { id: "outcome", label: "The outcome", hint: "Who benefits, who owns the process, how the current result is measured, and what better looks like." },
+        { id: "category", label: "Category of work", hint: "Describe the job before naming a product." },
+        { id: "playbook", label: "Playbook", hint: "Trigger, input, steps, required human review, output, and where the result is recorded." },
+        { id: "boundary", label: "Data boundary", hint: "Public, internal, or restricted. What must never go into the tool?" },
+        { id: "measure", label: "The measure that decides keep, adjust, or stop" },
+        { id: "log", label: "Run log", hint: "One line per run: date; tool and account type; playbook; input category; output location; reviewer; correction or issue; result measure." },
+      ],
+    },
+    goDeeper: {
+      summary: "Go deeper (optional): five questions to think through",
+      questions: standingQuestions.map((question) => ({ question })),
+    },
+  },
+  "the-hero-trap": {
+    introduce: {
+      question: "Think of a recent save on your team. What would have happened if that person had been away?",
+      answer: [
+        "That gap is the system's weakness, not the person's. The goal is to keep the person and remove the need for the save.",
+      ],
+      guessLabel: "The save you have in mind (optional)",
+    },
+    explain: true,
+    illustrate: {
+      heading: "One save, turned into a system fix",
+      lead: "A made-up example of the habit this article describes.",
+      rows: [
+        { label: "The save", value: "A nightly job failed at 2 a.m. One person recognized the error from memory and restarted it with the right setting before anyone noticed." },
+        { label: "The thank you", value: "Said in the morning stand-up, as it should be." },
+        { label: "The one question", value: "How do we make sure the next person does not need to be a hero to handle this?" },
+        { label: "The system change", value: "A one-page runbook for the job, an alert that names the setting to check, and a second person walked through the fix the next time it ran." },
+        { label: "What was celebrated next", value: "The first night the second person handled it alone." },
+      ],
+      caption: "A made-up example. One improvement per crisis is enough to begin.",
+    },
+    applyLead: "Next time someone saves the day, fill this in while it is fresh. Your answers stay on this page.",
+    apply: {
+      kind: "worksheet",
+      id: "after-the-save",
+      title: "After-the-save worksheet",
+      fields: [
+        { id: "broke", label: "What broke" },
+        { id: "who", label: "Who saved it, and what they knew that others did not" },
+        { id: "change", label: "The one system change that prevents a repeat", hint: "A runbook, a script, a clearer alert, or a simpler handoff." },
+        { id: "next", label: "Who learns it next, and how", hint: "Pair, rotate, walk through, record, or write down." },
+        { id: "celebrate", label: "What we will celebrate instead" },
+      ],
+    },
+    goDeeper: {
+      summary: "Go deeper (optional): five questions to think through",
+      questions: standingQuestions.map((question) => ({ question })),
     },
   },
 };

@@ -25,6 +25,8 @@ relatedArticles:
   - "the-hero-trap"
 ---
 
+<!-- ieia:introduce -->
+
 Most disappointing AI pilots are not really about the technology. They begin with a tool instead of a useful outcome, skip the question of workflow fit, and never define a repeatable process.
 
 A calmer approach looks like this:
@@ -36,6 +38,8 @@ A calmer approach looks like this:
 5. Set clear boundaries for sensitive information and human review.
 
 For the full method, a one-page worksheet, and a quick reference of 17 popular tools checked in October 2026, see the free Code559 guide, [How to Choose the Right AI Tool](/code559/choose-the-right-ai-tool/).
+
+<!-- ieia:explain -->
 
 ## Start with the outcome
 
@@ -124,6 +128,10 @@ A lightweight run log makes a pilot easier to review. Record:
 - result measure.
 
 This is not paperwork for its own sake. It gives the team enough evidence to make a better decision.
+
+<!-- ieia:illustrate -->
+
+<!-- ieia:apply -->
 
 ## The practical test
 

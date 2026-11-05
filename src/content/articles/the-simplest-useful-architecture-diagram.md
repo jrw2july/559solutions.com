@@ -21,9 +21,13 @@ relatedResourceCta:
 relatedArticles: ["what-architects-should-document", "how-to-run-a-better-discovery-meeting"]
 ---
 
+<!-- ieia:introduce -->
+
 Many architecture diagrams fail the same way. They are accurate, detailed, and nearly impossible to use. Every server, queue, and arrow is there. The one thing a reader came to learn is buried somewhere in the middle.
 
 A useful diagram is not the one with the most information. It is the one that answers a question quickly, for the person who needs the answer.
+
+<!-- ieia:explain -->
 
 ## Begin with the question the diagram must answer
 
@@ -93,6 +97,8 @@ Listen for where they hesitate or guess wrong. That is where the diagram is uncl
 
 A non-specialist also catches jargon. If a word needs explaining, replace it.
 
+<!-- ieia:illustrate -->
+
 ## A five-step recipe
 
 1. Write the question and the audience at the top.
@@ -102,6 +108,8 @@ A non-specialist also catches jargon. If a word needs explaining, replace it.
 5. Remove anything that does not change the answer, then test it on someone new.
 
 Simple is not the same as shallow. A simple diagram is one where every element earns its place.
+
+<!-- ieia:apply -->
 
 <details class="article-fold">
 <summary><h4>Sources</h4></summary>

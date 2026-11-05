@@ -21,6 +21,8 @@ relatedResourceCta:
 relatedArticles: ["the-simplest-useful-architecture-diagram", "start-with-the-decision-not-the-ai-tool"]
 ---
 
+<!-- ieia:introduce -->
+
 Most architecture documentation describes what was built. That is useful, but the system itself can often tell you that. Read the code, inspect the configuration, look at the running services.
 
 What the system cannot tell you is why.
@@ -30,6 +32,8 @@ Why this database and not the other one? Why does this job run at 2 a.m.? Why is
 In 2011, Michael Nygard made this point in a short post that introduced what are now called architecture decision records. His argument was that without the motivation behind a decision, a newcomer can only accept it blindly or reverse it blindly, and both are risky.
 
 Here is what is worth writing down.
+
+<!-- ieia:explain -->
 
 ## The decision, and the date it became necessary
 
@@ -80,6 +84,8 @@ Finally, write down what would make the decision worth looking at again:
 
 A trigger turns documentation from a record of the past into a tool for the future. Instead of reviewing every decision on a schedule, the team reviews the ones whose conditions have changed.
 
+<!-- ieia:illustrate -->
+
 ## Keep it short and close to the work
 
 None of this needs a long document. One page per decision is plenty, and half a page is often enough. A common practice is to store these records alongside the code or configuration they describe, numbered in order, so they are easy to find and change with the system. When a decision is replaced, mark the old record as superseded and link to the new one rather than deleting it. The history is part of the value.
@@ -96,6 +102,8 @@ A simple template:
 8. **Revisit when**
 
 Future teams rarely need more pages. They need the reasons.
+
+<!-- ieia:apply -->
 
 <details class="article-fold">
 <summary><h4>Sources</h4></summary>
