@@ -3,9 +3,15 @@ import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import ExternalLink from "@/components/ExternalLink.astro";
 import FloorplanDivider from "@/components/FloorplanDivider.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
+import PlaybookDiagram from "@/components/diagrams/PlaybookDiagram.astro";
+import ToolFloorPlan from "@/components/diagrams/ToolFloorPlan.astro";
+import QuestionWorthAsking from "@/components/ieia/QuestionWorthAsking.astro";
+import UseItAtWork from "@/components/ieia/UseItAtWork.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { sitePath } from "@/config/site";
-import { aiTools, aiToolsCheckedOn } from "@/data/ai-tools";
+import { aiToolJobs, aiTools, aiToolsCheckedOn, jobForTool } from "@/data/ai-tools";
+import type { QuestionWorthAskingData, WorksheetData } from "@/data/exercises";
+import { shareImageFor } from "@/lib/share-image.mjs";
 
 // Code559: How to Choose the Right AI Tool (2026-10-14). The method comes from the 559 "Weekend CTO"
 // quick reference; the tool table lives in src/data/ai-tools.ts.
@@ -32,7 +38,7 @@ const steps = [
     text: "Use business or enterprise plans where you can, and keep personal, financial and confidential information out of tools that are not approved for it. Check privacy and retention terms before you start.",
   },
 ];
-const worksheet = [
+const questions = [
   "What one result should improve, and how do we measure it now?",
   "Who owns the work, and who checks the AI's output?",
   "What kind of tool does the job need?",
@@ -42,6 +48,38 @@ const worksheet = [
   "What does one playbook look like, start to finish?",
   "What result after the pilot means we keep it, adjust it, or stop?",
 ];
+// IEIA additions (2026-11-05): a pre-question (Introduce), two diagrams (Illustrate), and the questions
+// above as a fillable worksheet (Apply). Question 4 is a comparison grid. No new tool facts.
+const preQuestion: QuestionWorthAskingData = {
+  question: "Your team just saw an impressive AI demo. What do you write down first?",
+  answer: [
+    "The one result you want to improve, and how you measure it today. Name one result you can see: “Write one sales email a day” beats “learn AI.”",
+  ],
+};
+const worksheet: WorksheetData = {
+  kind: "worksheet",
+  id: "tool-worksheet",
+  title: "Answer these before you open a trial account",
+  numbered: true,
+  copyFormat: "headings",
+  fields: questions.map((label, i) => ({
+    id: `q${i + 1}`,
+    label,
+    ...(i === 3 && {
+      grid: {
+        tools: 3,
+        rows: [
+          { id: "result", label: "Result on our test" },
+          { id: "fit", label: "Works inside our apps?" },
+          { id: "data", label: "Information it is allowed to see" },
+        ],
+      },
+    }),
+  })),
+};
+const pagePath = "/code559/choose-the-right-ai-tool/";
+const tableId = "ai-tools-table";
+const share = await shareImageFor("choose-the-right-ai-tool");
 const schema = {
   "@context": "https://schema.org",
   "@type": "LearningResource",
@@ -55,7 +93,9 @@ const schema = {
 <BaseLayout
   title="How to Choose the Right AI Tool | Code559"
   description="A five-step way to choose an AI tool, a checked quick reference of 17 popular tools, a one-page worksheet, and help if you want it."
-  canonicalPath="/code559/choose-the-right-ai-tool/"
+  canonicalPath={pagePath}
+  image={share.image}
+  imageAlt={share.alt}
   structuredData={schema}
   bodyClass="code559"
 >
@@ -80,6 +120,9 @@ const schema = {
           <a class="button button-secondary" href={sitePath(assessment)}>Ask for an AI workflow assessment</a>
         </div>
       </div>
+      <div class="guide-question">
+        <QuestionWorthAsking id="pre-question" data={preQuestion} />
+      </div>
     </div>
   </section>
 
@@ -89,10 +132,11 @@ const schema = {
       <ol class="guide-steps">
         {
           steps.map((step, i) => (
-            <li class="card">
+            <li class:list={["card", i === 3 && "guide-step-wide"]}>
               <p class="card-number" aria-hidden="true">{String(i + 1).padStart(2, "0")}</p>
               <h3>{step.title}</h3>
               <p>{step.text}</p>
+              {i === 3 && <PlaybookDiagram id="playbook-diagram" />}
             </li>
           ))
         }
@@ -107,23 +151,45 @@ const schema = {
         title="Popular AI tools, by the job they do"
         description={`Each row was checked against the tool's own website on ${aiToolsCheckedOn}. Tools change quickly: check pricing, privacy and business controls before you adopt one.`}
       />
+      <ToolFloorPlan id="tool-floor-plan" jobs={aiToolJobs} pageHref={sitePath(pagePath)} {tableId} />
+      <div class="tool-finder" data-tool-finder={tableId}>
+        <div class="tool-finder-controls" data-js-only hidden>
+          <p class="tool-finder-label" id="tool-finder-label">Show tools by the job they do</p>
+          <div class="tool-finder-buttons" role="group" aria-labelledby="tool-finder-label">
+            <button class="filter-button" type="button" data-job="" aria-pressed="true">All tools</button>
+            {
+              aiToolJobs.map((job) => (
+                <button class="filter-button" type="button" data-job={job.slug} aria-pressed="false">
+                  {job.label}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+        <p class="tool-finder-status" role="status" aria-live="polite" data-tool-finder-status></p>
+      </div>
+      {/* Below 40rem the rows become stacked cards (global.css). The explicit table roles keep the table
+          meaning when CSS changes how it is displayed; each visible cell label is aria-hidden, because
+          the column header already names the cell for assistive technology. */}
       <section class="table-scroll" aria-label="AI tools quick reference" tabindex="0">
-        <table class="tools-table">
+        <Fragment set:html="<!-- [html-validate-disable-block no-redundant-role: explicit roles keep table semantics in the phone card layout] -->" />
+        <table class="tools-table" id={tableId} role="table">
           <caption class="visually-hidden">Popular AI tools: category, tool, best for, standout strength</caption>
-          <thead>
-            <tr><th scope="col">Category</th><th scope="col">Tool</th><th scope="col">Best for</th><th scope="col">Standout strength</th></tr>
+          <thead role="rowgroup">
+            <tr role="row"><th scope="col" role="columnheader">Category</th><th scope="col" role="columnheader">Tool</th><th scope="col" role="columnheader">Best for</th><th scope="col" role="columnheader">Standout strength</th></tr>
           </thead>
-          <tbody>
+          <tbody role="rowgroup">
             {
               aiTools.map((row) => (
-                <tr>
-                  <td>{row.category}</td>
-                  <th scope="row">
+                <tr role="row" data-job={jobForTool(row).slug}>
+                  <td role="cell"><span class="cell-label" aria-hidden="true">Category</span>{row.category}</td>
+                  <th scope="row" role="rowheader">
+                    <span class="cell-label" aria-hidden="true">Tool</span>
                     <ExternalLink href={row.url}>{row.tool}</ExternalLink>
                     {row.note && <span class="tool-note">{row.note}</span>}
                   </th>
-                  <td>{row.bestFor}</td>
-                  <td>{row.strength}</td>
+                  <td role="cell"><span class="cell-label" aria-hidden="true">Best for</span>{row.bestFor}</td>
+                  <td role="cell"><span class="cell-label" aria-hidden="true">Standout strength</span>{row.strength}</td>
                 </tr>
               ))
             }
@@ -140,8 +206,11 @@ const schema = {
         eyebrow="Worksheet"
         title="Answer these before you open a trial account"
         description="If the answers fit on one page, you are ready to compare tools. If they don't, you have found the real work."
+        id="worksheet-heading"
       />
-      <ol class="worksheet-list">{worksheet.map((q) => <li>{q}</li>)}</ol>
+      <div class="guide-worksheet">
+        <UseItAtWork data={worksheet} printTitle="How to Choose the Right AI Tool" labelledBy="worksheet-heading" />
+      </div>
       <FloorplanDivider />
     </div>
   </section>

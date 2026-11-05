@@ -1,0 +1,153 @@
+---
+import DiagramFigure from "@/components/diagrams/DiagramFigure.astro";
+import type { AiToolJob } from "@/data/ai-tools";
+
+// Floor plan of tool categories (2026-11-05): one room per job group, with that group's table
+// categories inside, and an entry door labeled "Start with the outcome". The drawing is one image
+// (role="img"), so links inside it are hidden from assistive technology: the rooms are clickable for
+// mouse and touch only (tabindex="-1"), and the visible list under the drawing has the same links for
+// keyboard and screen-reader users. Each link opens ?job=<slug>#<table id>; site.js applies it in place.
+interface Props {
+  id: string;
+  jobs: AiToolJob[];
+  /** Address of the page with the table, ending in "/". */
+  pageHref: string;
+  tableId: string;
+}
+
+const { id, jobs, pageHref, tableId } = Astro.props;
+const href = (slug: string) => `${pageHref}?job=${slug}#${tableId}`;
+const doorLabel = "Start with the outcome";
+
+// Wrap a label into lines of at most `max` characters, breaking at spaces.
+const wrap = (text: string, max: number) =>
+  text.split(" ").reduce<string[]>((lines, word) => {
+    const last = lines[lines.length - 1];
+    if (last !== undefined && `${last} ${word}`.length <= max) lines[lines.length - 1] = `${last} ${word}`;
+    else lines.push(word);
+    return lines;
+  }, []);
+
+const LABEL_LINE = 17;
+const CAT_LINE = 20;
+const PAD = 14;
+const roomHeight = (labelLines: number, catLines: number) => PAD + labelLines * LABEL_LINE + 8 + catLines * CAT_LINE + PAD - 4;
+// Characters that fit on a line: mono label text is about 9px per character, category text about 7.8px.
+const fit = (width: number, perChar: number) => Math.floor((width - 2 * PAD) / perChar);
+
+type Room = { job: AiToolJob; x: number; y: number; w: number; h: number; label: string[]; cats: string[] };
+
+// Wide: rooms tiled in three rows inside the outer wall, a hall along the bottom, the entry door below.
+const WIDE_W = 720;
+const inner = { x: 12, y: 12, w: WIDE_W - 24 };
+const rowsWide = [jobs.slice(0, 3), jobs.slice(3, 5), jobs.slice(5)];
+const spans = [[1, 1, 1], [2, 1], [1.5, 1.5]];
+const wideRooms: Room[] = [];
+let wideY = inner.y;
+rowsWide.forEach((row, r) => {
+  let x = inner.x;
+  const laid = row.map((job, i) => {
+    const w = (inner.w * spans[r][i]) / 3;
+    const label = wrap(job.label.toUpperCase(), fit(w, 9));
+    const room = { job, x, y: wideY, w, h: 0, label, cats: job.categories };
+    x += w;
+    return room;
+  });
+  const h = Math.max(...laid.map((room) => roomHeight(room.label.length, room.cats.length)));
+  laid.forEach((room) => wideRooms.push({ ...room, h }));
+  wideY += h;
+});
+const HALL = 46;
+const wideWallBottom = wideY + HALL;
+const wideHeight = wideWallBottom + 52;
+
+// Stacked: the entry door at the top, a hall, then one room per row.
+const STACK_W = 340;
+const sInner = { x: 12, w: STACK_W - 24 };
+const stackTop = 34;
+const stackedRooms: Room[] = [];
+let stackY = stackTop + 6 + HALL;
+jobs.forEach((job) => {
+  const label = wrap(job.label.toUpperCase(), fit(sInner.w, 9));
+  const h = roomHeight(label.length, job.categories.length);
+  stackedRooms.push({ job, x: sInner.x, y: stackY, w: sInner.w, h, label, cats: job.categories });
+  stackY += h;
+});
+const stackedWallBottom = stackY + 6;
+const stackedHeight = stackedWallBottom + 4;
+
+const DOOR = 44;
+---
+
+<DiagramFigure
+  {id}
+  title="Floor plan of AI tool categories"
+  caption="The tool table as a floor plan: one room for each job, holding the categories that do that job. Choose a room to see its tools."
+  wideViewBox={`0 0 ${WIDE_W} ${wideHeight}`}
+  stackedViewBox={`0 0 ${STACK_W} ${stackedHeight}`}
+  class="floor-plan-diagram"
+>
+  <g slot="wide">
+    <rect class="dg-wall-outer" x="4" y="4" width={WIDE_W - 8} height={wideWallBottom - 2} />
+    <rect class="dg-wall-inner" x="10" y="10" width={WIDE_W - 20} height={wideWallBottom - 14} />
+    {
+      wideRooms.map((room) => (
+        <a href={href(room.job.slug)} tabindex="-1" class="dg-room-link" data-job-link={room.job.slug}>
+          <rect class="dg-room" x={room.x} y={room.y} width={room.w} height={room.h} />
+          <text class="dg-room-label">
+            {room.label.map((line, n) => (
+              <tspan x={room.x + PAD} y={room.y + PAD + 12 + n * LABEL_LINE}>{line}</tspan>
+            ))}
+          </text>
+          <text class="dg-text">
+            {room.cats.map((cat, n) => (
+              <tspan x={room.x + PAD} y={room.y + PAD + 12 + room.label.length * LABEL_LINE + 8 + n * CAT_LINE}>{cat}</tspan>
+            ))}
+          </text>
+        </a>
+      ))
+    }
+    <line class="dg-door-gap" x1={WIDE_W / 2 - DOOR / 2} y1={wideWallBottom - 1} x2={WIDE_W / 2 + DOOR / 2} y2={wideWallBottom - 1} />
+    <path class="dg-door" d={`M${WIDE_W / 2 - DOOR / 2} ${wideWallBottom + 2} V${wideWallBottom + 2 - DOOR} A${DOOR} ${DOOR} 0 0 1 ${WIDE_W / 2 + DOOR / 2} ${wideWallBottom + 2}`} />
+    <text class="dg-text dg-strong" x={WIDE_W / 2} y={wideWallBottom + 34} text-anchor="middle">{doorLabel}</text>
+  </g>
+  <g slot="stacked">
+    <text class="dg-text dg-strong" x={STACK_W / 2} y="20" text-anchor="middle">{doorLabel}</text>
+    <rect class="dg-wall-outer" x="4" y={stackTop} width={STACK_W - 8} height={stackedWallBottom - stackTop} />
+    <rect class="dg-wall-inner" x="10" y={stackTop + 6} width={STACK_W - 20} height={stackedWallBottom - stackTop - 12} />
+    <line class="dg-door-gap" x1={STACK_W / 2 - DOOR / 2} y1={stackTop + 3} x2={STACK_W / 2 + DOOR / 2} y2={stackTop + 3} />
+    <path class="dg-door" d={`M${STACK_W / 2 - DOOR / 2} ${stackTop + 3} V${stackTop + 3 + DOOR - 10} A${DOOR} ${DOOR - 10} 0 0 0 ${STACK_W / 2 + DOOR / 2} ${stackTop + 3}`} />
+    {
+      stackedRooms.map((room) => (
+        <a href={href(room.job.slug)} tabindex="-1" class="dg-room-link" data-job-link={room.job.slug}>
+          <rect class="dg-room" x={room.x} y={room.y} width={room.w} height={room.h} />
+          <text class="dg-room-label">
+            {room.label.map((line, n) => (
+              <tspan x={room.x + PAD} y={room.y + PAD + 12 + n * LABEL_LINE}>{line}</tspan>
+            ))}
+          </text>
+          <text class="dg-text">
+            {room.cats.map((cat, n) => (
+              <tspan x={room.x + PAD} y={room.y + PAD + 12 + room.label.length * LABEL_LINE + 8 + n * CAT_LINE}>{cat}</tspan>
+            ))}
+          </text>
+        </a>
+      ))
+    }
+  </g>
+  <div class="diagram-text diagram-text-visible" id={`${id}-desc`} slot="description">
+    <p>
+      Text description: the plan has one entry door, labeled “{doorLabel}”, and seven rooms, one for each job. Each room
+      lists the table categories it holds. Choose a room to show only its tools in the table.
+    </p>
+    <ul class="room-list">
+      {
+        jobs.map((job) => (
+          <li>
+            <a href={href(job.slug)} data-job-link={job.slug}>{job.label}</a>: {job.categories.join(", ")}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</DiagramFigure>

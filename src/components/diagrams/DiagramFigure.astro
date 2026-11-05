@@ -1,0 +1,32 @@
+---
+// Diagram kit (2026-11-05). One <figure> holding two drawings of the same diagram: a wide one and a
+// stacked one for narrow screens. CSS shows one at a time (40rem), so assistive technology meets it once.
+// Each <svg> is role="img", named by its own <title>, and described by the in-page text description
+// (the "description" slot, placed right after the figure; it must carry id `${id}-desc`). Rules: docs/diagrams.md.
+interface Props {
+  id: string;
+  /** Short name of the drawing, read as the image's name. */
+  title: string;
+  caption: string;
+  /** viewBox of the wide drawing, for example "0 0 720 300". */
+  wideViewBox: string;
+  /** viewBox of the stacked drawing (340 wide reads well at 375px). */
+  stackedViewBox: string;
+  class?: string;
+}
+
+const { id, title, caption, wideViewBox, stackedViewBox, class: className } = Astro.props;
+---
+
+<figure class:list={["diagram-figure", className]} id={id}>
+  <svg class="diagram-wide" viewBox={wideViewBox} role="img" aria-labelledby={`${id}-wide-title`} aria-describedby={`${id}-desc`}>
+    <title id={`${id}-wide-title`}>{title}</title>
+    <slot name="wide" />
+  </svg>
+  <svg class="diagram-stacked" viewBox={stackedViewBox} role="img" aria-labelledby={`${id}-stacked-title`} aria-describedby={`${id}-desc`}>
+    <title id={`${id}-stacked-title`}>{title}</title>
+    <slot name="stacked" />
+  </svg>
+  <figcaption>{caption}</figcaption>
+</figure>
+<slot name="description" />

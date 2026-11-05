@@ -293,18 +293,24 @@ const copyText = async (text) => {
   }
 };
 
+// Worksheets. A field is a text box, or (2026-11-05) a comparison grid: a <table> of labeled text boxes.
+// Every box has a name, so Save, Start over and Copy treat both kinds the same way.
+const markdownCell = (value) => value.trim().replace(/\s*\n\s*/g, " ").replace(/\|/g, "\\|");
+
 document.querySelectorAll("[data-worksheet]").forEach((form) => {
-  const fields = [...form.querySelectorAll("textarea[data-label]")];
+  const items = [...form.querySelectorAll("[data-worksheet-item]")];
+  const boxes = [...form.querySelectorAll("textarea[name], input[type='text'][name]")];
   const status = form.querySelector("[data-worksheet-status]");
   const save = form.querySelector("[data-worksheet-save]");
   const printCopy = form.querySelector("[data-worksheet-print]");
   const storeKey = `ieia:${window.location.pathname}:${form.dataset.worksheet}`;
   const title = form.dataset.worksheetTitle || "Worksheet";
+  const headings = form.dataset.worksheetFormat === "headings";
   const say = (message) => {
     if (status) status.textContent = message;
   };
 
-  const values = () => Object.fromEntries(fields.map((field) => [field.name, field.value]));
+  const values = () => Object.fromEntries(boxes.map((box) => [box.name, box.value]));
   const persist = () => {
     if (save?.checked) writeStore(storeKey, JSON.stringify(values()));
   };
@@ -313,8 +319,8 @@ document.querySelectorAll("[data-worksheet]").forEach((form) => {
   if (stored && save) {
     try {
       const data = JSON.parse(stored);
-      fields.forEach((field) => {
-        if (typeof data[field.name] === "string") field.value = data[field.name];
+      boxes.forEach((box) => {
+        if (typeof data[box.name] === "string") box.value = data[box.name];
       });
       save.checked = true;
     } catch {
@@ -335,10 +341,35 @@ document.querySelectorAll("[data-worksheet]").forEach((form) => {
     }
   });
 
-  const markdown = () =>
-    [`## ${title}`, "", ...fields.flatMap((field) => [`**${field.dataset.label}**`, "", field.value.trim() || "_(blank)_", ""])]
-      .join("\n")
-      .trim() + "\n";
+  // A grid as rows of plain text: the tool names first, then one row per check.
+  const gridRows = (table) => {
+    const tools = [...table.querySelectorAll("[data-grid-tool]")].map(
+      (input) => input.value.trim() || `Tool ${input.dataset.gridTool}`,
+    );
+    const rows = [...table.querySelectorAll("tbody tr")].map((row) => ({
+      label: row.dataset.gridRow || "",
+      cells: [...row.querySelectorAll("input")].map((input) => input.value.trim()),
+    }));
+    return { tools, rows };
+  };
+  const itemLabel = (item) => [item.dataset.number, item.dataset.label].filter(Boolean).join(" ");
+
+  const markdown = () => {
+    const lines = [`## ${title}`, ""];
+    items.forEach((item) => {
+      lines.push(headings ? `### ${itemLabel(item)}` : `**${itemLabel(item)}**`, "");
+      const table = item.querySelector("[data-worksheet-grid]");
+      if (table) {
+        const { tools, rows } = gridRows(table);
+        lines.push(`| | ${tools.map(markdownCell).join(" | ")} |`, `|---|${tools.map(() => "---").join("|")}|`);
+        rows.forEach((row) => lines.push(`| ${markdownCell(row.label)} | ${row.cells.map((cell) => markdownCell(cell) || " ").join(" | ")} |`));
+        lines.push("");
+      } else {
+        lines.push(item.querySelector("textarea")?.value.trim() || "_(blank)_", "");
+      }
+    });
+    return lines.join("\n").trim() + "\n";
+  };
 
   form.querySelector("[data-worksheet-copy]")?.addEventListener("click", async () => {
     const copied = await copyText(markdown());
@@ -349,18 +380,33 @@ document.querySelectorAll("[data-worksheet]").forEach((form) => {
     }
   });
 
+  const element = (tag, className, text) => {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  };
+
   form.querySelector("[data-worksheet-print-button]")?.addEventListener("click", () => {
     track("exercise_complete", { module: form.dataset.worksheet });
     if (printCopy) {
       printCopy.replaceChildren(
-        ...fields.flatMap((field) => {
-          const label = document.createElement("p");
-          label.className = "worksheet-print-field";
-          label.textContent = field.dataset.label || "";
-          const answer = document.createElement("p");
-          answer.className = "worksheet-print-answer";
-          answer.textContent = field.value.trim() || " ";
-          return [label, answer];
+        ...items.flatMap((item) => {
+          const label = element("p", "worksheet-print-field", itemLabel(item));
+          const table = item.querySelector("[data-worksheet-grid]");
+          if (!table) {
+            return [label, element("p", "worksheet-print-answer", item.querySelector("textarea")?.value.trim() || " ")];
+          }
+          const { tools, rows } = gridRows(table);
+          const printed = element("table", "worksheet-print-grid");
+          const head = printed.createTHead().insertRow();
+          head.append(element("th", "", ""), ...tools.map((tool) => element("th", "", tool)));
+          const body = printed.createTBody();
+          rows.forEach((row) => {
+            const line = body.insertRow();
+            line.append(element("th", "", row.label), ...row.cells.map((cell) => element("td", "", cell || " ")));
+          });
+          return [label, printed];
         }),
       );
     }
@@ -377,8 +423,8 @@ document.querySelectorAll("[data-worksheet]").forEach((form) => {
 
   form.querySelector("[data-worksheet-reset]")?.addEventListener("click", () => {
     if (!window.confirm("Clear every answer in this worksheet?")) return;
-    fields.forEach((field) => {
-      field.value = "";
+    boxes.forEach((box) => {
+      box.value = "";
     });
     if (save?.checked) writeStore(storeKey, JSON.stringify(values()));
     say("Cleared.");
@@ -434,4 +480,58 @@ document.querySelectorAll("[data-selfcheck]").forEach((box) => {
       track("exercise_complete", { module: box.dataset.selfcheck });
     }
   });
+});
+
+// AI tool finder (2026-11-05): buttons show the table rows for one job. The chosen job goes in the
+// address as ?job=<slug> (replaceState, so Back still leaves the page) and is read again on load. Links
+// marked data-job-link (the floor-plan rooms and their list) apply the same filter in place. Without
+// JavaScript the buttons stay hidden and every row shows.
+document.querySelectorAll("[data-tool-finder]").forEach((finder) => {
+  const table = document.getElementById(finder.dataset.toolFinder || "");
+  if (!table) return;
+  const rows = [...table.querySelectorAll("tbody tr[data-job]")];
+  const buttons = [...finder.querySelectorAll("button[data-job]")];
+  const status = finder.querySelector("[data-tool-finder-status]");
+  const region = table.closest(".table-scroll") || table;
+
+  const apply = (slug, { announce = true } = {}) => {
+    const button = buttons.find((item) => item.dataset.job === slug) || buttons.find((item) => item.dataset.job === "");
+    if (!button) return;
+    const job = button.dataset.job;
+    let count = 0;
+    rows.forEach((row) => {
+      const show = !job || row.dataset.job === job;
+      row.hidden = !show;
+      if (show) count += 1;
+    });
+    buttons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+    if (status && announce) {
+      status.textContent = job
+        ? `Showing ${count} ${count === 1 ? "tool" : "tools"} for ${button.textContent.trim()}.`
+        : `Showing all ${count} tools.`;
+    }
+    const url = new URL(window.location.href);
+    if (job) url.searchParams.set("job", job);
+    else url.searchParams.delete("job");
+    if (url.href !== window.location.href) window.history.replaceState(null, "", url);
+  };
+
+  buttons.forEach((button) => button.addEventListener("click", () => apply(button.dataset.job || "")));
+
+  document.querySelectorAll("[data-job-link]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      // Let a new-tab or new-window click open the address as usual.
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      apply(link.dataset.jobLink || "");
+      const url = new URL(window.location.href);
+      url.hash = table.id;
+      window.history.replaceState(null, "", url);
+      region.scrollIntoView({ block: "start" });
+      if (region.tabIndex >= 0) region.focus({ preventScroll: true });
+    });
+  });
+
+  const initial = new URLSearchParams(window.location.search).get("job") || "";
+  apply(initial, { announce: Boolean(initial) });
 });

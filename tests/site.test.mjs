@@ -317,3 +317,38 @@ test("measurement stays a no-op: no analytics script, no assertive live regions,
     assert.doesNotMatch(html, /role="alert"|aria-live="assertive"/, file);
   }
 });
+
+test("Code559 AI tool guide: pre-question, two diagrams, tool finder, phone cards, worksheet and share image", async () => {
+  const html = await readFile(path.join(dist, "code559", "choose-the-right-ai-tool", "index.html"), "utf8");
+  assert.match(html, /Code559 · Free guide/, "Code559 label unchanged");
+  assert.doesNotMatch(html, /style="/, "no inline styles");
+  // Introduce: the pre-question, with its answer in <details>.
+  assert.match(html, /Your team just saw an impressive AI demo\. What do you write down first\?/);
+  assert.match(html, /<details class="ieia-reveal">/);
+  // Illustrate: two diagrams, each a wide and a stacked labeled image with a text description.
+  for (const id of ["playbook-diagram", "tool-floor-plan"]) {
+    assert.equal((html.match(new RegExp(`role="img" aria-labelledby="${id}-(wide|stacked)-title" aria-describedby="${id}-desc"`, "g")) || []).length, 2, id);
+    assert.match(html, new RegExp(`id="${id}-desc"`), `${id}: text description`);
+  }
+  // Tool finder: 17 rows, each in exactly one job group; buttons hidden until JavaScript runs.
+  const rows = html.match(/<tr role="row" data-job="[a-z-]+"/g) || [];
+  assert.equal(rows.length, 17, "17 tool rows");
+  assert.match(html, /class="tool-finder-controls" data-js-only hidden/);
+  assert.match(html, /role="status" aria-live="polite" data-tool-finder-status/);
+  assert.equal((html.match(/\(opens in a new tab\)/g) || []).length >= 17, true, "every tool link keeps its new-tab text");
+  assert.match(html, /October 14, 2026/, "checked date unchanged");
+  for (const note of ["Formerly Canva Magic Studio", "Replaced DALL·E", "Successor to SDXL"]) assert.match(html, new RegExp(note));
+  assert.match(html, /Tool names are trademarks of their owners\./);
+  // Apply: the worksheet with the comparison grid; every box name unique.
+  assert.match(html, /data-worksheet="tool-worksheet"/);
+  const names = [...html.matchAll(/<(?:input|textarea)[^>]*\sname="([^"]+)"/g)].map((match) => match[1]);
+  assert.equal(names.length, 7 + 12, "7 text boxes and a 3x4 grid");
+  assert.equal(new Set(names).size, names.length, "unique names");
+  assert.doesNotMatch(html, /score|percentage/i, "no score or percentage");
+  // Share image: page-specific, 1200x630.
+  assert.match(html, /<meta property="og:image" content="[^"]*\/share\/choose-the-right-ai-tool\.png">/);
+  assert.match(html, /<meta name="twitter:image" content="[^"]*\/share\/choose-the-right-ai-tool\.png">/);
+  const png = await readFile(path.join(dist, "share", "choose-the-right-ai-tool.png"));
+  assert.equal(png.readUInt32BE(16), 1200, "width");
+  assert.equal(png.readUInt32BE(20), 630, "height");
+});

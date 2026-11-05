@@ -31,3 +31,40 @@ export const aiTools: AiTool[] = [
   { category: "Team docs", tool: "Notion AI", bestFor: "Meeting notes, search and Q&A in your docs", strength: "AI inside your wiki and documents", url: "https://www.notion.com/product/ai" },
   { category: "Visual collaboration", tool: "Miro AI", bestFor: "Brainstorms, mapping, planning", strength: "Generates diagrams, timelines and boards", url: "https://miro.com/ai/" },
 ];
+
+// Tool finder job groups (2026-11-05). Each group gathers categories that already appear in the table
+// above; no tool facts live here. The page filters rows by these groups and the floor-plan diagram draws
+// one room per group. The build stops if a row matches no group or more than one.
+export interface AiToolJob {
+  slug: string;
+  label: string;
+  categories: string[];
+}
+
+export const aiToolJobs: AiToolJob[] = [
+  { slug: "write-and-analyze", label: "Write and analyze", categories: ["General chat and writing", "General chat and analysis"] },
+  { slug: "find-answers", label: "Find answers", categories: ["Answer engine"] },
+  { slug: "microsoft-or-google-apps", label: "Work inside Microsoft or Google apps", categories: ["Work copilot (Microsoft)", "Work copilot (Google)"] },
+  { slug: "images-video-voice", label: "Make images, video or voice", categories: ["Design", "Image generator", "Video generator", "Voice"] },
+  { slug: "code", label: "Code", categories: ["Coding"] },
+  { slug: "connect-and-build", label: "Connect apps and build tools", categories: ["Automation", "Internal tools"] },
+  { slug: "plan-and-collaborate", label: "Plan and collaborate", categories: ["Team docs", "Visual collaboration"] },
+];
+
+/** The job group a table row belongs to. */
+export const jobForTool = (tool: AiTool): AiToolJob => {
+  const matches = aiToolJobs.filter((job) => job.categories.includes(tool.category));
+  if (matches.length !== 1) {
+    throw new Error(`AI tool "${tool.tool}" (category "${tool.category}") must belong to exactly one job group; it matches ${matches.length}.`);
+  }
+  return matches[0];
+};
+
+for (const job of aiToolJobs) {
+  for (const category of job.categories) {
+    if (!aiTools.some((tool) => tool.category === category)) {
+      throw new Error(`Job group "${job.label}" lists category "${category}", which is not in the table.`);
+    }
+  }
+}
+aiTools.forEach(jobForTool);

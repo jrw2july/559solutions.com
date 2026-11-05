@@ -6,14 +6,16 @@ interface Props {
   align?: "left" | "center";
   /** Heading level. Use "h1" when this heading is the page title. */
   as?: "h1" | "h2";
+  /** Optional id on the heading, so other elements can point to it (aria-labelledby). */
+  id?: string;
 }
 
-const { eyebrow, title, description, align = "left", as = "h2" } = Astro.props;
+const { eyebrow, title, description, align = "left", as = "h2", id } = Astro.props;
 const Heading = as;
 ---
 
 <div class:list={["section-heading", align === "center" && "section-heading-center"]}>
   {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-  <Heading>{title}</Heading>
+  <Heading id={id}>{title}</Heading>
   {description && <p>{description}</p>}
 </div>

@@ -4,6 +4,8 @@ import type { WorksheetData } from "@/data/exercises";
 // "Use it at work": a worksheet of labeled text boxes. Answers stay in this browser. They leave only
 // when the reader uses Copy or Print. Copy, Print, Start over and "Save on this device" need
 // JavaScript, so they stay hidden until site.js shows them. Without JavaScript the boxes still work.
+// A field with a grid (2026-11-05) shows a small comparison table instead of a text box: a real <table>
+// with row and column headers and a labeled text box in every cell.
 interface Props {
   data: WorksheetData;
   /** Printed above the worksheet: usually the article title. */
@@ -15,9 +17,18 @@ interface Props {
 const { data, printTitle, labelledBy } = Astro.props;
 const { id } = data;
 const printUrl = Astro.url.href;
+const toolNumbers = (count: number) => Array.from({ length: count }, (_, i) => i + 1);
 ---
 
-<div class="worksheet" id={id} role="group" aria-labelledby={labelledBy ?? `${id}-title`} data-worksheet={id} data-worksheet-title={data.title}>
+<div
+  class="worksheet"
+  id={id}
+  role="group"
+  aria-labelledby={labelledBy ?? `${id}-title`}
+  data-worksheet={id}
+  data-worksheet-title={data.title}
+  data-worksheet-format={data.copyFormat}
+>
   <div class="worksheet-print-head" aria-hidden="true">
     <p>{printTitle}</p>
     <p>{printUrl}</p>
@@ -26,23 +37,68 @@ const printUrl = Astro.url.href;
   {labelledBy ? <p class="worksheet-print-title">{data.title}</p> : <p class="worksheet-title" id={`${id}-title`}>{data.title}</p>}
   {data.intro && <p class="worksheet-intro">{data.intro}</p>}
   {
-    data.fields.map((field) => (
-      <div class="field">
-        <label for={`${id}-${field.id}`}>{field.label}</label>
-        {field.hint && (
-          <p class="field-hint" id={`${id}-${field.id}-hint`}>
-            {field.hint}
-          </p>
-        )}
-        <textarea
-          id={`${id}-${field.id}`}
-          name={field.id}
-          rows="3"
-          data-label={field.label}
-          aria-describedby={field.hint ? `${id}-${field.id}-hint` : undefined}
-        />
-      </div>
-    ))
+    data.fields.map((field, index) => {
+      const fieldId = `${id}-${field.id}`;
+      const number = data.numbered ? `${index + 1}.` : undefined;
+      if (field.grid) {
+        const grid = field.grid;
+        return (
+          <div class="field worksheet-grid-field" role="group" aria-labelledby={`${fieldId}-label`} data-worksheet-item data-label={field.label} data-number={number}>
+            <p class="worksheet-grid-label" id={`${fieldId}-label`}>
+              {number && <span class="field-number">{number} </span>}
+              {field.label}
+            </p>
+            {field.hint && (
+              <p class="field-hint" id={`${fieldId}-hint`}>
+                {field.hint}
+              </p>
+            )}
+            <table class="worksheet-grid" aria-labelledby={`${fieldId}-label`} data-worksheet-grid>
+              <thead>
+                <tr>
+                  <td class="worksheet-grid-corner" />
+                  {toolNumbers(grid.tools).map((n) => (
+                    <th scope="col">
+                      <label for={`${fieldId}-tool-${n}`}>Tool {n} name</label>
+                      <input type="text" id={`${fieldId}-tool-${n}`} name={`${field.id}-tool-${n}`} autocomplete="off" data-grid-tool={n} />
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {grid.rows.map((row) => (
+                  <tr data-grid-row={row.label}>
+                    <th scope="row">{row.label}</th>
+                    {toolNumbers(grid.tools).map((n) => (
+                      <td>
+                        <label class="worksheet-grid-cell-label" for={`${fieldId}-${row.id}-${n}`}>
+                          Tool {n}: {row.label}
+                        </label>
+                        <input type="text" id={`${fieldId}-${row.id}-${n}`} name={`${field.id}-${row.id}-${n}`} autocomplete="off" />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+      }
+      return (
+        <div class="field" data-worksheet-item data-label={field.label} data-number={number}>
+          <label for={fieldId}>
+            {number && <span class="field-number">{number} </span>}
+            {field.label}
+          </label>
+          {field.hint && (
+            <p class="field-hint" id={`${fieldId}-hint`}>
+              {field.hint}
+            </p>
+          )}
+          <textarea id={fieldId} name={field.id} rows="3" data-label={field.label} aria-describedby={field.hint ? `${fieldId}-hint` : undefined} />
+        </div>
+      );
+    })
   }
   <div class="worksheet-print-copy" aria-hidden="true" data-worksheet-print></div>
   <div class="worksheet-tools" data-js-only hidden>

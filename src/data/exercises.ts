@@ -18,6 +18,18 @@ export type WorksheetField = {
   id: string;
   label: string;
   hint?: string;
+  /** Optional comparison grid shown instead of the text box: one column per tool, one row per check. */
+  grid?: WorksheetGrid;
+};
+
+/**
+ * A small comparison grid inside a worksheet: a real <table> with a labeled text box in every cell.
+ * The first row holds the tool names; each later row is one check, such as "Result on our test".
+ */
+export type WorksheetGrid = {
+  /** Number of tool columns (2 or 3 fit on a phone). */
+  tools: number;
+  rows: { id: string; label: string }[];
 };
 
 export type WorksheetData = {
@@ -27,6 +39,10 @@ export type WorksheetData = {
   title: string;
   intro?: string;
   fields: WorksheetField[];
+  /** Show a number before each question (1., 2., ...) on the page, in Copy and in Print. */
+  numbered?: boolean;
+  /** "headings": Copy writes each question as a Markdown heading. Default: each question in bold. */
+  copyFormat?: "headings";
 };
 
 /** One choice in a "Make the call" question. */

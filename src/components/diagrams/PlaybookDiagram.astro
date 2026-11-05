@@ -1,0 +1,118 @@
+---
+import DiagramFigure from "@/components/diagrams/DiagramFigure.astro";
+
+// Anatomy of a playbook (2026-11-05), drawn from step 4 of the Code559 guide "How to Choose the Right AI
+// Tool": five parts in order, run enough times to see a pattern, then keep, adjust or stop. Shared, so
+// /blog/how-to-choose-and-actually-use-ai-tools/ can show the same drawing later. The three outcomes are
+// dashed and labeled, so nothing depends on their fill color. No motion.
+interface Props {
+  id?: string;
+  caption?: string;
+}
+
+const { id = "playbook-diagram", caption = "A playbook, from step 4: five parts in order, run many times, then one decision." } = Astro.props;
+
+const parts = [["Trigger"], ["Input"], ["Prompt"], ["Who", "approves"], ["Where it", "is saved"]];
+const outcomes = ["Keep", "Adjust", "Stop"];
+const bracketLabel = "Run it enough times to see a pattern";
+const LINE = 19;
+const textTop = (y: number, h: number, count: number) => y + h / 2 - ((count - 1) * LINE) / 2 + 6;
+
+// Wide: five boxes in a row, a bracket under all of them, then the three outcomes.
+const w = { boxW: 124, step: 149, boxY: 10, boxH: 64, bracketY: 92, labelY: 136, outW: 150, outStep: 190, outX: 95, outY: 194, outH: 50 };
+const wideHeight = w.outY + w.outH + 4;
+
+// Stacked: the five boxes top to bottom, a bracket beside them, the label under them, then the outcomes.
+const t = { x: 20, boxW: 240, boxH: 46, step: 68, top: 6, bracketX: 268, outW: 92, outStep: 104, outY: 424, outH: 46 };
+const stackBottom = t.top + 4 * t.step + t.boxH;
+const stackedHeight = t.outY + t.outH + 4;
+---
+
+<DiagramFigure id={id} title="Anatomy of a playbook" {caption} wideViewBox={`0 0 720 ${wideHeight}`} stackedViewBox={`0 0 340 ${stackedHeight}`} class="playbook-diagram">
+  <g slot="wide">
+    <defs>
+      <marker id={`${id}-arrow`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path class="dg-arrowhead" d="M0 0 L10 5 L0 10 z" />
+      </marker>
+    </defs>
+    {
+      parts.map((lines, i) => (
+        <g>
+          <rect class="dg-box" x={i * w.step + 1} y={w.boxY} width={w.boxW - 2} height={w.boxH} rx="4" />
+          <text class="dg-text dg-strong" text-anchor="middle">
+            {lines.map((line, n) => (
+              <tspan x={i * w.step + w.boxW / 2} y={textTop(w.boxY, w.boxH, lines.length) + n * LINE}>{line}</tspan>
+            ))}
+          </text>
+          {i < parts.length - 1 && (
+            <line class="dg-line" x1={i * w.step + w.boxW + 1} y1={w.boxY + w.boxH / 2} x2={(i + 1) * w.step - 2} y2={w.boxY + w.boxH / 2} marker-end={`url(#${id}-arrow)`} />
+          )}
+        </g>
+      ))
+    }
+    <path class="dg-bracket" d={`M2 ${w.bracketY - 8} V${w.bracketY} H718 V${w.bracketY - 8} M360 ${w.bracketY} V${w.bracketY + 14}`} />
+    <text class="dg-text" x="360" y={w.labelY} text-anchor="middle">{bracketLabel}</text>
+    {
+      outcomes.map((label, i) => {
+        const x = w.outX + i * w.outStep;
+        return (
+          <g>
+            <line class="dg-line" x1="360" y1={w.labelY + 10} x2={x + w.outW / 2} y2={w.outY - 3} marker-end={`url(#${id}-arrow)`} />
+            <rect class="dg-box dg-box-outcome" x={x} y={w.outY} width={w.outW} height={w.outH} rx="4" />
+            <text class="dg-text dg-strong" x={x + w.outW / 2} y={w.outY + w.outH / 2 + 6} text-anchor="middle">{label}</text>
+          </g>
+        );
+      })
+    }
+  </g>
+  <g slot="stacked">
+    <defs>
+      <marker id={`${id}-arrow-stacked`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path class="dg-arrowhead" d="M0 0 L10 5 L0 10 z" />
+      </marker>
+    </defs>
+    {
+      parts.map((lines, i) => {
+        const y = t.top + i * t.step;
+        return (
+          <g>
+            <rect class="dg-box" x={t.x} y={y} width={t.boxW} height={t.boxH} rx="4" />
+            <text class="dg-text dg-strong" x={t.x + t.boxW / 2} y={y + t.boxH / 2 + 6} text-anchor="middle">{lines.join(" ")}</text>
+            {i < parts.length - 1 && (
+              <line class="dg-line" x1={t.x + t.boxW / 2} y1={y + t.boxH + 1} x2={t.x + t.boxW / 2} y2={y + t.step - 3} marker-end={`url(#${id}-arrow-stacked)`} />
+            )}
+          </g>
+        );
+      })
+    }
+    <path class="dg-bracket" d={`M${t.bracketX} ${t.top} H${t.bracketX + 10} V${stackBottom} H${t.bracketX} M${t.bracketX + 10} ${stackBottom} V${stackBottom + 18} H170 V${stackBottom + 24}`} />
+    <text class="dg-text" text-anchor="middle">
+      <tspan x="170" y={stackBottom + 44}>Run it enough times</tspan>
+      <tspan x="170" y={stackBottom + 44 + LINE}>to see a pattern</tspan>
+    </text>
+    {
+      outcomes.map((label, i) => {
+        const x = t.x + i * t.outStep;
+        return (
+          <g>
+            <line class="dg-line" x1="170" y1={stackBottom + 72} x2={x + t.outW / 2} y2={t.outY - 3} marker-end={`url(#${id}-arrow-stacked)`} />
+            <rect class="dg-box dg-box-outcome" x={x} y={t.outY} width={t.outW} height={t.outH} rx="4" />
+            <text class="dg-text dg-strong" x={x + t.outW / 2} y={t.outY + t.outH / 2 + 6} text-anchor="middle">{label}</text>
+          </g>
+        );
+      })
+    }
+  </g>
+  <details class="diagram-text" id={`${id}-desc`} slot="description">
+    <summary>Text description of the drawing</summary>
+    <p>The drawing shows the five parts of a playbook, in order:</p>
+    <ol>
+      <li>Trigger</li>
+      <li>Input</li>
+      <li>Prompt</li>
+      <li>Who approves</li>
+      <li>Where it is saved</li>
+    </ol>
+    <p>A bracket around all five parts says: {bracketLabel}. Arrows lead from it to three outcomes, drawn as dashed boxes: keep, adjust or stop.</p>
+  </details>
+</DiagramFigure>

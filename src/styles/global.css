@@ -1863,8 +1863,7 @@ button:disabled {
   margin-bottom: var(--space-4);
 }
 
-.guide-steps,
-.worksheet-list {
+.guide-steps {
   padding: 0;
   margin: 0;
 }
@@ -1874,16 +1873,6 @@ button:disabled {
   gap: var(--space-5);
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
   list-style: none;
-}
-
-.worksheet-list {
-  max-width: var(--container-narrow);
-  padding-left: 1.4em;
-  font-size: var(--step-0);
-}
-
-.worksheet-list li {
-  margin-bottom: var(--space-3);
 }
 
 .table-scroll {
@@ -3745,4 +3734,447 @@ body.curious {
   margin-top: var(--space-3);
   color: var(--color-ink-soft);
   font-size: var(--step--1);
+}
+
+/* Code559 "How to Choose the Right AI Tool": IEIA additions (2026-11-05). */
+.guide-question,
+.guide-worksheet {
+  max-width: var(--container-narrow);
+}
+
+.guide-question .ieia-question {
+  margin-bottom: 0;
+}
+
+/* "Save on this device": a 24px box, the minimum target size, on this page. */
+.guide-worksheet .worksheet-save {
+  grid-template-columns: 1.5rem 1fr;
+}
+
+.guide-worksheet .worksheet-save input {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: 0;
+}
+
+/* Step 4 holds the playbook diagram, so it spans the row; step 5 follows it at the same width. */
+.guide-step-wide,
+.guide-step-wide ~ li {
+  grid-column: 1 / -1;
+}
+
+/* Diagram kit (docs/diagrams.md). Wide drawing from 40rem up, stacked drawing below. Text is real SVG
+   text (16px body, 13px labels in the drawing's own units), so it scales with zoom. Meaning never rests
+   on color: the amber outcome boxes are also dashed and labeled. Lines are ink, so black-and-white
+   printing keeps everything. No motion. */
+.diagram-figure {
+  --diagram-amber: #fff1cc;
+  margin: var(--space-4) 0 0;
+  padding: var(--space-4);
+  background: var(--color-white);
+  border: 2px solid var(--color-ink);
+}
+
+.diagram-figure svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 46rem;
+  margin-inline: auto;
+}
+
+.diagram-stacked {
+  display: none !important;
+}
+
+@media (max-width: 40rem) {
+  .diagram-wide {
+    display: none !important;
+  }
+
+  .diagram-stacked {
+    display: block !important;
+    max-width: 22rem;
+  }
+
+  .diagram-figure {
+    padding: var(--space-2);
+  }
+}
+
+.diagram-figure .dg-box,
+.diagram-figure .dg-room {
+  fill: var(--color-white);
+  stroke: var(--color-ink);
+  stroke-width: 2;
+}
+
+.diagram-figure .dg-box-outcome {
+  fill: var(--diagram-amber);
+  stroke-dasharray: 7 5;
+}
+
+.diagram-figure .dg-text {
+  fill: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+}
+
+.diagram-figure .dg-strong {
+  font-weight: 700;
+}
+
+.diagram-figure .dg-line,
+.diagram-figure .dg-bracket {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 2;
+}
+
+.diagram-figure .dg-arrowhead {
+  fill: var(--color-ink);
+}
+
+.diagram-figure .dg-room-label {
+  fill: var(--color-blue);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.diagram-figure .dg-wall-outer {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 3;
+}
+
+.diagram-figure .dg-wall-inner,
+.diagram-figure .dg-door {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 1.5;
+}
+
+.diagram-figure .dg-door-gap {
+  stroke: var(--color-white);
+  stroke-width: 10;
+}
+
+.diagram-figure .dg-room-link:hover .dg-room {
+  fill: var(--color-blue-pale);
+}
+
+.diagram-figure .dg-room-link:hover .dg-room-label {
+  text-decoration: underline;
+}
+
+.diagram-figure figcaption {
+  margin-top: var(--space-3);
+  color: var(--color-ink-soft);
+  font-size: var(--step--1);
+}
+
+.diagram-text {
+  margin-top: var(--space-3);
+  font-size: var(--step--1);
+}
+
+.diagram-text p {
+  margin-bottom: var(--space-2);
+}
+
+.diagram-text summary {
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  color: var(--color-blue);
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.diagram-text ol,
+.room-list {
+  margin: 0 0 var(--space-2);
+  padding-left: 1.3em;
+}
+
+.room-list li {
+  margin-bottom: var(--space-1);
+}
+
+.room-list a {
+  display: inline-block;
+  min-height: 1.5rem;
+  font-weight: 700;
+}
+
+.guide-step-wide .diagram-figure {
+  border-width: 1px;
+  border-color: var(--color-line-strong);
+}
+
+/* Tool finder: job buttons above the table. The pressed button is filled and carries a check mark, so
+   the state does not rest on color alone; aria-pressed gives it to assistive technology. */
+.tool-finder-label {
+  margin: var(--space-5) 0 var(--space-2);
+  color: var(--color-ink);
+  font-weight: 750;
+}
+
+.tool-finder-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.filter-button {
+  min-height: 2.75rem;
+  padding: 0.45rem 0.8rem;
+  color: var(--color-blue);
+  background: var(--color-white);
+  border: 2px solid var(--color-blue);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.filter-button:hover {
+  background: var(--color-blue-pale);
+}
+
+.filter-button[aria-pressed="true"] {
+  color: var(--color-white);
+  background: var(--color-blue);
+}
+
+.filter-button[aria-pressed="true"]::before {
+  content: "\2713  ";
+  content: "\2713  " / "";
+}
+
+.tool-finder-status {
+  min-height: 1.6em;
+  margin: var(--space-2) 0;
+  color: var(--color-ink-soft);
+  font-size: var(--step--1);
+  font-weight: 700;
+}
+
+/* Phone cards: below 40rem each table row becomes a stacked card. It is still the one <table> (with
+   explicit roles, so the table meaning survives the display change). The visible cell labels are
+   aria-hidden: assistive technology already hears the column header. */
+.cell-label {
+  display: none;
+}
+
+@media (max-width: 39.99rem) {
+  .table-scroll {
+    overflow: visible;
+    background: transparent;
+    border: 0;
+  }
+
+  .tools-table {
+    display: block;
+    min-width: 0;
+  }
+
+  .tools-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .tools-table tbody {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .tools-table tr {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-3);
+    background: var(--color-white) !important;
+    border: 2px solid var(--color-ink);
+  }
+
+  .tools-table th,
+  .tools-table td {
+    display: block;
+    padding: var(--space-1) 0;
+    border: 0;
+  }
+
+  .tools-table tbody th {
+    order: -1;
+    padding-bottom: var(--space-2);
+    border-bottom: var(--border);
+    font-size: var(--step-0);
+  }
+
+  .cell-label {
+    display: block;
+    color: var(--color-ink-soft);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
+
+/* Worksheet comparison grid (UseItAtWork). Wide: a table with tool columns. Below 40rem: one block per
+   check, with each box's full label shown. */
+.field-number {
+  color: var(--color-blue);
+}
+
+.worksheet-grid-label {
+  margin: 0 0 var(--space-2);
+  color: var(--color-ink);
+  font-size: 0.9rem;
+  font-weight: 750;
+}
+
+.worksheet-grid {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-white);
+  font-size: var(--step--1);
+}
+
+.worksheet-grid th,
+.worksheet-grid td {
+  padding: var(--space-2);
+  border: 1px solid var(--color-line-strong);
+  text-align: left;
+  vertical-align: top;
+}
+
+.worksheet-grid tbody th {
+  width: 28%;
+  color: var(--color-ink);
+}
+
+.worksheet .worksheet-grid input {
+  min-height: 2.75rem;
+  padding: 0.45rem 0.55rem;
+}
+
+.worksheet .worksheet-grid thead label {
+  margin-bottom: var(--space-1);
+  font-size: 0.82rem;
+}
+
+.worksheet .worksheet-grid .worksheet-grid-cell-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 39.99rem) {
+  .worksheet-grid,
+  .worksheet-grid thead,
+  .worksheet-grid tbody,
+  .worksheet-grid tr,
+  .worksheet-grid th,
+  .worksheet-grid td {
+    display: block;
+    width: auto;
+  }
+
+  .worksheet-grid {
+    background: transparent;
+  }
+
+  .worksheet-grid .worksheet-grid-corner {
+    display: none;
+  }
+
+  .worksheet-grid tr {
+    margin-bottom: var(--space-3);
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-white);
+    border: 1px solid var(--color-line-strong);
+  }
+
+  .worksheet-grid th,
+  .worksheet-grid td {
+    padding: var(--space-1) 0;
+    border: 0;
+  }
+
+  .worksheet-grid tbody th {
+    width: auto;
+    padding-bottom: var(--space-2);
+    border-bottom: var(--border);
+  }
+
+  .worksheet .worksheet-grid .worksheet-grid-cell-label {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0 0 var(--space-1);
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    font-size: 0.82rem;
+  }
+}
+
+@media print {
+  .tool-finder-controls,
+  .tool-finder-status {
+    display: none !important;
+  }
+
+  .diagram-figure {
+    break-inside: avoid;
+  }
+
+  .diagram-text summary {
+    display: none;
+  }
+
+  /* The printed worksheet (Print button): compact, so a filled-in sheet fits one letter page. */
+  html.print-worksheet .is-printing .worksheet-print-field {
+    margin: 0.55rem 0 0.15rem;
+    font-size: 10.5pt;
+  }
+
+  html.print-worksheet .is-printing .worksheet-print-answer {
+    min-height: 2.2em;
+    padding-bottom: 0.3rem;
+    font-size: 10.5pt;
+  }
+
+  .worksheet-print-grid {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10pt;
+  }
+
+  .worksheet-print-grid th,
+  .worksheet-print-grid td {
+    padding: 0.2rem 0.35rem;
+    border: 1px solid #000;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  /* Printing the whole page: the grid prints as a table with its typed values. */
+  .worksheet-grid th,
+  .worksheet-grid td {
+    border-color: #000;
+  }
 }
