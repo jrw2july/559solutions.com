@@ -126,3 +126,29 @@ test("the decision-first pilot renders its lesson in place and keeps its source"
   assert.match(html, /href="https:\/\/www\.nist\.gov\/itl\/ai-risk-management-framework"/);
   await assert.rejects(access(path.join(dist, "ieia-demo")), "the component demo page is gone");
 });
+
+test("email signup: tagged forms after the exercise, at every article end, and on /subscribe/", async () => {
+  const endpoint = /action="https:\/\/script\.google\.com\/[^"]+\/exec"/;
+  const articles = (await readdir(path.join(dist, "blog"), { withFileTypes: true }))
+    .filter((entry) => entry.isDirectory() && entry.name !== "category")
+    .map((entry) => entry.name);
+  for (const slug of articles) {
+    const html = await readFile(path.join(dist, "blog", slug, "index.html"), "utf8");
+    assert.match(html, new RegExp(`name="source" value="newsletter:article-end-${slug}"`), slug);
+    assert.match(html, endpoint, slug);
+  }
+  const pilot = await readFile(path.join(dist, "blog", "start-with-the-decision-not-the-ai-tool", "index.html"), "utf8");
+  assert.match(pilot, /name="source" value="newsletter:start-with-the-decision-not-the-ai-tool"/);
+  // No signup form holds a worksheet box: every <form> that posts is free of <textarea>.
+  for (const form of pilot.match(/<form[^>]*action="https:[\s\S]*?<\/form>/g) || []) {
+    assert.doesNotMatch(form, /<textarea/);
+  }
+  const subscribe = await readFile(path.join(dist, "subscribe", "index.html"), "utf8");
+  assert.match(subscribe, /name="source" value="newsletter:subscribe-page"/);
+  assert.match(subscribe, /href="\/rss\.xml"/);
+  assert.doesNotMatch(subscribe, /type="checkbox"[^>]*checked/, "consent is never preselected");
+  const home = await readFile(path.join(dist, "index.html"), "utf8");
+  assert.match(home, /href="\/subscribe\/"/, "footer links to /subscribe/");
+  const sitemap = await readFile(path.join(dist, "sitemap.xml"), "utf8");
+  assert.match(sitemap, /\/subscribe\//);
+});

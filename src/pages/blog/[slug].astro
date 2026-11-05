@@ -6,6 +6,7 @@ import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import CategoryIcon from "@/components/CategoryIcon.astro";
 import CTASection from "@/components/CTASection.astro";
 import DoodleDivider from "@/components/DoodleDivider.astro";
+import NewsletterForm from "@/components/NewsletterForm.astro";
 import OwnerName from "@/components/OwnerName.astro";
 import TagList from "@/components/TagList.astro";
 import ArticleBody from "@/components/ieia/ArticleBody.astro";
@@ -137,14 +138,19 @@ const schema = {
           <IeiaSection slot="apply" step="Apply" heading={worksheet.title} id="lesson-apply">
             {exercise.applyLead && <p>{exercise.applyLead}</p>}
             <UseItAtWork data={worksheet} printTitle={article.data.title} labelledBy="lesson-apply-heading" />
-            {/* Slot: newsletter signup after the Apply step, tagged with the article slug (Prompt 4). */}
+            <NewsletterForm
+              id="newsletter-after-apply"
+              tag={article.data.slug}
+              heading="Want the next one?"
+            />
           </IeiaSection>
         )
       }
       <Fragment slot="after">
         <DoodleDivider />
         <AuthorBio />
-        {/* Slot: end-of-article newsletter signup and "Work with me" block (Prompts 4 and 5). */}
+        <NewsletterForm id="newsletter-article-end" tag={`article-end-${article.data.slug}`} />
+        {/* Slot: "Work with me" block (Prompt 5). */}
       </Fragment>
     </ArticleBody>
   </section>

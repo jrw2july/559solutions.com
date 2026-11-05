@@ -3392,3 +3392,48 @@ body.curious {
     gap: 0 var(--space-2);
   }
 }
+
+/* Curious Architect email signup (2026-11-05): after an exercise, at the end of each article, and on
+   /subscribe/. A plain card in the article flow; never a popup. */
+.newsletter-card {
+  display: grid;
+  margin-block: var(--space-6);
+  padding: var(--space-5);
+  gap: var(--space-4) var(--space-6);
+  background: var(--color-white);
+  border: 2px solid var(--ca-charcoal, var(--color-ink));
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.newsletter-card h2 {
+  margin: 0 0 var(--space-2);
+  padding: 0;
+  font-size: var(--step-2);
+  border-top: 0;
+}
+
+.article-content .newsletter-card h2 {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.newsletter-card p:last-child {
+  margin-bottom: 0;
+}
+
+.newsletter-form .field {
+  margin-bottom: var(--space-3);
+}
+
+@media (max-width: 52rem) {
+  .newsletter-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media print {
+  .newsletter-card {
+    display: none !important;
+  }
+}

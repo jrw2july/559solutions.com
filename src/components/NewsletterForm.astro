@@ -1,62 +1,66 @@
 ---
+// The Curious Architect email signup (2026-11-05). It posts to the site's Google Apps Script web app,
+// which adds one row to the Google Sheet: the email, consent, the page, and a source tag such as
+// "newsletter:start-with-the-decision-not-the-ai-tool". The script sends no email; the owner does.
+// With JavaScript, site.js posts it and shows the result here. Without JavaScript the browser posts the
+// form itself, and the script answers with a short thank-you page (docs/apps-script-form-handler.gs).
+// No popups or overlays, and no subscriber counts. Worksheet text is never part of this form.
 import { site, sitePath } from "@/config/site";
 
 interface Props {
+  /** Unique on the page; used for element ids. */
+  id: string;
+  /** Source tag recorded with the signup, e.g. the article slug. */
+  tag: string;
   heading?: string;
-  description?: string;
+  offer?: string;
 }
 
 const {
-  heading = "Get the free AI project checklist",
-  description = "Use ten practical questions to define the work before choosing tools.",
+  id,
+  tag,
+  heading = "Get the next article by email",
+  offer = "Get an email when a new Curious Architect article is published. Nothing else. Unsubscribe anytime by replying.",
 } = Astro.props;
 const configured = Boolean(site.newsletterEndpoint);
-const delivers = Boolean(site.leadMagnetDeliveryUrl);
+const source = `newsletter:${tag}`;
+const page = Astro.url.pathname;
 ---
 
-<section class="signup-card" aria-labelledby="newsletter-heading">
+<section class="newsletter-card" aria-labelledby={`${id}-heading`}>
   <div>
-    <p class="eyebrow">Free practical resource</p>
-    <h2 id="newsletter-heading">{heading}</h2>
-    <p>{description}</p>
+    <p class="eyebrow">The Curious Architect by email</p>
+    <h2 id={`${id}-heading`} data-toc-skip>{heading}</h2>
+    <p>{offer}</p>
   </div>
   <form
-    class="form-panel"
+    class="newsletter-form"
     action={configured ? site.newsletterEndpoint : undefined}
     method="post"
-    data-ajax-form={configured ? "checklist-form" : undefined}
-    data-success-url={delivers ? site.leadMagnetDeliveryUrl : undefined}
-    data-success-message={delivers ? undefined : "Thanks, you're on the list. You'll get one email when the checklist is ready. Until then, you can review the ten questions below."}
+    aria-labelledby={`${id}-heading`}
+    data-ajax-form={configured ? source : undefined}
+    data-success-message="Thanks, you're on the list. You'll get an email when a new article is published."
   >
-    <div class="form-grid">
-      <div class="field">
-        <label for="newsletter-first-name">First name</label>
-        <input id="newsletter-first-name" name="first_name" type="text" autocomplete="given-name" required />
-      </div>
-      <div class="field">
-        <label for="newsletter-email">Email</label>
-        <input id="newsletter-email" name="email" type="email" autocomplete="email" required />
-      </div>
+    <input type="hidden" name="source" value={source} />
+    <input type="hidden" name="page" value={page} />
+    <div class="field">
+      <label for={`${id}-email`}>Email</label>
+      <input id={`${id}-email`} name="email" type="email" autocomplete="email" required />
     </div>
     <div class="honeypot" aria-hidden="true">
-      <label for="newsletter-company-website">Leave this field blank</label>
-      <input id="newsletter-company-website" name={site.antiSpamField} type="text" tabindex="-1" autocomplete="off" />
+      <label for={`${id}-company-website`}>Leave this field blank</label>
+      <input id={`${id}-company-website`} name={site.antiSpamField} type="text" tabindex="-1" autocomplete="off" />
     </div>
     <label class="checkbox-field">
       <input name="consent" type="checkbox" required />
-      <span>I agree that 559 Solutions may use this information to deliver the requested resource. See the <a href={sitePath("/privacy/")}>Privacy Policy</a>.</span>
+      <span>I agree that 559 Solutions may email me when a new article is published. See the <a href={sitePath("/privacy/")}>Privacy Policy</a>.</span>
     </label>
-    <button class="button button-primary" type="submit" disabled={!configured}>
-      {delivers ? "Download the Free Checklist" : "Notify Me When It's Ready"}
-    </button>
+    <button class="button button-primary button-small" type="submit" disabled={!configured}>Sign up</button>
     {
       !configured && (
-        <p class="form-notice" role="status">
-          The final checklist file and delivery form are being configured. You can review the ten questions on the resource page now.
-        </p>
+        <p class="form-notice">Email signup is not set up yet. You can follow new articles by <a href={sitePath("/rss.xml")}>RSS</a>.</p>
       )
     }
     <p class="form-status" data-form-status role="status" aria-live="polite"></p>
-    <p><a class="text-link" href={sitePath("/resources/ai-project-readiness-checklist/")}>Review the checklist questions</a></p>
   </form>
 </section>

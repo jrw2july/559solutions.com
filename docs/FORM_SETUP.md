@@ -44,7 +44,19 @@ The current form collects name, email, organization, topic, and message. Map fie
 
 ## Newsletter fields
 
-The newsletter form collects an email address and consent through the submit action. Configure double opt-in where available and include the business address and unsubscribe controls required by the email platform and applicable law.
+The Curious Architect signup (`src/components/NewsletterForm.astro`, 2026-11-05) collects an email address and a consent checkbox that starts unticked. It posts to the same Apps Script web app as the other forms and adds one row to the "Submissions" sheet. The `source` column says where the reader signed up:
+
+- `newsletter:<article-slug>`: after an article's exercise
+- `newsletter:article-end-<article-slug>`: at the end of an article
+- `newsletter:subscribe-page`: on `/subscribe/`
+
+The `page` column holds the page address. Worksheet answers are never part of this form.
+
+The script stores rows only. It sends no email and has no double opt-in. The owner sends the emails and honors unsubscribe replies. Under the U.S. CAN-SPAM Act, each commercial email needs a valid postal address and a working opt-out honored within 10 business days (FTC CAN-SPAM compliance guide). This is not legal advice.
+
+### Signing up without JavaScript
+
+Without JavaScript the browser posts the form itself, form-encoded. The script in `docs/apps-script-form-handler.gs` accepts that and answers with a short thank-you page. To turn it on, paste that file over the script bound to the Google Sheet, then Deploy > Manage deployments > edit the existing web app > Version: New version > Deploy. The web app address stays the same. Until then, a no-JavaScript signup gets the reply "bad request" and is not saved.
 
 ## Verification
 

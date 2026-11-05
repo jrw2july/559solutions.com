@@ -41,10 +41,11 @@ for (const [part, html] of Object.entries(rendered)) {
 
 // "On this page": every H2 in the finished body, so lesson headings appear in reading order.
 const stripTags = (html: string) => html.replace(/<[^>]+>/g, "").trim();
-const toc = [...body.matchAll(/<h2[^>]*\sid="([^"]+)"[^>]*>([\s\S]*?)<\/h2>/g)].map((match) => ({
-  id: match[1],
-  text: stripTags(match[2]),
-}));
+// Headings marked data-toc-skip (such as a signup box) are not article sections and are left out.
+const toc = [...body.matchAll(/<h2([^>]*)>([\s\S]*?)<\/h2>/g)]
+  .filter((match) => !/\sdata-toc-skip/.test(match[1]))
+  .map((match) => ({ id: /\sid="([^"]+)"/.exec(match[1])?.[1], text: stripTags(match[2]) }))
+  .filter((heading): heading is { id: string; text: string } => Boolean(heading.id));
 ---
 
 <div class="container article-shell">
