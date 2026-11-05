@@ -18,6 +18,7 @@ document.querySelectorAll("[data-filter-list]").forEach((list) => {
   const searchInput = form.querySelector("[data-filter-search]");
   const categorySelect = form.querySelector("[data-filter-category]");
   const secondarySelect = form.querySelector("[data-filter-secondary]");
+  const formatSelect = form.querySelector("[data-filter-format]");
   const categoryLinks = [...list.querySelectorAll("[data-category-link]")];
 
   const optionText = (select) => select?.selectedOptions[0]?.textContent?.trim() || "";
@@ -31,6 +32,9 @@ document.querySelectorAll("[data-filter-list]").forEach((list) => {
     else url.searchParams.delete("category");
     if (tag) url.searchParams.set("tag", tag);
     else url.searchParams.delete("tag");
+    const format = formatSelect?.value || "";
+    if (format) url.searchParams.set("format", format);
+    else url.searchParams.delete("format");
     if (url.href !== window.location.href) window.history.replaceState(null, "", url);
   };
 
@@ -48,6 +52,7 @@ document.querySelectorAll("[data-filter-list]").forEach((list) => {
     const category = normalize(categorySelect?.value);
     const secondary = normalize(secondarySelect?.value);
     const secondaryAttribute = form.dataset.secondaryAttribute || "topics";
+    const format = normalize(formatSelect?.value);
     let visible = 0;
 
     cards.forEach((card) => {
@@ -55,7 +60,8 @@ document.querySelectorAll("[data-filter-list]").forEach((list) => {
       const matchesCategory = !category || normalize(card.dataset.category) === category;
       const matchesSecondary =
         !secondary || normalize(card.dataset[secondaryAttribute]).includes(secondary);
-      const matches = matchesSearch && matchesCategory && matchesSecondary;
+      const matchesFormat = !format || normalize(card.dataset.format) === format;
+      const matches = matchesSearch && matchesCategory && matchesSecondary && matchesFormat;
       card.hidden = !matches;
       if (matches) visible += 1;
     });
@@ -66,6 +72,7 @@ document.querySelectorAll("[data-filter-list]").forEach((list) => {
       let message = `Showing ${visible} ${noun}`;
       if (category) message += ` in ${optionText(categorySelect)}`;
       if (secondary) message += ` tagged ${optionText(secondarySelect)}`;
+      if (format) message += ` in ${optionText(formatSelect)} format`;
       if (search) message += ` matching "${searchInput.value.trim()}"`;
       status.textContent = `${message}.`;
     } else if (status) {
@@ -90,6 +97,11 @@ document.querySelectorAll("[data-filter-list]").forEach((list) => {
       const option = [...secondarySelect.options].find((item) => item.value === tagParam);
       if (option) secondarySelect.value = option.value;
     }
+    const formatParam = normalize(params.get("format"));
+    if (formatParam && formatSelect) {
+      const option = [...formatSelect.options].find((item) => item.value === formatParam);
+      if (option) formatSelect.value = option.value;
+    }
 
     categoryLinks.forEach((link) => {
       link.addEventListener("click", (event) => {
@@ -109,6 +121,7 @@ document.querySelectorAll("[data-filter-list]").forEach((list) => {
       if (searchInput) searchInput.value = "";
       if (categorySelect) categorySelect.value = "";
       if (secondarySelect) secondarySelect.value = "";
+      if (formatSelect) formatSelect.value = "";
       applyFilters();
     });
   }

@@ -6,6 +6,8 @@ publicationDate: "2026-10-13"
 updatedDate: "2026-10-13"
 author: "Joel Wells"
 category: "Small Business Tools"
+series: "Work that outlasts one person"
+seriesOrder: 4
 service: "business-systems-clarity-session"
 tags: ["process", "documentation", "resilience"]
 imageAlt: ""

@@ -14,6 +14,8 @@ interface Props {
   live?: boolean;
   /** Plural noun for the announced count in blog mode, e.g. "articles". */
   itemNoun?: [singular: string, plural: string];
+  /** Blog mode: article formats to filter by (2026-11-05). Cards carry data-format. */
+  formatOptions?: { slug: string; label: string }[];
 }
 
 const {
@@ -25,6 +27,7 @@ const {
   secondaryAttribute = "topics",
   live = false,
   itemNoun = ["item", "items"],
+  formatOptions = [],
 } = Astro.props;
 // In blog mode nothing is submitted, so the controls are a search group, not a form.
 const Tag = live ? "div" : "form";
@@ -61,6 +64,17 @@ const Tag = live ? "div" : "form";
         <select id="filter-secondary" name="secondary" data-filter-secondary>
           <option value="">All {secondaryLabel.toLowerCase()}</option>
           {secondaryOptions.map((option) => <option value={option.toLowerCase()}>{option}</option>)}
+        </select>
+      </div>
+    )
+  }
+  {
+    live && formatOptions.length > 0 && (
+      <div class="field">
+        <label for="filter-format">Format</label>
+        <select id="filter-format" name="format" data-filter-format>
+          <option value="">All formats</option>
+          {formatOptions.map((option) => <option value={option.slug}>{option.label}</option>)}
         </select>
       </div>
     )

@@ -6,6 +6,8 @@ publicationDate: "2026-10-13"
 updatedDate: "2026-10-13"
 author: "Joel Wells"
 category: "Builder Notes"
+series: "Work that outlasts one person"
+seriesOrder: 1
 service: "business-systems-clarity-session"
 tags: ["discovery", "facilitation", "business analysis"]
 imageAlt: ""

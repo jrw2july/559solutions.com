@@ -6,6 +6,8 @@ publicationDate: "2026-10-13"
 updatedDate: "2026-10-13"
 author: "Joel Wells"
 category: "Systems Thinking"
+series: "Work that outlasts one person"
+seriesOrder: 5
 service: "business-systems-clarity-session"
 tags: ["process", "knowledge sharing", "operations"]
 imageAlt: ""

@@ -70,7 +70,8 @@ test("only published articles (draft: false) are in the production blog", async 
     if (/^draft:\s*false\s*$/m.test(source)) published.push(entry.name.replace(/\.md$/, ""));
   }
   // blog/category/ holds the category pages (2026-11-05), so no article may use the slug "category".
-  assert.deepEqual(names.filter((name) => name !== "index.html" && name !== "category").sort(), published.sort());
+  // blog/category/ and blog/format/ hold list pages, so no article may use either slug.
+  assert.deepEqual(names.filter((name) => !["index.html", "category", "format"].includes(name)).sort(), published.sort());
 });
 
 test("sitemap, RSS, robots, and Apache configuration use the canonical host", async () => {
@@ -130,7 +131,7 @@ test("the decision-first pilot renders its lesson in place and keeps its source"
 test("email signup: tagged forms after the exercise, at every article end, and on /subscribe/", async () => {
   const endpoint = /action="https:\/\/script\.google\.com\/[^"]+\/exec"/;
   const articles = (await readdir(path.join(dist, "blog"), { withFileTypes: true }))
-    .filter((entry) => entry.isDirectory() && entry.name !== "category")
+    .filter((entry) => entry.isDirectory() && !["category", "format"].includes(entry.name))
     .map((entry) => entry.name);
   for (const slug of articles) {
     const html = await readFile(path.join(dist, "blog", slug, "index.html"), "utf8");
@@ -237,4 +238,41 @@ test("chess and science-fiction lessons render, with a labeled diagram and uncha
   assert.match(scifi, /data-worksheet="consequence-chain"/);
   assert.match(scifi, /href="https:\/\/quoteinvestigator\.com\/2019\/10\/23\/traffic\/"/);
   assert.match(scifi, /href="https:\/\/en\.wikipedia\.org\/wiki\/The_Machine_Stops"/);
+});
+
+test("the reading sequence chains from step 1 to the last with no dead end, and labels match exercises", async () => {
+  const order = [
+    "how-to-run-a-better-discovery-meeting",
+    "what-architects-should-document",
+    "the-simplest-useful-architecture-diagram",
+    "when-a-process-depends-on-one-person",
+    "why-good-processes-fail",
+    "the-hero-trap",
+  ];
+  for (const [i, slug] of order.entries()) {
+    const html = await readFile(path.join(dist, "blog", slug, "index.html"), "utf8");
+    assert.match(html, new RegExp(`Step ${i + 1} of ${order.length}`), slug);
+    const target = i + 1 < order.length ? order[i + 1] : order[0];
+    assert.match(html, new RegExp(`class="series-next-link" href="/blog/${target}/"`), `${slug} links on`);
+    await assert.doesNotReject(access(path.join(dist, "blog", target, "index.html")));
+  }
+  const pilot = await readFile(path.join(dist, "blog", "start-with-the-decision-not-the-ai-tool", "index.html"), "utf8");
+  assert.doesNotMatch(pilot, /series-next/, "articles outside a series have no Next block");
+  // Format labels on the index only where the article has that exercise.
+  const index = await readFile(path.join(dist, "blog", "index.html"), "utf8");
+  const cards = index.match(/<article class="card article-card"[\s\S]*?<\/article>/g);
+  assert.equal(cards.length, 10);
+  for (const card of cards) {
+    const hasLabel = /class="article-format"/.test(card);
+    // Astro writes an empty attribute without a value, so a missing value means "no format".
+    const format = /data-format(?:="([^"]*)")?/.exec(card)?.[1] ?? "";
+    assert.equal(hasLabel, format !== "", card.slice(0, 120));
+  }
+  const sitemap = await readFile(path.join(dist, "sitemap.xml"), "utf8");
+  for (const format of ["worksheet", "self-check", "scenario"]) {
+    const page = await readFile(path.join(dist, "blog", "format", format, "index.html"), "utf8");
+    assert.match(page, /noindex/);
+    assert.doesNotMatch(sitemap, new RegExp(`/blog/format/${format}/`));
+  }
+  assert.match(index, /<select id="filter-format"/);
 });

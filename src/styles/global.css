@@ -3275,7 +3275,7 @@ body.curious {
 
 /* Blog filter bar: search, tag and Clear in one row (the category links replace the category select). */
 .filter-bar[data-live] {
-  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr) auto;
   padding: var(--space-3) var(--space-4);
 }
 
@@ -3578,4 +3578,69 @@ body.curious {
   margin-top: var(--space-3);
   color: var(--color-ink-soft);
   font-size: var(--step--1);
+}
+
+/* Reading sequence and format labels (2026-11-05). */
+.article-format {
+  display: inline-flex;
+  min-height: 1.5rem;
+  margin-left: 0.35em;
+  padding: 0 0.45rem;
+  align-items: center;
+  color: var(--ca-rust, var(--color-ink-soft));
+  border: 1px solid currentColor;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.article-format:hover {
+  color: var(--color-ink);
+  text-decoration: underline;
+}
+
+.series-step {
+  margin: var(--space-3) 0 var(--space-3);
+  color: var(--color-ink-soft);
+  font-size: var(--step--1);
+  font-weight: 700;
+}
+
+.series-next {
+  margin-top: var(--space-6);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-white);
+  border: 2px solid var(--ca-charcoal, var(--color-ink));
+}
+
+.series-next p {
+  margin: 0;
+}
+
+.series-next-kicker {
+  margin-bottom: var(--space-2) !important;
+  color: var(--ca-rust, var(--color-ink-soft));
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.series-next-link {
+  display: inline-block;
+  min-height: 2.75rem;
+  font-size: var(--step-1);
+  font-weight: 750;
+  line-height: 2.75rem;
+}
+
+@media print {
+  .series-next {
+    display: none !important;
+  }
 }

@@ -1,0 +1,65 @@
+---
+// One static page per article format (2026-11-05): Worksheet, Self-check, Scenario. The format label
+// on each card links here, so filtering by format works without JavaScript. Few articles each, so
+// noindex and out of the sitemap, like the category pages.
+import { getCollection, type CollectionEntry } from "astro:content";
+import ArticleCard from "@/components/ArticleCard.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import { sitePath } from "@/config/site";
+import { articleFormat, articleFormats } from "@/data/formats";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  return articleFormats.map((format) => ({ params: { format: format.slug }, props: { format } }));
+}
+
+interface Props {
+  format: { slug: string; label: string };
+}
+
+const { format } = Astro.props as Props;
+const articles = (await getCollection("articles", ({ data }) => !data.draft))
+  .filter((article) => articleFormat(article.data.slug)?.slug === format.slug)
+  .sort((a, b) => b.data.publicationDate.valueOf() - a.data.publicationDate.valueOf()) as CollectionEntry<"articles">[];
+const count = `${articles.length} ${articles.length === 1 ? "article" : "articles"}`;
+const explain: Record<string, string> = {
+  worksheet: "Each of these articles ends with a worksheet you fill in on the page, then copy or print.",
+  "self-check": "Each of these articles has a checklist you tick on the page. It lists what you ticked and the next step, with no score.",
+  scenario: "Each of these articles has a short scenario where you choose what to do and read why.",
+};
+---
+
+<BaseLayout
+  title={`${format.label} articles | The Curious Architect`}
+  description={`Curious Architect articles with a ${format.label.toLowerCase()} exercise.`}
+  canonicalPath={`/blog/format/${format.slug}/`}
+  noindex
+  bodyClass="curious"
+>
+  <header class="ca-hero ca-hero-compact">
+    <div class="container">
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "The Curious Architect", href: "/blog/" }, { label: format.label }]} />
+      <p class="eyebrow">The Curious Architect · Format</p>
+      <h1>{format.label}</h1>
+      <p class="lede">{explain[format.slug]} {count}.</p>
+    </div>
+  </header>
+  <section class="section ca-list-section">
+    <div class="container">
+      <nav class="ca-categories" aria-label="Formats">
+        <ul class="ca-legend">
+          <li><a class="ca-category-link" href={sitePath("/blog/")}>All articles</a></li>
+          {articleFormats.map((item) => (
+            <li><a class="ca-category-link" href={sitePath(`/blog/format/${item.slug}/`)} aria-current={item.slug === format.slug ? "page" : undefined}>{item.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+      <div class="card-grid">
+        {articles.map((article) => (
+          <ArticleCard title={article.data.title} slug={article.data.slug} summary={article.data.summary} category={article.data.category} date={article.data.publicationDate} tags={article.data.tags} showIcon />
+        ))}
+      </div>
+      <p><a class="text-link" href={sitePath("/blog/")}>See all articles</a></p>
+    </div>
+  </section>
+</BaseLayout>

@@ -11,6 +11,7 @@ import SectionHeading from "@/components/SectionHeading.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { blogCategories } from "@/data/blog-categories";
 import { blogProblems } from "@/data/blog-problems";
+import { articleFormats } from "@/data/formats";
 import { sitePath } from "@/config/site";
 import drawing from "@/assets/curious-architect/drawing-david-wells.jpg";
 import hero from "@/assets/curious-architect/hero-curious-architect.webp";
@@ -87,6 +88,7 @@ const problems = blogProblems.map((item) => ({
         secondaryAttribute="topics"
         live
         itemNoun={["article", "articles"]}
+        formatOptions={articleFormats}
       />
       <div class="card-grid" data-filter-results>
         {

@@ -20,7 +20,7 @@ import UseItAtWork from "@/components/ieia/UseItAtWork.astro";
 import TradeDiagram from "@/components/ieia/TradeDiagram.astro";
 import WorkedExample from "@/components/ieia/WorkedExample.astro";
 import { exercises } from "@/data/exercises";
-import { absoluteUrl, site } from "@/config/site";
+import { absoluteUrl, site, sitePath } from "@/config/site";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
@@ -53,6 +53,18 @@ const updatedDate = new Intl.DateTimeFormat("en-US", {
   timeZone: "UTC",
 }).format(article.data.updatedDate);
 const allArticles = await getCollection("articles", ({ data }) => !data.draft);
+
+// Reading sequence (2026-11-05): the articles that share this one's `series`, in `seriesOrder`.
+const series = article.data.series;
+const sequence = series
+  ? allArticles
+      .filter((item) => item.data.series === series && item.data.seriesOrder)
+      .sort((a, b) => (a.data.seriesOrder ?? 0) - (b.data.seriesOrder ?? 0))
+  : [];
+const stepIndex = sequence.findIndex((item) => item.data.slug === article.data.slug);
+const step = stepIndex >= 0 ? { number: stepIndex + 1, total: sequence.length } : undefined;
+const nextInSeries = step && step.number < step.total ? sequence[step.number] : undefined;
+const firstInSeries = step ? sequence[0] : undefined;
 const related = article.data.relatedArticles
   .map((slug) => allArticles.find((item) => item.data.slug === slug))
   .filter(Boolean)
@@ -112,6 +124,13 @@ const schema = {
         <span>Updated <time datetime={article.data.updatedDate.toISOString()}>{updatedDate}</time></span>
         <span>{readingTime} min read</span>
       </div>
+      {
+        step && (
+          <p class="series-step">
+            Step {step.number} of {step.total} <span aria-hidden="true">·</span> {series}
+          </p>
+        )
+      }
       <TagList tags={article.data.tags} />
     </div>
   </header>
@@ -155,6 +174,26 @@ const schema = {
         )
       }
       <Fragment slot="after">
+        {
+          step && (
+            <nav class="series-next" aria-label="Reading sequence">
+              <p class="series-next-kicker">{series} <span aria-hidden="true">·</span> Step {step.number} of {step.total}</p>
+              {
+                nextInSeries ? (
+                  <p>
+                    <a class="series-next-link" href={sitePath(`/blog/${nextInSeries.data.slug}/`)}>
+                      Next: {nextInSeries.data.title}
+                    </a>
+                  </p>
+                ) : (
+                  <p>
+                    This is the last step. <a class="series-next-link" href={sitePath(`/blog/${firstInSeries?.data.slug}/`)}>Back to step 1: {firstInSeries?.data.title}</a>
+                  </p>
+                )
+              }
+            </nav>
+          )
+        }
         <DoodleDivider />
         <AuthorBio />
         <NewsletterForm id="newsletter-article-end" tag={`article-end-${article.data.slug}`} />

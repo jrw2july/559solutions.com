@@ -44,6 +44,10 @@ const articles = defineCollection({
         "systems-clarity-sprint",
       ])
       .optional(),
+    // Reading sequence (2026-11-05): articles with the same `series` name are chained in `seriesOrder`,
+    // and each shows "Step N of M" and a "Next:" link. Both are optional; most articles have neither.
+    series: z.string().optional(),
+    seriesOrder: z.number().int().positive().optional(),
   }),
 });
 

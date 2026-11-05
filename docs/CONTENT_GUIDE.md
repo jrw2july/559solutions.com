@@ -67,6 +67,8 @@ relatedArticles:
 
 `service` (optional) picks the service the closing "Work with me" band offers. It must be one of: business-systems-clarity-session, ai-workflow-assessment, low-code-solution-design, technical-mentoring, systems-clarity-sprint. The band's button opens the contact form with that Inquiry type chosen. Leave it out and the band links to `/services/`. `relatedResourceCta`, when set, becomes the band's second button.
 
+`series` and `seriesOrder` (optional, 2026-11-05) chain articles into a reading sequence. Give each article in the sequence the same `series` name and a `seriesOrder` starting at 1. Each then shows "Step N of M" under its byline and a "Next:" link after the text; the last links back to step 1. The format label on article cards (Worksheet, Self-check, Scenario) is not a frontmatter field: it comes from the article's exercise in `src/data/exercises.ts`, so it appears only when the exercise exists.
+
 To publish a reviewed draft:
 
 1. Fact-check and edit the article. Every factual claim is listed in a "Sources" section at the end.
