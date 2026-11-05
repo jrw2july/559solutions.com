@@ -17,6 +17,7 @@ import ScenarioSteps from "@/components/ieia/ScenarioSteps.astro";
 import SelfCheck from "@/components/ieia/SelfCheck.astro";
 import QuestionWorthAsking from "@/components/ieia/QuestionWorthAsking.astro";
 import UseItAtWork from "@/components/ieia/UseItAtWork.astro";
+import TradeDiagram from "@/components/ieia/TradeDiagram.astro";
 import WorkedExample from "@/components/ieia/WorkedExample.astro";
 import { exercises } from "@/data/exercises";
 import { absoluteUrl, site } from "@/config/site";
@@ -133,6 +134,7 @@ const schema = {
       {
         exercise?.illustrate && (
           <IeiaSection slot="illustrate" step="Illustrate" heading={exercise.illustrate.heading} id="lesson-illustrate">
+            {exercise.diagram && <TradeDiagram id="lesson-diagram" data={exercise.diagram} />}
             <WorkedExample data={exercise.illustrate} />
           </IeiaSection>
         )

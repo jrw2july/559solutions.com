@@ -3494,3 +3494,88 @@ body.curious {
 .ieia-deeper {
   margin-top: var(--space-5);
 }
+
+/* Trade diagram (2026-11-05): a static SVG. The wide layout shows from 40rem up, the stacked one below,
+   so the labels stay readable. Text is real SVG text, so it scales with zoom. */
+.trade-diagram {
+  margin: var(--space-4) 0 var(--space-5);
+  padding: var(--space-4);
+  background: var(--color-white);
+  border: 2px solid var(--ca-charcoal, var(--color-ink));
+}
+
+.trade-diagram svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 46rem;
+  margin-inline: auto;
+}
+
+.trade-diagram-tall {
+  display: none !important;
+}
+
+@media (max-width: 40rem) {
+  .trade-diagram-wide {
+    display: none !important;
+  }
+
+  .trade-diagram-tall {
+    display: block !important;
+    max-width: 22rem;
+  }
+
+  .trade-diagram {
+    padding: var(--space-2);
+  }
+}
+
+.trade-diagram .td-box {
+  fill: var(--color-white);
+  stroke: var(--ca-charcoal, var(--color-ink));
+  stroke-width: 2;
+}
+
+.trade-diagram .td-box-later {
+  fill: var(--ca-note, var(--color-blue-pale));
+  stroke-dasharray: 7 5;
+}
+
+.trade-diagram .td-text,
+.trade-diagram .td-rowlabel,
+.trade-diagram .td-colhead {
+  fill: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+}
+
+.trade-diagram .td-rowlabel {
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.trade-diagram .td-colhead,
+.trade-diagram .td-inline-head {
+  fill: var(--ca-rust, var(--color-ink-soft));
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.trade-diagram .td-arrow {
+  stroke: var(--ca-charcoal, var(--color-ink));
+  stroke-width: 2;
+}
+
+.trade-diagram .td-arrowhead {
+  fill: var(--ca-charcoal, var(--color-ink));
+}
+
+.trade-diagram figcaption {
+  margin-top: var(--space-3);
+  color: var(--color-ink-soft);
+  font-size: var(--step--1);
+}

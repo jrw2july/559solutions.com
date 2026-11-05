@@ -219,3 +219,22 @@ test("the three process articles each render one primary lesson exercise", async
   const check = (await read("when-a-process-depends-on-one-person")).match(/<div class="selfcheck"[\s\S]*?Your answers are not sent/)[0];
   assert.doesNotMatch(check.replace(/<[^>]+>/g, " "), /\d|%|score/i);
 });
+
+test("chess and science-fiction lessons render, with a labeled diagram and unchanged sources", async () => {
+  const chess = await readFile(path.join(dist, "blog", "what-chess-teaches-about-technology-decisions", "index.html"), "utf8");
+  const scifi = await readFile(path.join(dist, "blog", "science-fiction-and-architecture-of-consequences", "index.html"), "utf8");
+  for (const html of [chess, scifi]) {
+    assert.doesNotMatch(html, /ieia:/);
+    assert.equal((html.match(/id="lesson-apply"/g) || []).length, 1);
+    assert.match(html, /id="lesson-deeper"/);
+  }
+  assert.match(chess, /<form class="ieia-call" id="chess-call"/);
+  // Both diagram layouts are labeled images with a title and description; no inline styles.
+  assert.equal((chess.match(/<svg class="trade-diagram-(wide|tall)"[^>]*role="img"/g) || []).length, 2);
+  assert.match(chess, /<title id="lesson-diagram-wide-title">/);
+  assert.match(chess, /<desc id="lesson-diagram-wide-desc">/);
+  assert.match(chess, /href="https:\/\/www\.sec\.gov\/Archives\/edgar\/data\/1018724\/000119312516530910\/d168744dex991\.htm"/);
+  assert.match(scifi, /data-worksheet="consequence-chain"/);
+  assert.match(scifi, /href="https:\/\/quoteinvestigator\.com\/2019\/10\/23\/traffic\/"/);
+  assert.match(scifi, /href="https:\/\/en\.wikipedia\.org\/wiki\/The_Machine_Stops"/);
+});

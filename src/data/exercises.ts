@@ -84,6 +84,19 @@ export type GoDeeperData = {
   questions: GoDeeperQuestion[];
 };
 
+/**
+ * A labeled diagram (SVG) that maps one idea across rows, three steps per row: for example, the same
+ * trade "on the board" and "in your systems". Each cell is given as lines of text. The third column is
+ * drawn with a dashed border and its header says what it is, so nothing depends on color.
+ */
+export type TradeDiagramData = {
+  title: string;
+  description: string;
+  caption: string;
+  columns: [string, string, string];
+  rows: { label: string; cells: [string[], string[], string[]] }[];
+};
+
 /** A short, clearly made-up scenario shown at the start of a lesson. */
 export type ScenarioData = {
   label: string;
@@ -110,6 +123,8 @@ export type Exercise = {
   /** true: show the "Explain" label at the <!-- ieia:explain --> marker. */
   explain?: boolean;
   illustrate?: WorkedExampleData;
+  /** Optional diagram shown first in the Illustrate step. */
+  diagram?: TradeDiagramData;
   apply?: ApplyData;
   /** One connecting sentence before the Apply worksheet. */
   applyLead?: string;
@@ -127,6 +142,127 @@ export const standingQuestions = [
 
 /** Exercises for published articles, keyed by article slug. Added article by article in later steps. */
 export const exercises: Record<string, Exercise> = {
+  // Architect's Notebook articles (2026-11-05). New text approved by the owner. Worked examples use each
+  // article's own examples; anything inferred or made up is labeled so in the caption or scenario.
+  "what-chess-teaches-about-technology-decisions": {
+    introduce: {
+      question: "A move wins a piece for free. What should you suspect?",
+      answer: [
+        "Why it was left hanging. In technology, a shortcut that looks free usually costs something later, a weakness you did not notice when you made the trade.",
+      ],
+    },
+    explain: true,
+    diagram: {
+      title: "The same trade on the board and in your systems",
+      description:
+        "Two rows with three steps each. On the board: take the piece left hanging, which puts you one piece ahead, and later leaves a pawn that cannot be defended or an exposed king. In your systems: build on one vendor's special features, which ships the feature this week, and later makes leaving that vendor expensive.",
+      caption: "The same trade in two settings: a gain now that leaves a weakness later. Dashed boxes mark the weakness that comes later.",
+      columns: ["The tempting move", "What it wins now", "The weakness later"],
+      rows: [
+        {
+          label: "On the board",
+          cells: [["Take the piece", "left hanging"], ["One piece ahead"], ["A pawn that cannot", "be defended, or", "an exposed king"]],
+        },
+        {
+          label: "In your systems",
+          cells: [["Build on one vendor's", "special features"], ["The feature ships", "this week"], ["Leaving that vendor", "becomes expensive"]],
+        },
+      ],
+    },
+    illustrate: {
+      heading: "The trade, written down",
+      lead: "Here is the vendor example from this article, written down before anyone commits.",
+      rows: [
+        { label: "The move", value: "A quick integration built around one vendor's special features." },
+        { label: "Wins now", value: "The feature ships this week." },
+        { label: "Costs later", value: "Leaving that vendor becomes expensive." },
+        { label: "Easy or hard to reverse", value: "Hard. It is closer to a one-way door." },
+      ],
+      caption: "Before committing, write down what the move costs later, not just what it wins now.",
+    },
+    apply: {
+      kind: "call",
+      id: "chess-call",
+      title: "Make the call",
+      scenario:
+        "A made-up example: your team can ship a reporting feature this week by building on one vendor's special export format, or take longer and build a plain export any tool can read. The vendor contract ends soon.",
+      legend: "What should the team do?",
+      choices: [
+        {
+          id: "ship-now",
+          label: "Ship the shortcut now and deal with it later.",
+          correct: false,
+          feedback: "That makes the trade without noticing it. When the contract ends, leaving the vendor is expensive.",
+        },
+        {
+          id: "always-plain",
+          label: "Always take the slower, plain export.",
+          correct: false,
+          feedback: "It may be the right move, but a rule skips the position. The question is whether the move is good in this position.",
+        },
+        {
+          id: "write-it-down",
+          label: "Write down what the shortcut costs later and how hard it is to reverse, then decide.",
+          correct: true,
+          feedback: "None of these choices is automatically wrong. The mistake is making the trade without noticing it.",
+        },
+      ],
+    },
+    goDeeper: {
+      summary: "Go deeper (optional): five questions to think through",
+      questions: standingQuestions.map((question) => ({ question })),
+    },
+  },
+  "science-fiction-and-architecture-of-consequences": {
+    introduce: {
+      question: "What happens after a technology works?",
+      answer: [
+        "People and other systems adjust to it. Those second-order effects are the hard part to predict: the automobile was easy to imagine, the traffic jam was not.",
+      ],
+    },
+    explain: true,
+    illustrate: {
+      heading: "One consequence chain, worked through",
+      lead: "Here is the automated approval from this article, taken through the chain.",
+      rows: [
+        { label: "The change", value: "Approvals are automated." },
+        { label: "First-order benefit", value: "Requests move faster." },
+        {
+          label: "Second-order effect",
+          value: "Reviewers spend less time on each one, and errors that a slower process caught now slip through.",
+        },
+        {
+          label: "Who carries the cost",
+          value: "Customers who get a wrong approval, and whoever has to fix it. They were probably not in the room.",
+        },
+        { label: "What gets easy or difficult", value: "Approving gets easy. Questioning a request gets harder." },
+        {
+          label: "What we would test first",
+          value: "Check a sample of approved requests each week for the errors the old process caught.",
+        },
+      ],
+      caption:
+        "The first three rows come from this article. The last three are a worked guess, the kind a consequences session would produce.",
+    },
+    applyLead: "Now take a change you are planning through the same chain. Your answers stay on this page.",
+    apply: {
+      kind: "worksheet",
+      id: "consequence-chain",
+      title: "Consequence chain",
+      fields: [
+        { id: "change", label: "The change", hint: "Fast forward: it works exactly as planned." },
+        { id: "first-order", label: "First-order benefit" },
+        { id: "second-order", label: "Second-order effect", hint: "Ask \"and then what?\" more than once." },
+        { id: "who-carries", label: "Who carries the cost (and were they asked?)" },
+        { id: "easy-hard", label: "What the system makes easy or difficult", hint: "One behavior that will increase, one that will fade." },
+        { id: "test-first", label: "What we would test first", hint: "Include the day it stops: what would people no longer know how to do?" },
+      ],
+    },
+    goDeeper: {
+      summary: "Go deeper (optional): five questions to think through",
+      questions: standingQuestions.map((question) => ({ question })),
+    },
+  },
   // Process articles (2026-11-05). New text approved by the owner; worked examples reuse each article's
   // own examples, and anything made up is labeled as made up. Go Deeper holds the owner's five standing
   // questions, closed by default; model answers can be added later as `answer`.

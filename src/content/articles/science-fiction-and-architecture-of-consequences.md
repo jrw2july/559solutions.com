@@ -16,11 +16,15 @@ seoDescription: "How speculative fiction maps second-order effects, incentives, 
 relatedArticles: ["what-chess-teaches-about-technology-decisions", "why-good-processes-fail"]
 ---
 
+<!-- ieia:introduce -->
+
 In 1953, Isaac Asimov wrote an essay called "Social Science Fiction." In it he observed that it is easy to predict an automobile in 1880 and very hard to predict a traffic problem.
 
 Fifteen years later, Frederik Pohl repeated a version of the idea in a magazine editorial, crediting "somebody": a good science fiction story should be able to predict not the automobile but the traffic jam. The line is often attributed to Pohl, but he did not claim it as his own.
 
 That sentence is a useful description of good architecture work. Anyone can describe what a new system will do. The harder job is describing what will happen once it works.
+
+<!-- ieia:explain -->
 
 ## Speculative stories as consequence maps
 
@@ -71,6 +75,8 @@ Ask of any design:
 
 That last question is Forster's. It is worth asking about automation, AI assistants, and any tool that takes over a skill. Sometimes losing the skill is fine. Sometimes it is the skill you need on the day the system stops.
 
+<!-- ieia:illustrate -->
+
 ## Questions to bring back to real work
 
 You do not need to write fiction to use its habits. Before a significant change, try a short consequences session with a few people from different parts of the work:
@@ -84,6 +90,8 @@ You do not need to write fiction to use its habits. Before a significant change,
 Write the answers down next to the design. Some will turn into requirements. Some will turn into monitoring. A few will change the design itself.
 
 The automobile was always going to get built. The traffic jam was the part worth thinking about in advance.
+
+<!-- ieia:apply -->
 
 <details class="article-fold">
 <summary><h4>Sources</h4></summary>
