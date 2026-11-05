@@ -13,7 +13,7 @@ export const legalNavigation = [
   { label: "Accessibility", href: "/accessibility/" },
 ] as const;
 
-// Header and footer menus. Resources and Services are left out for now (2026-10-14);
-// their pages are unchanged. Both are listed in the footer drawing index, and Resources is a room on the homepage plan.
-const hiddenFromHeader: string[] = ["/resources/", "/services/"];
+// Header and footer menus. Resources is left out of the header for now (2026-10-14); it is listed in the
+// footer drawing index and is a room on the homepage plan. Services is back in the header (2026-11-05).
+const hiddenFromHeader: string[] = ["/resources/"];
 export const headerNavigation = primaryNavigation.filter((item) => !hiddenFromHeader.includes(item.href));

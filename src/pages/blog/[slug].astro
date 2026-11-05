@@ -171,7 +171,6 @@ const schema = {
             {apply.kind === "scenario" && <ScenarioSteps data={apply} />}
             {apply.kind === "call" && <MakeTheCall data={apply} />}
             {exercise.goDeeper && <GoDeeper id="lesson-deeper" data={exercise.goDeeper} />}
-            <NewsletterForm id="newsletter-after-apply" tag={article.data.slug} heading="Want the next one?" />
           </IeiaSection>
         )
       }

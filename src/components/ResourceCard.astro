@@ -1,5 +1,6 @@
 ---
 import { sitePath } from "@/config/site";
+import ExternalLink from "./ExternalLink.astro";
 import PriceDisplay from "./PriceDisplay.astro";
 import StatusBadge from "./StatusBadge.astro";
 
@@ -13,6 +14,10 @@ interface Props {
   status: string;
   category: string;
   topics?: string[];
+  /** Where "View details" goes, if not /resources/<slug>/ (2026-11-05: the Code559 packets go to their course page). */
+  detailsHref?: string;
+  /** A purchase link for an available item; it opens the store in a new tab. */
+  buy?: { label: string; href: string };
 }
 
 const {
@@ -25,7 +30,10 @@ const {
   status,
   category,
   topics = [],
+  detailsHref,
+  buy,
 } = Astro.props;
+const details = sitePath(detailsHref ?? `/resources/${slug}/`);
 ---
 
 <article
@@ -40,13 +48,14 @@ const {
     <span>{format}</span>
     <StatusBadge {status} />
   </div>
-  <h3><a href={sitePath(`/resources/${slug}/`)}>{title}</a></h3>
+  <h3><a href={details}>{title}</a></h3>
   <p>{description}</p>
   <p class="card-audience"><strong>For:</strong> {audience.slice(0, 3).join(", ")}</p>
-  <div class="card-footer">
+  <div class:list={["card-footer", buy && "card-footer-buy"]}>
     <PriceDisplay price={price} {status} />
-    <a class="text-link" href={sitePath(`/resources/${slug}/`)} aria-label={`View details for ${title}`}>
+    <a class="text-link" href={details} aria-label={`View details for ${title}`}>
       View details
     </a>
+    {buy && <ExternalLink href={buy.href} class="button button-primary button-small resource-buy">{buy.label}</ExternalLink>}
   </div>
 </article>

@@ -1,0 +1,31 @@
+---
+// "Available now" (2026-11-05): the one thing for sale, shown on the homepage between the plan and
+// "From the Study". Drawn as a second sheet with a title block. It links to the packet note on the course
+// page, not straight to the store. Prices come from src/data/code559-packets.mjs.
+import { sitePath } from "@/config/site";
+import { freePacket, modulePackets, packetContentsText, packetNotePath, priceSummary } from "@/data/code559-packets.mjs";
+
+const first = modulePackets[0]?.module ?? 0;
+const last = modulePackets.at(-1)?.module ?? 0;
+---
+
+<section class="section-compact available-now" aria-labelledby="available-now-heading">
+  <div class="container">
+    <div class="available-sheet">
+      <div class="available-copy">
+        <p class="eyebrow">Available now</p>
+        <h2 id="available-now-heading">Code559 Front-End Developer packets</h2>
+        <p>Every lesson is free; each packet adds {packetContentsText}.</p>
+        <p>
+          <a class="button button-primary button-small" href={sitePath(packetNotePath)}>See what is in the packets</a>
+        </p>
+      </div>
+      <dl class="title-block available-title-block">
+        <div class="span"><dt>Price</dt><dd>{priceSummary}</dd></div>
+        <div><dt>Modules</dt><dd>{first} to {last}</dd></div>
+        <div><dt>Free</dt><dd>{freePacket ? `Every lesson, and the Module ${freePacket.module} packet` : "Every lesson"}</dd></div>
+      </dl>
+    </div>
+    <p class="sheet-label">Sheet A-102 · Available now</p>
+  </div>
+</section>

@@ -1,5 +1,6 @@
 ---
 import { copyrightYear, site, sitePath } from "@/config/site";
+import { packetNotePath } from "@/data/code559-packets.mjs";
 import { legalNavigation, primaryNavigation } from "@/data/navigation";
 import OwnerName from "./OwnerName.astro";
 
@@ -20,6 +21,7 @@ import OwnerName from "./OwnerName.astro";
         <h2>Drawing index</h2>
         <ul>
           {primaryNavigation.map((item) => <li><a href={sitePath(item.href)}>{item.label}</a></li>)}
+          <li><a href={sitePath(packetNotePath)}>Code559 packets</a></li>
         </ul>
       </nav>
       <nav class="sheet-cell" aria-label="Legal">

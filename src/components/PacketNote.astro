@@ -1,0 +1,40 @@
+---
+// "Free lessons, optional packets" (2026-11-05): the packet note near the top of the Code559
+// Front-End Developer Course page. Prices and links come from src/data/code559-packets.mjs.
+// Other pages link here with /code559/front-end-developer/#packets.
+import ExternalLink from "./ExternalLink.astro";
+import {
+  bundleLinkLabel,
+  bundleUrl,
+  freePacket,
+  packetContentsText,
+  packetFormats,
+  paidCount,
+  prices,
+} from "@/data/code559-packets.mjs";
+
+const summary = [
+  "Every lesson is free.",
+  `Each module's packet adds ${packetContentsText}, as ${packetFormats}.`,
+  freePacket ? `The Module ${freePacket.module} packet is free.` : "",
+  `The other ${paidCount} are ${prices.single} each, or ${prices.bundle} for all ${paidCount}.`,
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<aside class="packet-note" id="packets" aria-labelledby="packets-heading">
+  <p class="eyebrow">The packets</p>
+  <h2 id="packets-heading">Free lessons, optional packets</h2>
+  <p>{summary}</p>
+  <p class="packet-note-links">
+    <ExternalLink href={bundleUrl} class="button button-primary button-small">{bundleLinkLabel}</ExternalLink>{" "}
+    {
+      freePacket && (
+        <ExternalLink href={freePacket.url} class="text-link">
+          Start with the free Module {freePacket.module} packet
+        </ExternalLink>
+      )
+    }
+  </p>
+</aside>

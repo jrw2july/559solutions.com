@@ -128,7 +128,7 @@ test("the decision-first pilot renders its lesson in place and keeps its source"
   await assert.rejects(access(path.join(dist, "ieia-demo")), "the component demo page is gone");
 });
 
-test("email signup: tagged forms after the exercise, at every article end, and on /subscribe/", async () => {
+test("email signup: one tagged form at every article end, and on /subscribe/", async () => {
   const endpoint = /action="https:\/\/script\.google\.com\/[^"]+\/exec"/;
   const articles = (await readdir(path.join(dist, "blog"), { withFileTypes: true }))
     .filter((entry) => entry.isDirectory() && !["category", "format"].includes(entry.name))
@@ -137,9 +137,11 @@ test("email signup: tagged forms after the exercise, at every article end, and o
     const html = await readFile(path.join(dist, "blog", slug, "index.html"), "utf8");
     assert.match(html, new RegExp(`name="source" value="newsletter:article-end-${slug}"`), slug);
     assert.match(html, endpoint, slug);
+    // One signup per article (2026-11-05): the "Want the next one?" form after Apply is gone.
+    assert.equal((html.match(/<section class="newsletter-card"/g) || []).length, 1, `${slug}: one signup form`);
+    assert.doesNotMatch(html, /Want the next one\?/, slug);
   }
   const pilot = await readFile(path.join(dist, "blog", "start-with-the-decision-not-the-ai-tool", "index.html"), "utf8");
-  assert.match(pilot, /name="source" value="newsletter:start-with-the-decision-not-the-ai-tool"/);
   // No signup form holds a worksheet box: every <form> that posts is free of <textarea>.
   for (const form of pilot.match(/<form[^>]*action="https:[\s\S]*?<\/form>/g) || []) {
     assert.doesNotMatch(form, /<textarea/);
@@ -315,5 +317,94 @@ test("measurement stays a no-op: no analytics script, no assertive live regions,
     const html = await readFile(file, "utf8");
     assert.doesNotMatch(html, /googletagmanager|plausible\.io|usefathom|goatcounter|matomo/, file);
     assert.doesNotMatch(html, /role="alert"|aria-live="assertive"/, file);
+  }
+});
+
+// Release 1 (2026-11-05): the Code559 packets are easy to find and buy, and Services is in the header.
+test("packet prices and links come from one data file and appear where they should", async () => {
+  const packets = await import(path.join(root, "src", "data", "code559-packets.mjs"));
+  assert.equal(packets.prices.single, "$8.99");
+  assert.equal(packets.prices.bundle, "$89");
+  assert.equal(packets.prices.separateTotal, "$116.87");
+  assert.equal(packets.paidCount, 13);
+  assert.equal(packets.bundleSavingsPercent, 24);
+  assert.equal(packets.bundleUrl, "https://code559.gumroad.com/l/all-packets");
+
+  // The synced lessons carry their own packet links; they must match the data file.
+  for (const packet of packets.modulePackets) {
+    const slug = new URL(packet.url).pathname.split("/").pop();
+    const lesson = await readFile(path.join(root, "src", "content", "code559", `${slug}.md`), "utf8");
+    assert.ok(lesson.includes(`href="${packet.url}"`), `${slug} links its packet at ${packet.url}`);
+  }
+
+  const course = await readFile(path.join(dist, "code559", "front-end-developer", "index.html"), "utf8");
+  assert.match(course, /<aside class="packet-note" id="packets"/);
+  assert.ok(course.indexOf('id="packets"') < course.indexOf('id="the-modules"'), "packet note sits before the module table");
+  assert.match(course, /href="https:\/\/code559\.gumroad\.com\/l\/all-packets"[^>]*>Get all 13 packets: \$89<span class="visually-hidden"> \(opens in a new tab\)/);
+  assert.match(course, /href="https:\/\/code559\.gumroad\.com\/l\/all-packets"[^>]*>See the packets/);
+  assert.match(course, /href="https:\/\/code559\.gumroad\.com"[^>]*>Buy a single packet/);
+  assert.match(course, /\$116\.87/);
+
+  const home = await readFile(path.join(dist, "index.html"), "utf8");
+  const available = home.match(/<section class="section-compact available-now"[\s\S]*?<\/section>/)?.[0] ?? "";
+  assert.match(available, /\$89 for all 13, or \$8\.99 each/);
+  assert.match(available, /href="\/code559\/front-end-developer\/#packets"/);
+  assert.doesNotMatch(available, /gumroad/, "home links to the packet note, not the store");
+  assert.ok(home.indexOf('class="walled plan"') < home.indexOf("available-now"), "after the rooms");
+  assert.ok(home.indexOf("available-now") < home.indexOf("From the Study"), "before From the Study");
+
+  const index = await readFile(path.join(dist, "code559", "index.html"), "utf8");
+  assert.match(index, /<a href="\/code559\/front-end-developer\/#packets">Optional packets with the full project<\/a>: \$8\.99 each, or \$89 for all 13\./);
+
+  // Every Gumroad link in the build opens in a new tab and says so.
+  for (const file of ["index.html", "code559/index.html", "code559/front-end-developer/index.html", "resources/index.html"]) {
+    const html = await readFile(path.join(dist, file), "utf8");
+    for (const link of html.match(/<a [^>]*gumroad[\s\S]*?<\/a>/g) || []) {
+      assert.match(link, /target="_blank"/, link);
+      assert.match(link, /rel="noopener/, link);
+      assert.match(link, /\(opens in a new tab\)/, link);
+    }
+  }
+});
+
+test("Resources lists the packets first, as available and priced; coming-soon items stay unpriced", async () => {
+  const html = await readFile(path.join(dist, "resources", "index.html"), "utf8");
+  const cards = html.match(/<article class="card resource-card"[\s\S]*?<\/article>/g) || [];
+  assert.ok(cards.length >= 2);
+  const [first, ...rest] = cards;
+  assert.match(first, /Code559 Front-End Developer Packets/);
+  assert.match(first, /data-category="courses and walkthroughs"/);
+  assert.match(first, /data-audience="[^"]*adult beginners[^"]*"/);
+  assert.match(first, /data-audience="[^"]*technical builders[^"]*"/);
+  assert.match(first, /status-available/);
+  assert.match(first, /<span class="price">\$89 for all 13, or \$8\.99 each<\/span>/);
+  assert.match(first, /href="\/code559\/front-end-developer\/"[^>]*aria-label="View details for/);
+  assert.match(first, /href="https:\/\/code559\.gumroad\.com\/l\/all-packets"[^>]*>Get all 13 packets: \$89/);
+  for (const card of rest) {
+    assert.match(card, /status-coming-soon/);
+    assert.doesNotMatch(card, /class="price"|\$\d/, "coming-soon items show no price");
+  }
+});
+
+test("Services is in the desktop header and the mobile menu on every page", async () => {
+  const pages = [];
+  const walk = async (dir) => {
+    for (const entry of await readdir(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) await walk(full);
+      else if (entry.name.endsWith(".html")) pages.push(full);
+    }
+  };
+  await walk(dist);
+  for (const file of pages) {
+    const html = await readFile(file, "utf8");
+    if (!html.includes('class="site-header"')) continue;
+    const desktop = html.match(/<nav class="desktop-nav"[\s\S]*?<\/nav>/)?.[0] ?? "";
+    const mobile = html.match(/<details class="mobile-nav"[\s\S]*?<\/details>/)?.[0] ?? "";
+    for (const nav of [desktop, mobile]) {
+      assert.match(nav, /<a href="\/services\/"[^>]*>Services<\/a>/, file);
+      for (const label of ["The Curious Architect", "The Classroom", "About 559", "Contact Us"]) assert.match(nav, new RegExp(label), file);
+    }
+    assert.match(html, /<a href="\/code559\/front-end-developer\/#packets">Code559 packets<\/a>/, `${file}: footer link`);
   }
 });

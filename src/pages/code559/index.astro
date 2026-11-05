@@ -51,7 +51,16 @@ const notifyReady = Boolean(site.newsletterEndpoint);
               <p>{item.summary}</p>
               {item.facts && (
                 <ul class="offering-facts">
-                  {item.facts.map((fact) => <li>{fact}</li>)}
+                  {item.facts.map((fact) =>
+                    typeof fact === "string" ? (
+                      <li>{fact}</li>
+                    ) : (
+                      <li>
+                        <a href={sitePath(fact.href)}>{fact.label}</a>
+                        {fact.after}
+                      </li>
+                    ),
+                  )}
                 </ul>
               )}
               {item.href ? (

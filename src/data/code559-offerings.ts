@@ -1,13 +1,18 @@
 // Code559 offerings (2026-10-14). Code559 is an initiative of 559 Solutions to help regular people
 // use coding and AI tools to get results. Add a course here when its content exists; until then it
 // shows as "Coming soon" with no link.
+import { packetNotePath, paidCount, prices } from "./code559-packets.mjs";
+
+/** A fact chip on a course card: plain text, or a link with optional text after it (2026-11-05). */
+export type Code559Fact = string | { label: string; href: string; after?: string };
+
 export interface Code559Offering {
   id: string;
   title: string;
   summary: string;
   status: "Available" | "Coming soon";
   href?: string;
-  facts?: string[];
+  facts?: Code559Fact[];
 }
 
 export const code559Offerings: Code559Offering[] = [
@@ -18,7 +23,16 @@ export const code559Offerings: Code559Offering[] = [
       "Learn HTML, CSS, JavaScript and Git from zero, one module at a time, and finish with a personal website and a portfolio on GitHub.",
     status: "Available",
     href: "/code559/front-end-developer/",
-    facts: ["14 modules", "Every lesson free", "Optional packets with the full project"],
+    facts: [
+      "14 modules",
+      "Every lesson free",
+      // Prices come from src/data/code559-packets.mjs; the link goes to the course page's packet note.
+      {
+        label: "Optional packets with the full project",
+        href: packetNotePath,
+        after: `: ${prices.single} each, or ${prices.bundle} for all ${paidCount}.`,
+      },
+    ],
   },
   {
     id: "understanding-ai",

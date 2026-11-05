@@ -6,10 +6,68 @@ import FilterBar from "@/components/FilterBar.astro";
 import ResourceCard from "@/components/ResourceCard.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import {
+  bundleLinkLabel,
+  bundleUrl,
+  coursePath,
+  packetContentsText,
+  packetFormats,
+  priceSummary,
+} from "@/data/code559-packets.mjs";
 
-const resources = (await getCollection("resources", ({ data }) => !data.draft)).sort((a, b) => {
-  if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
-  return a.data.title.localeCompare(b.data.title);
+// One list for the shelves: the resource files plus the Code559 packets, which are sold on Gumroad and
+// explained on their course page, so they have no resource file or /resources/ page (2026-11-05).
+type ShelfItem = {
+  title: string;
+  slug: string;
+  description: string;
+  audience: string[];
+  format: string;
+  price: string;
+  status: string;
+  category: string;
+  topics: string[];
+  featured: boolean;
+  detailsHref?: string;
+  buy?: { label: string; href: string };
+};
+
+const files: ShelfItem[] = (await getCollection("resources", ({ data }) => !data.draft)).map(({ data }) => ({
+  title: data.title,
+  slug: data.slug,
+  description: data.shortDescription,
+  audience: data.intendedAudience,
+  format: data.format,
+  price: data.priceDisplay,
+  status: data.availability,
+  category: data.category,
+  topics: data.topics,
+  featured: data.featured,
+}));
+
+// Real status and real prices, from src/data/code559-packets.mjs. The only priced item on this page.
+const packets: ShelfItem = {
+  title: "Code559 Front-End Developer Packets",
+  slug: "code559-packets",
+  description: `Every lesson of the Code559 Front-End Developer Course is free. Each packet adds ${packetContentsText}, as ${packetFormats}.`,
+  audience: ["Adult beginners", "Technical builders"],
+  format: "PDF and EPUB packets",
+  price: priceSummary,
+  status: "available",
+  category: "Courses and Walkthroughs",
+  topics: ["beginner web development", "HTML", "CSS", "JavaScript", "Git"],
+  featured: true,
+  detailsHref: coursePath,
+  buy: { label: bundleLinkLabel, href: bundleUrl },
+};
+
+// Items you can get now come first, then announced ones; then featured, then by title.
+const statusRank = (status: string) =>
+  ["available", "free"].includes(status) ? 0 : ["early access", "by inquiry"].includes(status) ? 1 : status === "coming soon" ? 2 : 3;
+const resources = [packets, ...files].sort((a, b) => {
+  if (statusRank(a.status) !== statusRank(b.status)) return statusRank(a.status) - statusRank(b.status);
+  if (a.featured !== b.featured) return a.featured ? -1 : 1;
+  return a.title.localeCompare(b.title);
 });
 
 const categories = [
@@ -51,7 +109,7 @@ const audiences = [
         description="Every resource states its real status. Coming-soon concepts do not display invented prices, purchase links, or download buttons."
       />
       {
-        resources.some((resource) => resource.data.availability === "coming soon") && (
+        resources.some((resource) => resource.status === "coming soon") && (
           <p class="form-notice">Each resource marked coming soon has a form on its page to get one email when it is released.</p>
         )
       }
@@ -67,15 +125,17 @@ const audiences = [
         {
           resources.map((resource) => (
             <ResourceCard
-              title={resource.data.title}
-              slug={resource.data.slug}
-              description={resource.data.shortDescription}
-              audience={resource.data.intendedAudience}
-              format={resource.data.format}
-              price={resource.data.priceDisplay}
-              status={resource.data.availability}
-              category={resource.data.category}
-              topics={resource.data.topics}
+              title={resource.title}
+              slug={resource.slug}
+              description={resource.description}
+              audience={resource.audience}
+              format={resource.format}
+              price={resource.price}
+              status={resource.status}
+              category={resource.category}
+              topics={resource.topics}
+              detailsHref={resource.detailsHref}
+              buy={resource.buy}
             />
           ))
         }

@@ -1,13 +1,51 @@
 ---
-import { getCollection, getEntry, render } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import ExternalLink from "@/components/ExternalLink.astro";
+import PacketNote from "@/components/PacketNote.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import {
+  bundleSavingsPercent,
+  bundleUrl,
+  freePacket,
+  packetContentsText,
+  packetFormats,
+  paidCount,
+  prices,
+  storefrontUrl,
+} from "@/data/code559-packets.mjs";
 
 // The Front-End Developer Course home (moved from /code559/ on 2026-10-14; /code559/ now introduces the initiative).
 const home = await getEntry("code559", "index");
 if (!home) throw new Error("Code559 course home missing: run node scripts/sync-code559.mjs");
-const { Content } = await render(home);
 const modules = await getCollection("code559", ({ id }) => id !== "index");
+
+// Packet text (2026-11-05). index.md is a synced copy of the Code559 repository and is never edited here,
+// so its packet text is rebuilt from src/data/code559-packets.mjs, the single source for packet prices
+// and links: the packet note goes in before "The modules", and the paragraph under "Get the packets" is
+// replaced. If a sync moves either heading, the build stops here instead of showing old prices.
+const html = home.rendered?.html ?? "";
+const modulesAt = html.indexOf('<h2 id="the-modules"');
+const packetsAt = html.indexOf('<h2 id="get-the-packets"');
+const paragraphStart = packetsAt < 0 ? -1 : html.indexOf("<p>", packetsAt);
+const paragraphEnd = paragraphStart < 0 ? -1 : html.indexOf("</p>", paragraphStart) + "</p>".length;
+if (modulesAt < 0 || packetsAt < modulesAt || paragraphStart < 0 || paragraphEnd < paragraphStart) {
+  throw new Error(
+    'Code559 course home: "The modules" or "Get the packets" (with its paragraph) is missing from index.md. ' +
+      "Update src/pages/code559/front-end-developer/index.astro to match the synced copy.",
+  );
+}
+const beforeModules = html.slice(0, modulesAt);
+const modulesToPackets = html.slice(modulesAt, paragraphStart);
+const afterPackets = html.slice(paragraphEnd);
+const packetsParagraph = [
+  `Each module's packet adds ${packetContentsText}, as ${packetFormats}.`,
+  freePacket ? `The Module ${freePacket.module} packet is free.` : "",
+  `The others are ${prices.single} each, or ${prices.bundle} for all ${paidCount}, about ${bundleSavingsPercent}% less`,
+  `than buying them one at a time (${prices.separateTotal}).`,
+]
+  .filter(Boolean)
+  .join(" ");
 ---
 
 <BaseLayout
@@ -26,7 +64,15 @@ const modules = await getCollection("code559", ({ id }) => id !== "index");
         ]}
       />
       <article class="article-content code559-content" data-modules={modules.length}>
-        <Content />
+        <Fragment set:html={beforeModules} />
+        <PacketNote />
+        <Fragment set:html={modulesToPackets} />
+        <p>{packetsParagraph}</p>
+        <p class="packet-note-links">
+          <ExternalLink href={bundleUrl} class="text-link">See the packets: all {paidCount} for {prices.bundle} →</ExternalLink>{" "}
+          <ExternalLink href={storefrontUrl} class="text-link">Buy a single packet in the store →</ExternalLink>
+        </p>
+        <Fragment set:html={afterPackets} />
       </article>
     </div>
   </section>

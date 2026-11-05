@@ -3746,3 +3746,75 @@ body.curious {
   color: var(--color-ink-soft);
   font-size: var(--step--1);
 }
+
+/* Code559 packets (2026-11-05): the homepage "Available now" sheet, the course page packet note,
+   and the Resources card's buy link. Prices and links come from src/data/code559-packets.mjs. */
+.available-sheet {
+  display: grid;
+  padding: var(--space-5);
+  border: var(--bp-wall) solid var(--bp-line);
+  background: var(--color-white);
+  gap: var(--space-5);
+  grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.6fr);
+  align-items: start;
+}
+
+.available-copy h2 {
+  margin-top: 0;
+}
+
+.available-copy p:last-child {
+  margin-bottom: 0;
+}
+
+.available-title-block dd {
+  text-transform: none;
+}
+
+.sheet-label {
+  margin: var(--space-2) 0 0;
+  color: var(--color-ink-soft);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.packet-note {
+  margin-block: var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  border: var(--bp-wall) solid var(--bp-line);
+  background: var(--color-blue-pale);
+}
+
+.packet-note h2 {
+  margin-top: 0;
+}
+
+.packet-note-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-5);
+}
+
+.packet-note > .packet-note-links {
+  margin-bottom: 0;
+}
+
+/* With a buy link the card footer wraps: price and "View details" on one line, the button below. */
+.card-footer-buy {
+  flex-wrap: wrap;
+}
+
+.card-footer-buy .resource-buy {
+  flex-basis: 100%;
+}
+
+@media (max-width: 50rem) {
+  .available-sheet {
+    padding: var(--space-4);
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

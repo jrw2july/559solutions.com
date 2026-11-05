@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import ArticleCard from "@/components/ArticleCard.astro";
+import AvailableNow from "@/components/AvailableNow.astro";
 import CTASection from "@/components/CTASection.astro";
 // Used only by the "How 559 Solutions works" section, which is commented out below (2026-10-14).
 // import FloorplanDivider from "@/components/FloorplanDivider.astro";
@@ -119,6 +120,9 @@ const organizationSchema = [
     </div>
   </section>
   */}
+
+  {/* The one thing for sale, between the plan and "From the Study" (2026-11-05). */}
+  <AvailableNow />
 
   {
     articles.length > 0 && (
