@@ -69,7 +69,8 @@ test("only published articles (draft: false) are in the production blog", async 
     const source = await readFile(path.join(articleRoot, entry.name), "utf8");
     if (/^draft:\s*false\s*$/m.test(source)) published.push(entry.name.replace(/\.md$/, ""));
   }
-  assert.deepEqual(names.filter((name) => name !== "index.html").sort(), published.sort());
+  // blog/category/ holds the category pages (2026-11-05), so no article may use the slug "category".
+  assert.deepEqual(names.filter((name) => name !== "index.html" && name !== "category").sort(), published.sort());
 });
 
 test("sitemap, RSS, robots, and Apache configuration use the canonical host", async () => {
@@ -83,4 +84,27 @@ test("sitemap, RSS, robots, and Apache configuration use the canonical host", as
   assert.match(htaccess, /RewriteCond %\{HTTPS\} !=on/);
   assert.match(htaccess, /Options -Indexes/);
   assert.match(htaccess, /Content-Security-Policy/);
+});
+
+test("blog categories are real links to static, noindex category pages", async () => {
+  const blog = await readFile(path.join(dist, "blog", "index.html"), "utf8");
+  const sitemap = await readFile(path.join(dist, "sitemap.xml"), "utf8");
+  const slugs = ["ai-without-the-hype", "systems-thinking", "small-business-tools", "builder-notes", "architects-notebook"];
+  for (const slug of slugs) {
+    assert.match(blog, new RegExp(`href="/blog/category/${slug}/"`), slug);
+    const page = await readFile(path.join(dist, "blog", "category", slug, "index.html"), "utf8");
+    assert.match(page, /<meta name="robots" content="noindex, nofollow">/, slug);
+    assert.match(page, /aria-current="page"/, slug);
+    assert.doesNotMatch(sitemap, new RegExp(`/blog/category/${slug}/`), slug);
+  }
+});
+
+test("blog filters run live: no Apply button, results announced, problem links present", async () => {
+  const blog = await readFile(path.join(dist, "blog", "index.html"), "utf8");
+  assert.doesNotMatch(blog, /Apply filters/);
+  assert.match(blog, /role="search"[^>]*hidden|hidden[^>]*role="search"/);
+  assert.match(blog, /data-filter-status[^>]*role="status"|role="status"[^>]*data-filter-status/);
+  assert.match(blog, /What are you trying to work through\?/);
+  const resources = await readFile(path.join(dist, "resources", "index.html"), "utf8");
+  assert.match(resources, /Apply filters/, "resources keeps its own filter form");
 });

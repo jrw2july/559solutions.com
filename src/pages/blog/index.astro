@@ -2,14 +2,16 @@
 import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 import ArticleCard from "@/components/ArticleCard.astro";
+import BlogCategoryLinks from "@/components/BlogCategoryLinks.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
-import CategoryIcon from "@/components/CategoryIcon.astro";
 import DoodleDivider from "@/components/DoodleDivider.astro";
 import EmptyState from "@/components/EmptyState.astro";
 import FilterBar from "@/components/FilterBar.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { blogCategories } from "@/data/blog-categories";
+import { blogProblems } from "@/data/blog-problems";
+import { sitePath } from "@/config/site";
 import drawing from "@/assets/curious-architect/drawing-david-wells.jpg";
 import hero from "@/assets/curious-architect/hero-curious-architect.webp";
 import questionPair from "@/assets/curious-architect/question-pair.png";
@@ -21,6 +23,12 @@ const articles = (await getCollection("articles", ({ data }) => !data.draft)).so
 const categories = blogCategories.map((item) => item.name);
 
 const tags = [...new Set(articles.flatMap((article) => article.data.tags))].sort();
+
+// Each problem links to its starting article; the article title is the link's tooltip.
+const problems = blogProblems.map((item) => ({
+  ...item,
+  title: articles.find((article) => article.data.slug === item.slug)?.data.title,
+}));
 ---
 
 <BaseLayout
@@ -54,23 +62,22 @@ const tags = [...new Set(articles.flatMap((article) => article.data.tags))].sort
     </div>
   </header>
 
-  <section class="section" data-filter-list>
+  <section class="section ca-list-section" data-filter-list>
     <div class="container">
-      <SectionHeading
-        eyebrow="All articles"
-        title="AI without the hype. Systems without the fog."
-        description="Filter by category or tag, or search by title."
-      />
-      <ul class="ca-legend" aria-label="Categories">
-        {
-          blogCategories.map((item) => (
-            <li>
-              <CategoryIcon category={item.name} size={28} />
-              {item.name}
-            </li>
-          ))
-        }
-      </ul>
+      <section class="ca-problems" aria-labelledby="ca-problems-heading">
+        <h2 id="ca-problems-heading">What are you trying to work through?</h2>
+        <ul>
+          {
+            problems.map((item) => (
+              <li>
+                <a href={sitePath(`/blog/${item.slug}/`)} title={item.title ? `Start with: ${item.title}` : undefined}>{item.problem}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+      <SectionHeading eyebrow="All articles" title="AI without the hype. Systems without the fog." />
+      <BlogCategoryLinks />
       <FilterBar
         label="Filter articles"
         searchPlaceholder="Search titles, summaries, or tags"
@@ -78,6 +85,8 @@ const tags = [...new Set(articles.flatMap((article) => article.data.tags))].sort
         secondaryLabel="Tag"
         secondaryOptions={tags}
         secondaryAttribute="topics"
+        live
+        itemNoun={["article", "articles"]}
       />
       <div class="card-grid" data-filter-results>
         {

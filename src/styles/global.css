@@ -1938,21 +1938,23 @@ body.curious {
   color: var(--ca-rust);
 }
 
+/* The blog hero is kept short so the articles start near the top (2026-11-05). */
 .ca-hero {
-  padding-block: var(--space-8);
+  padding-block: var(--space-5);
   border-bottom: 2px dashed var(--ca-charcoal);
 }
 
 .ca-hero-grid {
   display: grid;
   align-items: center;
-  gap: var(--space-6);
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: var(--space-5);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 12rem);
 }
 
 .ca-hero h1 {
+  margin-bottom: var(--space-3);
   color: var(--ca-charcoal);
-  font-size: var(--step-5);
+  font-size: var(--step-4);
 }
 
 .ca-title-marks {
@@ -2097,13 +2099,27 @@ body.curious {
 }
 
 @media (max-width: 52rem) {
-  .ca-hero-grid,
   .ca-about-grid {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  /* On phones the drawing stays, small, at the top right beside the title; the lede runs full width. */
+  .ca-hero-grid {
+    display: block;
+    position: relative;
+  }
+
   .ca-hero-art {
-    max-width: 28rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5.5rem;
+  }
+
+  .ca-hero .breadcrumbs,
+  .ca-hero .eyebrow,
+  .ca-hero h1 {
+    padding-right: 6rem;
   }
 
   .ca-drawing {
@@ -3154,5 +3170,144 @@ body.curious {
   .worksheet-tools,
   .ieia-actions {
     display: none !important;
+  }
+}
+
+/* Blog index discovery (2026-11-05): problem entry points, category links that work without JavaScript,
+   and a shorter run-in to the first article. The selected category is shown by a solid border and a
+   check mark, not by color alone. */
+.ca-list-section {
+  padding-top: var(--space-5);
+}
+
+.ca-list-section .section-heading {
+  margin-bottom: var(--space-3);
+}
+
+.ca-list-section .section-heading h2 {
+  margin-bottom: 0;
+  font-size: var(--step-2);
+}
+
+/* Blog filter bar: search, tag and Clear in one row (the category links replace the category select). */
+.filter-bar[data-live] {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto;
+  padding: var(--space-3) var(--space-4);
+}
+
+.filter-bar[data-live] .field {
+  margin-bottom: 0;
+}
+
+.ca-hero .lede {
+  max-width: 48rem;
+  margin-bottom: 0;
+  font-size: var(--step-0);
+}
+
+.ca-hero h1 {
+  max-width: none;
+}
+
+.ca-problems {
+  margin-bottom: var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  background: var(--ca-note);
+  border: 2px solid var(--ca-charcoal);
+}
+
+.ca-problems h2 {
+  margin-bottom: var(--space-2);
+  font-size: var(--step-1);
+}
+
+.ca-problems ul {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  gap: 0 var(--space-5);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  list-style: none;
+}
+
+.ca-problems li {
+  display: flex;
+  flex-direction: column;
+}
+
+.ca-problems a {
+  display: inline-flex;
+  min-height: 1.75rem;
+  align-items: center;
+  font-weight: 700;
+}
+
+
+.ca-categories .ca-legend {
+  gap: var(--space-2) var(--space-3);
+}
+
+.ca-category-link {
+  display: inline-flex;
+  min-height: 2.75rem;
+  padding: 0.25rem 0.6rem;
+  align-items: center;
+  gap: 0.5em;
+  color: var(--ca-charcoal);
+  border: 2px solid transparent;
+  text-decoration: underline;
+  text-decoration-color: rgb(62 65 64 / 0.4);
+  text-underline-offset: 0.2em;
+}
+
+.ca-category-link:hover {
+  color: var(--color-ink);
+  text-decoration-color: currentColor;
+}
+
+.ca-category-link[aria-current] {
+  color: var(--color-ink);
+  background: var(--color-white);
+  border-color: var(--ca-charcoal);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.ca-category-link[aria-current]::after {
+  content: "✓" / "";
+  font-weight: 800;
+}
+
+.ca-hero-compact {
+  padding-block: var(--space-4);
+}
+
+.ca-category-title {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 52rem) {
+  .ca-problems ul {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ca-problems a {
+    min-height: 2.25rem;
+    font-size: var(--step--1);
+  }
+
+  .filter-bar[data-live] {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .filter-bar[data-live] .field:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .ca-categories .ca-legend {
+    gap: 0 var(--space-2);
   }
 }

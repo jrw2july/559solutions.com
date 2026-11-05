@@ -1,5 +1,9 @@
 const normalize = (value) => String(value || "").trim().toLowerCase();
 
+// Category slugs, built the same way as src/data/blog-categories.ts: lower case, no apostrophes, hyphens.
+const slugify = (value) =>
+  normalize(value).replace(/['\u2019]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
 document.querySelectorAll("[data-filter-list]").forEach((list) => {
   const form = list.querySelector("[data-filter-form]");
   const cards = [...list.querySelectorAll("[data-filter-card]")];
@@ -8,10 +12,41 @@ document.querySelectorAll("[data-filter-list]").forEach((list) => {
 
   if (!form || cards.length === 0) return;
 
+  // Blog mode (/blog/): live filtering, category links that filter in place, and category and tag kept
+  // in the URL. Search text is never put in the URL, so it is not sent to the server or to analytics.
+  const live = form.hasAttribute("data-live");
+  const searchInput = form.querySelector("[data-filter-search]");
+  const categorySelect = form.querySelector("[data-filter-category]");
+  const secondarySelect = form.querySelector("[data-filter-secondary]");
+  const categoryLinks = [...list.querySelectorAll("[data-category-link]")];
+
+  const optionText = (select) => select?.selectedOptions[0]?.textContent?.trim() || "";
+
+  const syncUrl = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("search");
+    const category = categorySelect?.value ? slugify(categorySelect.value) : "";
+    const tag = secondarySelect?.value || "";
+    if (category) url.searchParams.set("category", category);
+    else url.searchParams.delete("category");
+    if (tag) url.searchParams.set("tag", tag);
+    else url.searchParams.delete("tag");
+    if (url.href !== window.location.href) window.history.replaceState(null, "", url);
+  };
+
+  const markCategoryLinks = () => {
+    const current = categorySelect?.value ? slugify(categorySelect.value) : "";
+    categoryLinks.forEach((link) => {
+      const slug = link.dataset.categoryLink || "";
+      if (slug === current) link.setAttribute("aria-current", current ? "true" : "page");
+      else link.removeAttribute("aria-current");
+    });
+  };
+
   const applyFilters = () => {
-    const search = normalize(form.querySelector("[data-filter-search]")?.value);
-    const category = normalize(form.querySelector("[data-filter-category]")?.value);
-    const secondary = normalize(form.querySelector("[data-filter-secondary]")?.value);
+    const search = normalize(searchInput?.value);
+    const category = normalize(categorySelect?.value);
+    const secondary = normalize(secondarySelect?.value);
     const secondaryAttribute = form.dataset.secondaryAttribute || "topics";
     let visible = 0;
 
@@ -26,10 +61,57 @@ document.querySelectorAll("[data-filter-list]").forEach((list) => {
     });
 
     if (emptyState) emptyState.hidden = visible !== 0;
-    if (status) {
+    if (status && live) {
+      const noun = visible === 1 ? form.dataset.nounSingular : form.dataset.nounPlural;
+      let message = `Showing ${visible} ${noun}`;
+      if (category) message += ` in ${optionText(categorySelect)}`;
+      if (secondary) message += ` tagged ${optionText(secondarySelect)}`;
+      if (search) message += ` matching "${searchInput.value.trim()}"`;
+      status.textContent = `${message}.`;
+    } else if (status) {
       status.textContent = `${visible} ${visible === 1 ? "item" : "items"} shown`;
     }
+
+    if (live) {
+      syncUrl();
+      markCategoryLinks();
+    }
   };
+
+  if (live) {
+    const params = new URLSearchParams(window.location.search);
+    const categoryParam = params.get("category");
+    if (categoryParam && categorySelect) {
+      const option = [...categorySelect.options].find((item) => item.value && slugify(item.value) === categoryParam);
+      if (option) categorySelect.value = option.value;
+    }
+    const tagParam = normalize(params.get("tag"));
+    if (tagParam && secondarySelect) {
+      const option = [...secondarySelect.options].find((item) => item.value === tagParam);
+      if (option) secondarySelect.value = option.value;
+    }
+
+    categoryLinks.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        // Let a new-tab or new-window click open the category page as usual.
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        if (!categorySelect) return;
+        const slug = link.dataset.categoryLink || "";
+        const option = [...categorySelect.options].find((item) => (item.value ? slugify(item.value) : "") === slug);
+        if (!option) return;
+        event.preventDefault();
+        categorySelect.value = option.value;
+        applyFilters();
+      });
+    });
+
+    form.querySelector("[data-filter-clear]")?.addEventListener("click", () => {
+      if (searchInput) searchInput.value = "";
+      if (categorySelect) categorySelect.value = "";
+      if (secondarySelect) secondarySelect.value = "";
+      applyFilters();
+    });
+  }
 
   form.addEventListener("input", applyFilters);
   form.addEventListener("change", applyFilters);
