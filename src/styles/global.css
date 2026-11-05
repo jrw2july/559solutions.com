@@ -3095,8 +3095,83 @@ body.curious {
 }
 
 .worksheet-print-head,
-.worksheet-print-copy {
+.worksheet-print-copy,
+.worksheet-print-title {
   display: none;
+}
+
+/* Lesson parts inside an article (2026-11-05). The Introduce block opens the article, so it has no
+   rule above it. The inline "Explain" label (from an <!-- ieia:explain --> marker) takes over the rule
+   of the heading that follows it, so the label sits under the rule beside its heading. */
+.article-content > .ieia-section:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.ieia-kicker-row {
+  margin-top: var(--space-7);
+  padding-top: var(--space-3);
+  border-top: var(--border);
+}
+
+.curious .ieia-kicker-row {
+  border-top: 2px dashed rgb(62 65 64 / 0.3);
+}
+
+.ieia-kicker-row > .ieia-kicker {
+  margin-bottom: 0;
+}
+
+.article-content .ieia-kicker-row + h2 {
+  margin-top: var(--space-2);
+  padding-top: 0;
+  border-top: 0;
+}
+
+.ieia-scenario {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-white);
+  border-left: 4px solid var(--ca-charcoal, var(--color-ink));
+}
+
+.ieia-example {
+  margin: var(--space-4) 0 0;
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-white);
+  border: 2px solid var(--ca-charcoal, var(--color-ink));
+}
+
+.ieia-example dl {
+  margin: 0;
+}
+
+.ieia-example dl > div {
+  display: grid;
+  padding-block: var(--space-2);
+  gap: var(--space-1) var(--space-4);
+  grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+  border-bottom: 1px dashed var(--color-line-strong);
+}
+
+.ieia-example dt {
+  font-weight: 750;
+}
+
+.ieia-example dd {
+  margin: 0;
+}
+
+.ieia-example figcaption {
+  margin-top: var(--space-3);
+  color: var(--color-ink-soft);
+  font-size: var(--step--1);
+}
+
+@media (max-width: 40rem) {
+  .ieia-example dl > div {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .ieia-deeper-list {
@@ -3130,8 +3205,14 @@ body.curious {
   }
 
   html.print-worksheet .is-printing .worksheet-print-head,
-  html.print-worksheet .is-printing .worksheet-print-copy {
+  html.print-worksheet .is-printing .worksheet-print-copy,
+  html.print-worksheet .is-printing .worksheet-print-title {
     display: block;
+  }
+
+  .worksheet-print-title {
+    font-size: 14pt;
+    font-weight: 700;
   }
 
   .worksheet-print-head {

@@ -1,0 +1,25 @@
+---
+import type { WorkedExampleData } from "@/data/exercises";
+
+// Illustrate: a small worked example as a figure with a caption, so the reader sees a finished result.
+interface Props {
+  data: WorkedExampleData;
+}
+
+const { data } = Astro.props;
+---
+
+{data.lead && <p>{data.lead}</p>}
+<figure class="ieia-example">
+  <dl>
+    {
+      data.rows.map((row) => (
+        <div>
+          <dt>{row.label}</dt>
+          <dd>{row.value}</dd>
+        </div>
+      ))
+    }
+  </dl>
+  <figcaption>{data.caption}</figcaption>
+</figure>

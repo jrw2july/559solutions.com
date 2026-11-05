@@ -108,3 +108,21 @@ test("blog filters run live: no Apply button, results announced, problem links p
   const resources = await readFile(path.join(dist, "resources", "index.html"), "utf8");
   assert.match(resources, /Apply filters/, "resources keeps its own filter form");
 });
+
+test("the decision-first pilot renders its lesson in place and keeps its source", async () => {
+  const html = await readFile(path.join(dist, "blog", "start-with-the-decision-not-the-ai-tool", "index.html"), "utf8");
+  assert.doesNotMatch(html, /ieia:/, "every lesson marker is replaced");
+  for (const part of ["Introduce", "Explain", "Illustrate", "Apply"]) {
+    assert.match(html, new RegExp(`class="ieia-kicker[^"]*"[^>]*>${part}<`), part);
+  }
+  assert.match(html, /What fails first when a team starts with the product\?/);
+  assert.match(html, /<figure class="ieia-example">/);
+  for (const field of ["decision", "owner", "evidence", "human", "experiment", "measure"]) {
+    assert.match(html, new RegExp(`id="decision-brief-${field}"`), field);
+  }
+  // The worksheet sits between the checklist and the closing section.
+  assert.ok(html.indexOf('id="a-short-decision-first-checklist"') < html.indexOf('id="lesson-apply"'));
+  assert.ok(html.indexOf('id="lesson-apply"') < html.indexOf('id="the-practical-test"'));
+  assert.match(html, /href="https:\/\/www\.nist\.gov\/itl\/ai-risk-management-framework"/);
+  await assert.rejects(access(path.join(dist, "ieia-demo")), "the component demo page is gone");
+});

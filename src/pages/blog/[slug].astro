@@ -8,6 +8,12 @@ import CTASection from "@/components/CTASection.astro";
 import DoodleDivider from "@/components/DoodleDivider.astro";
 import OwnerName from "@/components/OwnerName.astro";
 import TagList from "@/components/TagList.astro";
+import ArticleBody from "@/components/ieia/ArticleBody.astro";
+import IeiaSection from "@/components/ieia/IeiaSection.astro";
+import QuestionWorthAsking from "@/components/ieia/QuestionWorthAsking.astro";
+import UseItAtWork from "@/components/ieia/UseItAtWork.astro";
+import WorkedExample from "@/components/ieia/WorkedExample.astro";
+import { exercises } from "@/data/exercises";
 import { absoluteUrl, site } from "@/config/site";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
@@ -25,6 +31,8 @@ interface Props {
 
 const { article } = Astro.props as Props;
 const { Content, headings } = await render(article);
+const exercise = exercises[article.data.slug];
+const worksheet = exercise?.apply?.kind === "worksheet" ? exercise.apply : undefined;
 const readingTime = Math.max(1, Math.ceil((article.body || "").split(/\s+/).length / 225));
 const publicationDate = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
@@ -103,29 +111,42 @@ const schema = {
   </header>
 
   <section class="section">
-    <div class="container article-shell">
-      <article class="article-content">
-        <Content />
+    <ArticleBody slug={article.data.slug} headingCount={headings.length} explain={exercise?.explain}>
+      <Content />
+      {
+        (exercise?.scenario || exercise?.introduce) && (
+          <IeiaSection slot="introduce" step="Introduce" id="lesson-introduce">
+            {exercise.scenario && (
+              <p class="ieia-scenario">
+                <strong>{exercise.scenario.label}:</strong> {exercise.scenario.text}
+              </p>
+            )}
+            {exercise.introduce && <QuestionWorthAsking id="lesson-question" data={exercise.introduce} />}
+          </IeiaSection>
+        )
+      }
+      {
+        exercise?.illustrate && (
+          <IeiaSection slot="illustrate" step="Illustrate" heading={exercise.illustrate.heading} id="lesson-illustrate">
+            <WorkedExample data={exercise.illustrate} />
+          </IeiaSection>
+        )
+      }
+      {
+        worksheet && (
+          <IeiaSection slot="apply" step="Apply" heading={worksheet.title} id="lesson-apply">
+            {exercise.applyLead && <p>{exercise.applyLead}</p>}
+            <UseItAtWork data={worksheet} printTitle={article.data.title} labelledBy="lesson-apply-heading" />
+            {/* Slot: newsletter signup after the Apply step, tagged with the article slug (Prompt 4). */}
+          </IeiaSection>
+        )
+      }
+      <Fragment slot="after">
         <DoodleDivider />
         <AuthorBio />
-      </article>
-      <aside class="article-sidebar" aria-label="Article navigation">
-        {
-          headings.length > 2 && (
-            <nav class="toc" aria-label="On this page">
-              <h2>On this page</h2>
-              <ol>
-                {headings
-                  .filter((heading) => heading.depth === 2)
-                  .map((heading) => (
-                    <li><a href={`#${heading.slug}`}>{heading.text}</a></li>
-                  ))}
-              </ol>
-            </nav>
-          )
-        }
-      </aside>
-    </div>
+        {/* Slot: end-of-article newsletter signup and "Work with me" block (Prompts 4 and 5). */}
+      </Fragment>
+    </ArticleBody>
   </section>
 
   {

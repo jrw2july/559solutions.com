@@ -61,9 +61,35 @@ export type GoDeeperData = {
   questions: GoDeeperQuestion[];
 };
 
+/** A short, clearly made-up scenario shown at the start of a lesson. */
+export type ScenarioData = {
+  label: string;
+  text: string;
+};
+
+/** A worked example: labeled rows in a <figure>, with a caption. */
+export type WorkedExampleData = {
+  heading: string;
+  /** One connecting sentence before the figure. */
+  lead?: string;
+  rows: { label: string; value: string }[];
+  caption: string;
+};
+
+/**
+ * One article's lesson. Each part is placed where its marker sits in the article Markdown:
+ * <!-- ieia:introduce -->, <!-- ieia:explain -->, <!-- ieia:illustrate -->, <!-- ieia:apply -->.
+ * The build fails if a part has no marker or a marker has no part (src/components/ieia/ArticleBody.astro).
+ */
 export type Exercise = {
+  scenario?: ScenarioData;
   introduce?: QuestionWorthAskingData;
+  /** true: show the "Explain" label at the <!-- ieia:explain --> marker. */
+  explain?: boolean;
+  illustrate?: WorkedExampleData;
   apply?: ApplyData;
+  /** One connecting sentence before the Apply worksheet. */
+  applyLead?: string;
   goDeeper?: GoDeeperData;
 };
 
@@ -76,66 +102,51 @@ export const standingQuestions = [
   "What would you test?",
 ] as const;
 
-// Sample content for the component demo page (/ieia-demo/). It is clearly labeled as a sample there.
-// Remove this entry when the demo page is removed.
-export const demoExercise = {
-  introduce: {
-    question: "What usually fails first when a team starts with a product instead of a decision?",
-    answer: [
-      "The goal drifts toward what the tool does well. The pilot then measures the tool, not the work.",
-      "Naming the decision first gives the team something to judge the tool against.",
-    ],
-    guessLabel: "Your guess (optional)",
-  },
-  apply: {
-    kind: "worksheet",
-    id: "demo-brief",
-    title: "Build your decision brief",
-    intro: "Fill in what you know. Leave a box blank if you do not know yet. That is useful too.",
-    fields: [
-      { id: "decision", label: "The decision", hint: "The choice someone makes again and again." },
-      { id: "owner", label: "Who owns it" },
-      { id: "evidence", label: "Evidence that would change our mind" },
-      { id: "experiment", label: "Smallest useful experiment" },
-    ],
-  },
-  call: {
-    kind: "call",
-    id: "demo-call",
-    title: "Make the call",
-    scenario:
-      "A small team has a free trial of an AI tool that ends Friday. Nobody has said which decision it should help with.",
-    legend: "What should the team do first?",
-    choices: [
-      {
-        id: "extend",
-        label: "Ask the vendor to extend the trial.",
-        correct: false,
-        feedback: "More time with the tool does not tell the team what to judge it against.",
-      },
-      {
-        id: "name-decision",
-        label: "Name the decision the tool should improve and who owns it.",
-        correct: true,
-        feedback: "With a named decision and owner, the trial has a clear test.",
-      },
-      {
-        id: "compare",
-        label: "Compare three more tools before Friday.",
-        correct: false,
-        feedback: "More products add more answers. The team still has no question.",
-      },
-    ],
-  },
-  goDeeper: {
-    questions: standingQuestions.map((question) => ({ question })),
-  },
-} satisfies {
-  introduce: QuestionWorthAskingData;
-  apply: WorksheetData;
-  call: MakeTheCallData;
-  goDeeper: GoDeeperData;
-};
-
 /** Exercises for published articles, keyed by article slug. Added article by article in later steps. */
-export const exercises: Record<string, Exercise> = {};
+export const exercises: Record<string, Exercise> = {
+  // Pilot lesson (2026-11-05). The scenario, answer and worked brief are new text approved by the owner;
+  // the worked brief uses the article's own sample decision. No numbers are invented.
+  "start-with-the-decision-not-the-ai-tool": {
+    scenario: {
+      label: "A made-up example",
+      text: "A five-person accounting office has a free trial of an AI tool that reads invoices. The trial ends Friday. The owner wants to know whether to buy it.",
+    },
+    introduce: {
+      question: "What fails first when a team starts with the product?",
+      answer: [
+        "The goal drifts toward the tool. The pilot measures what the product does well, not what the business needs. Ownership and the exit point stay vague too.",
+      ],
+    },
+    explain: true,
+    illustrate: {
+      heading: "A worked decision brief",
+      lead: "Here is the accounting office's trial, written as a decision brief before anyone compares tools.",
+      rows: [
+        { label: "The decision", value: "Is this invoice ready to pay, or does it need review?" },
+        { label: "Who owns it", value: "The office manager." },
+        { label: "Evidence a good decision uses", value: "The purchase order, the vendor record, and past invoices from that vendor." },
+        {
+          label: "Where human judgment stays visible",
+          value: "The office manager approves every invoice the tool marks ready, and sees the purchase order beside it.",
+        },
+        { label: "Smallest useful experiment", value: "Run the tool on last quarter's paid invoices, where the right answer is known." },
+        { label: "How we'll know it worked", value: "Fewer invoices sent back for rework than in the same period before." },
+      ],
+      caption: "A decision brief for the made-up accounting office. It fits on one page, so the office is ready to look at tools.",
+    },
+    applyLead: "Now write the brief for a decision in your own work. Your answers stay on this page.",
+    apply: {
+      kind: "worksheet",
+      id: "decision-brief",
+      title: "Build your decision brief",
+      fields: [
+        { id: "decision", label: "The decision", hint: "One sentence. A choice someone makes again and again." },
+        { id: "owner", label: "Who owns it", hint: "One named role, not \"the team.\"" },
+        { id: "evidence", label: "Evidence that would change our mind" },
+        { id: "human", label: "Where human judgment stays visible", hint: "Where a person approves, changes, or rejects the output." },
+        { id: "experiment", label: "Smallest useful experiment", hint: "Past cases where you already know the right answer are the safest start." },
+        { id: "measure", label: "How we'll know it worked" },
+      ],
+    },
+  },
+};

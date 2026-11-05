@@ -15,6 +15,8 @@ seoDescription: "Name the decision, the owner, the evidence, and the human check
 relatedArticles: ["how-to-choose-and-actually-use-ai-tools", "what-architects-should-document"]
 ---
 
+<!-- ieia:introduce -->
+
 Most AI conversations start in the wrong place. Someone sees a demo, a vendor sends a trial link, or a competitor announces a feature. The next meeting is about which product to buy.
 
 That order feels productive. It usually is not.
@@ -22,6 +24,8 @@ That order feels productive. It usually is not.
 A tool is an answer. Before you can judge an answer, you need the question. In most organizations, the real question is a decision someone has to make, again and again, with better speed, accuracy, or consistency.
 
 Start there.
+
+<!-- ieia:explain -->
 
 ## The cost of beginning with a product
 
@@ -79,6 +83,8 @@ Past cases are the safest place to begin. Nobody waits on the result, and you le
 
 Only now does the product question become useful. You can compare two or three options against the same cases and the same measure. The comparison is about your work, not about a demo.
 
+<!-- ieia:illustrate -->
+
 ## A short decision-first checklist
 
 Before anyone opens a trial account, check that you can answer these:
@@ -93,6 +99,8 @@ Before anyone opens a trial account, check that you can answer these:
 8. What result means you stop?
 
 If the answers fit on one page, you are ready to look at tools. If they do not, you have found the real work.
+
+<!-- ieia:apply -->
 
 ## The practical test
 

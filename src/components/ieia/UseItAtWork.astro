@@ -8,20 +8,22 @@ interface Props {
   data: WorksheetData;
   /** Printed above the worksheet: usually the article title. */
   printTitle: string;
+  /** Id of a heading that already shows the worksheet title; the title line is then left out. */
+  labelledBy?: string;
 }
 
-const { data, printTitle } = Astro.props;
+const { data, printTitle, labelledBy } = Astro.props;
 const { id } = data;
 const printUrl = Astro.url.href;
 ---
 
-<div class="worksheet" id={id} role="group" aria-labelledby={`${id}-title`} data-worksheet={id} data-worksheet-title={data.title}>
+<div class="worksheet" id={id} role="group" aria-labelledby={labelledBy ?? `${id}-title`} data-worksheet={id} data-worksheet-title={data.title}>
   <div class="worksheet-print-head" aria-hidden="true">
     <p>{printTitle}</p>
     <p>{printUrl}</p>
   </div>
-  <p class="worksheet-label">Use it at work</p>
-  <p class="worksheet-title" id={`${id}-title`}>{data.title}</p>
+  {!labelledBy && <p class="worksheet-label">Use it at work</p>}
+  {labelledBy ? <p class="worksheet-print-title">{data.title}</p> : <p class="worksheet-title" id={`${id}-title`}>{data.title}</p>}
   {data.intro && <p class="worksheet-intro">{data.intro}</p>}
   {
     data.fields.map((field) => (

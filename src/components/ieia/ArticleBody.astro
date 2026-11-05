@@ -1,0 +1,71 @@
+---
+// The article body and its "On this page" list (2026-11-05). Articles stay plain Markdown. A lesson
+// part is placed where its marker sits in the Markdown, for example <!-- ieia:apply -->: the article
+// and each part are rendered to HTML, and each marker is swapped for its part. The lesson components
+// carry no scripts or styles of their own, so rendering them to HTML first is safe.
+// The build stops if a part has no marker, or a marker has no part, so nothing is dropped quietly.
+interface Props {
+  /** Article slug, for error messages. */
+  slug: string;
+  /** Number of Markdown headings; the list shows when there are more than two (as before). */
+  headingCount: number;
+  /** true when the article's lesson data turns on the Explain label. */
+  explain?: boolean;
+}
+
+const { slug, headingCount, explain = false } = Astro.props;
+const parts = ["introduce", "illustrate", "apply"] as const;
+
+let body = await Astro.slots.render("default");
+const rendered: Record<string, string> = {};
+for (const part of parts) {
+  // A slot whose condition is false still counts as present, so an empty render means "no part".
+  const html = Astro.slots.has(part) ? (await Astro.slots.render(part)).trim() : "";
+  if (html) rendered[part] = html;
+}
+if (explain) rendered.explain = '<div class="ieia-kicker-row"><p class="ieia-kicker">Explain</p></div>';
+
+const markers = [...body.matchAll(/<!--\s*ieia:([a-z]+)\s*-->/g)].map((match) => match[1]);
+for (const marker of markers) {
+  if (!(marker in rendered)) {
+    throw new Error(`Article "${slug}" has an <!-- ieia:${marker} --> marker but no "${marker}" lesson data.`);
+  }
+}
+for (const [part, html] of Object.entries(rendered)) {
+  const marker = new RegExp(`<!--\\s*ieia:${part}\\s*-->`);
+  if (!marker.test(body)) {
+    throw new Error(`Article "${slug}" has "${part}" lesson data but no <!-- ieia:${part} --> marker.`);
+  }
+  body = body.replace(marker, html);
+}
+
+// "On this page": every H2 in the finished body, so lesson headings appear in reading order.
+const stripTags = (html: string) => html.replace(/<[^>]+>/g, "").trim();
+const toc = [...body.matchAll(/<h2[^>]*\sid="([^"]+)"[^>]*>([\s\S]*?)<\/h2>/g)].map((match) => ({
+  id: match[1],
+  text: stripTags(match[2]),
+}));
+---
+
+<div class="container article-shell">
+  <article class="article-content">
+    <Fragment set:html={body} />
+    <slot name="after" />
+  </article>
+  <aside class="article-sidebar" aria-label="Article navigation">
+    {
+      headingCount > 2 && (
+        <nav class="toc" aria-label="On this page">
+          <h2>On this page</h2>
+          <ol>
+            {toc.map((heading) => (
+              <li>
+                <a href={`#${heading.id}`} set:html={heading.text} />
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )
+    }
+  </aside>
+</div>
