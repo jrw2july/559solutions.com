@@ -297,3 +297,23 @@ test("every published article now has one lesson exercise, and the pilot has Go 
   assert.match(record, /data-worksheet="decision-record"/);
   assert.match(record, /cognitect\.com\/blog\/2011\/11\/15\/documenting-architecture-decisions/, "Nygard citation unchanged");
 });
+
+test("measurement stays a no-op: no analytics script, no assertive live regions, and track() only knows five events", async () => {
+  const script = await readFile(path.join(root, "public", "scripts", "site.js"), "utf8");
+  assert.match(script, /const TRACK_EVENTS = \["article_open", "exercise_start", "exercise_complete", "output_copy", "next_step_click"\]/);
+  assert.equal((script.match(/fetch\(/g) || []).length, 1, "the form sender is the only fetch");
+  const files = [];
+  const walk = async (dir) => {
+    for (const entry of await readdir(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) await walk(full);
+      else if (entry.name.endsWith(".html")) files.push(full);
+    }
+  };
+  await walk(dist);
+  for (const file of files) {
+    const html = await readFile(file, "utf8");
+    assert.doesNotMatch(html, /googletagmanager|plausible\.io|usefathom|goatcounter|matomo/, file);
+    assert.doesNotMatch(html, /role="alert"|aria-live="assertive"/, file);
+  }
+});

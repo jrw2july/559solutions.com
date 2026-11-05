@@ -1,5 +1,42 @@
 const normalize = (value) => String(value || "").trim().toLowerCase();
 
+// Measurement (2026-11-05). track(eventName, props) is a no-op on the live site: no analytics tool is
+// enabled (src/config/site.ts, analytics.enabled is false), and none may be added without the owner's
+// approval and a Privacy page update. It accepts only the five events below and only the props "slug"
+// and "module"; anything else is dropped before a payload exists, so field text, answers and email
+// addresses can never pass through. It respects Do Not Track and Global Privacy Control. On localhost
+// it logs each payload to the console so the shape can be checked.
+// To wire a provider later: inside track(), after the dev log, call the provider with `payload`
+// (for example window.plausible?.(payload.event, { props: payload })) and nothing else.
+const TRACK_EVENTS = ["article_open", "exercise_start", "exercise_complete", "output_copy", "next_step_click"];
+const track = (eventName, props = {}) => {
+  if (!TRACK_EVENTS.includes(eventName)) return;
+  if (navigator.doNotTrack === "1" || navigator.globalPrivacyControl === true) return;
+  const payload = { event: eventName, slug: window.location.pathname.split("/").filter(Boolean).pop() || "home" };
+  if (typeof props.module === "string" && /^[a-z0-9-]+$/.test(props.module)) payload.module = props.module;
+  if (["localhost", "127.0.0.1"].includes(window.location.hostname)) console.debug("track", payload);
+  // No provider is enabled: the payload goes nowhere.
+};
+
+// Article pages: one article_open per load. The Apply step reports exercise_start on the first input.
+if (document.querySelector("article.article-content") && /^\/blog\/[^/]+\/$/.test(window.location.pathname)) {
+  track("article_open");
+}
+const applyStep = document.querySelector("#lesson-apply");
+if (applyStep) {
+  const moduleId = applyStep.querySelector("[data-worksheet], [data-selfcheck], .ieia-steps, .ieia-call")?.id;
+  const started = () => {
+    track("exercise_start", { module: moduleId });
+    applyStep.removeEventListener("input", started);
+    applyStep.removeEventListener("change", started);
+  };
+  applyStep.addEventListener("input", started);
+  applyStep.addEventListener("change", started);
+}
+document.querySelectorAll(".series-next-link").forEach((link) => {
+  link.addEventListener("click", () => track("next_step_click"));
+});
+
 // Category slugs, built the same way as src/data/blog-categories.ts: lower case, no apostrophes, hyphens.
 const slugify = (value) =>
   normalize(value).replace(/['\u2019]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -221,6 +258,11 @@ document.querySelectorAll("[data-ieia-call]").forEach((form) => {
     const label = form.querySelector(`label[for="${chosen.id}"]`)?.textContent?.trim() || "";
     const verdict = chosen.dataset.correct === "true" ? "Correct:" : "Not quite:";
     status.textContent = `${verdict} ${label} ${chosen.dataset.feedback || ""}`.trim();
+    // A single question completes on check; a stepped scenario completes on its last step.
+    const steps = form.closest(".ieia-steps");
+    if (!steps || steps.querySelector(".ieia-call:last-of-type") === form) {
+      track("exercise_complete", { module: steps?.id || form.id });
+    }
   });
 });
 
@@ -299,10 +341,16 @@ document.querySelectorAll("[data-worksheet]").forEach((form) => {
       .trim() + "\n";
 
   form.querySelector("[data-worksheet-copy]")?.addEventListener("click", async () => {
-    say((await copyText(markdown())) ? "Copied." : "Copy did not work here. Select the text and copy it yourself.");
+    const copied = await copyText(markdown());
+    say(copied ? "Copied." : "Copy did not work here. Select the text and copy it yourself.");
+    if (copied) {
+      track("output_copy", { module: form.dataset.worksheet });
+      track("exercise_complete", { module: form.dataset.worksheet });
+    }
   });
 
   form.querySelector("[data-worksheet-print-button]")?.addEventListener("click", () => {
+    track("exercise_complete", { module: form.dataset.worksheet });
     if (printCopy) {
       printCopy.replaceChildren(
         ...fields.flatMap((field) => {
@@ -381,5 +429,9 @@ document.querySelectorAll("[data-selfcheck]").forEach((box) => {
     }
     const ok = await copyText(lines.join("\n").trim() + "\n");
     if (status) status.textContent = ok ? "Copied." : "Copy did not work here. Select the text and copy it yourself.";
+    if (ok) {
+      track("output_copy", { module: box.dataset.selfcheck });
+      track("exercise_complete", { module: box.dataset.selfcheck });
+    }
   });
 });
