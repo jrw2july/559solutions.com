@@ -1,0 +1,80 @@
+---
+// One static page per Curious Architect category (2026-11-05), so the category links on /blog/ work
+// without JavaScript. They hold few articles, so they are noindex and left out of the sitemap
+// (docs/SEO_CHECKLIST.md: no thin utility pages in the sitemap).
+import { getCollection, type CollectionEntry } from "astro:content";
+import ArticleCard from "@/components/ArticleCard.astro";
+import BlogCategoryLinks from "@/components/BlogCategoryLinks.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import CategoryIcon from "@/components/CategoryIcon.astro";
+import { sitePath } from "@/config/site";
+import { blogCategories } from "@/data/blog-categories";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  return blogCategories.map((category) => ({
+    params: { category: category.slug },
+    props: { name: category.name, slug: category.slug },
+  }));
+}
+
+interface Props {
+  name: string;
+  slug: string;
+}
+
+const { name, slug } = Astro.props as Props;
+const articles = (
+  await getCollection("articles", ({ data }) => !data.draft && data.category === name)
+).sort((a, b) => b.data.publicationDate.valueOf() - a.data.publicationDate.valueOf()) as CollectionEntry<"articles">[];
+const count = `${articles.length} ${articles.length === 1 ? "article" : "articles"}`;
+---
+
+<BaseLayout
+  title={`${name} | The Curious Architect`}
+  description={`Articles in ${name} from The Curious Architect, the 559 Solutions blog.`}
+  canonicalPath={`/blog/category/${slug}/`}
+  noindex
+  bodyClass="curious"
+>
+  <header class="ca-hero ca-hero-compact">
+    <div class="container">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: "The Curious Architect", href: "/blog/" },
+          { label: name },
+        ]}
+      />
+      <p class="eyebrow">The Curious Architect · Category</p>
+      <h1 class="ca-category-title"><CategoryIcon category={name} size={48} />{name}</h1>
+      <p class="lede">{count} in this category.</p>
+    </div>
+  </header>
+
+  <section class="section ca-list-section">
+    <div class="container">
+      <BlogCategoryLinks current={slug} />
+      {
+        articles.length > 0 ? (
+          <div class="card-grid">
+            {articles.map((article) => (
+              <ArticleCard
+                title={article.data.title}
+                slug={article.data.slug}
+                summary={article.data.summary}
+                category={article.data.category}
+                date={article.data.publicationDate}
+                tags={article.data.tags}
+                showIcon
+              />
+            ))}
+          </div>
+        ) : (
+          <p>There are no articles in this category yet.</p>
+        )
+      }
+      <p><a class="text-link" href={sitePath("/blog/")}>See all articles</a></p>
+    </div>
+  </section>
+</BaseLayout>

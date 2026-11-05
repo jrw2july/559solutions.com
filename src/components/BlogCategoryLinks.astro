@@ -1,0 +1,42 @@
+---
+// The five Curious Architect categories as real links (2026-11-05). Each opens a static category page,
+// so it works without JavaScript. On /blog/, site.js filters in place instead and moves aria-current.
+import CategoryIcon from "@/components/CategoryIcon.astro";
+import { sitePath } from "@/config/site";
+import { blogCategories } from "@/data/blog-categories";
+
+interface Props {
+  /** Slug of the category page being shown; leave empty on /blog/ (all articles). */
+  current?: string;
+}
+
+const { current = "" } = Astro.props;
+---
+
+<nav class="ca-categories" aria-label="Categories">
+  <ul class="ca-legend">
+    <li>
+      <a
+        class="ca-category-link"
+        href={sitePath("/blog/")}
+        data-category-link=""
+        aria-current={current === "" ? "page" : undefined}
+      >All articles</a>
+    </li>
+    {
+      blogCategories.map((item) => (
+        <li>
+          <a
+            class="ca-category-link"
+            href={sitePath(`/blog/category/${item.slug}/`)}
+            data-category-link={item.slug}
+            aria-current={current === item.slug ? "page" : undefined}
+          >
+            <CategoryIcon category={item.name} size={28} />
+            {item.name}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

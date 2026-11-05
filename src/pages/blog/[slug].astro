@@ -4,11 +4,24 @@ import ArticleCard from "@/components/ArticleCard.astro";
 import AuthorBio from "@/components/AuthorBio.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import CategoryIcon from "@/components/CategoryIcon.astro";
-import CTASection from "@/components/CTASection.astro";
 import DoodleDivider from "@/components/DoodleDivider.astro";
+import NewsletterForm from "@/components/NewsletterForm.astro";
 import OwnerName from "@/components/OwnerName.astro";
 import TagList from "@/components/TagList.astro";
-import { absoluteUrl, site } from "@/config/site";
+import WorkWithMe from "@/components/WorkWithMe.astro";
+import ArticleBody from "@/components/ieia/ArticleBody.astro";
+import GoDeeper from "@/components/ieia/GoDeeper.astro";
+import IeiaSection from "@/components/ieia/IeiaSection.astro";
+import MakeTheCall from "@/components/ieia/MakeTheCall.astro";
+import ScenarioSteps from "@/components/ieia/ScenarioSteps.astro";
+import SelfCheck from "@/components/ieia/SelfCheck.astro";
+import QuestionWorthAsking from "@/components/ieia/QuestionWorthAsking.astro";
+import UseItAtWork from "@/components/ieia/UseItAtWork.astro";
+import TradeDiagram from "@/components/ieia/TradeDiagram.astro";
+import ContextDiagram from "@/components/ieia/ContextDiagram.astro";
+import WorkedExample from "@/components/ieia/WorkedExample.astro";
+import { exercises } from "@/data/exercises";
+import { absoluteUrl, site, sitePath } from "@/config/site";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
@@ -25,6 +38,8 @@ interface Props {
 
 const { article } = Astro.props as Props;
 const { Content, headings } = await render(article);
+const exercise = exercises[article.data.slug];
+const apply = exercise?.apply;
 const readingTime = Math.max(1, Math.ceil((article.body || "").split(/\s+/).length / 225));
 const publicationDate = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
@@ -39,6 +54,18 @@ const updatedDate = new Intl.DateTimeFormat("en-US", {
   timeZone: "UTC",
 }).format(article.data.updatedDate);
 const allArticles = await getCollection("articles", ({ data }) => !data.draft);
+
+// Reading sequence (2026-11-05): the articles that share this one's `series`, in `seriesOrder`.
+const series = article.data.series;
+const sequence = series
+  ? allArticles
+      .filter((item) => item.data.series === series && item.data.seriesOrder)
+      .sort((a, b) => (a.data.seriesOrder ?? 0) - (b.data.seriesOrder ?? 0))
+  : [];
+const stepIndex = sequence.findIndex((item) => item.data.slug === article.data.slug);
+const step = stepIndex >= 0 ? { number: stepIndex + 1, total: sequence.length } : undefined;
+const nextInSeries = step && step.number < step.total ? sequence[step.number] : undefined;
+const firstInSeries = step ? sequence[0] : undefined;
 const related = article.data.relatedArticles
   .map((slug) => allArticles.find((item) => item.data.slug === slug))
   .filter(Boolean)
@@ -98,34 +125,82 @@ const schema = {
         <span>Updated <time datetime={article.data.updatedDate.toISOString()}>{updatedDate}</time></span>
         <span>{readingTime} min read</span>
       </div>
+      {
+        step && (
+          <p class="series-step">
+            Step {step.number} of {step.total} <span aria-hidden="true">·</span> {series}
+          </p>
+        )
+      }
       <TagList tags={article.data.tags} />
     </div>
   </header>
 
   <section class="section">
-    <div class="container article-shell">
-      <article class="article-content">
-        <Content />
-        <DoodleDivider />
-        <AuthorBio />
-      </article>
-      <aside class="article-sidebar" aria-label="Article navigation">
+    <ArticleBody slug={article.data.slug} headingCount={headings.length} explain={exercise?.explain}>
+      <Content />
+      {
+        (exercise?.scenario || exercise?.introduce) && (
+          <IeiaSection slot="introduce" step="Introduce" id="lesson-introduce">
+            {exercise.scenario && (
+              <p class="ieia-scenario">
+                <strong>{exercise.scenario.label}:</strong> {exercise.scenario.text}
+              </p>
+            )}
+            {exercise.introduce && <QuestionWorthAsking id="lesson-question" data={exercise.introduce} />}
+          </IeiaSection>
+        )
+      }
+      {
+        exercise?.illustrate && (
+          <IeiaSection slot="illustrate" step="Illustrate" heading={exercise.illustrate.heading} id="lesson-illustrate">
+            {exercise.diagram && <TradeDiagram id="lesson-diagram" data={exercise.diagram} />}
+            {exercise.contextDiagram && <ContextDiagram id="lesson-diagram" data={exercise.contextDiagram} />}
+            <WorkedExample data={exercise.illustrate} />
+          </IeiaSection>
+        )
+      }
+      {
+        apply && (
+          <IeiaSection slot="apply" step="Apply" heading={apply.title} id="lesson-apply">
+            {exercise.applyLead && <p>{exercise.applyLead}</p>}
+            {apply.kind === "worksheet" && (
+              <UseItAtWork data={apply} printTitle={article.data.title} labelledBy="lesson-apply-heading" />
+            )}
+            {apply.kind === "selfcheck" && <SelfCheck data={apply} labelledBy="lesson-apply-heading" />}
+            {apply.kind === "scenario" && <ScenarioSteps data={apply} />}
+            {apply.kind === "call" && <MakeTheCall data={apply} />}
+            {exercise.goDeeper && <GoDeeper id="lesson-deeper" data={exercise.goDeeper} />}
+            <NewsletterForm id="newsletter-after-apply" tag={article.data.slug} heading="Want the next one?" />
+          </IeiaSection>
+        )
+      }
+      <Fragment slot="after">
         {
-          headings.length > 2 && (
-            <nav class="toc" aria-label="On this page">
-              <h2>On this page</h2>
-              <ol>
-                {headings
-                  .filter((heading) => heading.depth === 2)
-                  .map((heading) => (
-                    <li><a href={`#${heading.slug}`}>{heading.text}</a></li>
-                  ))}
-              </ol>
+          step && (
+            <nav class="series-next" aria-label="Reading sequence">
+              <p class="series-next-kicker">{series} <span aria-hidden="true">·</span> Step {step.number} of {step.total}</p>
+              {
+                nextInSeries ? (
+                  <p>
+                    <a class="series-next-link" href={sitePath(`/blog/${nextInSeries.data.slug}/`)}>
+                      Next: {nextInSeries.data.title}
+                    </a>
+                  </p>
+                ) : (
+                  <p>
+                    This is the last step. <a class="series-next-link" href={sitePath(`/blog/${firstInSeries?.data.slug}/`)}>Back to step 1: {firstInSeries?.data.title}</a>
+                  </p>
+                )
+              }
             </nav>
           )
         }
-      </aside>
-    </div>
+        <DoodleDivider />
+        <AuthorBio />
+        <NewsletterForm id="newsletter-article-end" tag={`article-end-${article.data.slug}`} />
+      </Fragment>
+    </ArticleBody>
   </section>
 
   {
@@ -151,12 +226,5 @@ const schema = {
     )
   }
 
-  <CTASection
-    title="Start with the next useful question."
-    description="Use a related resource to make the work, decision, and ownership clearer."
-    primaryLabel={article.data.relatedResourceCta?.label || "Explore Practical Resources"}
-    primaryHref={article.data.relatedResourceCta?.href || "/resources/"}
-    secondaryLabel="Read Another Article"
-    secondaryHref="/blog/"
-  />
+  <WorkWithMe serviceSlug={article.data.service} resource={article.data.relatedResourceCta} />
 </BaseLayout>

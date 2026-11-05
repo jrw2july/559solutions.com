@@ -26,6 +26,7 @@ import OwnerName from "./OwnerName.astro";
         <h2>General notes</h2>
         <ul>
           {legalNavigation.map((item) => <li><a href={sitePath(item.href)}>{item.label}</a></li>)}
+          <li><a href={sitePath("/subscribe/")}>Subscribe by email</a></li>
           <li><a href={sitePath("/rss.xml")}>RSS feed</a></li>
         </ul>
       </nav>

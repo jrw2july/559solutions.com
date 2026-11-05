@@ -1,0 +1,17 @@
+---
+import type { ScenarioStepsData } from "@/data/exercises";
+import MakeTheCall from "./MakeTheCall.astro";
+
+// A short scenario in steps (2026-11-05). Each step is a "Make the call" question; all steps stay
+// visible, and each step's reasons are readable in its own <details> without JavaScript.
+interface Props {
+  data: ScenarioStepsData;
+}
+
+const { data } = Astro.props;
+---
+
+<div class="ieia-steps" id={data.id}>
+  <p class="ieia-scenario">{data.intro}</p>
+  {data.steps.map((step) => <MakeTheCall data={step} />)}
+</div>

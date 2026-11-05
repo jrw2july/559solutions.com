@@ -1,0 +1,31 @@
+---
+// Email signup for The Curious Architect (2026-11-05). The site's first way to follow the blog other than RSS.
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import NewsletterForm from "@/components/NewsletterForm.astro";
+import { sitePath } from "@/config/site";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Subscribe | The Curious Architect"
+  description="Get an email when a new Curious Architect article is published: plain-language writing on decisions, processes, architecture and practical AI."
+  canonicalPath="/subscribe/"
+  bodyClass="curious"
+>
+  <section class="section">
+    <div class="narrow">
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "The Curious Architect", href: "/blog/" }, { label: "Subscribe" }]} />
+      <p class="eyebrow">The Curious Architect</p>
+      <h1>Subscribe by email</h1>
+      <p class="lede">
+        The Curious Architect is the 559 Solutions blog. It covers clearer decisions, processes that do not depend
+        on one person, useful architecture, and practical AI without the hype.
+      </p>
+      <NewsletterForm id="newsletter-subscribe" tag="subscribe-page" heading="Get each new article by email" />
+      <h2>Prefer a feed reader?</h2>
+      <p>
+        Follow the same articles with the <a href={sitePath("/rss.xml")}>RSS feed</a>, or <a href={sitePath("/blog/")}>read them on the blog</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

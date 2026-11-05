@@ -50,6 +50,11 @@ const audiences = [
         title="Useful before impressive."
         description="Every resource states its real status. Coming-soon concepts do not display invented prices, purchase links, or download buttons."
       />
+      {
+        resources.some((resource) => resource.data.availability === "coming soon") && (
+          <p class="form-notice">Each resource marked coming soon has a form on its page to get one email when it is released.</p>
+        )
+      }
       <FilterBar
         label="Filter practical resources"
         searchPlaceholder="Search by title, audience, or topic"

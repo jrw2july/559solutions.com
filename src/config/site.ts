@@ -64,6 +64,21 @@ export const site = {
     siteId: "",
     scriptUrl: "",
   },
+  // Fixed-scope first step on /services/ (2026-11-05). Nothing about it is built until `enabled` is true
+  // AND all four fields are filled in, so a half-finished offer never shows. The owner sets every value:
+  //   name        e.g. the session's name
+  //   duration    how long it is, e.g. "90 minutes"
+  //   deliverable what the client gets afterward, in one sentence
+  //   price       the published price as it should read, e.g. "$000 (USD)"
+  //   inquiry     the contact form's Inquiry type its button picks (a value from ContactForm.astro)
+  entryOffer: {
+    enabled: false,
+    name: "",
+    duration: "",
+    deliverable: "",
+    price: "",
+    inquiry: "business-systems-clarity-session",
+  },
   features: {
     courses: false,
     caseStudies: false,

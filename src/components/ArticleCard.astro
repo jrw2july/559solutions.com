@@ -1,5 +1,6 @@
 ---
 import { sitePath } from "@/config/site";
+import { articleFormat } from "@/data/formats";
 import CategoryIcon from "./CategoryIcon.astro";
 import TagList from "./TagList.astro";
 
@@ -15,6 +16,8 @@ interface Props {
 }
 
 const { title, slug, summary, category, date, tags, showIcon = false } = Astro.props;
+// Format label (2026-11-05): only for an article that has an exercise. It links to that format's list.
+const format = articleFormat(slug);
 const formattedDate = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
   month: "short",
@@ -28,9 +31,10 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
   data-filter-card
   data-category={category.toLowerCase()}
   data-topics={tags.join(" ").toLowerCase()}
+  data-format={format?.slug ?? ""}
   data-search={`${title} ${summary} ${category} ${tags.join(" ")}`.toLowerCase()}
 >
-  <p class="article-kicker">{showIcon && <CategoryIcon category={category} />}{category} <span aria-hidden="true">·</span> <time datetime={date.toISOString()}>{formattedDate}</time></p>
+  <p class="article-kicker">{showIcon && <CategoryIcon category={category} />}{category} <span aria-hidden="true">·</span> <time datetime={date.toISOString()}>{formattedDate}</time>{format && <> <a class="article-format" href={sitePath(`/blog/format/${format.slug}/`)}>{format.label}</a></>}</p>
   <h3><a href={sitePath(`/blog/${slug}/`)}>{title}</a></h3>
   <p>{summary}</p>
   <TagList {tags} />

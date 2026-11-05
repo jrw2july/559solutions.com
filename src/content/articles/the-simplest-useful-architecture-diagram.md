@@ -6,6 +6,9 @@ publicationDate: "2026-10-13"
 updatedDate: "2026-10-13"
 author: "Joel Wells"
 category: "Systems Thinking"
+series: "Work that outlasts one person"
+seriesOrder: 3
+service: "technical-mentoring"
 tags: ["architecture", "documentation", "diagrams"]
 imageAlt: ""
 draft: false
@@ -13,14 +16,18 @@ featured: false
 seoTitle: "The Simplest Useful Architecture Diagram | 559 Solutions"
 seoDescription: "Start with the question, show people, systems and information flows, mark boundaries and owners, and cut detail that does not change the decision."
 relatedResourceCta:
-  label: "See the AI-Era Solution Architect Starter Kit"
-  href: "/resources/solution-architect-starter-kit/"
+  label: "Get one email when the Starter Kit is released"
+  href: "/resources/solution-architect-starter-kit/#waitlist"
 relatedArticles: ["what-architects-should-document", "how-to-run-a-better-discovery-meeting"]
 ---
+
+<!-- ieia:introduce -->
 
 Many architecture diagrams fail the same way. They are accurate, detailed, and nearly impossible to use. Every server, queue, and arrow is there. The one thing a reader came to learn is buried somewhere in the middle.
 
 A useful diagram is not the one with the most information. It is the one that answers a question quickly, for the person who needs the answer.
+
+<!-- ieia:explain -->
 
 ## Begin with the question the diagram must answer
 
@@ -90,6 +97,8 @@ Listen for where they hesitate or guess wrong. That is where the diagram is uncl
 
 A non-specialist also catches jargon. If a word needs explaining, replace it.
 
+<!-- ieia:illustrate -->
+
 ## A five-step recipe
 
 1. Write the question and the audience at the top.
@@ -99,6 +108,8 @@ A non-specialist also catches jargon. If a word needs explaining, replace it.
 5. Remove anything that does not change the answer, then test it on someone new.
 
 Simple is not the same as shallow. A simple diagram is one where every element earns its place.
+
+<!-- ieia:apply -->
 
 <details class="article-fold">
 <summary><h4>Sources</h4></summary>

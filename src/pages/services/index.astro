@@ -4,6 +4,11 @@ import CTASection from "@/components/CTASection.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import ServiceCard from "@/components/ServiceCard.astro";
 import { services } from "@/data/services";
+import { site, sitePath } from "@/config/site";
+
+// The entry offer shows only when the owner has turned it on and filled in every field (src/config/site.ts).
+const offer = site.entryOffer;
+const showOffer = offer.enabled && [offer.name, offer.duration, offer.deliverable, offer.price].every((value) => value.trim() !== "");
 import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
@@ -35,6 +40,32 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
       </div>
     </div>
   </section>
+
+  {
+    showOffer && (
+      <section class="section entry-offer" aria-labelledby="entry-offer-heading">
+        <div class="container">
+          <p class="eyebrow">Fixed-scope first step</p>
+          <h2 id="entry-offer-heading">{offer.name}</h2>
+          <dl class="entry-offer-terms">
+            <div>
+              <dt>Length</dt>
+              <dd>{offer.duration}</dd>
+            </div>
+            <div>
+              <dt>You receive</dt>
+              <dd>{offer.deliverable}</dd>
+            </div>
+            <div>
+              <dt>Price</dt>
+              <dd>{offer.price}</dd>
+            </div>
+          </dl>
+          <a class="button button-primary" href={sitePath(`/contact/?inquiry=${offer.inquiry}`)}>Ask about {offer.name}</a>
+        </div>
+      </section>
+    )
+  }
 
   <section class="section section-blue">
     <div class="container">

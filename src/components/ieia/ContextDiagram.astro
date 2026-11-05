@@ -1,0 +1,149 @@
+---
+import type { ContextDiagramData } from "@/data/exercises";
+
+// A static system context diagram (2026-11-05), in the spirit of the article's recipe: the question on
+// top, our system in the middle inside a dashed "what we own" boundary, people on one side, other
+// systems on the other, labeled arrows, an owner in every box. Two layouts from the same data (wide
+// and stacked); CSS shows one. Real SVG text, a title and description, no color-only meaning, no motion.
+interface Props {
+  id: string;
+  data: ContextDiagramData;
+}
+
+const { id, data } = Astro.props;
+type Box = { x: number; y: number; w: number; h: number; lines: string[]; owner?: string; ours?: boolean };
+
+// ---------- wide layout
+const W = { width: 840, colW: 150, peopleW: 140, boxH: 58, oursW: 180, oursH: 96, oursX: 276, top: 60 };
+const spread = (count: number, totalH: number, boxH: number, start: number) => {
+  const gap = count > 1 ? (totalH - count * boxH) / (count - 1) : 0;
+  return Array.from({ length: count }, (_, i) => start + i * (boxH + gap));
+};
+const wideBodyH = Math.max(data.systems.length, data.people.length) * (W.boxH + 46) - 46;
+const wideHeight = W.top + wideBodyH + 20;
+const oursY = W.top + wideBodyH / 2 - W.oursH / 2;
+const peopleY = spread(data.people.length, wideBodyH, W.boxH, W.top);
+const systemsY = spread(data.systems.length, wideBodyH, W.boxH, W.top);
+const peopleBoxes: Box[] = data.people.map((p, i) => ({ x: 16, y: peopleY[i], w: W.peopleW, h: W.boxH, lines: [p.name] }));
+const systemBoxes: Box[] = data.systems.map((sys, i) => ({ x: W.width - 16 - W.colW - 20, y: systemsY[i], w: W.colW + 20, h: W.boxH, lines: [sys.name], owner: sys.owner }));
+const oursBox: Box = { x: W.oursX, y: oursY, w: W.oursW, h: W.oursH, lines: data.ours.name, owner: data.ours.owner, ours: true };
+const boundary = { x: oursBox.x - 22, y: oursBox.y - 34, w: oursBox.w + 44, h: oursBox.h + 52 };
+// Arrows meet our box spread along its left and right edges.
+const oursPorts = (count: number) => spread(count, oursBox.h - 24, 0, oursBox.y + 12);
+const leftPorts = oursPorts(data.people.length);
+const rightPorts = oursPorts(data.systems.length);
+type Arrow = { x1: number; y1: number; x2: number; y2: number; label: string; toOurs: boolean };
+const wideArrows: Arrow[] = [
+  ...data.people.map((p, i) => ({ x1: peopleBoxes[i].x + peopleBoxes[i].w + 2, y1: peopleBoxes[i].y + W.boxH / 2, x2: boundary.x - 2, y2: leftPorts[i], label: p.flow, toOurs: p.direction === "in" })),
+  ...data.systems.map((sys, i) => ({ x1: boundary.x + boundary.w + 2, y1: rightPorts[i], x2: systemBoxes[i].x - 2, y2: systemBoxes[i].y + W.boxH / 2, label: sys.flow, toOurs: sys.direction === "in" })),
+];
+const LINE = 17;
+const boxText = (b: Box) => {
+  const lines = b.owner ? [...b.lines, `Owner: ${b.owner}`] : b.lines;
+  const first = b.y + b.h / 2 - ((lines.length - 1) * LINE) / 2 + 5;
+  return lines.map((text, i) => ({ text, y: first + i * LINE, owner: Boolean(b.owner) && i === lines.length - 1 }));
+};
+
+// ---------- stacked layout: people, then our system, then other systems, all on one trunk line.
+const S = { width: 340, trunkX: 44, boxX: 78, boxW: 246, boxH: 58, gap: 34, oursH: 84 };
+const qLines = data.questionLines;
+const sTop = 8 + qLines.length * LINE + 14;
+const sPeopleY = data.people.map((_, i) => sTop + i * (S.boxH + S.gap));
+const sOursY = sTop + data.people.length * (S.boxH + S.gap) + 28;
+const sSystemsStart = sOursY + S.oursH + 44;
+const sSystemsY = data.systems.map((_, i) => sSystemsStart + i * (S.boxH + S.gap));
+const sHeight = sSystemsStart + data.systems.length * (S.boxH + S.gap) - S.gap + 8;
+const sBoundary = { x: S.boxX - 14, y: sOursY - 28, w: S.boxW + 28, h: S.oursH + 40 };
+const sPeople: Box[] = data.people.map((p, i) => ({ x: S.boxX, y: sPeopleY[i], w: S.boxW, h: S.boxH, lines: [p.name] }));
+const sOurs: Box = { x: S.boxX, y: sOursY, w: S.boxW, h: S.oursH, lines: data.ours.name, owner: data.ours.owner, ours: true };
+const sSystems: Box[] = data.systems.map((sys, i) => ({ x: S.boxX, y: sSystemsY[i], w: S.boxW, h: S.boxH, lines: [sys.name], owner: sys.owner }));
+---
+
+<figure class="context-diagram" id={id}>
+  <svg class="context-diagram-wide" viewBox={`0 0 ${W.width} ${wideHeight}`} role="img" aria-labelledby={`${id}-wide-title ${id}-wide-desc`}>
+    <title id={`${id}-wide-title`}>{data.title}</title>
+    <desc id={`${id}-wide-desc`}>{data.description}</desc>
+    <defs>
+      <marker id={`${id}-head`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path class="cd-arrowhead" d="M0 0 L10 5 L0 10 z" />
+      </marker>
+    </defs>
+    <text class="cd-question" x={W.width / 2} y="26" text-anchor="middle">{data.question}</text>
+    <rect class="cd-boundary" x={boundary.x} y={boundary.y} width={boundary.w} height={boundary.h} rx="6" />
+    <text class="cd-boundary-label" x={boundary.x + 8} y={boundary.y + 18}>{data.boundaryLabel}</text>
+    {
+      wideArrows.map((a) => (
+        <g>
+          <line
+            class="cd-arrow"
+            x1={a.x1}
+            y1={a.y1}
+            x2={a.x2}
+            y2={a.y2}
+            marker-end={(a.toOurs && a.x1 < boundary.x) || (!a.toOurs && a.x1 > boundary.x) ? `url(#${id}-head)` : undefined}
+            marker-start={(a.toOurs && a.x1 > boundary.x) || (!a.toOurs && a.x1 < boundary.x) ? `url(#${id}-head)` : undefined}
+          />
+          <text class="cd-flow" x={(a.x1 + a.x2) / 2} y={(a.y1 + a.y2) / 2 - 7} text-anchor="middle">{a.label}</text>
+        </g>
+      ))
+    }
+    {
+      [...peopleBoxes, oursBox, ...systemBoxes].map((b) => (
+        <g>
+          <rect class:list={["cd-box", b.ours && "cd-box-ours", !b.owner && "cd-box-person"]} x={b.x} y={b.y} width={b.w} height={b.h} rx="4" />
+          <text class="cd-text" text-anchor="middle">
+            {boxText(b).map((l) => (
+              <tspan class={l.owner ? "cd-owner" : undefined} x={b.x + b.w / 2} y={l.y}>{l.text}</tspan>
+            ))}
+          </text>
+        </g>
+      ))
+    }
+  </svg>
+
+  <svg class="context-diagram-tall" viewBox={`0 0 ${S.width} ${sHeight}`} role="img" aria-labelledby={`${id}-tall-title ${id}-tall-desc`}>
+    <title id={`${id}-tall-title`}>{data.title}</title>
+    <desc id={`${id}-tall-desc`}>{data.description}</desc>
+    <defs>
+      <marker id={`${id}-head-tall`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path class="cd-arrowhead" d="M0 0 L10 5 L0 10 z" />
+      </marker>
+    </defs>
+    <text class="cd-question" text-anchor="middle">
+      {qLines.map((line, i) => <tspan x={S.width / 2} y={22 + i * LINE}>{line}</tspan>)}
+    </text>
+    <line class="cd-trunk" x1={S.trunkX} y1={sPeopleY[0] + S.boxH / 2} x2={S.trunkX} y2={sSystemsY[sSystemsY.length - 1] + S.boxH / 2} />
+    <rect class="cd-boundary" x={sBoundary.x} y={sBoundary.y} width={sBoundary.w} height={sBoundary.h} rx="6" />
+    <text class="cd-boundary-label" x={sBoundary.x + 8} y={sBoundary.y + 18}>{data.boundaryLabel}</text>
+    <line class="cd-arrow" x1={S.trunkX} y1={sOurs.y + sOurs.h / 2} x2={sBoundary.x - 2} y2={sOurs.y + sOurs.h / 2} />
+    {
+      [...data.people.map((p, i) => ({ y: sPeopleY[i], flow: p.flow, dir: p.direction })), ...data.systems.map((sys, i) => ({ y: sSystemsY[i], flow: sys.flow, dir: sys.direction }))].map((row) => (
+        <g>
+          <line
+            class="cd-arrow"
+            x1={S.trunkX + 2}
+            y1={row.y + S.boxH / 2}
+            x2={S.boxX - 2}
+            y2={row.y + S.boxH / 2}
+            marker-end={row.dir === "out" ? `url(#${id}-head-tall)` : undefined}
+            marker-start={row.dir === "in" ? `url(#${id}-head-tall)` : undefined}
+          />
+          <text class="cd-flow" x={S.boxX} y={row.y - 6}>{row.dir === "in" ? `${row.flow} (to us)` : `${row.flow} (from us)`}</text>
+        </g>
+      ))
+    }
+    {
+      [...sPeople, sOurs, ...sSystems].map((b) => (
+        <g>
+          <rect class:list={["cd-box", b.ours && "cd-box-ours", !b.owner && "cd-box-person"]} x={b.x} y={b.y} width={b.w} height={b.h} rx="4" />
+          <text class="cd-text" text-anchor="middle">
+            {boxText(b).map((l) => (
+              <tspan class={l.owner ? "cd-owner" : undefined} x={b.x + b.w / 2} y={l.y}>{l.text}</tspan>
+            ))}
+          </text>
+        </g>
+      ))
+    }
+  </svg>
+  <figcaption>{data.caption}</figcaption>
+</figure>

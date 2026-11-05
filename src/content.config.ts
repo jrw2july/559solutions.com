@@ -33,6 +33,21 @@ const articles = defineCollection({
       })
       .optional(),
     relatedArticles: z.array(z.string()).default([]),
+    // The service the closing "Work with me" band offers (2026-11-05). Slugs from src/data/services.ts;
+    // each must also be an option in the contact form's Inquiry type. Leave it out to link to /services/.
+    service: z
+      .enum([
+        "business-systems-clarity-session",
+        "ai-workflow-assessment",
+        "low-code-solution-design",
+        "technical-mentoring",
+        "systems-clarity-sprint",
+      ])
+      .optional(),
+    // Reading sequence (2026-11-05): articles with the same `series` name are chained in `seriesOrder`,
+    // and each shows "Step N of M" and a "Next:" link. Both are optional; most articles have neither.
+    series: z.string().optional(),
+    seriesOrder: z.number().int().positive().optional(),
   }),
 });
 

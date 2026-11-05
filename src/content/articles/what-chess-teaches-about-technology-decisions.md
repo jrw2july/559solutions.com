@@ -6,6 +6,7 @@ publicationDate: "2026-10-13"
 updatedDate: "2026-10-13"
 author: "Joel Wells"
 category: "Architect's Notebook"
+service: "systems-clarity-sprint"
 tags: ["chess", "strategy", "decision-making"]
 imageAlt: ""
 draft: false
@@ -15,11 +16,15 @@ seoDescription: "Position, trade-offs, tempo, reversible moves, and reviewing th
 relatedArticles: ["start-with-the-decision-not-the-ai-tool", "what-architects-should-document"]
 ---
 
+<!-- ieia:introduce -->
+
 Every chess player knows the feeling. You spot a move that wins a piece. It looks wonderful. You play it quickly, and three moves later you discover why your opponent left that piece hanging.
 
 Technology decisions have the same trap. A new platform, a clever shortcut, or an impressive demo can look like a winning move. The question chess teaches you to ask is not "Is this move good?" It is "Is this move good in this position?"
 
 Here are five habits from the board that carry over well.
+
+<!-- ieia:explain -->
 
 ## 1. Evaluate the position before choosing a move
 
@@ -44,6 +49,8 @@ Technology has its own version of the weakened pawn:
 - A tool that saves one team time by pushing extra work onto another team.
 
 None of these is automatically wrong. The mistake is making the trade without noticing it. Before committing, write down what the move costs later, not just what it wins now.
+
+<!-- ieia:illustrate -->
 
 ## 3. Respect tempo, sequencing, and readiness
 
@@ -82,6 +89,8 @@ After a technology change, look beyond the system you touched:
 - Did one of the assumptions behind the decision turn out to be wrong?
 
 A short review a few weeks after a change catches what nobody predicted. It also builds the team's judgment for the next decision, the way reviewing your games improves your play.
+
+<!-- ieia:apply -->
 
 ## The habit behind all five
 

@@ -1,0 +1,56 @@
+---
+import type { MakeTheCallData } from "@/data/exercises";
+
+// "Make the call": one radio question. With JavaScript, Check my answer writes text feedback to a
+// status line. Without it, every choice and its reason is readable in the closed <details> below.
+interface Props {
+  data: MakeTheCallData;
+}
+
+const { data } = Astro.props;
+const { id } = data;
+const correct = data.choices.find((choice) => choice.correct);
+---
+
+<form class="ieia-call" id={id} data-ieia-call novalidate>
+  {data.scenario && <p class="ieia-scenario">{data.scenario}</p>}
+  <fieldset>
+    <legend>{data.legend}</legend>
+    {
+      data.choices.map((choice) => (
+        <div class="ieia-choice">
+          <input
+            type="radio"
+            id={`${id}-${choice.id}`}
+            name={`${id}-choice`}
+            value={choice.id}
+            data-correct={choice.correct ? "true" : undefined}
+            data-feedback={choice.feedback}
+          />
+          <label for={`${id}-${choice.id}`}>{choice.label}</label>
+        </div>
+      ))
+    }
+  </fieldset>
+  <div class="button-row ieia-actions" data-js-only hidden>
+    <button class="button button-primary button-small" type="submit">Check my answer</button>
+  </div>
+  <p class="form-status ieia-status" role="status" aria-live="polite" data-ieia-status></p>
+  <details class="ieia-reveal">
+    <summary>See every answer explained</summary>
+    {correct && (
+      <p>
+        <strong>Best answer:</strong> {correct.label}
+      </p>
+    )}
+    <ul>
+      {
+        data.choices.map((choice) => (
+          <li>
+            <strong>{choice.correct ? "Correct:" : "Not quite:"}</strong> {choice.label} {choice.feedback}
+          </li>
+        ))
+      }
+    </ul>
+  </details>
+</form>

@@ -1,0 +1,126 @@
+---
+import type { TradeDiagramData } from "@/data/exercises";
+
+// A static, labeled SVG diagram (2026-11-05). Two layouts are drawn from the same data: a wide one
+// (three columns) and a stacked one for narrow screens, so the text stays readable at any width. Only
+// one is displayed at a time (CSS), so assistive technology meets it once. Every box has its text in
+// the drawing; the "later" column also has a dashed border, so nothing relies on color. No motion.
+interface Props {
+  id: string;
+  data: TradeDiagramData;
+}
+
+const { id, data } = Astro.props;
+const LINE = 18;
+
+// Wide layout: a row label column, then three boxes joined by arrows.
+const wide = { labelW: 120, boxW: 170, gap: 34, boxH: 76, rowGap: 30, top: 40 };
+const wideX = (col: number) => wide.labelW + col * (wide.boxW + wide.gap);
+const wideY = (row: number) => wide.top + row * (wide.boxH + wide.rowGap);
+const wideWidth = wideX(2) + wide.boxW + 4;
+const wideHeight = wideY(data.rows.length - 1) + wide.boxH + 6;
+
+// Stacked layout: for each row, its label, then the three boxes top to bottom joined by arrows.
+const tall = { width: 340, boxW: 300, boxH: 84, gap: 26, labelH: 30, rowGap: 28, left: 20 };
+const rowHeight = tall.labelH + 3 * tall.boxH + 2 * tall.gap;
+const tallRowTop = (row: number) => 4 + row * (rowHeight + tall.rowGap);
+const tallBoxY = (row: number, col: number) => tallRowTop(row) + tall.labelH + col * (tall.boxH + tall.gap);
+const tallHeight = tallRowTop(data.rows.length - 1) + rowHeight + 6;
+
+// Lines of a box, centered vertically; the column name is the first, smaller line.
+const lines = (header: string, cell: string[]) => [header, ...cell];
+const firstLineY = (boxY: number, boxH: number, count: number) => boxY + boxH / 2 - ((count - 1) * LINE) / 2 + 5;
+---
+
+<figure class="trade-diagram" id={id}>
+  <svg
+    class="trade-diagram-wide"
+    viewBox={`0 0 ${wideWidth} ${wideHeight}`}
+    role="img"
+    aria-labelledby={`${id}-wide-title ${id}-wide-desc`}
+  >
+    <title id={`${id}-wide-title`}>{data.title}</title>
+    <desc id={`${id}-wide-desc`}>{data.description}</desc>
+    <defs>
+      <marker id={`${id}-arrow`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path class="td-arrowhead" d="M0 0 L10 5 L0 10 z" />
+      </marker>
+    </defs>
+    {data.columns.map((column, col) => (
+      <text class="td-colhead" x={wideX(col) + wide.boxW / 2} y="22" text-anchor="middle">{column}</text>
+    ))}
+    {
+      data.rows.map((row, r) => (
+        <g>
+          <text class="td-rowlabel" x="0" y={wideY(r) + wide.boxH / 2 + 5}>{row.label}</text>
+          {row.cells.map((cell, col) => (
+            <g>
+              <rect class:list={["td-box", col === 2 && "td-box-later"]} x={wideX(col)} y={wideY(r)} width={wide.boxW} height={wide.boxH} rx="4" />
+              <text class="td-text" text-anchor="middle">
+                {cell.map((line, i) => (
+                  <tspan x={wideX(col) + wide.boxW / 2} y={firstLineY(wideY(r), wide.boxH, cell.length) + i * LINE}>{line}</tspan>
+                ))}
+              </text>
+              {col < 2 && (
+                <line
+                  class="td-arrow"
+                  x1={wideX(col) + wide.boxW + 3}
+                  y1={wideY(r) + wide.boxH / 2}
+                  x2={wideX(col + 1) - 4}
+                  y2={wideY(r) + wide.boxH / 2}
+                  marker-end={`url(#${id}-arrow)`}
+                />
+              )}
+            </g>
+          ))}
+        </g>
+      ))
+    }
+  </svg>
+  <svg
+    class="trade-diagram-tall"
+    viewBox={`0 0 ${tall.width} ${tallHeight}`}
+    role="img"
+    aria-labelledby={`${id}-tall-title ${id}-tall-desc`}
+  >
+    <title id={`${id}-tall-title`}>{data.title}</title>
+    <desc id={`${id}-tall-desc`}>{data.description}</desc>
+    <defs>
+      <marker id={`${id}-arrow-tall`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path class="td-arrowhead" d="M0 0 L10 5 L0 10 z" />
+      </marker>
+    </defs>
+    {
+      data.rows.map((row, r) => (
+        <g>
+          <text class="td-rowlabel" x={tall.left} y={tallRowTop(r) + 20}>{row.label}</text>
+          {row.cells.map((cell, col) => {
+            const y = tallBoxY(r, col);
+            const all = lines(data.columns[col], cell);
+            return (
+              <g>
+                <rect class:list={["td-box", col === 2 && "td-box-later"]} x={tall.left} y={y} width={tall.boxW} height={tall.boxH} rx="4" />
+                <text class="td-text" text-anchor="middle">
+                  {all.map((line, i) => (
+                    <tspan class={i === 0 ? "td-inline-head" : undefined} x={tall.left + tall.boxW / 2} y={firstLineY(y, tall.boxH, all.length) + i * LINE}>{line}</tspan>
+                  ))}
+                </text>
+                {col < 2 && (
+                  <line
+                    class="td-arrow"
+                    x1={tall.left + tall.boxW / 2}
+                    y1={y + tall.boxH + 3}
+                    x2={tall.left + tall.boxW / 2}
+                    y2={y + tall.boxH + tall.gap - 4}
+                    marker-end={`url(#${id}-arrow-tall)`}
+                  />
+                )}
+              </g>
+            );
+          })}
+        </g>
+      ))
+    }
+  </svg>
+  <figcaption>{data.caption}</figcaption>
+</figure>

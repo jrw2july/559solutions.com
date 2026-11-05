@@ -9,12 +9,15 @@ import iconNotebook from "@/assets/curious-architect/icon-notebook.png";
 import iconSmallBusiness from "@/assets/curious-architect/icon-small-business.png";
 import iconSystems from "@/assets/curious-architect/icon-systems.png";
 
-export const blogCategories: { name: string; icon: ImageMetadata }[] = [
-  { name: "AI Without the Hype", icon: iconAi },
-  { name: "Systems Thinking", icon: iconSystems },
-  { name: "Small Business Tools", icon: iconSmallBusiness },
-  { name: "Builder Notes", icon: iconBuilderNotes },
-  { name: "Architect's Notebook", icon: iconNotebook },
+export const blogCategories: { name: string; slug: string; icon: ImageMetadata }[] = [
+  { name: "AI Without the Hype", slug: "ai-without-the-hype", icon: iconAi },
+  { name: "Systems Thinking", slug: "systems-thinking", icon: iconSystems },
+  { name: "Small Business Tools", slug: "small-business-tools", icon: iconSmallBusiness },
+  { name: "Builder Notes", slug: "builder-notes", icon: iconBuilderNotes },
+  { name: "Architect's Notebook", slug: "architects-notebook", icon: iconNotebook },
 ];
+
+// Category pages live at /blog/category/<slug>/ (2026-11-05). The same slugs are the ?category= values
+// on /blog/; public/scripts/site.js builds them the same way (lower case, apostrophes dropped, hyphens).
 
 export const categoryIcon = (name: string) => blogCategories.find((item) => item.name === name)?.icon;

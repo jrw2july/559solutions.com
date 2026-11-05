@@ -16,6 +16,9 @@ The site is complete and safely deployable as a static build. These items requir
 - [ ] Choose and configure a newsletter provider/endpoint with appropriate consent and unsubscribe handling.
 - [ ] Provide a real scheduling URL if scheduling should appear.
 - [ ] Complete a production form-delivery test from an outside email address.
+- [ ] Redeploy the Google Apps Script from `docs/apps-script-form-handler.gs` (Deploy > Manage deployments > edit > New version), so forms posted without JavaScript are accepted. Added 2026-11-05; see `docs/FORM_SETUP.md`.
+- [ ] After uploading the release, submit one real Curious Architect email signup and one waitlist signup on the live site, and confirm both rows appear in the Submissions sheet with their `source` values.
+- [ ] Decide whether to publish the fixed-scope entry offer (`entryOffer` in `src/config/site.ts`). It stays out of the build until every field is filled in.
 
 ## Public links
 

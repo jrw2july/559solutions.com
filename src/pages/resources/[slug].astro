@@ -8,6 +8,7 @@ import ResourceCard from "@/components/ResourceCard.astro";
 import StatusBadge from "@/components/StatusBadge.astro";
 import { sitePath } from "@/config/site";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import NewsletterForm from "@/components/NewsletterForm.astro";
 
 export async function getStaticPaths() {
   const resources = await getCollection("resources", ({ data }) => !data.draft);
@@ -48,10 +49,15 @@ const updated = new Intl.DateTimeFormat("en-US", {
   day: "numeric",
   timeZone: "UTC",
 }).format(resource.data.lastUpdated);
-const pageTitle =
-  resource.data.slug === "ai-project-readiness-checklist"
-    ? "AI Project Readiness Checklist | 559 Solutions"
-    : `${resource.data.title} | 559 Solutions`;
+const pageTitle = `${resource.data.title} | 559 Solutions`;
+
+// A resource that is announced but not out yet gets a waitlist form (2026-11-05), so the page always
+// offers something. Tags are short names for the Google Sheet's source column: "waitlist:<tag>".
+const waitlistTags: Record<string, string> = {
+  "solution-architect-starter-kit": "starter-kit",
+  "ai-tool-selection-workbook": "ai-workbook",
+};
+const showWaitlist = resource.data.availability === "coming soon" && !action;
 ---
 
 <BaseLayout
@@ -149,6 +155,22 @@ const pageTitle =
       </aside>
     </div>
   </section>
+
+  {
+    showWaitlist && (
+      <section class="section resource-waitlist">
+        <div class="container">
+          <NewsletterForm
+            id="resource-waitlist"
+            kind="waitlist"
+            anchor="waitlist"
+            tag={waitlistTags[resource.data.slug] ?? resource.data.slug}
+            resourceTitle={resource.data.title}
+          />
+        </div>
+      </section>
+    )
+  }
 
   {
     related.length > 0 && (
