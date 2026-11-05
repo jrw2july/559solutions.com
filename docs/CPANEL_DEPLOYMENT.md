@@ -34,13 +34,12 @@ Extract the archive locally, connect using SFTP when available, and upload the a
 
     - HTTP redirects to HTTPS.
     - `www` redirects to the non-`www` canonical host.
-    - Home, Resources, Services, Blog, About, Contact, Privacy, Terms, Accessibility, sitemap, and RSS routes load.
+    - Home, Services, Blog, About, Contact, Privacy, Terms, Accessibility, sitemap, and RSS routes load.
     - Both migrated article URLs load.
     - A nonexistent path displays the custom 404 page.
     - Old confirmed URLs in `docs/redirect-map.csv` redirect once to the intended new path.
     - Navigation, mobile menu, filters, skip link, keyboard focus, and reduced-motion behavior work.
     - Forms show the configured submission behavior, or the intentional owner-configuration message.
-    - Resource downloads and checkout links work only where the owner configured real destinations.
     - The logo, social card, favicon, and manifest load without mixed-content warnings.
     - Browser developer tools show no unexpected console or network errors.
 

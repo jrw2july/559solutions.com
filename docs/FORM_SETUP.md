@@ -7,14 +7,14 @@ The site contains contact and newsletter forms, but no third-party endpoint or p
 Edit `src/config/site.ts`:
 
 ```ts
-publicEmail: "",
+publicEmail: "info@559solutions.com",
 contactFormEndpoint: "",
 newsletterEndpoint: "",
 formSuccessUrl: "",
 antiSpamField: "company_website",
 ```
 
-- `publicEmail`: verified public address displayed as the fallback contact method.
+- `publicEmail`: the general address for website questions, including accessibility. It is shown on the contact, accessibility, and privacy pages and in the footer.
 - `contactFormEndpoint`: HTTPS endpoint that accepts contact fields.
 - `newsletterEndpoint`: HTTPS endpoint that accepts an email subscription.
 - `formSuccessUrl`: optional same-site confirmation route.
@@ -49,7 +49,6 @@ The Curious Architect signup (`src/components/NewsletterForm.astro`, 2026-11-05)
 - `newsletter:<article-slug>`: after an article's exercise
 - `newsletter:article-end-<article-slug>`: at the end of an article
 - `newsletter:subscribe-page`: on `/subscribe/`
-- `waitlist:starter-kit` and `waitlist:ai-workbook`: the waitlist on a coming-soon resource page (2026-11-05). These readers asked for one email when that resource is released, not for the newsletter.
 
 The `page` column holds the page address. Worksheet answers are never part of this form.
 

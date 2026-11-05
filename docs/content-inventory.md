@@ -16,7 +16,7 @@ The rebuild uses original Astro templates and styles. Public copy and owner-owne
 | `/about` | About page | Rebuilt at `/about/` |
 | `/appointments` | Scheduling/contact page | Confirmed 301 to `/contact/` |
 | `/contact` | Contact page | Rebuilt at `/contact/` |
-| `/downloads` | Download listing | Confirmed 301 to `/resources/`; files require owner review |
+| `/downloads` | Download listing | 301 to `/`; files require owner review |
 | `/email-move-guide` | Standalone guide | Migration/redirect decision pending |
 | `/heic-converter` | Standalone converter utility | Migration/redirect decision pending |
 | `/services-store` | Services storefront | Confirmed 301 to `/services/` |
@@ -40,7 +40,6 @@ Both articles were adapted into local Markdown and given clean canonical paths. 
 ## Rebuilt content
 
 - Home value proposition and product-first path
-- Resources listing and five resource detail pages
 - Services listing with inquiry-safe status
 - About, Contact, Privacy, Terms, Accessibility, and 404 pages
 - Footer, navigation, form fallbacks, SEO metadata, structured data, sitemap, and RSS

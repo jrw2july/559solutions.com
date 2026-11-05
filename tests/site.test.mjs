@@ -9,8 +9,6 @@ const dist = path.join(root, "dist");
 test("required routes exist", async () => {
   const routes = [
     "index.html",
-    "resources/index.html",
-    "resources/ai-tool-selection-workbook/index.html",
     "services/index.html",
     "code559/index.html",
     "blog/index.html",
@@ -30,20 +28,42 @@ test("required routes exist", async () => {
 test("homepage communicates the core promise and the floor plan of the site", async () => {
   const html = await readFile(path.join(dist, "index.html"), "utf8");
   assert.match(html, /aria-label="Site map"/);
-  for (const room of ["The Library", "The Study", "The Classroom"]) {
+  for (const room of ["The Study", "The Classroom"]) {
     assert.match(html, new RegExp(room), room);
   }
+  assert.doesNotMatch(html, /The Library/);
   assert.match(html, /C’mon in\./);
 });
 
 test("the free checklist is no longer promoted anywhere", async () => {
-  const pages = ["index.html", "about/index.html", "resources/index.html", "blog/the-hero-trap/index.html"];
+  const pages = ["index.html", "about/index.html", "blog/the-hero-trap/index.html"];
   for (const page of pages) {
     const html = await readFile(path.join(dist, page), "utf8");
     assert.doesNotMatch(html, /Free Checklist/i, page);
     assert.doesNotMatch(html, /ai-project-readiness-checklist/, page);
   }
-  await assert.rejects(access(path.join(dist, "resources", "ai-project-readiness-checklist")));
+});
+
+test("the Resources section is gone and nothing links to it", async () => {
+  await assert.rejects(access(path.join(dist, "resources")));
+  const sitemap = await readFile(path.join(dist, "sitemap.xml"), "utf8");
+  assert.doesNotMatch(sitemap, /\/resources\//);
+  const pages = ["index.html", "about/index.html", "services/index.html", "404.html", "blog/index.html", "contact/index.html"];
+  for (const page of pages) {
+    const html = await readFile(path.join(dist, page), "utf8");
+    assert.doesNotMatch(html, /href="\/resources\//, page);
+  }
+});
+
+test("legal pages carry no review banner and give the general email address", async () => {
+  for (const page of ["privacy/index.html", "terms/index.html", "accessibility/index.html"]) {
+    const html = await readFile(path.join(dist, page), "utf8");
+    assert.doesNotMatch(html, /OWNER AND LEGAL REVIEW REQUIRED|legal-banner/, page);
+  }
+  for (const page of ["accessibility/index.html", "privacy/index.html", "contact/index.html"]) {
+    const html = await readFile(path.join(dist, page), "utf8");
+    assert.match(html, /href="mailto:info@559solutions\.com"/, page);
+  }
 });
 
 test("forms post to the configured endpoint and never to an empty address", async () => {
@@ -106,8 +126,6 @@ test("blog filters run live: no Apply button, results announced, problem links p
   assert.match(blog, /role="search"[^>]*hidden|hidden[^>]*role="search"/);
   assert.match(blog, /data-filter-status[^>]*role="status"|role="status"[^>]*data-filter-status/);
   assert.match(blog, /What are you trying to work through\?/);
-  const resources = await readFile(path.join(dist, "resources", "index.html"), "utf8");
-  assert.match(resources, /Apply filters/, "resources keeps its own filter form");
 });
 
 test("the decision-first pilot renders its lesson in place and keeps its source", async () => {
@@ -168,7 +186,7 @@ test("every article ends with a Work with me band that opens the matching inquir
     const html = await readFile(path.join(dist, "blog", slug, "index.html"), "utf8");
     assert.match(html, /id="work-with-me-heading"/, slug);
     assert.match(html, new RegExp(`href="/contact/\\?inquiry=${service}"`), slug);
-    assert.doesNotMatch(html, /Explore Practical Resources/, slug);
+    assert.doesNotMatch(html, /href="\/resources\//, slug);
   }
 });
 
@@ -177,27 +195,6 @@ test("the entry offer stays out of the build until the owner fills it in", async
   assert.doesNotMatch(services, /entry-offer|Fixed-scope first step/);
   const contact = await readFile(path.join(dist, "contact", "index.html"), "utf8");
   assert.match(contact, /<option value="systems-clarity-sprint">/, "the Services sprint link has a matching option");
-});
-
-test("every link to a coming-soon resource lands on a page with a waitlist form", async () => {
-  const resourceRoot = path.join(root, "src", "content", "resources");
-  const comingSoon = [];
-  for (const entry of await readdir(resourceRoot)) {
-    const source = await readFile(path.join(resourceRoot, entry), "utf8");
-    if (/^availability:\s*"coming soon"/m.test(source) && /^draft:\s*false/m.test(source)) {
-      comingSoon.push(/^slug:\s*"([^"]+)"/m.exec(source)[1]);
-    }
-  }
-  assert.ok(comingSoon.length > 0);
-  for (const slug of comingSoon) {
-    const html = await readFile(path.join(dist, "resources", slug, "index.html"), "utf8");
-    assert.match(html, /<section class="newsletter-card" id="waitlist"/, slug);
-    assert.match(html, /name="source" value="waitlist:/, slug);
-  }
-  for (const slug of ["the-simplest-useful-architecture-diagram", "what-architects-should-document"]) {
-    const html = await readFile(path.join(dist, "blog", slug, "index.html"), "utf8");
-    assert.match(html, /href="\/resources\/solution-architect-starter-kit\/#waitlist"/, slug);
-  }
 });
 
 test("the three process articles each render one primary lesson exercise", async () => {

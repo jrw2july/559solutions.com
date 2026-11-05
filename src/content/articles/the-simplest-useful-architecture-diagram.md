@@ -15,9 +15,6 @@ draft: false
 featured: false
 seoTitle: "The Simplest Useful Architecture Diagram | 559 Solutions"
 seoDescription: "Start with the question, show people, systems and information flows, mark boundaries and owners, and cut detail that does not change the decision."
-relatedResourceCta:
-  label: "Get one email when the Starter Kit is released"
-  href: "/resources/solution-architect-starter-kit/#waitlist"
 relatedArticles: ["what-architects-should-document", "how-to-run-a-better-discovery-meeting"]
 ---
 
