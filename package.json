@@ -10,7 +10,7 @@
   "scripts": {
     "sync:code559": "node scripts/sync-code559.mjs",
     "dev": "node scripts/run-astro.mjs dev",
-    "build": "node scripts/run-astro.mjs build && node scripts/postbuild.mjs",
+    "build": "node scripts/run-astro.mjs build && node scripts/postbuild.mjs && node scripts/check-legal.mjs",
     "preview": "node scripts/run-astro.mjs preview",
     "check": "node scripts/run-astro.mjs check",
     "lint": "node scripts/run-astro.mjs check && node scripts/validate-content.mjs",

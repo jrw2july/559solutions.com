@@ -1,0 +1,30 @@
+---
+// Status line at the top of /terms/ and /privacy/ (2026-11-05). While any value in site.legal is still a
+// placeholder, the page is a draft: it shows the review banner and lists what is unset. Once every value
+// is set, the banner goes away and the page shows its last-updated and effective date.
+import { legalPlaceholders, legalReady, site } from "@/config/site";
+
+const date = site.legal.effectiveDate;
+---
+
+{
+  legalReady ? (
+    <p class="legal-dates">
+      <strong>Last updated:</strong> {date}. <strong>Effective date:</strong> {date}.
+    </p>
+  ) : (
+    <>
+      <p class="legal-banner">OWNER AND LEGAL REVIEW REQUIRED</p>
+      <p class="legal-pending">
+        This page is a draft and is not in effect yet. Still to be set by the owner:{" "}
+        {legalPlaceholders.map((value, index) => (
+          <>
+            {index > 0 && ", "}
+            <span class="legal-todo">{value}</span>
+          </>
+        ))}
+        .
+      </p>
+    </>
+  )
+}

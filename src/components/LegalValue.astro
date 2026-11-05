@@ -1,0 +1,26 @@
+---
+// One owner-set value from site.legal on /terms/ or /privacy/ (2026-11-05). A value that is still a
+// placeholder is shown as-is and marked, so it is easy to spot on the page. With kind "email" a set value
+// becomes a mailto link; with kind "url" it becomes a plain link with the slot as its text.
+import { isLegalPlaceholder } from "@/config/site";
+
+interface Props {
+  value: string;
+  kind?: "text" | "email" | "url";
+}
+
+const { value, kind = "text" } = Astro.props;
+const unset = isLegalPlaceholder(value);
+---
+
+{
+  unset ? (
+    <span class="legal-todo">{value}</span>
+  ) : kind === "email" ? (
+    <a href={`mailto:${value}`}>{value}</a>
+  ) : kind === "url" ? (
+    <a href={value}><slot /></a>
+  ) : (
+    value
+  )
+}

@@ -79,6 +79,33 @@ export const site = {
     price: "",
     inquiry: "business-systems-clarity-session",
   },
+  // Owner and legal details for /terms/ and /privacy/ (2026-11-05). Only the owner can set these; none is
+  // guessed. Each starts as a placeholder. While any value is still a placeholder, both pages show the
+  // review banner and the build prints a warning with this file and line (scripts/check-legal.mjs).
+  //   legalName          the business's legal name: the sole proprietor's name or the LLC's name
+  //   businessAddress    a mailing address or PO box, on one line
+  //   privacyEmail       the address for privacy requests, e.g. privacy@559solutions.com
+  //   governingLawState  the U.S. state whose law governs the Terms, e.g. "California"
+  //   venueCounty        the county for court cases, e.g. "Fresno County"
+  //   refundPolicy       one or two plain sentences on refunds for digital products
+  //   dataRetention      one or two plain sentences on how long form submissions are kept
+  //   effectiveDate      the date both pages take effect, e.g. "December 1, 2026"
+  //   emailTool          the tool used to send emails to people who sign up, e.g. "Gmail"
+  //   hostingLogs        one sentence on what the web host logs and how long it keeps the logs
+  //   gumroadPrivacyUrl  the address of Gumroad's privacy policy, checked in a browser
+  legal: {
+    legalName: "TODO-JR-LEGAL-NAME",
+    businessAddress: "TODO-JR-ADDRESS",
+    privacyEmail: "TODO-JR-PRIVACY-EMAIL",
+    governingLawState: "TODO-JR-STATE",
+    venueCounty: "TODO-JR-COUNTY",
+    refundPolicy: "TODO-JR-REFUND",
+    dataRetention: "TODO-JR-RETENTION",
+    effectiveDate: "TODO-JR-DATE",
+    emailTool: "TODO-JR-EMAIL-TOOL",
+    hostingLogs: "TODO-JR-HOSTING-LOGS",
+    gumroadPrivacyUrl: "TODO-JR-GUMROAD-PRIVACY-URL",
+  },
   features: {
     courses: false,
     caseStudies: false,
@@ -99,3 +126,8 @@ export const absoluteUrl = (path = "/") =>
   new URL(sitePath(path), `${site.siteDomain}/`).toString();
 
 export const copyrightYear = new Date().getFullYear();
+
+// A legal value is unset while it still starts with the placeholder prefix.
+export const isLegalPlaceholder = (value: string) => value.startsWith("TODO-JR-");
+export const legalPlaceholders = Object.values(site.legal).filter((value) => isLegalPlaceholder(value));
+export const legalReady = legalPlaceholders.length === 0;
