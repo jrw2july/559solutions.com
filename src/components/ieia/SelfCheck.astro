@@ -1,0 +1,46 @@
+---
+import type { SelfCheckData } from "@/data/exercises";
+
+// A self-check (2026-11-05): the reader ticks what they have seen. The result is a plain list of the
+// ticked items and the next step. It never shows a count, score or rating. The guidance below the boxes
+// is always visible, so it works without JavaScript; site.js adds the list and Copy. Nothing is sent.
+interface Props {
+  data: SelfCheckData;
+  /** Id of the heading that names this self-check. */
+  labelledBy: string;
+}
+
+const { data, labelledBy } = Astro.props;
+const { id } = data;
+---
+
+<div class="selfcheck" id={id} role="group" aria-labelledby={labelledBy} data-selfcheck={id} data-selfcheck-title={data.title}>
+  <div class="field">
+    <label for={`${id}-work`}>{data.workLabel} <span class="optional">(optional)</span></label>
+    <input id={`${id}-work`} type="text" data-selfcheck-work />
+  </div>
+  <fieldset>
+    <legend>{data.legend}</legend>
+    {
+      data.signals.map((signal) => (
+        <div class="ieia-choice">
+          <input type="checkbox" id={`${id}-${signal.id}`} value={signal.id} data-label={signal.label} />
+          <label for={`${id}-${signal.id}`}>{signal.label}</label>
+        </div>
+      ))
+    }
+  </fieldset>
+  <div class="selfcheck-result" role="status" aria-live="polite" data-selfcheck-result></div>
+  <p class="selfcheck-guidance">{data.guidance}</p>
+  <div class="selfcheck-next">
+    <p><strong>{data.nextStep.heading}</strong> {data.nextStep.text}</p>
+    <ul>
+      {data.nextStep.questions.map((question) => <li>{question}</li>)}
+    </ul>
+  </div>
+  <div class="button-row" data-js-only hidden>
+    <button class="button button-primary button-small" type="button" data-selfcheck-copy>Copy</button>
+  </div>
+  <p class="form-status" role="status" aria-live="polite" data-selfcheck-status></p>
+  <p class="small-note">Your answers are not sent to 559 Solutions or anyone else.</p>
+</div>

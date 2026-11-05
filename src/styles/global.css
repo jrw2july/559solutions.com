@@ -2989,7 +2989,8 @@ body.curious {
 
 .ieia-question,
 .ieia-call,
-.worksheet {
+.worksheet,
+.selfcheck {
   margin-block: var(--space-5);
   padding: var(--space-5);
   background: var(--ca-note, var(--color-blue-pale));
@@ -3040,12 +3041,14 @@ body.curious {
   margin-bottom: 0;
 }
 
+.selfcheck fieldset,
 .ieia-call fieldset {
   margin: 0;
   padding: 0;
   border: 0;
 }
 
+.selfcheck legend,
 .ieia-call legend {
   margin-bottom: var(--space-3);
   padding: 0;
@@ -3464,4 +3467,30 @@ body.curious {
    2.2:1. The closing band keeps the white label other pages use (2026-11-05). */
 .curious .cta-inner .eyebrow {
   color: var(--color-white);
+}
+
+/* Self-check and stepped scenario (2026-11-05). */
+.selfcheck-result:not(:empty) {
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-white);
+  border-left: 4px solid var(--ca-charcoal, var(--color-ink));
+}
+
+.selfcheck-result ul,
+.selfcheck-next ul {
+  margin-bottom: 0;
+}
+
+.selfcheck-guidance {
+  margin-top: var(--space-4);
+  font-weight: 700;
+}
+
+.ieia-steps .ieia-call + .ieia-call {
+  margin-top: var(--space-4);
+}
+
+.ieia-deeper {
+  margin-top: var(--space-5);
 }

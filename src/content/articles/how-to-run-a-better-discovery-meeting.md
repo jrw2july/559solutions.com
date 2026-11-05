@@ -16,6 +16,8 @@ seoDescription: "Five habits for better discovery meetings: share the decision f
 relatedArticles: ["start-with-the-decision-not-the-ai-tool", "the-simplest-useful-architecture-diagram"]
 ---
 
+<!-- ieia:introduce -->
+
 Discovery meetings have a reputation problem. People leave them with pages of notes and no clearer idea of what happens next. A week later, someone asks, "Didn't we already talk about this?"
 
 The meeting was not the problem. The shape of it was.
@@ -23,6 +25,8 @@ The meeting was not the problem. The shape of it was.
 A good discovery meeting does one job: it moves a decision forward. It does not have to finish the decision. It has to leave everyone knowing what was learned, who owns what, and what is still unknown.
 
 Here are five habits that help.
+
+<!-- ieia:explain -->
 
 ## 1. Publish the decision and the scope before the meeting
 
@@ -100,6 +104,10 @@ For a one-hour discovery meeting:
 5. **Five minutes:** name the next smallest decision.
 
 The times are a starting point. The order matters more than the minutes.
+
+<!-- ieia:illustrate -->
+
+<!-- ieia:apply -->
 
 ## The measure of a good discovery meeting
 

@@ -198,3 +198,24 @@ test("every link to a coming-soon resource lands on a page with a waitlist form"
     assert.match(html, /href="\/resources\/solution-architect-starter-kit\/#waitlist"/, slug);
   }
 });
+
+test("the three process articles each render one primary lesson exercise", async () => {
+  const read = (slug) => readFile(path.join(dist, "blog", slug, "index.html"), "utf8");
+  const expected = {
+    "how-to-run-a-better-discovery-meeting": /data-worksheet="discovery-worksheet"/,
+    "when-a-process-depends-on-one-person": /data-selfcheck="dependency-check"/,
+    "why-good-processes-fail": /id="rehearse-absence"/,
+  };
+  for (const [slug, marker] of Object.entries(expected)) {
+    const html = await read(slug);
+    assert.doesNotMatch(html, /ieia:/, `${slug}: markers replaced`);
+    assert.match(html, marker, slug);
+    assert.equal((html.match(/id="lesson-apply"/g) || []).length, 1, `${slug}: one Apply step`);
+    assert.match(html, /<details class="article-fold ieia-deeper" id="lesson-deeper">/, `${slug}: Go deeper, closed`);
+    assert.doesNotMatch(html, /id="lesson-deeper" open/, `${slug}: Go deeper starts closed`);
+    assert.match(html, /name="source" value="newsletter:/, slug);
+  }
+  // The self-check shows no number or score anywhere in its markup.
+  const check = (await read("when-a-process-depends-on-one-person")).match(/<div class="selfcheck"[\s\S]*?Your answers are not sent/)[0];
+  assert.doesNotMatch(check.replace(/<[^>]+>/g, " "), /\d|%|score/i);
+});

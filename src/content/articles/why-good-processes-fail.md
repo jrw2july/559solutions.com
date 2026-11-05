@@ -16,11 +16,15 @@ seoDescription: "Why documented processes still fail: hidden exceptions, uncaptu
 relatedArticles: ["the-hero-trap", "when-a-process-depends-on-one-person"]
 ---
 
+<!-- ieia:introduce -->
+
 Many organizations have a process document that nobody can actually follow. It exists. It was reviewed. It may even have a version number. And when the person who usually does the work is away, the process still stops.
 
 The document was not wrong. It was incomplete in a specific way: it described the steps, but not what the person running the steps knew.
 
 That gap is why good processes fail.
+
+<!-- ieia:explain -->
 
 ## A process can look complete while the exceptions stay invisible
 
@@ -74,6 +78,8 @@ Find out on purpose instead. Pick a normal week. Ask the backup to run the proce
 That rehearsal will show you exactly what the document is missing. It also builds the backup's confidence, which matters as much as the notes. A backup who has done the work once is very different from one who has only read about it.
 
 Rotate who serves as backup. Repeat the rehearsal every few months, and after any significant change to the process.
+
+<!-- ieia:apply -->
 
 ## Treat documentation as an operating tool
 

@@ -323,3 +323,50 @@ document.querySelectorAll("[data-worksheet]").forEach((form) => {
     say("Cleared.");
   });
 });
+
+// Self-check (2026-11-05): lists the ticked items and the next step. It never shows a count or score,
+// and nothing is sent anywhere; Copy puts the list on the clipboard only.
+document.querySelectorAll("[data-selfcheck]").forEach((box) => {
+  const result = box.querySelector("[data-selfcheck-result]");
+  const status = box.querySelector("[data-selfcheck-status]");
+  const work = box.querySelector("[data-selfcheck-work]");
+  const checks = [...box.querySelectorAll('input[type="checkbox"]')];
+  const guidance = box.querySelector(".selfcheck-guidance")?.textContent?.trim() || "";
+  const next = box.querySelector(".selfcheck-next");
+  const ticked = () => checks.filter((item) => item.checked).map((item) => item.dataset.label || "");
+
+  const render = () => {
+    if (!result) return;
+    const items = ticked();
+    if (items.length === 0) {
+      result.replaceChildren();
+      return;
+    }
+    const lead = document.createElement("p");
+    lead.textContent = "Signals you have seen:";
+    const list = document.createElement("ul");
+    items.forEach((label) => {
+      const item = document.createElement("li");
+      item.textContent = label;
+      list.append(item);
+    });
+    result.replaceChildren(lead, list);
+  };
+
+  box.addEventListener("change", render);
+
+  box.querySelector("[data-selfcheck-copy]")?.addEventListener("click", async () => {
+    const items = ticked();
+    const lines = [`## ${box.dataset.selfcheckTitle || "Self-check"}`, ""];
+    if (work?.value.trim()) lines.push(`**The piece of work:** ${work.value.trim()}`, "");
+    lines.push("**Signals seen:**", "", ...(items.length ? items.map((label) => `- ${label}`) : ["- (none ticked)"]), "");
+    if (guidance) lines.push(guidance, "");
+    if (next) {
+      const heading = next.querySelector("strong")?.textContent?.trim();
+      const text = next.querySelector("p")?.textContent?.replace(heading || "", "").trim();
+      lines.push(`**${heading}** ${text}`, "", ...[...next.querySelectorAll("li")].map((li) => `- ${li.textContent.trim()}`));
+    }
+    const ok = await copyText(lines.join("\n").trim() + "\n");
+    if (status) status.textContent = ok ? "Copied." : "Copy did not work here. Select the text and copy it yourself.";
+  });
+});

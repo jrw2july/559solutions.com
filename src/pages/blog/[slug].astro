@@ -10,7 +10,11 @@ import OwnerName from "@/components/OwnerName.astro";
 import TagList from "@/components/TagList.astro";
 import WorkWithMe from "@/components/WorkWithMe.astro";
 import ArticleBody from "@/components/ieia/ArticleBody.astro";
+import GoDeeper from "@/components/ieia/GoDeeper.astro";
 import IeiaSection from "@/components/ieia/IeiaSection.astro";
+import MakeTheCall from "@/components/ieia/MakeTheCall.astro";
+import ScenarioSteps from "@/components/ieia/ScenarioSteps.astro";
+import SelfCheck from "@/components/ieia/SelfCheck.astro";
 import QuestionWorthAsking from "@/components/ieia/QuestionWorthAsking.astro";
 import UseItAtWork from "@/components/ieia/UseItAtWork.astro";
 import WorkedExample from "@/components/ieia/WorkedExample.astro";
@@ -33,7 +37,7 @@ interface Props {
 const { article } = Astro.props as Props;
 const { Content, headings } = await render(article);
 const exercise = exercises[article.data.slug];
-const worksheet = exercise?.apply?.kind === "worksheet" ? exercise.apply : undefined;
+const apply = exercise?.apply;
 const readingTime = Math.max(1, Math.ceil((article.body || "").split(/\s+/).length / 225));
 const publicationDate = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
@@ -134,15 +138,17 @@ const schema = {
         )
       }
       {
-        worksheet && (
-          <IeiaSection slot="apply" step="Apply" heading={worksheet.title} id="lesson-apply">
+        apply && (
+          <IeiaSection slot="apply" step="Apply" heading={apply.title} id="lesson-apply">
             {exercise.applyLead && <p>{exercise.applyLead}</p>}
-            <UseItAtWork data={worksheet} printTitle={article.data.title} labelledBy="lesson-apply-heading" />
-            <NewsletterForm
-              id="newsletter-after-apply"
-              tag={article.data.slug}
-              heading="Want the next one?"
-            />
+            {apply.kind === "worksheet" && (
+              <UseItAtWork data={apply} printTitle={article.data.title} labelledBy="lesson-apply-heading" />
+            )}
+            {apply.kind === "selfcheck" && <SelfCheck data={apply} labelledBy="lesson-apply-heading" />}
+            {apply.kind === "scenario" && <ScenarioSteps data={apply} />}
+            {apply.kind === "call" && <MakeTheCall data={apply} />}
+            {exercise.goDeeper && <GoDeeper id="lesson-deeper" data={exercise.goDeeper} />}
+            <NewsletterForm id="newsletter-after-apply" tag={article.data.slug} heading="Want the next one?" />
           </IeiaSection>
         )
       }
