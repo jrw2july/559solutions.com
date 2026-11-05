@@ -106,3 +106,138 @@ if (inquiry && inquirySelect) {
   const option = [...inquirySelect.options].find((item) => item.value === inquiry);
   if (option) inquirySelect.value = inquiry;
 }
+
+// IEIA lessons (The Curious Architect). Reader answers stay in this browser: nothing below sends them
+// anywhere. They leave only through Copy (the clipboard) or Print, which the reader starts.
+document.querySelectorAll("[data-js-only]").forEach((element) => {
+  element.hidden = false;
+});
+
+document.querySelectorAll("[data-ieia-call]").forEach((form) => {
+  const status = form.querySelector("[data-ieia-status]");
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const chosen = form.querySelector('input[type="radio"]:checked');
+    if (!status) return;
+    if (!chosen) {
+      status.textContent = "Choose an answer first.";
+      return;
+    }
+    const label = form.querySelector(`label[for="${chosen.id}"]`)?.textContent?.trim() || "";
+    const verdict = chosen.dataset.correct === "true" ? "Correct:" : "Not quite:";
+    status.textContent = `${verdict} ${label} ${chosen.dataset.feedback || ""}`.trim();
+  });
+});
+
+const readStore = (key) => {
+  try {
+    return window.localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+};
+const writeStore = (key, value) => {
+  try {
+    if (value === null) window.localStorage.removeItem(key);
+    else window.localStorage.setItem(key, value);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+// The page is served over HTTPS, so the Clipboard API is available. If it is refused, the reader is told.
+const copyText = async (text) => {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+document.querySelectorAll("[data-worksheet]").forEach((form) => {
+  const fields = [...form.querySelectorAll("textarea[data-label]")];
+  const status = form.querySelector("[data-worksheet-status]");
+  const save = form.querySelector("[data-worksheet-save]");
+  const printCopy = form.querySelector("[data-worksheet-print]");
+  const storeKey = `ieia:${window.location.pathname}:${form.dataset.worksheet}`;
+  const title = form.dataset.worksheetTitle || "Worksheet";
+  const say = (message) => {
+    if (status) status.textContent = message;
+  };
+
+  const values = () => Object.fromEntries(fields.map((field) => [field.name, field.value]));
+  const persist = () => {
+    if (save?.checked) writeStore(storeKey, JSON.stringify(values()));
+  };
+
+  const stored = readStore(storeKey);
+  if (stored && save) {
+    try {
+      const data = JSON.parse(stored);
+      fields.forEach((field) => {
+        if (typeof data[field.name] === "string") field.value = data[field.name];
+      });
+      save.checked = true;
+    } catch {
+      writeStore(storeKey, null);
+    }
+  }
+
+  form.addEventListener("input", persist);
+
+  save?.addEventListener("change", () => {
+    if (save.checked) {
+      say(writeStore(storeKey, JSON.stringify(values()))
+        ? "Saved on this device."
+        : "This browser does not allow saving. Your answers are still on the page.");
+    } else {
+      writeStore(storeKey, null);
+      say("Removed from this device.");
+    }
+  });
+
+  const markdown = () =>
+    [`## ${title}`, "", ...fields.flatMap((field) => [`**${field.dataset.label}**`, "", field.value.trim() || "_(blank)_", ""])]
+      .join("\n")
+      .trim() + "\n";
+
+  form.querySelector("[data-worksheet-copy]")?.addEventListener("click", async () => {
+    say((await copyText(markdown())) ? "Copied." : "Copy did not work here. Select the text and copy it yourself.");
+  });
+
+  form.querySelector("[data-worksheet-print-button]")?.addEventListener("click", () => {
+    if (printCopy) {
+      printCopy.replaceChildren(
+        ...fields.flatMap((field) => {
+          const label = document.createElement("p");
+          label.className = "worksheet-print-field";
+          label.textContent = field.dataset.label || "";
+          const answer = document.createElement("p");
+          answer.className = "worksheet-print-answer";
+          answer.textContent = field.value.trim() || " ";
+          return [label, answer];
+        }),
+      );
+    }
+    document.documentElement.classList.add("print-worksheet");
+    form.classList.add("is-printing");
+    const done = () => {
+      document.documentElement.classList.remove("print-worksheet");
+      form.classList.remove("is-printing");
+      window.removeEventListener("afterprint", done);
+    };
+    window.addEventListener("afterprint", done);
+    window.print();
+  });
+
+  form.querySelector("[data-worksheet-reset]")?.addEventListener("click", () => {
+    if (!window.confirm("Clear every answer in this worksheet?")) return;
+    fields.forEach((field) => {
+      field.value = "";
+    });
+    if (save?.checked) writeStore(storeKey, JSON.stringify(values()));
+    say("Cleared.");
+  });
+});

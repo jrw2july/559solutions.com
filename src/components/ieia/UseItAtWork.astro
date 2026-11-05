@@ -1,0 +1,59 @@
+---
+import type { WorksheetData } from "@/data/exercises";
+
+// "Use it at work": a worksheet of labeled text boxes. Answers stay in this browser. They leave only
+// when the reader uses Copy or Print. Copy, Print, Start over and "Save on this device" need
+// JavaScript, so they stay hidden until site.js shows them. Without JavaScript the boxes still work.
+interface Props {
+  data: WorksheetData;
+  /** Printed above the worksheet: usually the article title. */
+  printTitle: string;
+}
+
+const { data, printTitle } = Astro.props;
+const { id } = data;
+const printUrl = Astro.url.href;
+---
+
+<div class="worksheet" id={id} role="group" aria-labelledby={`${id}-title`} data-worksheet={id} data-worksheet-title={data.title}>
+  <div class="worksheet-print-head" aria-hidden="true">
+    <p>{printTitle}</p>
+    <p>{printUrl}</p>
+  </div>
+  <p class="worksheet-label">Use it at work</p>
+  <p class="worksheet-title" id={`${id}-title`}>{data.title}</p>
+  {data.intro && <p class="worksheet-intro">{data.intro}</p>}
+  {
+    data.fields.map((field) => (
+      <div class="field">
+        <label for={`${id}-${field.id}`}>{field.label}</label>
+        {field.hint && (
+          <p class="field-hint" id={`${id}-${field.id}-hint`}>
+            {field.hint}
+          </p>
+        )}
+        <textarea
+          id={`${id}-${field.id}`}
+          name={field.id}
+          rows="3"
+          data-label={field.label}
+          aria-describedby={field.hint ? `${id}-${field.id}-hint` : undefined}
+        />
+      </div>
+    ))
+  }
+  <div class="worksheet-print-copy" aria-hidden="true" data-worksheet-print></div>
+  <div class="worksheet-tools" data-js-only hidden>
+    <div class="button-row">
+      <button class="button button-primary button-small" type="button" data-worksheet-copy>Copy</button>
+      <button class="button button-secondary button-small" type="button" data-worksheet-print-button>Print</button>
+      <button class="button button-secondary button-small" type="button" data-worksheet-reset>Start over</button>
+    </div>
+    <label class="checkbox-field worksheet-save">
+      <input type="checkbox" data-worksheet-save />
+      <span>Save on this device. Your answers stay in this browser and are not sent anywhere.</span>
+    </label>
+  </div>
+  <p class="form-status" role="status" aria-live="polite" data-worksheet-status></p>
+  <p class="small-note worksheet-privacy">Your answers are not sent to 559 Solutions or anyone else.</p>
+</div>

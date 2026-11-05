@@ -2929,3 +2929,230 @@ body.curious {
     max-width: 14rem;
   }
 }
+
+/* IEIA lessons on The Curious Architect (2026-11-05): Introduce, Explain, Illustrate, Apply.
+   Labels use the drawing-label type (like .plan-tag). Right and wrong are always written in words,
+   never shown by color alone. Nothing here moves, so there is no motion to reduce. */
+/* The section carries the rule and spacing an article H2 normally has, so the label sits under the
+   rule beside its own heading instead of above the rule. */
+.ieia-section {
+  margin-block: var(--space-7) var(--space-6);
+  padding-top: var(--space-3);
+  border-top: var(--border);
+}
+
+.curious .ieia-section {
+  border-top: 2px dashed rgb(62 65 64 / 0.3);
+}
+
+.article-content .ieia-section > .ieia-heading {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.ieia-kicker,
+.ieia-question-label,
+.worksheet-label {
+  display: inline-block;
+  margin: 0 0 var(--space-2);
+  padding: 0.15rem 0.5rem;
+  color: var(--ca-rust, var(--color-ink-soft));
+  border: 1px solid currentColor;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.ieia-heading {
+  margin-top: 0;
+}
+
+.ieia-question,
+.ieia-call,
+.worksheet {
+  margin-block: var(--space-5);
+  padding: var(--space-5);
+  background: var(--ca-note, var(--color-blue-pale));
+  border: 2px solid var(--ca-charcoal, var(--color-ink));
+}
+
+.ieia-question-text,
+.worksheet-title {
+  color: var(--color-ink);
+  font-size: var(--step-1);
+  font-weight: 750;
+  line-height: var(--leading-heading);
+}
+
+.ieia-question .field textarea,
+.worksheet .field textarea {
+  min-height: 5.5rem;
+}
+
+.worksheet .field-hint {
+  margin: 0 0 var(--space-2);
+}
+
+.ieia-reveal {
+  margin-top: var(--space-4);
+}
+
+.ieia-reveal summary {
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.5em;
+  color: var(--color-blue);
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.ieia-reveal summary::before {
+  content: "▸";
+  color: var(--color-ink-soft);
+}
+
+.ieia-reveal[open] summary::before {
+  content: "▾";
+}
+
+.ieia-reveal > :last-child {
+  margin-bottom: 0;
+}
+
+.ieia-call fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.ieia-call legend {
+  margin-bottom: var(--space-3);
+  padding: 0;
+  color: var(--color-ink);
+  font-size: var(--step-1);
+  font-weight: 750;
+  line-height: var(--leading-heading);
+}
+
+.ieia-choice {
+  display: grid;
+  margin-bottom: var(--space-2);
+  align-items: center;
+  gap: var(--space-3);
+  grid-template-columns: 1.5rem minmax(0, 1fr);
+  padding: var(--space-2) var(--space-3);
+  min-height: 2.75rem;
+  background: var(--color-white);
+  border: 1px solid var(--color-line-strong);
+}
+
+.ieia-choice:has(input:checked) {
+  border: 2px solid var(--color-blue);
+}
+
+.ieia-choice input {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0;
+}
+
+.ieia-choice label {
+  cursor: pointer;
+}
+
+.ieia-actions,
+.worksheet-tools .button-row {
+  margin-top: var(--space-3);
+}
+
+.worksheet-save {
+  margin-top: var(--space-4);
+}
+
+.worksheet-privacy {
+  margin-bottom: 0;
+}
+
+.worksheet-print-head,
+.worksheet-print-copy {
+  display: none;
+}
+
+.ieia-deeper-list {
+  padding-left: 1.25rem;
+}
+
+.ieia-deeper-question {
+  margin-bottom: var(--space-2);
+  font-weight: 700;
+}
+
+@media print {
+  /* Print from a worksheet's Print button: only that worksheet, with the article title and address. */
+  html.print-worksheet body *:not(:has(.is-printing), .is-printing, .is-printing *) {
+    display: none !important;
+  }
+
+  html.print-worksheet .worksheet.is-printing {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    border: 0;
+  }
+
+  html.print-worksheet .is-printing .field,
+  html.print-worksheet .is-printing .worksheet-tools,
+  html.print-worksheet .is-printing .worksheet-label,
+  html.print-worksheet .is-printing .form-status,
+  html.print-worksheet .is-printing .worksheet-privacy {
+    display: none !important;
+  }
+
+  html.print-worksheet .is-printing .worksheet-print-head,
+  html.print-worksheet .is-printing .worksheet-print-copy {
+    display: block;
+  }
+
+  .worksheet-print-head {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #000;
+  }
+
+  .worksheet-print-head p {
+    margin: 0;
+  }
+
+  .worksheet-print-field {
+    margin: 1rem 0 0.25rem;
+    font-weight: 700;
+    break-after: avoid;
+  }
+
+  .worksheet-print-answer {
+    min-height: 3em;
+    margin: 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #000;
+    white-space: pre-wrap;
+  }
+
+  /* Printing the whole page (no Print button, or no JavaScript): the boxes print with their text. */
+  .ieia-question,
+  .ieia-call,
+  .worksheet {
+    background: #fff;
+    border: 1px solid #000;
+    break-inside: avoid;
+  }
+
+  .worksheet-tools,
+  .ieia-actions {
+    display: none !important;
+  }
+}

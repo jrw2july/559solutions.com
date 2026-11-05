@@ -1,0 +1,30 @@
+---
+import type { GoDeeperData } from "@/data/exercises";
+
+// Optional depth for readers who want more. Closed by default; never holds the core lesson.
+interface Props {
+  id: string;
+  data: GoDeeperData;
+}
+
+const { id, data } = Astro.props;
+---
+
+<details class="article-fold ieia-deeper" id={id}>
+  <summary>{data.summary ?? "Go deeper"}</summary>
+  <ol class="ieia-deeper-list">
+    {
+      data.questions.map((item) => (
+        <li>
+          <p class="ieia-deeper-question">{item.question}</p>
+          {item.answer && (
+            <details class="ieia-reveal">
+              <summary>One possible answer</summary>
+              <p>{item.answer}</p>
+            </details>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</details>

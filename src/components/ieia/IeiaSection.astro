@@ -1,0 +1,23 @@
+---
+import type { IeiaStep } from "@/data/exercises";
+
+// A labeled lesson step: a small drawing-label kicker ("Introduce", "Explain", ...) above a real heading.
+// Core content always stays visible; only optional depth goes in <details>.
+interface Props {
+  step: IeiaStep;
+  heading: string;
+  /** Unique id; the heading gets `${id}-heading`. */
+  id: string;
+  /** Heading level inside the article. Defaults to 2. */
+  level?: 2 | 3;
+}
+
+const { step, heading, id, level = 2 } = Astro.props;
+const Heading = level === 2 ? "h2" : "h3";
+---
+
+<section class="ieia-section" id={id} aria-labelledby={`${id}-heading`} data-ieia-step={step.toLowerCase()}>
+  <p class="ieia-kicker">{step}</p>
+  <Heading id={`${id}-heading`} class="ieia-heading">{heading}</Heading>
+  <slot />
+</section>

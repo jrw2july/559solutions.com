@@ -1,0 +1,26 @@
+---
+import type { QuestionWorthAskingData } from "@/data/exercises";
+
+// A pre-question: the reader may write a guess, then opens the question to read the answer.
+interface Props {
+  id: string;
+  data: QuestionWorthAskingData;
+}
+
+const { id, data } = Astro.props;
+const guessId = `${id}-guess`;
+---
+
+<div class="ieia-question" id={id}>
+  <p class="ieia-question-label">Question worth asking</p>
+  <p class="ieia-question-text">{data.question}</p>
+  <div class="field">
+    <label for={guessId}>{data.guessLabel ?? "Your guess (optional)"}</label>
+    <textarea id={guessId} class="ieia-guess" rows="3"></textarea>
+    <p class="field-hint">Wrong guesses are expected and useful. Your guess stays on this page.</p>
+  </div>
+  <details class="ieia-reveal">
+    <summary>Show the answer</summary>
+    {data.answer.map((paragraph) => <p>{paragraph}</p>)}
+  </details>
+</div>

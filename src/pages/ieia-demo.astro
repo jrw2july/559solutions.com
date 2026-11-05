@@ -1,0 +1,53 @@
+---
+// Demo of the IEIA lesson components (2026-11-05). Not linked anywhere, marked noindex, and left out
+// of the sitemap and RSS. It exists so the build checks test the components before an article uses
+// them. Remove it (and demoExercise in src/data/exercises.ts) once the pilot article is live.
+import GoDeeper from "@/components/ieia/GoDeeper.astro";
+import IeiaSection from "@/components/ieia/IeiaSection.astro";
+import MakeTheCall from "@/components/ieia/MakeTheCall.astro";
+import QuestionWorthAsking from "@/components/ieia/QuestionWorthAsking.astro";
+import UseItAtWork from "@/components/ieia/UseItAtWork.astro";
+import { demoExercise } from "@/data/exercises";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const pageTitle = "Lesson Components Demo";
+---
+
+<BaseLayout
+  title={`${pageTitle} | 559 Solutions`}
+  description="A test page for the lesson components used on The Curious Architect. Not part of the published blog."
+  canonicalPath="/ieia-demo/"
+  noindex
+  bodyClass="curious"
+>
+  <section class="section">
+    <div class="narrow article-content">
+      <p class="eyebrow">Test page</p>
+      <h1>{pageTitle}</h1>
+      <p>
+        This page shows each lesson component with sample content. It is not an article. The sample
+        scenario is made up.
+      </p>
+
+      <IeiaSection step="Introduce" heading="Start with a question" id="demo-introduce">
+        <QuestionWorthAsking id="demo-question" data={demoExercise.introduce} />
+      </IeiaSection>
+
+      <IeiaSection step="Explain" heading="One idea at a time" id="demo-explain">
+        <p>
+          Explain sections hold the article's own text. They are never hidden inside a fold.
+        </p>
+      </IeiaSection>
+
+      <IeiaSection step="Illustrate" heading="Make the call" id="demo-illustrate">
+        <MakeTheCall data={demoExercise.call} />
+      </IeiaSection>
+
+      <IeiaSection step="Apply" heading="Use it at work" id="demo-apply">
+        <UseItAtWork data={demoExercise.apply} printTitle={pageTitle} />
+      </IeiaSection>
+
+      <GoDeeper id="demo-deeper" data={demoExercise.goDeeper} />
+    </div>
+  </section>
+</BaseLayout>
