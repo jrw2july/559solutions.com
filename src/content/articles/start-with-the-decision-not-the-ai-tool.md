@@ -6,6 +6,7 @@ publicationDate: "2026-10-13"
 updatedDate: "2026-10-13"
 author: "Joel Wells"
 category: "AI Without the Hype"
+service: "ai-workflow-assessment"
 tags: ["AI", "decision-making", "governance"]
 imageAlt: ""
 draft: false

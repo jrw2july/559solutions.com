@@ -6,6 +6,7 @@ publicationDate: "2026-10-13"
 updatedDate: "2026-10-13"
 author: "Joel Wells"
 category: "Architect's Notebook"
+service: "systems-clarity-sprint"
 tags: ["chess", "strategy", "decision-making"]
 imageAlt: ""
 draft: false

@@ -6,6 +6,7 @@ publicationDate: "2025-12-01"
 updatedDate: "2026-10-14"
 author: "Joel Wells"
 category: "AI Without the Hype"
+service: "ai-workflow-assessment"
 tags:
   - "AI"
   - "tool selection"

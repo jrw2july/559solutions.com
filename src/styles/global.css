@@ -3437,3 +3437,31 @@ body.curious {
     display: none !important;
   }
 }
+
+/* Entry offer on /services/ (2026-11-05); built only when the owner turns it on in src/config/site.ts. */
+.entry-offer-terms {
+  display: grid;
+  max-width: 48rem;
+  margin: 0 0 var(--space-5);
+  gap: var(--space-3);
+}
+
+.entry-offer-terms > div {
+  display: grid;
+  gap: var(--space-1) var(--space-4);
+  grid-template-columns: minmax(0, 9rem) minmax(0, 1fr);
+}
+
+.entry-offer-terms dt {
+  font-weight: 750;
+}
+
+.entry-offer-terms dd {
+  margin: 0;
+}
+
+/* On blog pages, .curious .eyebrow (rust) out-ranked .cta-inner .eyebrow, leaving rust on navy at
+   2.2:1. The closing band keeps the white label other pages use (2026-11-05). */
+.curious .cta-inner .eyebrow {
+  color: var(--color-white);
+}

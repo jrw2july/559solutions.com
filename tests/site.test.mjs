@@ -152,3 +152,28 @@ test("email signup: tagged forms after the exercise, at every article end, and o
   const sitemap = await readFile(path.join(dist, "sitemap.xml"), "utf8");
   assert.match(sitemap, /\/subscribe\//);
 });
+
+test("every article ends with a Work with me band that opens the matching inquiry", async () => {
+  const contact = await readFile(path.join(dist, "contact", "index.html"), "utf8");
+  const articleRoot = path.join(root, "src", "content", "articles");
+  for (const entry of await readdir(articleRoot, { withFileTypes: true })) {
+    if (!entry.isFile() || !entry.name.endsWith(".md")) continue;
+    const source = await readFile(path.join(articleRoot, entry.name), "utf8");
+    if (!/^draft:\s*false\s*$/m.test(source)) continue;
+    const slug = entry.name.replace(/\.md$/, "");
+    const service = /^service:\s*"([^"]+)"/m.exec(source)?.[1];
+    assert.ok(service, `${slug} names a service`);
+    assert.match(contact, new RegExp(`<option value="${service}">`), `${service} is a contact option`);
+    const html = await readFile(path.join(dist, "blog", slug, "index.html"), "utf8");
+    assert.match(html, /id="work-with-me-heading"/, slug);
+    assert.match(html, new RegExp(`href="/contact/\\?inquiry=${service}"`), slug);
+    assert.doesNotMatch(html, /Explore Practical Resources/, slug);
+  }
+});
+
+test("the entry offer stays out of the build until the owner fills it in", async () => {
+  const services = await readFile(path.join(dist, "services", "index.html"), "utf8");
+  assert.doesNotMatch(services, /entry-offer|Fixed-scope first step/);
+  const contact = await readFile(path.join(dist, "contact", "index.html"), "utf8");
+  assert.match(contact, /<option value="systems-clarity-sprint">/, "the Services sprint link has a matching option");
+});

@@ -1,0 +1,46 @@
+---
+// "Work with me" (2026-11-05): the closing band of each article. It names the service that fits the
+// article (frontmatter `service`) in one sentence taken from src/data/services.ts and links to the
+// contact form with that Inquiry type chosen (site.js picks it from ?inquiry=). With no service set, it
+// links to /services/. The second button is the article's own resource, or another article.
+import { sitePath } from "@/config/site";
+import { services } from "@/data/services";
+
+interface Props {
+  serviceSlug?: string;
+  resource?: { label: string; href: string };
+}
+
+const { serviceSlug, resource } = Astro.props;
+const service = services.find((item) => item.slug === serviceSlug);
+if (serviceSlug && !service) throw new Error(`Unknown service "${serviceSlug}" in article frontmatter.`);
+const secondary = resource ?? { label: "Read Another Article", href: "/blog/" };
+---
+
+<section class="cta-section work-with-me" aria-labelledby="work-with-me-heading">
+  <div class="container cta-inner">
+    <div>
+      <p class="eyebrow">Work with 559 Solutions</p>
+      <h2 id="work-with-me-heading">Want help with this in your own work?</h2>
+      {
+        service ? (
+          <p>
+            <strong>{service.title}:</strong> {service.purpose}
+          </p>
+        ) : (
+          <p>559 Solutions offers focused help with decisions, processes, architecture, and practical AI.</p>
+        )
+      }
+    </div>
+    <div class="button-row">
+      {
+        service ? (
+          <a class="button button-light" href={sitePath(`/contact/?inquiry=${service.slug}`)}>Ask about {service.title}</a>
+        ) : (
+          <a class="button button-light" href={sitePath("/services/")}>See services</a>
+        )
+      }
+      <a class="button button-outline-light" href={sitePath(secondary.href)}>{secondary.label}</a>
+    </div>
+  </div>
+</section>

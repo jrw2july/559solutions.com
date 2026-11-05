@@ -6,6 +6,7 @@ publicationDate: "2026-10-13"
 updatedDate: "2026-10-13"
 author: "Joel Wells"
 category: "Architect's Notebook"
+service: "systems-clarity-sprint"
 tags: ["systems thinking", "technology and society", "consequences"]
 imageAlt: ""
 draft: false

@@ -6,6 +6,7 @@ publicationDate: "2026-10-13"
 updatedDate: "2026-10-13"
 author: "Joel Wells"
 category: "Systems Thinking"
+service: "technical-mentoring"
 tags: ["architecture", "documentation", "diagrams"]
 imageAlt: ""
 draft: false

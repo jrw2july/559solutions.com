@@ -6,6 +6,7 @@ publicationDate: "2026-10-13"
 updatedDate: "2026-10-13"
 author: "Joel Wells"
 category: "Small Business Tools"
+service: "business-systems-clarity-session"
 tags: ["process", "documentation", "resilience"]
 imageAlt: ""
 draft: false

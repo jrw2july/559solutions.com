@@ -6,6 +6,7 @@ publicationDate: "2025-12-01"
 updatedDate: "2026-07-23"
 author: "Joel Wells"
 category: "Systems Thinking"
+service: "business-systems-clarity-session"
 tags:
   - "leadership"
   - "knowledge sharing"

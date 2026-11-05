@@ -51,6 +51,7 @@ publicationDate: "2026-10-14"
 updatedDate: "2026-10-14"
 author: "Joel Wells"
 category: "Systems Thinking"
+service: "business-systems-clarity-session"
 tags:
   - "process"
 imageAlt: ""
@@ -63,6 +64,8 @@ relatedArticles:
 ```
 
 `category` must be one of: AI Without the Hype, Systems Thinking, Small Business Tools, Builder Notes, Architect's Notebook. Optional fields: `featuredImage`, `canonicalOverride`, `relatedResourceCta` (`label` and `href`).
+
+`service` (optional) picks the service the closing "Work with me" band offers. It must be one of: business-systems-clarity-session, ai-workflow-assessment, low-code-solution-design, technical-mentoring, systems-clarity-sprint. The band's button opens the contact form with that Inquiry type chosen. Leave it out and the band links to `/services/`. `relatedResourceCta`, when set, becomes the band's second button.
 
 To publish a reviewed draft:
 

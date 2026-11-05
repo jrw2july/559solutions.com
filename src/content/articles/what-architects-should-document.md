@@ -6,6 +6,7 @@ publicationDate: "2026-10-13"
 updatedDate: "2026-10-13"
 author: "Joel Wells"
 category: "Builder Notes"
+service: "technical-mentoring"
 tags: ["architecture", "documentation", "decision logs"]
 imageAlt: ""
 draft: false
