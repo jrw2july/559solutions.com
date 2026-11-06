@@ -55,8 +55,10 @@ test("the Resources section is gone and nothing links to it", async () => {
   }
 });
 
-test("legal pages carry no review banner and give the general email address", async () => {
-  for (const page of ["privacy/index.html", "terms/index.html", "accessibility/index.html"]) {
+// Terms and Privacy show the review banner until every site.legal value is set (owner's choice, 2026-11-06);
+// that state is covered by the Terms and Privacy test further down.
+test("the Accessibility page carries no review banner, and legal pages give the general email address", async () => {
+  for (const page of ["accessibility/index.html"]) {
     const html = await readFile(path.join(dist, page), "utf8");
     assert.doesNotMatch(html, /OWNER AND LEGAL REVIEW REQUIRED|legal-banner/, page);
   }
@@ -313,4 +315,45 @@ test("measurement stays a no-op: no analytics script, no assertive live regions,
     assert.doesNotMatch(html, /googletagmanager|plausible\.io|usefathom|goatcounter|matomo/, file);
     assert.doesNotMatch(html, /role="alert"|aria-live="assertive"/, file);
   }
+});
+
+test("Terms and Privacy show the review banner while any owner value is a placeholder, else the effective date", async () => {
+  for (const route of ["terms/index.html", "privacy/index.html"]) {
+    const html = await readFile(path.join(dist, route), "utf8");
+    const placeholders = html.match(/TODO-JR-[A-Z0-9][A-Z0-9-]*/g) || [];
+    const banner = html.includes("OWNER AND LEGAL REVIEW REQUIRED");
+    const dates = /<strong>Last updated:<\/strong>[^<]+<strong>Effective date:<\/strong>/.test(html);
+    if (placeholders.length > 0) {
+      assert.ok(banner, `${route}: review banner while placeholders remain`);
+      assert.ok(!dates, `${route}: no effective date while placeholders remain`);
+    } else {
+      assert.ok(!banner, `${route}: no review banner once every value is set`);
+      assert.ok(dates, `${route}: effective date once every value is set`);
+    }
+    assert.doesNotMatch(html, /Draft last updated/, `${route}: old draft date is gone`);
+  }
+});
+
+test("footer legal links read Privacy Policy and Terms of Use, and every consent box links to /privacy/", async () => {
+  const home = await readFile(path.join(dist, "index.html"), "utf8");
+  assert.match(home, /<a href="\/privacy\/">Privacy Policy<\/a>/);
+  assert.match(home, /<a href="\/terms\/">Terms of Use<\/a>/);
+  const consents = [
+    ["contact/index.html", "I agree that 559 Solutions may use this information to respond to my inquiry."],
+    ["subscribe/index.html", "I agree that 559 Solutions may email me when a new article is published."],
+    ["code559/index.html", "I agree that 559 Solutions may email me when this course opens."],
+  ];
+  for (const [route, text] of consents) {
+    const html = await readFile(path.join(dist, route), "utf8");
+    assert.ok(html.includes(`${text} See the <a href="/privacy/">Privacy Policy</a>.`), `${route}: consent wording and link`);
+  }
+});
+
+test("the Terms quote the Code559 attribution exactly as the lessons state it", async () => {
+  const attribution =
+    "Code559 is a 559 Solutions project. Portions adapted from Visual Studio Code documentation (CC BY 3.0 US), GitHub Docs (CC BY 4.0), and GitHub Skills (MIT). Screenshots used with permission from Microsoft.";
+  const terms = (await readFile(path.join(dist, "terms/index.html"), "utf8")).replace(/\s+/g, " ");
+  assert.ok(terms.includes(attribution), "terms quote");
+  const lesson = await readFile(path.join(root, "src/content/code559/module-00-setup.md"), "utf8");
+  assert.ok(lesson.includes(`*${attribution}*`), "lesson source unchanged");
 });

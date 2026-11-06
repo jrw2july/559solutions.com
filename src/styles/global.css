@@ -1302,6 +1302,65 @@ button:disabled {
   margin-top: var(--space-7);
 }
 
+.legal-banner {
+  padding: var(--space-4);
+  margin-bottom: var(--space-6);
+  color: #662311;
+  background: #fff4e8;
+  border: 2px solid #de8d5b;
+  font-weight: 800;
+}
+
+/* Terms and Privacy (2026-11-05): the review note, owner-set values still to fill in, the date line,
+   the quoted Code559 attribution, and the form table, which wraps at phone width. */
+.legal-pending {
+  margin-bottom: var(--space-6);
+}
+
+.legal-todo {
+  padding: 0 0.25em;
+  color: #662311;
+  background: #fff4e8;
+  border: 1px dashed #de8d5b;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  overflow-wrap: anywhere;
+}
+
+.legal-dates {
+  padding-bottom: var(--space-4);
+  border-bottom: var(--border);
+}
+
+.legal-quote {
+  margin: var(--space-4) 0;
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--color-ink);
+}
+
+.legal-table-wrap {
+  margin: var(--space-4) 0;
+}
+
+.legal-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--step--1);
+}
+
+.legal-table th,
+.legal-table td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.legal-table thead th {
+  color: var(--color-white);
+  background: var(--color-ink);
+}
+
 .question-list {
   padding: 0;
   list-style: none;

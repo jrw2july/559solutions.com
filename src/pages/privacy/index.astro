@@ -1,12 +1,21 @@
 ---
+// Privacy Policy (2026-11-05). Every statement maps to the data inventory taken from the site's code: the
+// four forms (ContactForm.astro, NewsletterForm.astro, the Code559 notify form), the Apps Script handler
+// (docs/apps-script-form-handler.gs), worksheet storage in public/scripts/site.js, and the build scan that
+// found script.google.com as the only outside host. No statute is claimed. Owner-only values come from
+// site.legal in src/config/site.ts; until all are set, LegalStatus shows the review banner.
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
-import { site } from "@/config/site";
+import LegalStatus from "@/components/LegalStatus.astro";
+import LegalValue from "@/components/LegalValue.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site, sitePath } from "@/config/site";
+
+const { legal } = site;
 ---
 
 <BaseLayout
   title="Privacy Policy | 559 Solutions"
-  description="Privacy information for the 559 Solutions website, including forms, newsletters, analytics, external services, and cookies."
+  description="The Privacy Policy for the 559 Solutions website: what the forms collect, where it is stored, what is not collected, and your choices."
   canonicalPath="/privacy/"
 >
   <header class="page-hero">
@@ -14,50 +23,158 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Privacy Policy" }]} />
       <p class="eyebrow">Site information</p>
       <h1>Privacy Policy</h1>
-      <p class="lede">How this site is intended to handle information.</p>
+      <p class="lede">What this site collects, why, and where it goes.</p>
     </div>
   </header>
   <section class="section">
     <article class="narrow legal-content">
-      <p><strong>Draft last updated:</strong> November 5, 2026</p>
+      <LegalStatus />
+
+      <h2>Who we are</h2>
       <p>
-        This draft describes the planned data practices for 559 Solutions. It is not a legal guarantee and must be reviewed before production launch.
+        This site is run by <LegalValue value={legal.legalName} />, doing business as 559 Solutions ("we" or "us"). For
+        privacy questions or requests, email <LegalValue value={legal.privacyEmail} kind="email" /> or write to{" "}
+        <LegalValue value={legal.businessAddress} />.
       </p>
 
-      <h2>Information submitted through forms</h2>
+      <h2>What we collect</h2>
+      <p>The site collects information about you only through its forms. Each form collects the following.</p>
+      <section class="table-scroll legal-table-wrap" aria-label="What each form collects" tabindex="0">
+        <table class="legal-table">
+          <thead>
+            <tr>
+              <th scope="col">Form</th>
+              <th scope="col">Where it appears</th>
+              <th scope="col">What it collects</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Contact form</th>
+              <td><a href={sitePath("/contact/")}>Contact page</a></td>
+              <td>Name, email, organization (optional), inquiry type, message, and your consent</td>
+            </tr>
+            <tr>
+              <th scope="row">Article email signup</th>
+              <td>Articles and the <a href={sitePath("/subscribe/")}>Subscribe page</a></td>
+              <td>Email, the page you signed up on, and your consent</td>
+            </tr>
+            <tr>
+              <th scope="row">Code559 course notice</th>
+              <td><a href={sitePath("/code559/")}>Code559 page</a></td>
+              <td>First name, email, the course you chose, and your consent</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <p>Along with what you type, a submission can include:</p>
+      <ul>
+        <li>the address of the page you were on;</li>
+        <li>a short label that names the form, such as "newsletter:the-hero-trap";</li>
+        <li>the date and time it was received.</li>
+      </ul>
       <p>
-        Contact and lead-magnet forms may collect the information shown on the form, such as a name, email address, organization, inquiry type, and message. Submissions are sent to a Google Apps Script web app in the 559 Solutions Google Workspace account, which records them in a Google Sheet. Google processes this information under the <a href="https://policies.google.com/privacy">Google Privacy Policy</a>.
+        Each form also has a hidden field that people do not see. It catches automated spam. If that field is filled in,
+        the submission is not saved.
       </p>
 
-      <h2>Newsletters and lead magnets</h2>
+      <h3>What we do not collect</h3>
       <p>
-        If you sign up for email, 559 Solutions records your email address, the page you signed up from, and your consent in the same Google Sheet. It is used only to send the emails described on the form. To stop, reply to any email or use the contact form.
+        Worksheet and self-check answers stay in your browser. They are not sent to us. If you tick "Save on this device"
+        on a worksheet, your answers are stored only in that browser, so they are there when you come back. Untick the box
+        to remove them. Answers leave your browser only if you copy or print them yourself.
+      </p>
+      <p>Quiz answers ("Make the call") are checked in your browser and are not sent anywhere.</p>
+
+      <h2>How we use it</h2>
+      <ul>
+        <li>To reply to messages sent through the contact form.</li>
+        <li>
+          To send the emails each form describes, and nothing else: an email when a new article is published, or one email
+          when a Code559 course opens.
+        </li>
+        <li>To keep a record that you gave consent.</li>
+      </ul>
+
+      <h2>Where it is stored</h2>
+      <p>
+        Forms send what you enter to a Google Apps Script web app that runs in our Google account. The script adds one row
+        to a Google Sheet. Google stores it as our service provider. Google's handling is described in the{" "}
+        <a href="https://policies.google.com/privacy">Google Privacy Policy</a>.
+      </p>
+      <p>
+        The script does not send email. We send the emails people sign up for using{" "}
+        <LegalValue value={legal.emailTool} />.
       </p>
 
-      <h2>Analytics</h2>
+      <h2>Purchases</h2>
       <p>
-        Analytics are disabled by default. If analytics are enabled, this policy must identify the provider, the information collected, the retention approach, and any available opt-out method.
+        Digital products are sold through Gumroad. You check out on Gumroad, not on this site. We receive the information
+        Gumroad provides to sellers about a purchase. Gumroad's privacy policy applies to checkout:{" "}
+        <LegalValue value={legal.gumroadPrivacyUrl} kind="url">Gumroad Privacy Policy</LegalValue>.
       </p>
 
-      <h2>Checkout, scheduling, and embedded services</h2>
+      <h2>Analytics, cookies and browser storage</h2>
       <p>
-        Product checkout, scheduling, video, and other embedded services may operate under their own terms and privacy policies. Each service in use is named on the page where it appears.
+        This site has no analytics. The site's pages and scripts set no cookies. The only browser storage the site uses is
+        the worksheet "Save on this device" option described above.
+      </p>
+      <p>
+        Our web host may keep server logs of requests to the site. <LegalValue value={legal.hostingLogs} /> The article
+        filters put your filter choice in the page address, so it can appear in those logs. Search text is never
+        put in the address.
       </p>
 
-      <h2>Cookies</h2>
+      <h3>Other companies a page contacts</h3>
       <p>
-        The first release does not require nonessential cookies. A consent banner should be added only if enabled services make it necessary.
+        Pages on this site load no scripts, fonts, images or embedded content from other companies. Only one outside host
+        is contacted, and only when you submit a form:
+      </p>
+      <ul>
+        <li>
+          <strong>script.google.com</strong> (Google) receives what you entered in the form, plus your IP address and
+          browser details that come with any web request. Our script does not write your IP address to the sheet.
+        </li>
+      </ul>
+      <p>
+        When you follow a link to another site, your browser may tell that site you came from this one. What that site
+        collects is covered by its own policy.
       </p>
 
-      <h2>Security and retention</h2>
+      <h2>Sharing</h2>
       <p>
-        The site collects only the information needed for the stated purpose. Form submissions are stored with the form provider, not in the website files, and are kept only as long as they are needed to respond.
+        We do not sell or rent your information. We share it only with the service providers named on this page (Google,
+        Gumroad, our email tool and our web host), or when the law requires it.
       </p>
 
-      <h2>Contact</h2>
+      <h2>How long we keep it</h2>
+      <p><LegalValue value={legal.dataRetention} /></p>
+
+      <h2>Your choices</h2>
+      <ul>
+        <li>
+          To stop getting emails, reply to any email from us, or use the <a href={sitePath("/contact/")}>contact form</a>.
+        </li>
+        <li>
+          To ask for a copy of your information, or to have it corrected or deleted, email{" "}
+          <LegalValue value={legal.privacyEmail} kind="email" />.
+        </li>
+        <li>To remove saved worksheet answers, untick "Save on this device" or clear your browser's site data.</li>
+      </ul>
+
+      <h2>Children</h2>
       <p>
-        For questions about this policy or your information, email <a href={`mailto:${site.publicEmail}`}>{site.publicEmail}</a>.
+        This site is not directed to children under 13. We do not knowingly collect information from children under 13.
       </p>
+
+      <h2>Security</h2>
+      <p>
+        We take reasonable steps to protect what you send us. No method of sending or storing information is perfectly
+        secure.
+      </p>
+
+      <h2>Changes</h2>
+      <p>If we change this policy, we will post the new version here with a new effective date.</p>
     </article>
   </section>
 </BaseLayout>

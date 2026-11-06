@@ -7,8 +7,8 @@ export const primaryNavigation = [
 ] as const;
 
 export const legalNavigation = [
-  { label: "Privacy", href: "/privacy/" },
-  { label: "Terms", href: "/terms/" },
+  { label: "Privacy Policy", href: "/privacy/" },
+  { label: "Terms of Use", href: "/terms/" },
   { label: "Accessibility", href: "/accessibility/" },
 ] as const;
 

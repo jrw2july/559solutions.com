@@ -1,11 +1,19 @@
 ---
+// Terms of Use (2026-11-05). Plain language, general U.S. contract terms, no statute claims. Every value
+// only the owner can decide comes from site.legal in src/config/site.ts; until all are set, LegalStatus
+// shows the review banner.
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import LegalStatus from "@/components/LegalStatus.astro";
+import LegalValue from "@/components/LegalValue.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site, sitePath } from "@/config/site";
+
+const { legal } = site;
 ---
 
 <BaseLayout
   title="Terms of Use | 559 Solutions"
-  description="Terms for using the 559 Solutions website."
+  description="The Terms of Use for the 559 Solutions website, its articles, worksheets, Code559 lessons and digital products."
   canonicalPath="/terms/"
 >
   <header class="page-hero">
@@ -13,44 +21,136 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Terms of Use" }]} />
       <p class="eyebrow">Site information</p>
       <h1>Terms of Use</h1>
-      <p class="lede">Draft terms for this website.</p>
+      <p class="lede">The rules for using this website and what it offers.</p>
     </div>
   </header>
   <section class="section">
     <article class="narrow legal-content">
-      <p><strong>Draft last updated:</strong> July 23, 2026</p>
+      <LegalStatus />
+
+      <h2>Agreement</h2>
       <p>
-        These terms do not create guarantees about products, services, outcomes, or availability.
+        These terms apply when you use 559solutions.com. By using the site, you accept them. If you do not agree, please do
+        not use the site.
       </p>
 
-      <h2>Informational purpose</h2>
+      <h2>Who we are</h2>
       <p>
-        Website content is provided for general educational and informational purposes. It is not legal, financial, security, or other regulated professional advice.
+        This site is run by <LegalValue value={legal.legalName} />, doing business as 559 Solutions. In these terms, "we" and
+        "us" mean 559 Solutions. You can reach us through the <a href={sitePath("/contact/")}>contact form</a>.
       </p>
 
-      <h2>Products and services</h2>
+      <h2>Using the site</h2>
+      <p>Use the site only for lawful purposes. Please do not:</p>
+      <ul>
+        <li>scrape or copy the site in a way that slows it down or harms it;</li>
+        <li>try to get around its security or reach parts of it you are not meant to;</li>
+        <li>misuse the forms, for example by sending spam, false information or someone else's details.</li>
+      </ul>
+
+      <h2>Content and ownership</h2>
       <p>
-        A product or service is available only when the site displays a real destination and the owner confirms the applicable scope, price, license, support, delivery, and refund terms. Coming-soon pages are descriptions of planned work, not offers for sale.
+        The site's text, articles, lessons, diagrams and design belong to us, unless a page says otherwise. You may read,
+        print and use them for your own learning and inside your own business. To republish them, on another site or in
+        anything you sell or share publicly, ask us first.
+      </p>
+      <p>Some Code559 lessons include material from others under these licenses, as each lesson notes:</p>
+      <blockquote class="legal-quote">
+        <p>
+          <em>
+            Code559 is a 559 Solutions project. Portions adapted from Visual Studio Code documentation (CC BY 3.0 US),
+            GitHub Docs (CC BY 4.0), and GitHub Skills (MIT). Screenshots used with permission from Microsoft.
+          </em>
+        </p>
+      </blockquote>
+      <p>Those portions stay under their own licenses. Some Code559 icons come from Lucide, under the MIT license.</p>
+
+      <h2>Worksheets and tools</h2>
+      <p>
+        The worksheets, self-checks and other tools on this site run in your browser. What you type and the results you get
+        are yours. They are aids for thinking, not answers. We do not promise that a result fits any decision you make.
       </p>
 
-      <h2>Acceptable use</h2>
+      <h2>Digital products</h2>
       <p>
-        Visitors should not attempt to disrupt the site, bypass security measures, submit unlawful material, or misuse forms and downloads.
+        Digital products, such as the Code559 module packets, are sold through Gumroad. Gumroad's own terms also apply when
+        you check out there.
+      </p>
+      <p>Each product's license is stated on its product page.</p>
+      <p>After you buy, Gumroad gives you a download link for the files.</p>
+      <p><strong>Refunds:</strong> <LegalValue value={legal.refundPolicy} /></p>
+
+      <h2>Services</h2>
+      <p>
+        The services described on this site are for information only. Nothing on the site is an offer to provide a service.
+        Each engagement is covered by its own written agreement. If that agreement and these terms disagree, the agreement
+        controls.
       </p>
 
-      <h2>Intellectual property and licenses</h2>
+      <h2>Not professional advice</h2>
       <p>
-        Site text, visual identity, and original materials remain subject to applicable ownership and license terms. Each downloadable product should include its own license summary before publication.
+        Articles, guides and lessons are general education. They are not legal, financial, security or other professional
+        advice. For advice about your own situation, talk to a qualified professional. Information about tools is current as
+        of the date shown with it, and tools change.
       </p>
 
-      <h2>External services and links</h2>
+      <h2>Links to other sites</h2>
       <p>
-        External checkout, scheduling, analytics, form, and embedded-content providers operate under their own terms. A link does not create a guarantee or endorsement.
+        The site links to sites run by others. We do not control those sites, and a link does not mean we endorse them or
+        what they offer.
       </p>
 
-      <h2>Changes</h2>
+      <h2>What you send us</h2>
       <p>
-        The owner may update site content, product status, and these draft terms. A reviewed effective date must be added before launch.
+        When you send us something through a form, you confirm that you have the right to send it. Please do not send
+        confidential or sensitive information, such as passwords, payment details, health information or private client
+        data, through the forms.
+      </p>
+
+      <h2>Disclaimer of warranties</h2>
+      <p>
+        The site and everything on it are provided "as is" and "as available." We do not promise that the site will always
+        be available or free of errors, or that its content is complete or right for your purpose.
+      </p>
+
+      <h2>Limitation of liability</h2>
+      <p>
+        To the extent the law allows, we are not liable for indirect, incidental, special or consequential damages, such as
+        lost profits or lost data, that come from your use of the site or its content. To the extent the law allows, our
+        total liability for any claim is limited to the greater of the amount you paid for the product the claim is about,
+        or $100.
+      </p>
+
+      <h2>Indemnity</h2>
+      <p>
+        If someone makes a claim against us because you misused the site or broke these terms, you agree to cover our
+        reasonable costs from that claim. This applies only to claims caused by your misuse or breach.
+      </p>
+
+      <h2>Changes and ending access</h2>
+      <p>
+        We may change these terms. When we do, we will post the new version here with a new effective date. Using the site
+        after that means you accept the new terms. We may suspend or end access for anyone who misuses the site.
+      </p>
+
+      <h2>Governing law and venue</h2>
+      <p>
+        The laws of the State of <LegalValue value={legal.governingLawState} /> govern these terms. Any legal case about
+        these terms will be brought in the courts located in <LegalValue value={legal.venueCounty} />,{" "}
+        <LegalValue value={legal.governingLawState} />.
+      </p>
+
+      <h2>General</h2>
+      <p>
+        If a court finds part of these terms unenforceable, the rest still applies. If we do not enforce a term right away,
+        we have not given up the right to enforce it later. These terms, together with each product's page and any signed
+        service agreement, are the whole agreement between you and us about the site.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about these terms? Use the <a href={sitePath("/contact/")}>contact form</a>, or write to{" "}
+        <LegalValue value={legal.legalName} />, <LegalValue value={legal.businessAddress} />.
       </p>
     </article>
   </section>
