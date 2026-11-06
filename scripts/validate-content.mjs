@@ -5,7 +5,6 @@ const root = process.cwd();
 const scanRoots = [
   path.join(root, "src", "pages"),
   path.join(root, "src", "components"),
-  path.join(root, "src", "content", "resources"),
   path.join(root, "src", "content", "articles"),
 ];
 const errors = [];

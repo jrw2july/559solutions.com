@@ -64,7 +64,6 @@ try {
 
   const routes = [
     "/",
-    "/resources/",
     "/services/",
     "/blog/",
     "/blog/the-hero-trap/",
@@ -98,17 +97,6 @@ try {
   await page.waitForURL("**/blog/");
   assert.equal(await page.locator('[aria-current="page"]').count() > 0, true);
   results.interactions.push("desktop navigation");
-
-  await page.getByLabel("Search").fill("workbook");
-  await page.getByRole("button", { name: "Apply filters" }).click();
-  assert.equal(await page.locator("[data-filter-card]:visible").count(), 1);
-  assert.match(await page.locator("[data-filter-status]").textContent(), /1 item shown/);
-  await page.getByRole("button", { name: "Clear filters" }).click();
-  await page.locator("[data-filter-status]").filter({ hasText: "5 items shown" }).waitFor();
-  assert.equal(await page.locator("[data-filter-card]:visible").count(), 5);
-  await page.screenshot({ path: path.join(screenshotDir, "resources-desktop.png"), fullPage: true });
-  results.screenshots.push("resources-desktop.png");
-  results.interactions.push("resource search and reset");
 
   await page.goto(`${baseUrl}/blog/`, { waitUntil: "networkidle" });
   await page.getByLabel("Category").selectOption("systems thinking");

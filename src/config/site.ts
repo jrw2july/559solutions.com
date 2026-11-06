@@ -42,7 +42,8 @@ export const site = {
   siteDomain: configuredSite,
   canonicalHost: new URL(configuredSite).host,
   ownerName: "Joel Wells",
-  publicEmail: "",
+  // General address for website questions, including accessibility and privacy.
+  publicEmail: "info@559solutions.com",
   contactFormEndpoint: formEndpoint,
   newsletterEndpoint: formEndpoint,
   formSuccessUrl: "",
@@ -84,7 +85,7 @@ export const site = {
   // review banner and the build prints a warning with this file and line (scripts/check-legal.mjs).
   //   legalName          the business's legal name: the sole proprietor's name or the LLC's name
   //   businessAddress    a mailing address or PO box, on one line
-  //   privacyEmail       the address for privacy requests, e.g. privacy@559solutions.com
+  //   privacyEmail       the address for privacy requests (set to publicEmail on 2026-11-05)
   //   governingLawState  the U.S. state whose law governs the Terms, e.g. "California"
   //   venueCounty        the county for court cases, e.g. "Fresno County"
   //   refundPolicy       one or two plain sentences on refunds for digital products
@@ -96,7 +97,7 @@ export const site = {
   legal: {
     legalName: "TODO-JR-LEGAL-NAME",
     businessAddress: "TODO-JR-ADDRESS",
-    privacyEmail: "TODO-JR-PRIVACY-EMAIL",
+    privacyEmail: "info@559solutions.com",
     governingLawState: "TODO-JR-STATE",
     venueCounty: "TODO-JR-COUNTY",
     refundPolicy: "TODO-JR-REFUND",

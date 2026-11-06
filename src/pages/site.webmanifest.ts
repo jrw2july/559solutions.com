@@ -8,7 +8,7 @@ export function GET() {
       name: "559 Solutions",
       short_name: "559 Solutions",
       description:
-        "Practical AI, automation, low-code resources, and plain-language systems guidance.",
+        "Practical AI, automation, low-code tools, and plain-language systems guidance.",
       start_url: sitePath("/"),
       display: "standalone",
       background_color: "#ffffff",

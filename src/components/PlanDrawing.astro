@@ -1,7 +1,7 @@
 ---
 import { rooms } from "@/data/rooms";
 
-// The site plan in miniature: the Library and Study above the hall, the Classroom below, the front door in the
+// The site plan in miniature: the Study above the hall, the Classroom below, the front door in the
 // left wall at the end of the hall. Used by the key plan bar (small, one room filled) and the About page's
 // drawing sheet (larger, with room names).
 interface Props {
@@ -17,8 +17,7 @@ const { hereId, labels = false, class: className, label } = Astro.props;
 
 // Room rectangles in a 160 x 82 drawing, matching the homepage plan.
 const cells: Record<string, { x: number; y: number; w: number; h: number }> = {
-  library: { x: 1, y: 1, w: 86, h: 33 },
-  study: { x: 87, y: 1, w: 72, h: 33 },
+  study: { x: 1, y: 1, w: 158, h: 33 },
   classroom: { x: 1, y: 48, w: 158, h: 33 },
 };
 ---

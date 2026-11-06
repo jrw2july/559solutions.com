@@ -1,10 +1,10 @@
 // The site drawn as one floor plan (2026-10-14). The homepage shows the full plan as its navigation;
 // every other page shows a small key plan with its own room filled in. Order = reading order of the plan.
-// Layout: open double doors in the left wall lead into a hall; the Library and Study are above it,
+// Layout: open double doors in the left wall lead into a hall; the Study is above it,
 // the Classroom below. About and Contact are reached from the header, not the plan.
 export type Room = {
   id: string;
-  /** Room name on the plan ("The Library"). */
+  /** Room name on the plan ("The Study"). */
   label: string;
   /** The page or pages behind the door, as the visitor knows them. */
   page: string;
@@ -22,17 +22,6 @@ export type Room = {
 };
 
 export const rooms: Room[] = [
-  {
-    id: "library",
-    label: "The Library",
-    page: "Resources",
-    showPage: true,
-    href: "/resources/",
-    blurb: "Workbooks, starter kits, and templates for clearer decisions.",
-    go: "Browse the shelves",
-    side: "above",
-    paths: ["/resources/"],
-  },
   {
     id: "study",
     label: "The Study",

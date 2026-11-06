@@ -4,7 +4,7 @@ old_path,new_path,status_code,notes
 /559-blog/the-hero-trap-tht2p,/blog/the-hero-trap/,301,Confirmed article migration
 /559-blog/weekend-cto-how-to-choose-ai,/blog/how-to-choose-and-actually-use-ai-tools/,301,Confirmed article migration
 /appointments,/contact/,301,Confirmed closest replacement
-/downloads,/resources/,301,Confirmed listing replacement; individual file paths still require inventory
+/downloads,/,301,No listing replacement; individual file paths still require inventory
 /services-store,/services/,301,Confirmed closest replacement
 /email-move-guide,,TBD,Owner must choose migration removal or closest destination before redirecting
 /heic-converter,,TBD,Owner must choose migration removal or closest destination before redirecting

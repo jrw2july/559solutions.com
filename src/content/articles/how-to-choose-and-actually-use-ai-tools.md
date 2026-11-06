@@ -17,7 +17,7 @@ draft: false
 featured: true
 seoTitle: "How to Choose and Actually Use AI Tools | 559 Solutions"
 seoDescription: "Choose AI tools by starting with a measurable outcome, workflow fit, a small repeatable pilot, and sensible data rules."
-relatedResourceCta:
+secondaryCta:
   label: "Use the free Code559 guide and tool reference"
   href: "/code559/choose-the-right-ai-tool/"
 relatedArticles:
