@@ -12,7 +12,9 @@ export const legalNavigation = [
   { label: "Accessibility", href: "/accessibility/" },
 ] as const;
 
-// Header and footer menus. Services is left out of the header for now (2026-10-14);
-// its page is unchanged and it is listed in the footer drawing index.
-const hiddenFromHeader: string[] = ["/services/"];
-export const headerNavigation = primaryNavigation.filter((item) => !hiddenFromHeader.includes(item.href));
+// Header and footer menus. Services is turned off (2026-11-13): no menu, page, or sitemap entry links to it.
+// Its page still builds at /services/ so the URL works for testing and sharing. Remove it from this list
+// to turn it back on everywhere.
+const unlisted: string[] = ["/services/"];
+export const headerNavigation = primaryNavigation.filter((item) => !unlisted.includes(item.href));
+export const footerNavigation = primaryNavigation.filter((item) => !unlisted.includes(item.href));

@@ -55,6 +55,26 @@ test("the Resources section is gone and nothing links to it", async () => {
   }
 });
 
+test("Services is turned off: the page still builds, but nothing links to it", async () => {
+  await access(path.join(dist, "services", "index.html"));
+  const sitemap = await readFile(path.join(dist, "sitemap.xml"), "utf8");
+  assert.doesNotMatch(sitemap, /\/services\//);
+  const htmlFiles = [];
+  const walk = async (dir) => {
+    for (const entry of await readdir(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) await walk(full);
+      else if (entry.name.endsWith(".html")) htmlFiles.push(full);
+    }
+  };
+  await walk(dist);
+  for (const file of htmlFiles) {
+    if (file.startsWith(path.join(dist, "services"))) continue;
+    const html = await readFile(file, "utf8");
+    assert.doesNotMatch(html, /href="\/services\/"/, path.relative(dist, file));
+  }
+});
+
 test("legal pages carry no review banner and give the general email address", async () => {
   for (const page of ["privacy/index.html", "terms/index.html", "accessibility/index.html"]) {
     const html = await readFile(path.join(dist, page), "utf8");

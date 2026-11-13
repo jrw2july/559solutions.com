@@ -16,7 +16,6 @@ export async function GET() {
   const course = await getCollection("code559");
   const staticPaths = [
     "/",
-    "/services/",
     "/blog/",
     "/subscribe/",
     "/about/",

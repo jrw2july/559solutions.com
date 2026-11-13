@@ -35,7 +35,7 @@ const articles = defineCollection({
       .optional(),
     relatedArticles: z.array(z.string()).default([]),
     // The service the closing "Work with me" band offers (2026-11-05). Slugs from src/data/services.ts;
-    // each must also be an option in the contact form's Inquiry type. Leave it out to link to /services/.
+    // each must also be an option in the contact form's Inquiry type. Leave it out to link to the contact form.
     service: z
       .enum([
         "business-systems-clarity-session",

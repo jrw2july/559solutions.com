@@ -2,7 +2,8 @@
 // "Work with me" (2026-11-05): the closing band of each article. It names the service that fits the
 // article (frontmatter `service`) in one sentence taken from src/data/services.ts and links to the
 // contact form with that Inquiry type chosen (site.js picks it from ?inquiry=). With no service set, it
-// links to /services/. The second button is the article's own `secondaryCta`, or another article.
+// links to the contact form (Services is turned off, 2026-11-13). The second button is the article's own
+// `secondaryCta`, or another article.
 import { sitePath } from "@/config/site";
 import { services } from "@/data/services";
 
@@ -37,7 +38,7 @@ const secondary = secondaryCta ?? { label: "Read Another Article", href: "/blog/
         service ? (
           <a class="button button-light" href={sitePath(`/contact/?inquiry=${service.slug}`)}>Ask about {service.title}</a>
         ) : (
-          <a class="button button-light" href={sitePath("/services/")}>See services</a>
+          <a class="button button-light" href={sitePath("/contact/")}>Contact 559 Solutions</a>
         )
       }
       <a class="button button-outline-light" href={sitePath(secondary.href)}>{secondary.label}</a>
