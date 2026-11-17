@@ -101,13 +101,16 @@ In Module 1 you learned five steps to save your site, in the "Save your work" bo
 
 This module opens the box. You will see where your changes sit at each step, check them before they become history, and try a new page on a branch without risking the working site. Then you will use the GitHub tools that teams use every day: an Issue that names the work, a pull request that proposes it, and a release that marks a finished version.
 
-Employers read your GitHub profile. A history of small, clear commits, merged pull requests and a tagged v1.0 says "this person works the way we do." That is the goal of this module.
+Employers read your GitHub profile. Your profile is the public page on GitHub that shows your work. A history of small, clear commits, merged pull requests and a tagged v1.0 says "this person works the way we do." That is the goal of this module.
 
 ## Before you start
 
 1. Your `my-site` folder from earlier modules is on GitHub, and the live page loads.
-2. In VS Code, open a terminal. Type `git --version` and `gh auth status`. Both should answer without an error (you set them up in Module 0). Then type `git config init.defaultBranch`. It should print `main` (Module 0, step 8). If it prints nothing, run `git config --global init.defaultBranch main` now. Without it, `git init` names the first branch `master`, and `git switch main` in the Exercise fails with "fatal: invalid reference: main".
-3. This module's Exercise uses a practice folder called `practice-12`, inside your `code559` folder. **Not** inside `my-site`.
+2. In VS Code, open a terminal.
+3. Type `git --version`. It should answer without an error (you set it up in Module 0).
+4. Type `gh auth status`. It should also answer without an error (you set it up in Module 0).
+5. Type `git config init.defaultBranch`. It should print `main` (Module 0, step 16). If it prints nothing, run `git config --global init.defaultBranch main` now. Without it, `git init` names the first branch `master`, and `git switch main` in the Exercise fails with "fatal: invalid reference: main".
+6. This module's Exercise uses a practice folder called `practice-12`, inside your `code559` folder. **Not** inside `my-site`.
 
 > **Checkpoint.** `git --version` prints a version, `git config init.defaultBranch` prints `main`, `gh auth status` says you are logged in, and you know where your practice folder will go.
 
@@ -159,7 +162,7 @@ A note on the pictures. Every terminal image in this post comes from a real run 
 
 ### 4. How do you check your work before you commit?
 
-<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> `git diff` shows exactly which lines changed. Reading it before every commit is how you catch a stray edit before it becomes history.
+<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> `git diff` shows exactly which lines changed. That list of changed lines is called a **diff**. Reading it before every commit is how you catch a stray edit before it becomes history.
 
 <img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> `git diff --stat` gives a summary: which files changed and how many lines. `git diff` shows the lines. A line starting with `+` was added; `-` was removed; the lines with no sign are context so you can find your place. Once you stage a file, plain `git diff` stops showing it, because it compares the folder with staging. To see what you are about to commit, use `git diff --staged`. If the output of `git diff` or `git log` is longer than your terminal window, Git shows it one screen at a time, with a `:` at the bottom. Press Space to see more, and press **q** to get back to the prompt.
 
@@ -192,9 +195,9 @@ In the story below, two different changes are waiting: a new tagline in `index.h
 
 ### 6. How does a merge bring the branch back?
 
-<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> When the branch is ready, you stand on `main` and run `git merge` with the branch name.
+<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> A **merge** brings the commits from one branch into another. When the branch is ready, you stand on `main` and run `git merge` with the branch name.
 
-<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> If `main` has not changed since you made the branch, Git does not need a new commit. It simply moves `main` forward to the branch's last commit. The manual calls this a **fast-forward**: "only update the branch pointer to match the merged branch; do not create a merge commit" (*git-merge*). After the merge, the branch has done its job; `git branch -d` deletes the name. Your commits stay. Git refuses to delete a branch whose work is not merged yet. If you run `git branch -d add-about-page` before the merge, Git stops with "error: the branch 'add-about-page' is not fully merged". The next line suggests `git branch -D`. Do not use `-D` unless you want to throw that work away: it deletes the branch "irrespective of its merged status" (*git-branch*).
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> If `main` has not changed since you made the branch, Git does not need a new commit. It simply moves `main` forward to the branch's last commit. The manual calls this a **fast-forward**: "only update the branch pointer to match the merged branch; do not create a merge commit" (*git-merge*). A merge commit is a new commit that joins two lines of commits; you will make one in the Exercise. After the merge, the branch has done its job; `git branch -d` deletes the name. Your commits stay. Git refuses to delete a branch whose work is not merged yet. If you run `git branch -d add-about-page` before the merge, Git stops with "error: the branch 'add-about-page' is not fully merged". The next line suggests `git branch -D`. Do not use `-D` unless you want to throw that work away: it deletes the branch "irrespective of its merged status" (*git-branch*).
 
 <div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
 
@@ -243,7 +246,7 @@ Thumbs.db
 
 <img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> `README.md` is the first thing a visitor sees on your repository page. GitHub shows it below the file list.
 
-<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> The `.md` means Markdown: `#` makes a heading, `##` a smaller one. This course uses four headings for every project: **What it does**, **Built with**, **What I learned**, **Live site**. Keep each to a sentence or two. "What I learned" is the one employers read.
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> The `.md` means Markdown, a simple language for formatting plain text. You type a few symbols: `#` makes a heading, `##` a smaller one. This course uses four headings for every project: **What it does**, **Built with**, **What I learned**, **Live site**. Keep each to a sentence or two. "What I learned" is the one employers read.
 
 <img src="../images/brand/marker-illustrate.svg" alt="Illustrate" width="24" height="24" class="c559-badge"> This is the README committed in the story (the commit appears in Concept 10):
 
@@ -283,13 +286,13 @@ Your release, and the form on GitHub that makes it, may look a little different 
 
 *What a release looks like on GitHub: a title, notes and downloads, all pointing at the tagged commit.*
 
-<img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> Run `git tag` in `my-site`. You probably have none yet. You will practice tagging with `v0.1` in the Exercise (step 8); if you do the packet project, you add `v1.0` there.
+<img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> Run `git tag` in `my-site`. You probably have none yet. You will practice tagging with `v0.1` in the Exercise (step 22); if you do the packet project, you add `v1.0` there.
 
 ### 11. Can VS Code do all of this with buttons?
 
-<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> Yes. The Source Control view in VS Code runs the same Git commands behind its buttons.
+<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> Yes. The Source Control view in VS Code runs the same Git commands behind its buttons. It is built into VS Code, and you open it with **Ctrl+Shift+G**. You look at it now so you can match each button to a command you already know.
 
-<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> In a folder with no repository, the view shows **Initialize Repository** (the same as `git init`). When you have changes, each file has a **+** button, **Stage Changes**, which is `git add`. You type a message in the box and select **Commit**. To put a brand-new repository on GitHub you open the Command Palette (Ctrl+Shift+P) and run **Publish to GitHub**. After that, **Sync Changes** sends and receives commits; VS Code's documentation says it "pulls remote changes before pushing your commits" (*Quickstart: use source control in VS Code*). The terminal is still the main tool in this course, because its messages teach you what happened. Use the buttons once you can say which command each one runs.
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> In a folder with no repository, the view shows **Initialize Repository** (the same as `git init`). When you have changes, each file has a **+** button, **Stage Changes**, which is `git add`. You type a message in the box and select **Commit**. To put a brand-new repository on GitHub you open the Command Palette (Ctrl+Shift+P), a box where you type the name of a VS Code command to run it, and run **Publish to GitHub**. After that, **Sync Changes** sends and receives commits; VS Code's documentation says it "pulls remote changes before pushing your commits" (*Quickstart: use source control in VS Code*). The terminal is still the main tool in this course, because its messages teach you what happened. Use the buttons once you can say which command each one runs.
 
 <div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
 
@@ -323,7 +326,7 @@ git pull
 git log --oneline
 ```
 
-`git switch main` may say your branch is "up to date"; it has not asked GitHub yet, so pull anyway. `git pull` downloads the new commits and moves your `main` forward; look for `Fast-forward`. `git log --oneline` should now show GitHub's merge commit ("Merge pull request #2 …") at the top, marked `(HEAD -> main, origin/main)`; Git 2.48 and later may also add `origin/HEAD` there. Only now tag the version (Concept 10). A tag made before `git pull` lands on an older commit, without the new page.
+`git switch main` may say your branch is "up to date"; it has not asked GitHub yet, so pull anyway. `git pull` downloads the new commits and moves your `main` forward; look for `Fast-forward`. `git log --oneline` should now show GitHub's merge commit ("Merge pull request #2 …") at the top, marked `(HEAD -> main, origin/main)`; Git 2.48 and later may also add `origin/HEAD` there. `origin/main` is Git's bookmark for where `main` was on GitHub the last time you connected. Only now tag the version (Concept 10). A tag made before `git pull` lands on an older commit, without the new page.
 
 <div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
 
@@ -339,7 +342,7 @@ git log --oneline
 
 ### 13. What is GitHub Desktop?
 
-<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> GitHub Desktop is "a free, open source application that helps you to work with files hosted on GitHub or other Git hosting services" (*About GitHub Desktop*). It runs on Windows and macOS.
+<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> GitHub Desktop is "a free, open source application that helps you to work with files hosted on GitHub or other Git hosting services" (*About GitHub Desktop*). Open source means the software can be freely used, changed and shared by anyone. It runs on Windows and macOS.
 
 <img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> It shows the same ideas you now know: a Changes list (status and diff), a History list (log), a commit box, and buttons to talk to GitHub. In this course it is **awareness only**. You do not need to install it. If a future job uses it, you will recognize every part.
 
@@ -371,8 +374,12 @@ Which folders trigger this message depends on your drives and accounts, so you m
 
 *Your hands, about 45 minutes (estimate).* Type every command. Do not paste. This is a throwaway folder: you will not push it.
 
-1. **Make the practice folder.** In File Explorer, create `practice-12` inside your `code559` folder (beside `my-site`, not inside it). Open it in VS Code with **File → Open Folder…**, then **Terminal → New Terminal**. Check that the prompt ends in `practice-12>`.
-2. **Start a repository.** Type `git init`. Create a file `notes.txt` with one line, `Favorite color: blue`. Press **Enter** at the end of the line, so the cursor sits on an empty line 2. Save it. Then:
+1. **Make the practice folder.** In File Explorer, create `practice-12` inside your `code559` folder (beside `my-site`, not inside it).
+2. Open it in VS Code with **File → Open Folder…**.
+3. Open a terminal with **Terminal → New Terminal**. Check that the prompt ends in `practice-12>`.
+4. **Start a repository.** Type `git init`.
+5. Create a file `notes.txt` with one line, `Favorite color: blue`. Press **Enter** at the end of the line, so the cursor sits on an empty line 2. Save it.
+6. Then:
 
    ```
    git status --short
@@ -381,7 +388,9 @@ Which folders trigger this message depends on your drives and accounts, so you m
    ```
 
    *Predict* before you press Enter on the first line: what two characters will start the line? (`??`.)
-3. **Make a branch.** `git switch -c add-hobby`. Add a second line to `notes.txt`, for example `Hobby: drawing`, and press **Enter** at the end of it too. Save. Then check before you commit:
+7. **Make a branch.** `git switch -c add-hobby`.
+8. Add a second line to `notes.txt`, for example `Hobby: drawing`, and press **Enter** at the end of it too. Save.
+9. Then check before you commit:
 
    ```
    git diff
@@ -391,41 +400,53 @@ Which folders trigger this message depends on your drives and accounts, so you m
    ```
 
    Both diffs should show one `+` line. If you also see a `-` line with your color, or the note `\ No newline at end of file`, a line in the file did not end with Enter. Git counts the line ending as part of the line, so that line shows as changed. It is not an error: carry on, and end each line with Enter from now on.
-4. **Prove the branch is separate.** `git switch main`. Look at `notes.txt` in VS Code (or type `cat notes.txt`). The hobby line is gone.
-5. **Merge it.** Still on `main`: `git merge add-hobby`. Look for the word `Fast-forward`. Then `git branch -d add-hobby` and `git log --oneline`. You should see two commits.
-6. **Break it on purpose: a merge conflict.** You will change the same line two different ways on two branches.
+10. **Prove the branch is separate.** `git switch main`. Look at `notes.txt` in VS Code (or type `cat notes.txt`, which prints the file in the terminal). The hobby line is gone.
+11. **Merge it.** Still on `main`: `git merge add-hobby`. Look for the word `Fast-forward`.
+12. Then `git branch -d add-hobby` and `git log --oneline`. You should see two commits.
+13. **Break it on purpose: a merge conflict.** A merge conflict means Git cannot finish a merge by itself and needs you to choose between two changes. You will change the same line two different ways on two branches.
 
-   ```
-   git switch -c change-color
-   ```
+    ```
+    git switch -c change-color
+    ```
 
-   Change `blue` to `green` in `notes.txt`, save, then `git add notes.txt` and `git commit -m "Change color to green"`. Now `git switch main`, change `blue` to `orange`, save, `git add notes.txt`, `git commit -m "Change color to orange"`. Finally:
+14. Change `blue` to `green` in `notes.txt`, and save.
+15. Then `git add notes.txt` and `git commit -m "Change color to green"`.
+16. Now `git switch main`.
+17. Change `blue` to `orange`, and save.
+18. Then `git add notes.txt` and `git commit -m "Change color to orange"`.
+19. Finally:
 
-   ```
-   git merge change-color
-   ```
+    ```
+    git merge change-color
+    ```
 
-   Read the whole message.
+    Read the whole message.
 
-   <img src="../images/m12-conflict.png" alt="A terminal: git merge change-color prints CONFLICT (content): Merge conflict in notes.txt; git status --short shows UU notes.txt; the file contains HEAD and change-color sections separated by equals signs, with the hobby line untouched below." loading="lazy">
-   
-   *Git merged what it could (the hobby line) and stopped at the line both branches changed. `UU` means "both changed it." Between `<<<<<<< HEAD` and `=======` is your side (`main`); below it, the branch. (real output, rendered; captured on Linux with Git 2.43.0. On Windows, `cat` in PowerShell shows the same file lines.)*
+    <img src="../images/m12-conflict.png" alt="A terminal: git merge change-color prints CONFLICT (content): Merge conflict in notes.txt; git status --short shows UU notes.txt; the file contains HEAD and change-color sections separated by equals signs, with the hobby line untouched below." loading="lazy">
+    
+    *Git merged what it could (the hobby line) and stopped at the line both branches changed. `UU` means "both changed it." Between `<<<<<<< HEAD` and `=======` is your side (`main`); below it, the branch. (real output, rendered; captured on Linux with Git 2.43.0. On Windows, `cat` in PowerShell shows the same file lines.)*
 
-7. **Fix it.** Open `notes.txt` in VS Code. Delete the three marker lines (`<<<<<<<`, `=======`, `>>>>>>>`) and the color you do not want, so one `Favorite color` line is left. VS Code can do this for you with the links it shows above the conflict: **Accept Current Change** keeps your side on `main` (the line `Favorite color: orange`) and **Accept Incoming Change** keeps the branch's side (the line `Favorite color: green`) (*Resolve merge conflicts in VS Code*). Save. Then:
+20. **Fix it.** Open `notes.txt` in VS Code. Delete the three marker lines (`<<<<<<<`, `=======`, `>>>>>>>`) and the color you do not want, so one `Favorite color` line is left. VS Code can do this for you with the links it shows above the conflict: **Accept Current Change** keeps your side on `main` (the line `Favorite color: orange`) and **Accept Incoming Change** keeps the branch's side (the line `Favorite color: green`) (*Resolve merge conflicts in VS Code*). Save.
+21. Then:
 
-   ```
-   git add notes.txt
-   git commit -m "Merge change-color, keep green"
-   git log --oneline --graph
-   git branch -d change-color
-   ```
+    ```
+    git add notes.txt
+    git commit -m "Merge change-color, keep green"
+    git log --oneline --graph
+    git branch -d change-color
+    ```
 
-   <img src="../images/m12-conflict-fixed.png" alt="A terminal: the merge commit is made, and git log --oneline --graph draws two lines splitting after Add hobby line and joining again at the merge commit, then the branch is deleted." loading="lazy">
-   
-   *This time the log shows a real merge commit with two parents: the graph splits and joins. Compare it with the straight line after the fast-forward in step 5. (real output, rendered; captured on Linux with Git 2.43.0)*
+    <img src="../images/m12-conflict-fixed.png" alt="A terminal: the merge commit is made, and git log --oneline --graph draws two lines splitting after Add hobby line and joining again at the merge commit, then the branch is deleted." loading="lazy">
+    
+    *This time the log shows a real merge commit with two parents: the graph splits and joins. Compare it with the straight line after the fast-forward in step 11. (real output, rendered; captured on Linux with Git 2.43.0)*
 
-8. **Tag it.** `git tag v0.1`, then `git log --oneline -1`. The newest commit should show `tag: v0.1`.
-9. **Modify.** Make one more branch of your own, change one line, save, and commit it on the branch (`git add notes.txt`, then `git commit -m "…"`). Then `git switch main` and merge your branch. Before you merge, think this through: will it be a fast-forward, and why? If you also committed something on `main`, the merge makes a merge commit, and Git opens an editor in the terminal for its message. Git for Windows uses Vim unless you chose another editor. To keep Git's message, press **Esc**, type `:wq` and press **Enter**.
+22. **Tag it.** `git tag v0.1`, then `git log --oneline -1`. The newest commit should show `tag: v0.1`.
+23. **Modify.** Make one more branch of your own.
+24. Change one line, and save.
+25. Commit it on the branch (`git add notes.txt`, then `git commit -m "…"`).
+26. Then `git switch main`.
+27. Before you merge, think this through: will it be a fast-forward, and why?
+28. Merge your branch. If you also committed something on `main`, the merge makes a merge commit, and Git opens an editor in the terminal for its message. Git for Windows uses Vim unless you chose another editor. Vim is a text editor that runs in the terminal; you need it here only to accept the message. To keep Git's message, press **Esc**, type `:wq` and press **Enter**.
 
 ## Project (in the full packet)
 
@@ -450,10 +471,12 @@ Git keeps your work in four places, and `git add`, `git commit` and `git push` m
     M index.html
    ```
 
-2. In the Exercise, why did step 5 say `Fast-forward` while step 6 stopped with a conflict?
+2. In the Exercise, why did step 11 say `Fast-forward` while step 19 stopped with a conflict?
 3. **What would you test** to prove that your `.gitignore` is working?
 
 ## Before next module
+
+**You should now be able to do these on your own:**
 
 This module is the full workflow, so instead of the short routine, check off the whole thing:
 
@@ -472,6 +495,14 @@ If you did this module's packet project in `my-site`:
 - [ ] I have opened an Issue, a pull request with `Closes #n`, and left a line comment on my own PR
 - [ ] After the pull request was merged, I ran `git pull` on `main` before tagging
 - [ ] `my-site` has a `v1.0` tag and a GitHub release
+
+**You have only been introduced to these so far:**
+
+- Issues, pull requests with `Closes #n`, line comments and `git push -u origin` (Concept 12). You read about them here. This module's packet project does them for real on `my-site`.
+- A GitHub release, and sending a tag with `git push origin v1.0` (Concept 10). In the Exercise you only made a tag on your own computer.
+- A `.gitignore` and a `README.md` (Concepts 8 and 9). You saw a sample of each. Module 13 checks that each repository has a README.
+- `git restore` and `git restore --staged` (Concept 7). You saw them in a picture, and the Exercise did not use them.
+- The VS Code Source Control view, GitHub Desktop and the "dubious ownership" message (Concepts 11, 13 and 14). These are for recognizing later.
 
 ## Go further
 
@@ -492,4 +523,4 @@ Keep your `practice-12` folder until you finish the Project; its `git log --onel
 
 *Code559 is a 559 Solutions project. Portions adapted from Visual Studio Code documentation (CC BY 3.0 US), GitHub Docs (CC BY 4.0), and GitHub Skills (MIT). Screenshots used with permission from Microsoft.*
 
-*Sources checked 2026-10-09: git-scm.com "git-switch", "git-merge", "gitignore", "git-restore", "git-checkout"; GitHub Docs "Pull requests" (the page at the about-pull-requests address), "Linking a pull request to an issue", "Commenting on a pull request", "About issues", "About releases", "About GitHub Desktop"; VS Code Docs "Quickstart: use source control in VS Code" and "Source control in VS Code"; GitHub repositories skills/communicate-using-markdown, skills/review-pull-requests, skills/resolve-merge-conflicts, skills/release-based-workflow. Checked 2026-10-11: git-scm.com "git-restore" (default source), "git-push" (`--set-upstream`), "git-log" (`--decorate`, default `auto`); Git documentation `core.pager` (Git sets `LESS` to `FRX`); Git source code, setup.c and compat/mingw.c (the dubious-ownership message, and the owner lines Git for Windows adds); GitHub Docs "Managing releases in a repository" and "Configuring commit merging for pull requests"; Git 2.48.0 release notes (`git fetch` creates a missing `origin/HEAD`); git-scm.com "gitignore" (NOTES: `git rm --cached`), "git-rm" (`-r`, `--cached`), "git-branch" (`-D`, `--force`); Git source code, builtin/branch.c (the not-fully-merged message); GitHub Docs "About GitHub Desktop" (full sentence), "Commenting on a pull request" and "Reviewing proposed changes in a pull request" (Submit review, pending comments), "REST API endpoints for pull requests" ("Pull requests are a type of issue"); VS Code Docs "Resolve merge conflicts in VS Code" (Accept Current Change, Accept Incoming Change; current and incoming in a merge); Git for Windows installer source (git-for-windows/build-extra on GitHub, `installer/install.iss`: Vim is the default editor).*
+*Sources checked 2026-10-09: git-scm.com "git-switch", "git-merge", "gitignore", "git-restore", "git-checkout"; GitHub Docs "Pull requests" (the page at the about-pull-requests address), "Linking a pull request to an issue", "Commenting on a pull request", "About issues", "About releases", "About GitHub Desktop"; VS Code Docs "Quickstart: use source control in VS Code" and "Source control in VS Code"; GitHub repositories skills/communicate-using-markdown, skills/review-pull-requests, skills/resolve-merge-conflicts, skills/release-based-workflow. Checked 2026-10-11: git-scm.com "git-restore" (default source), "git-push" (`--set-upstream`), "git-log" (`--decorate`, default `auto`); Git documentation `core.pager` (Git sets `LESS` to `FRX`); Git source code, setup.c and compat/mingw.c (the dubious-ownership message, and the owner lines Git for Windows adds); GitHub Docs "Managing releases in a repository" and "Configuring commit merging for pull requests"; Git 2.48.0 release notes (`git fetch` creates a missing `origin/HEAD`); git-scm.com "gitignore" (NOTES: `git rm --cached`), "git-rm" (`-r`, `--cached`), "git-branch" (`-D`, `--force`); Git source code, builtin/branch.c (the not-fully-merged message); GitHub Docs "About GitHub Desktop" (full sentence), "Commenting on a pull request" and "Reviewing proposed changes in a pull request" (Submit review, pending comments), "REST API endpoints for pull requests" ("Pull requests are a type of issue"); VS Code Docs "Resolve merge conflicts in VS Code" (Accept Current Change, Accept Incoming Change; current and incoming in a merge); Git for Windows installer source (git-for-windows/build-extra on GitHub, `installer/install.iss`: Vim is the default editor). Checked 2026-11-17: GitHub Docs "About your profile", "GitHub glossary" (diff, open source), "About writing and formatting on GitHub" (Markdown), "Merge conflicts"; git-scm.com "git-merge" (description; merge commit) and Pro Git "Basic Branching and Merging" (merge commit) and "Remote Branches" (`origin/main`); VS Code Docs "Source control in VS Code" (built in), "Quickstart: use source control in VS Code" (Ctrl+Shift+G) and "User interface" (Command Palette).*

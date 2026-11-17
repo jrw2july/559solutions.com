@@ -92,16 +92,18 @@ Every core concept moves through the same four steps, called IEIA. Each step is 
 
 Every page you have built so far has broken at least once. Up to now you fixed things by looking hard and trying edits until something worked. That works on small pages. It stops working the day a page has forty lines of JavaScript and the button does nothing.
 
-Debugging is a method, not a talent. You say what you expected, you look at what happened, and you find the first place where the two split. The Console tells you more than most beginners read. A short `console.log()` line tells you the rest.
+Debugging (finding out why code does the wrong thing, and then fixing it) is a method, not a talent. You say what you expected, you look at what happened, and you find the first place where the two split. The Console tells you more than most beginners read. A short `console.log()` line tells you the rest.
 
-Testing is the other half. A test is a written promise: "when I do this, I expect that." If you write the promise down, you can check it again tomorrow, after every change. From this module on, every interactive feature you build gets a small written test plan in one shared format.
+Testing is the other half. A test is a written promise: "when I do this, I expect that." If you write the promise down, you can check it again tomorrow, after every change. From this module on, every interactive feature you build (any part of a page that responds to a click, a key press or typed text) gets a small written test plan in one shared format.
 
 ## Before you start
 
 1. Finish Module 10. You should be able to make a page respond to a click or a form submit with `addEventListener()`.
-2. In your course folder (for example `Documents\code559`), create a throwaway folder called `practice-11`. Nothing in it is published. Open it in VS Code with **File → Open Folder…**.
-3. Open Edge or Chrome. You will press **F12** often in this module. Click the **Console** tab once so it opens there next time.
-4. Have paper or a blank text file ready. You will write predictions before you run things.
+2. In your course folder (for example `Documents\code559`), create a throwaway folder called `practice-11`. Nothing in it is published.
+3. Open it in VS Code with **File → Open Folder…**.
+4. Open Edge or Chrome. You will press **F12** often in this module.
+5. Click the **Console** tab once so it opens there next time.
+6. Have paper or a blank text file ready. You will write predictions before you run things.
 
 > **Checkpoint.** You have an empty `practice-11` folder open in VS Code, and you can open the Console with F12.
 
@@ -138,7 +140,7 @@ function showMessage() {
 
 The function is written below line 2, which uses it. That is allowed: MDN's *function* page says "You can use the function before you declared it." It is placed there only so the error stays on line 2; in your own scripts, keep Module 9's order (find, define, connect).
 
-Read the red line from left to right. **The type** comes first (`TypeError`): what kind of problem. **The message** comes next: what JavaScript tried to do. **The location** is on the right (`script.js:2`): the file and the line number. Click that link in DevTools and it opens the file at that line. The `at script.js:2:15` line underneath adds the column: character 15 on line 2.
+Read the red line from left to right. **The type** comes first (`TypeError`): what kind of problem. **The message** comes next: what JavaScript tried to do. **The location** is on the right (`script.js:2`): the file and the line number. Click that link in DevTools and it opens the file at that line. The `at script.js:2:15` line underneath adds the column: character 15 on line 2. The `at …` lines under a red message are called the **stack**: a list of the function calls that led to the error, with the newest call at the top.
 
 <div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
 
@@ -218,7 +220,7 @@ then loading the page and clicking Next three times gives this:
 
 ### 8. What is the browser debugger?
 
-<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> DevTools has a **Sources** panel that can pause your code on a line, so you can look at every variable at that moment. You do not need it yet; `console.log()` is enough for this course. You should know it exists.
+<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> DevTools has a **Sources** panel that can pause your code on a line, so you can look at every variable at that moment. This is the browser's **debugger**: a tool that pauses running code so you can inspect it. You do not need it yet; `console.log()` is enough for this course. You should know it exists.
 
 <img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> Chrome's documentation (*Pause your code with breakpoints*) says to open the Sources panel, open the file, and click the line number to set a **line-of-code breakpoint**. The next time that line runs, the page freezes and the side panel shows the current values. Writing `debugger;` in your code does the same thing from inside the file, but only while DevTools is open. With DevTools closed, the line does nothing; MDN's *debugger* page says that without debugging tools "this statement has no effect."
 
@@ -248,7 +250,7 @@ then loading the page and clicking Next three times gives this:
 
 <img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> This is the testing format for the rest of the course. Every interactive feature gets one.
 
-<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> It is a table with three columns. **Action** is one thing a visitor does, written so someone else could repeat it. **Expected** is what should happen, written *before* you test. **Actual** is what did happen, written *after*. A row passes when the last two match. Here is a ready-to-use table for the tip card you will build:
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> It is a table with three columns. **Action** is one thing a visitor does, written so someone else could repeat it. **Expected** is what should happen, written *before* you test. **Actual** is what did happen, written *after*. A row passes when the last two match. In the table, "wraps" means going past one end of the list and landing on the other end. Here is a ready-to-use table for the tip card you will build:
 
 | Action | Expected | Actual |
 | --- | --- | --- |
@@ -279,8 +281,9 @@ then loading the page and clicking Next three times gives this:
 
 *Your hands, about 60 minutes (estimate).* Type it, do not paste it. This page has **six planted bugs**. Some print a red line. Some do not. Your job is to find all six with the Console, `console.log()`, the keyboard, and the test table.
 
-1. **Make the files.** In `practice-11`, create a folder called `bug-hunt` with three files: `index.html`, `styles.css`, `script.js`.
-2. **Type `index.html`.**
+1. **Make the files.** In `practice-11`, create a folder called `bug-hunt`.
+2. In `bug-hunt`, create three files: `index.html`, `styles.css`, `script.js`.
+3. **Type `index.html`.**
 
    ```html
    <!DOCTYPE html>
@@ -320,7 +323,7 @@ then loading the page and clicking Next three times gives this:
    </html>
    ```
 
-3. **Type `styles.css`.**
+4. **Type `styles.css`.**
 
    ```css
    body { font-family: system-ui, sans-serif; margin: 0; background: #f4f6f8; color: #1d2733; }
@@ -336,7 +339,7 @@ then loading the page and clicking Next three times gives this:
    .help.is-visible { display: block; }
    ```
 
-4. **Type `script.js`.** Type it exactly as shown, bugs included. Line numbers matter, so do not add blank lines.
+5. **Type `script.js`.** Type it exactly as shown, bugs included. Line numbers matter, so do not add blank lines.
 
    ```js
    const tips = [
@@ -393,29 +396,37 @@ then loading the page and clicking Next three times gives this:
    showTip();
    ```
 
-5. **Predict, then run.** Write your prediction: what will the tip card show? Open `index.html` in Edge or Chrome (double-click it in File Explorer, or drag it onto a browser window). After each save, press **F5** to reload. Press **F12** (or **Ctrl+Shift+J**) to open DevTools, then click the **Console** tab. The tip card has buttons but no tip and no count, and the Console shows this:
+6. **Predict, then run.** Write your prediction: what will the tip card show?
+7. Open `index.html` in Edge or Chrome (double-click it in File Explorer, or drag it onto a browser window). After each save, press **F5** to reload. Press **F12** (or **Ctrl+Shift+J**) to open DevTools, then click the **Console** tab. The tip card has buttons but no tip and no count, and the Console shows this:
 
    <img src="../images/m11-bughunt-console.png" alt="A Console showing Uncaught TypeError: Cannot set properties of null (setting 'textContent') at showTip (script.js:19:23) and at script.js:52:1." loading="lazy">
    
    *Read the stack from the top: the error happened inside `showTip` on line 19, and `showTip` was called from line 52. The real cause is on neither line. (real output, rendered; captured in Chromium loading the file. The Console frame is drawn.)*
 
-   Use concepts 4 and 5 to find **bug 1**. Fix only that. Save. Press F5.
+8. Use concepts 4 and 5 to find **bug 1**. Fix only that.
+9. Save. Press F5.
 
-6. **Run the test table.** Now the page loads with no red line. Go through the Action / Expected / Actual table from concept 10, one row at a time, and fill in Actual. At first, every row fails; the count bug alone breaks the first four. Here are two of them:
+10. **Run the test table.** Now the page loads with no red line. Go through the Action / Expected / Actual table from concept 10, one row at a time, and fill in Actual. At first, every row fails; the count bug alone breaks the first four. Here are two of them:
 
-   <img src="../images/m11-bughunt-count-390.png" alt="The tip card at 390 px reading &quot;Save before you refresh.&quot; and &quot;Tip 0 of 3&quot;." loading="lazy">
-   
-   *Row 1: Expected "Tip 1 of 3", Actual "Tip 0 of 3". No red line, so this is a logic error. (real: rendered in Chromium at 390 px)*
+    <img src="../images/m11-bughunt-count-390.png" alt="The tip card at 390 px reading &quot;Save before you refresh.&quot; and &quot;Tip 0 of 3&quot;." loading="lazy">
+    
+    *Row 1: Expected "Tip 1 of 3", Actual "Tip 0 of 3". No red line, so this is a logic error. (real: rendered in Chromium at 390 px)*
 
-   <img src="../images/m11-bughunt-undefined-390.png" alt="The tip card at 390 px with no tip text and the count &quot;Tip 3 of 3&quot;." loading="lazy">
-   
-   *After three clicks on Next the tip disappears. Concept 6 shows the `console.log()` line that explains why. (real: rendered in Chromium at 390 px, after three real clicks on Next)*
+    <img src="../images/m11-bughunt-undefined-390.png" alt="The tip card at 390 px with no tip text and the count &quot;Tip 3 of 3&quot;." loading="lazy">
+    
+    *After three clicks on Next the tip disappears. Concept 6 shows the `console.log()` line that explains why. (real: rendered in Chromium at 390 px, after three real clicks on Next)*
 
-7. **Fix one bug at a time.** For each row that failed: write down which line you think is wrong, change one thing, save, and run the **same row** again. Write the new Actual. Do not move on until the row passes.
-8. **Break it on purpose.** Once Next wraps correctly, change `>=` (or whatever you used) back to `>`. Predict what row 4 will show now. Run row 4. Then fix it again and rerun row 4. Breaking a fixed bug and watching the test catch it is how you learn to trust the test.
-9. **Check the help button.** Click "Show help" with the mouse. Does the help paragraph appear? If not, compare the class name in `script.js` with the class names in `styles.css`. Fix it, save, press F5, and click again. Do this step before step 10: until the class name is fixed, the help text cannot appear, by mouse or by keyboard.
-10. **Test the keyboard.** Put the mouse away. Press Tab from the top of the page. With the HTML as you typed it, focus goes Previous → Next → the text box → Add tip, and then leaves the page; "Show help" is never reached (checked in Chromium with real Tab presses). Fix it so Tab reaches "Show help" and Enter opens the help text. Hint: concept 9.
-11. **Finish the table.** Every row's Actual now matches Expected. Add one more row of your own: one edge case the table does not cover yet.
+11. **Fix one bug at a time.** For each row that failed: write down which line you think is wrong, change one thing, save, and run the **same row** again. Write the new Actual. Do not move on until the row passes.
+12. **Break it on purpose.** Once Next wraps correctly, change `>=` (or whatever you used) back to `>`.
+13. Predict what row 4 will show now.
+14. Run row 4.
+15. Fix it again and rerun row 4. Breaking a fixed bug and watching the test catch it is how you learn to trust the test.
+16. **Check the help button.** Click "Show help" with the mouse. Does the help paragraph appear?
+17. If not, compare the class name in `script.js` with the class names in `styles.css`. Fix it.
+18. Save, press F5, and click again. Finish steps 16 to 18 before step 19: until the class name is fixed, the help text cannot appear, by mouse or by keyboard.
+19. **Test the keyboard.** Put the mouse away. Press Tab from the top of the page. With the HTML as you typed it, focus goes Previous → Next → the text box → Add tip, and then leaves the page; "Show help" is never reached (checked in Chromium with real Tab presses).
+20. Fix it so Tab reaches "Show help" and Enter opens the help text. Hint: concept 9.
+21. **Finish the table.** Every row's Actual now matches Expected. Add one more row of your own: one edge case the table does not cover yet.
 
 <details>
 <summary>Check your hunt: the six bugs (open only after you have tried)</summary>
@@ -454,11 +465,21 @@ A bug is a gap between what you expected and what actually happened, so you writ
 
 ## Before next module
 
+**You should now be able to do these on your own:**
+
 - [ ] You can name the three parts of a Console error and click through to the line
 - [ ] You found all six bugs in `bug-hunt`, one change at a time, and broke one fix on purpose and caught it again
 - [ ] Every row of your bug-hunt test table has an Actual that matches Expected
 - [ ] You tabbed through a page you built (your `practice-10` page, or your own site) with the mouse put away, and wrote down what you could not reach
 - [ ] If you did this module's packet project in my-site, saved it with the routine: git status → git add . → git commit -m "…" → git push → check the live page. (Your practice folder is not saved to GitHub.)
+
+**You have only been introduced to these so far:**
+
+- `SyntaxError` and `ReferenceError`. You saw both in a picture, but the only planted red line in the Exercise was a `TypeError`.
+- The browser debugger: the Sources panel, breakpoints and the `debugger;` line. You read about them and did not use them.
+- Counting matches with `document.querySelectorAll(...).length`. Concept 5 names it; the Exercise does not need it.
+- Moving backward with **Shift+Tab**. The Exercise only asks you to press Tab.
+- One change in each Git commit. Module 12 uses it for real.
 
 ## Go further
 
@@ -479,4 +500,4 @@ Keep your filled-in bug-hunt test table and the empty Action / Expected / Actual
 
 *Code559 is a 559 Solutions project. Portions adapted from Visual Studio Code documentation (CC BY 3.0 US), GitHub Docs (CC BY 4.0), and GitHub Skills (MIT). Screenshots used with permission from Microsoft.*
 
-*Sources checked 2026-10-09: MDN "What went wrong? Troubleshooting JavaScript"; MDN "TypeError: "x" is (not) "y""; MDN "Document: querySelector() method"; MDN "console: log() static method"; MDN "HTML: A good basis for accessibility"; MDN ":focus-visible"; Chrome for Developers "Pause your code with breakpoints". Checked 2026-10-11: Chrome for Developers "Open Chrome DevTools" (F12 and Ctrl+Shift+J); MDN "debugger"; MDN "function" (Hoisting).*
+*Sources checked 2026-10-09: MDN "What went wrong? Troubleshooting JavaScript"; MDN "TypeError: "x" is (not) "y""; MDN "Document: querySelector() method"; MDN "console: log() static method"; MDN "HTML: A good basis for accessibility"; MDN ":focus-visible"; Chrome for Developers "Pause your code with breakpoints". Checked 2026-10-11: Chrome for Developers "Open Chrome DevTools" (F12 and Ctrl+Shift+J); MDN "debugger"; MDN "function" (Hoisting). Checked 2026-11-17: MDN "Error.prototype.stack"; Chrome for Developers "Console features reference" (View stack traces); Chrome for Developers "Debug JavaScript".*

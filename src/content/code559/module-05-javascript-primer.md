@@ -89,7 +89,7 @@ Up to now your pages have stood still. HTML put things on the page and CSS made 
 
 That is what Modules 5 to 8 are for. You will write JavaScript and see the results as plain text, in the terminal and in the browser's Console. Nothing on your site changes yet. You will connect JavaScript to your pages in Module 9.
 
-This module is short on new syntax and long on habits. You will run a script, change it, break it on purpose, and read what the computer tells you. Every later module depends on that loop.
+This module is short on new syntax (the rules for how code must be written) and long on habits. You will run a script (a file of JavaScript code), change it, break it on purpose, and read what the computer tells you. Every later module depends on that loop.
 
 <img src="../images/m05-layers.png" alt="Three boxes side by side: HTML equals structure, CSS equals appearance, JavaScript equals behavior." loading="lazy">
 
@@ -99,7 +99,8 @@ This module is short on new syntax and long on habits. You will run a script, ch
 
 1. Finish Module 0. Node must be installed: in a terminal, `node --version` should print a version starting with `v`.
 2. In your course folder (for example `Documents\code559`), create a new folder called `practice-05`. This is a scratch folder for practice files. It sits next to `my-site`, not inside it.
-3. Open `practice-05` in VS Code with **File → Open Folder…**, then open a terminal with **Terminal → New Terminal**.
+3. Open `practice-05` in VS Code with **File → Open Folder…**.
+4. Open a terminal with **Terminal → New Terminal**.
 
 > **Checkpoint.** Your terminal prompt ends in `practice-05>` and `node --version` prints a version.
 
@@ -111,7 +112,7 @@ This module is short on new syntax and long on habits. You will run a script, ch
 
 <img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> The computer runs the instructions **in order, from top to bottom**, one at a time. It does not skip ahead or guess what you meant. If line 2 has a mistake, the computer stops at line 2. Later modules add ways to repeat lines or choose between them, but the starting rule is always the same: top to bottom.
 
-<img src="../images/brand/marker-illustrate.svg" alt="Illustrate" width="24" height="24" class="c559-badge"> In the next concept you will run a three-line script. The three lines of output come out in the same order as the three lines of code.
+<img src="../images/brand/marker-illustrate.svg" alt="Illustrate" width="24" height="24" class="c559-badge"> In the next concept you will run a three-line script. The three lines of output come out in the same order as the three lines of code. Output is what a program prints.
 
 <img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> Write three things you did this morning as three numbered steps. Swap two of them. Did the meaning change? Order matters to a program in the same way.
 
@@ -148,7 +149,7 @@ console.log(2 + 3); // a number, not text
 
 ### 4. How do you see a value?
 
-<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> `console.log()` prints whatever you put between the parentheses.
+<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> `console.log()` prints whatever you put between the parentheses. A **value** is a piece of data, such as a number or some text.
 
 <img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> Text goes inside quotes: `"Hello, world!"`. A sum like `2 + 3` has no quotes, so JavaScript works it out first and prints the result, `5`. In Node, `console.log()` prints to the terminal. In the browser, it prints to the Console. It is the main way you will check your work in Modules 5 to 8: when you are unsure what a value is, log it.
 
@@ -172,9 +173,9 @@ console.log(2 + 3); // a number, not text
 
 ### 6. How do you open the Console and try an expression?
 
-<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> Every Edge and Chrome window has built-in developer tools, called **DevTools**. The **Console** is one of its panels.
+<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> Every Edge and Chrome window has built-in developer tools, called **DevTools**. The **Console** is one of its panels. It shows messages, including what `console.log()` prints, and it runs JavaScript that you type into it.
 
-<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> Open `index.html` from your `my-site` folder (or any other page) in Edge or Chrome (double-click it in File Explorer, or drag it onto a browser window). Press **F12** (or **Ctrl+Shift+J**) to open DevTools, then click the **Console** tab. (Both shortcuts are listed in Chrome's *Open Chrome DevTools* page and Microsoft's *Keyboard shortcuts* page for Edge DevTools.) Click next to the `>` sign at the bottom, type an expression, and press Enter. The Console shows the result on the next line.
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> Open `index.html` from your `my-site` folder (or any other page) in Edge or Chrome (double-click it in File Explorer, or drag it onto a browser window). Press **F12** (or **Ctrl+Shift+J**) to open DevTools, then click the **Console** tab. (Both shortcuts are listed in Chrome's *Open Chrome DevTools* page and Microsoft's *Keyboard shortcuts* page for Edge DevTools.) Click next to the `>` sign at the bottom, type an expression, and press Enter. An **expression** is a piece of code that JavaScript works out to a value, such as `2 + 3`. The Console shows the result on the next line.
 
 <div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
 
@@ -186,7 +187,7 @@ console.log(2 + 3); // a number, not text
 
 *Each expression gets an answer line. `console.log()` prints its text, then shows `undefined`: that is the Console reporting that `console.log()` itself hands back no value. It is not an error. Your Console may show text in single quotes instead of double; both mean text. (real output, rendered; evaluated in Chromium)*
 
-**Predict first.** Write your prediction down before you type. In Edge and Chrome, the Console shows a gray preview of the result under the line you are typing, before you press Enter. This feature is called **Eager evaluation**, and it is on by default. If you want to predict first, turn it off: click the **Console settings** gear in the top-right corner of the Console and clear the **Eager evaluation** checkbox. (Chrome's and Microsoft's *Console features reference* pages both describe this setting.) One more thing: if you paste code into the Console, Edge or Chrome may block it and ask you to type `allow pasting` first. This warning protects people from pasting harmful code they do not understand. Typing the code yourself avoids it.
+**Predict first.** Write your prediction down before you type. In Edge and Chrome, the Console shows a gray preview of the result under the line you are typing, before you press Enter. This feature is called **Eager evaluation**, and it is on by default. (To evaluate an expression is to work out its value.) If you want to predict first, turn it off: click the **Console settings** gear in the top-right corner of the Console and clear the **Eager evaluation** checkbox. (Chrome's and Microsoft's *Console features reference* pages both describe this setting.) One more thing: if you paste code into the Console, Edge or Chrome may block it and ask you to type `allow pasting` first. This warning protects people from pasting harmful code they do not understand. Typing the code yourself avoids it.
 
 <img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> Open the Console now and type `60 * 24`. The `*` sign means multiply, so that is the number of minutes in a day.
 
@@ -200,7 +201,7 @@ console.log(2 + 3); // a number, not text
 2. **The line:** the code Node was running.
 3. **The caret:** the `^` under the problem spot.
 4. **Name and message:** the name is the word before the colon, such as `ReferenceError` (a name JavaScript does not recognize) or `SyntaxError` (the code is not valid JavaScript, so nothing in the file ran). The message is the words after the colon.
-5. **The stack:** the lines starting with `at`. The first one repeats your file as `file:line:column`, and the rest point inside Node itself, so you can usually skip them. In a `SyntaxError`, every `at` line points inside Node, because your file never started running.
+5. **The stack:** the lines starting with `at`. The first one repeats your file as `file:line:column` (the column is how far along the line the problem is), and the rest point inside Node itself, so you can usually skip them. In a `SyntaxError`, every `at` line points inside Node, because your file never started running.
 
 <div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
 
@@ -234,31 +235,41 @@ In the Console, the same mistake shows a shorter error. It starts with `Uncaught
 
 *Your hands, about 30 minutes (estimate).* Type it, do not paste it. Work in `practice-05`, your scratch folder.
 
-1. **Create the file.** In VS Code, create `hello.js` in `practice-05`. Type the four lines from Core Concept 3 exactly. Save with Ctrl+S.
-2. **Predict.** Before you run it, write down the three lines you expect to see, in order.
-3. **Run.** In the terminal, type `node hello.js` and press Enter. Compare with your prediction.
-4. **Modify.** Add a fifth line at the bottom: `console.log("I added this line.");` Save. Predict, then run again.
+1. **Create the file.** In VS Code, create `hello.js` in `practice-05`.
+2. Type the four lines from Core Concept 3 exactly. Save with Ctrl+S.
+3. **Predict.** Before you run it, write down the three lines you expect to see, in order.
+4. **Run.** In the terminal, type `node hello.js` and press Enter. Compare with your prediction.
+5. **Modify.** Add a fifth line at the bottom: `console.log("I added this line.");` Save.
+6. Predict what will print.
+7. Run again.
 
    <img src="../images/m05-node-hello-modified.png" alt="A terminal running node hello.js and printing four lines, the last one I added this line." loading="lazy">
    
    *The new line appears last, because it is the last statement in the file. (real output, rendered; captured on Linux, with the folder path changed to the course folder)*
 
-5. **Create.** Add a line of your own that logs a multiplication with `*`, for example the number of hours in a week. Predict the number first. Then add `console.log(10 - 4);` and `console.log("10 - 4");` and check your prediction from Core Concept 4.
-6. **Break it on purpose: a misspelled name.** On line 2, delete the `e` so it reads `consol.log("Hello, world!");`. Save and run.
+8. **Create.** Add a line of your own that logs a multiplication with `*`, for example the number of hours in a week. Predict the number first.
+9. Add `console.log(10 - 4);` and `console.log("10 - 4");` and check your prediction from Core Concept 4.
+10. **Break it on purpose: a misspelled name.** On line 2, delete the `e` so it reads `consol.log("Hello, world!");`.
+11. Save and run.
 
-   <img src="../images/m05-node-reference-error.png" alt="A terminal showing the full Node error: the file and line 2, the code line, a caret, ReferenceError: consol is not defined, and the stack." loading="lazy">
-   
-   *Node stopped at line 2, so nothing printed, not even the lines after it. Name: `ReferenceError`. Message: `consol is not defined`. The first line and the first `at` line show the path to your own `hello.js`. On Windows the paths start with your drive, for example `C:\Users\…`. The `node:internal` lines and the last line, `Node.js v22.22.0`, depend on the Node version, so yours may show different lines and numbers. With Node 24.21.0, everything down to the first `at` line was the same. (real output, rendered; captured on Linux, with the folder path changed to the course folder)*
+    <img src="../images/m05-node-reference-error.png" alt="A terminal showing the full Node error: the file and line 2, the code line, a caret, ReferenceError: consol is not defined, and the stack." loading="lazy">
+    
+    *Node stopped at line 2, so nothing printed, not even the lines after it. Name: `ReferenceError`. Message: `consol is not defined`. The first line and the first `at` line show the path to your own `hello.js`. On Windows the paths start with your drive, for example `C:\Users\…`. The `node:internal` lines and the last line, `Node.js v22.22.0`, depend on the Node version, so yours may show different lines and numbers. With Node 24.21.0, everything down to the first `at` line was the same. (real output, rendered; captured on Linux, with the folder path changed to the course folder)*
 
-   Find the five parts from Core Concept 7. Fix the spelling, save, and run again to prove it works.
-7. **Break it again: a missing quote.** On line 3, delete the closing quote so it reads `console.log("This line runs second.);`. Save and run.
+12. Find the five parts from Core Concept 7.
+13. Fix the spelling, save, and run again to prove it works.
+14. **Break it again: a missing quote.** On line 3, delete the closing quote so it reads `console.log("This line runs second.);`.
+15. Save and run.
 
-   <img src="../images/m05-node-syntax-error.png" alt="A terminal showing a Node SyntaxError: Invalid or unexpected token, pointing at line 3 with a row of carets under the text." loading="lazy">
-   
-   *A `SyntaxError` is different: Node could not read the file at all, so not even line 2 printed. The carets underline everything from the open quote to the end of the line, because Node is still looking for the closing quote. (real output, rendered; captured on Linux, with the folder path changed to the course folder)*
+    <img src="../images/m05-node-syntax-error.png" alt="A terminal showing a Node SyntaxError: Invalid or unexpected token, pointing at line 3 with a row of carets under the text." loading="lazy">
+    
+    *A `SyntaxError` is different: Node could not read the file at all, so not even line 2 printed. The carets underline everything from the open quote to the end of the line, because Node is still looking for the closing quote. (real output, rendered; captured on Linux, with the folder path changed to the course folder)*
 
-   Fix it, save, and run once more.
-8. **Try the Console.** Open any page in Edge or Chrome, press **F12** (or **Ctrl+Shift+J**), click the **Console** tab, and type `2 + 3`, then `"Hello, " + "world"`, then `consol.log("hi")`. Compare with the Console images in Core Concepts 6 and 7.
+16. Fix it, save, and run once more.
+17. **Try the Console.** Open any page in Edge or Chrome.
+18. Press **F12** (or **Ctrl+Shift+J**), then click the **Console** tab.
+19. Type `2 + 3`, then `"Hello, " + "world"`, then `consol.log("hi")`.
+20. Compare with the Console images in Core Concepts 6 and 7.
 
 ## Project (in the full packet)
 
@@ -268,7 +279,7 @@ The Project is a short **"about me in the Console"** script. When you run it wit
 
 > *"An error message means I did something badly wrong. I should delete the line and start over."*
 
-What would you say? Hint: count how many useful facts the ReferenceError in step 6 gave you, for free, before you had to look anything up.
+What would you say? Hint: count how many useful facts the ReferenceError in step 11 gave you, for free, before you had to look anything up.
 
 ## Summary
 
@@ -276,17 +287,27 @@ A program is a list of instructions that run in order, top to bottom. JavaScript
 
 ## Check your understanding
 
-1. In step 6, why did nothing print at all, even though the lines after line 2 were fine?
+1. In step 11, why did nothing print at all, even though the lines after line 2 were fine?
 2. What is the difference between `console.log(10 - 4);` and `console.log("10 - 4");`?
 3. **Why does it work?** You typed `console.log("Hello from the Console")` in the Console and saw the text and then `undefined`. Why does the `undefined` appear, and why is it not an error?
 
 ## Before next module
+
+**You should now be able to do these on your own:**
 
 - [ ] `hello.js` runs with `node hello.js` and prints the lines you predicted
 - [ ] You can open the Console with Ctrl+Shift+J and evaluate an expression
 - [ ] You broke `hello.js` twice and can name the error each time (ReferenceError, SyntaxError)
 - [ ] You can point to the five parts of a Node error
 - [ ] If you did this module's packet project in my-site, saved it with the routine: git status → git add . → git commit -m "…" → git push → check the live page. (Your practice folder is not saved to GitHub.)
+
+**You have only been introduced to these so far:**
+
+- Values and expressions. You printed a few and typed a few. Module 6 explains what a value is and names its types, including `undefined`.
+- Automatic semicolon insertion. This lesson only named it. In this course you write every semicolon yourself.
+- The **Eager evaluation** setting and the `allow pasting` warning in the Console. You read about them here; you did not have to use them.
+- Repeating lines and choosing between them. Module 6 makes a decision with `if`, and Module 8 repeats lines with a loop.
+- JavaScript inside a web page. Module 9 connects a script to your pages.
 
 ## Go further
 
@@ -306,6 +327,6 @@ Keep `hello.js` in `practice-05`, and write down the names of the two errors you
 
 *Code559 is a 559 Solutions project. Portions adapted from Visual Studio Code documentation (CC BY 3.0 US), GitHub Docs (CC BY 4.0), and GitHub Skills (MIT). Screenshots used with permission from Microsoft.*
 
-*Sources checked 2026-10-09: MDN "What is JavaScript?"; MDN "JavaScript error reference"; MDN "Lexical grammar"; Chrome for Developers "Open Chrome DevTools"; Microsoft Edge Developer documentation "Keyboard shortcuts". Checked 2026-10-11: Chrome for Developers "Console features reference" and "How Chrome DevTools helps to defend against self-XSS attacks"; Microsoft Edge Developer documentation "Console features reference" and "Run JavaScript in the Console". Checked 2026-10-12: Ozubko and MacLeod, "The Production Effect in Memory: Evidence That Distinctiveness Underlies the Benefit," *Journal of Experimental Psychology: Learning, Memory, and Cognition* 36(6), 2010 (the footnote on saying code out loud).*
+*Sources checked 2026-10-09: MDN "What is JavaScript?"; MDN "JavaScript error reference"; MDN "Lexical grammar"; Chrome for Developers "Open Chrome DevTools"; Microsoft Edge Developer documentation "Keyboard shortcuts". Checked 2026-10-11: Chrome for Developers "Console features reference" and "How Chrome DevTools helps to defend against self-XSS attacks"; Microsoft Edge Developer documentation "Console features reference" and "Run JavaScript in the Console". Checked 2026-10-12: Ozubko and MacLeod, "The Production Effect in Memory: Evidence That Distinctiveness Underlies the Benefit," *Journal of Experimental Psychology: Learning, Memory, and Cognition* 36(6), 2010 (the footnote on saying code out loud). Checked 2026-11-17: MDN "Syntax" (Glossary); MDN "Expressions and operators"; MDN "Error: columnNumber"; Chrome for Developers "Console overview".*
 
 [^recite]: **Why out loud?** Most people have recited something to learn it by heart: a phone number, a poem, lines for a play. Words you say aloud stick better than words you read silently; memory researchers call this the production effect (Ozubko and MacLeod, 2010). Explaining code to yourself out loud uses the same idea. It also shows you the line you cannot explain yet, and that line is the one to study next.

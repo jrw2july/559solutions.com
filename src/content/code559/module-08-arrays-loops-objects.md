@@ -92,16 +92,18 @@ Every core concept moves through the same four steps, called IEIA. Each step is 
 
 A real site has several pages, several projects and several milestones. So far, every value in your JavaScript has lived in its own variable. That works for two or three values. It does not work for twenty, and it does not work when you do not know how many there will be.
 
-This module gives you the three tools every data-driven page is built from. An **array** keeps a list in one variable. A **loop** visits every item in that list without you writing one line per item. An **object** gives each item named facts, like a title, a year and whether it is live. Put the three together and you have an array of objects, which is how most real web data is shaped.
+This module gives you the three tools every data-driven page is built from. A data-driven page is a page built from data, such as a list of projects, and not typed out one item at a time. An **array** keeps a list in one variable. A **loop** visits every item in that list without you writing one line per item. An **object** gives each item named facts, like a title, a year and whether it is live. Put the three together and you have an array of objects, which is how most real web data is shaped.
 
 You stay in the Console and Node one more time. In Module 9 you use the same patterns on a web page, where a loop over an array of objects builds a list a visitor can see.
 
 ## Before you start
 
 1. Finish Module 7. You should be able to write a function with a parameter and a `return`, and test it with several calls.
-2. In your course folder, create a throwaway folder called `practice-08`. Open it in VS Code with **File → Open Folder…**, then open a terminal with **Terminal → New Terminal**.
-3. Open Edge or Chrome. Press **F12** (or **Ctrl+Shift+J**) to open DevTools, then click the **Console** tab.
-4. On paper, write down three of your own interests and two projects or milestones you would like on your site. You will use them instead of the examples.
+2. In your course folder, create a throwaway folder called `practice-08`.
+3. Open it in VS Code with **File → Open Folder…**.
+4. Open a terminal with **Terminal → New Terminal**.
+5. Open Edge or Chrome. Press **F12** (or **Ctrl+Shift+J**) to open DevTools, then click the **Console** tab.
+6. On paper, write down three of your own interests and two projects or milestones you would like on your site. You will use them instead of the examples.
 
 > **Checkpoint.** You have an empty `practice-08` folder open in VS Code, a terminal whose prompt ends in `practice-08>`, a Console ready, and your own short list on paper.
 
@@ -152,7 +154,7 @@ pages
 
 <img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> `.push()` adds one or more items to the end of an array.
 
-<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> The array changes in place. The value `.push()` hands back is the new length (MDN, *Array.prototype.push()*: "The new length property of the object upon which the method was called"). So do not write `pages = pages.push("Contact")`. That would try to replace your array with a number. Just call `pages.push("Contact")` on its own line. This works even though `pages` was made with `const`, because `const` stops you pointing the name at a different array; it does not stop the array's contents from changing.
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> The array changes in place. That means the same array gets longer; no new array is made. The value `.push()` hands back is the new length (MDN, *Array.prototype.push()*: "The new length property of the object upon which the method was called"). So do not write `pages = pages.push("Contact")`. That would try to replace your array with a number. Just call `pages.push("Contact")` on its own line. This works even though `pages` was made with `const`, because `const` stops you pointing the name at a different array; it does not stop the array's contents from changing.
 
 <img src="../images/brand/marker-illustrate.svg" alt="Illustrate" width="24" height="24" class="c559-badge"> In the image above, `pages.push("Contact")` printed `5`, and the next line showed five items with `'Contact'` at the end.
 
@@ -198,7 +200,7 @@ count
 
 <img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> Put an `if` inside the loop body, and the loop can count or pick only some items.
 
-<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> The pattern is: make a counter before the loop, check each item inside the loop, and add to the counter when the check is true. After the loop, the counter holds the answer. You used `if` in Module 6; nothing about it changes inside a loop.
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> The pattern is: make a counter (a variable that holds a running count, starting at 0) before the loop, check each item inside the loop, and add to the counter when the check is true. After the loop, the counter holds the answer. You used `if` in Module 6; nothing about it changes inside a loop.
 
 <div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
 
@@ -247,7 +249,7 @@ for (const amount of minutes) {
 
 <img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> `.includes()` answers "is this in here?" with `true` or `false`. `.join()` turns an array into one piece of text.
 
-<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> `.includes()` works on arrays and on strings. On an array, it checks whole items. On a string, it checks for a piece of text anywhere inside. It is exact: `"Music"` and `"music"` are different. `.join()` puts the text you give it between items. With nothing in the parentheses, MDN says the items "are separated with a comma."
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> `.includes()` works on arrays and on strings. On an array, it checks whole items. On a string, it checks for a piece of text anywhere inside. It is exact: `"Music"` and `"music"` are different. `.join()` puts the text you give it between items. That text is called the separator. With nothing in the parentheses, MDN says the items "are separated with a comma."
 
 <div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
 
@@ -272,7 +274,7 @@ interests.join()
 
 <img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> Arrays and strings carry named values you can read, and named actions you can run. A value is a **property**. An action is a **method**.
 
-<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> You read a property with a dot and its name: `tags.length`. You run a method with a dot, its name and parentheses: `tags.push("js")`, `"  hello  ".trim()`. MDN's glossary defines a method as "a function which is a property of an object." So this is Module 7 again: a method name without parentheses is a reference to the function; with parentheses it is a call. `.trim()` returns a copy of the string without the spaces at both ends; you will lean on it in Module 10 to check form inputs.
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> You read a property with a dot and its name: `tags.length`. You run a method with a dot, its name and parentheses: `tags.push("js")`, `"  hello  ".trim()`. MDN's glossary defines a method as "a function which is a property of an object." So this is Module 7 again: a method name without parentheses is a reference to the function; with parentheses it is a call. Put parentheses on a property and JavaScript throws a `TypeError`: it stops with that error, the same kind you met in Module 6. `.trim()` returns a copy of the string without the spaces at both ends; you will lean on it in Module 10 to check form inputs.
 
 <div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
 
@@ -300,7 +302,7 @@ tags.length()
 
 <img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> An object is a named bundle of properties. Where an array is a list in order, an object is a set of labeled facts about one thing.
 
-<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> You write an object with curly braces. Each property is a name, a colon and a value, separated by commas: `{ title: "Rating card", year: 2026, live: true, tags: ["html", "css"] }`. You read a property with a dot: `project.title`. A value can be anything, including an array, so `project.tags.length` reads the length of the array stored in `tags`. Asking for a property that does not exist gives `undefined`, just like reading past the end of an array.
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> You write an object with curly braces. Each property is a name, a colon and a value, separated by commas: `{ title: "Rating card", year: 2026, live: true, tags: ["html", "css"] }`. You read a property with a dot: `project.title`. This is called dot access. A value can be anything, including an array, so `project.tags.length` reads the length of the array stored in `tags`. Asking for a property that does not exist gives `undefined`, just like reading past the end of an array.
 
 <div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
 
@@ -380,11 +382,14 @@ live || year === 2026
 
 *Your hands, about 50 minutes (estimate).* Type it, do not paste it. Work in `practice-08`. Use your own interests and places instead of the examples if you like; the shape is what matters.
 
-1. **Create `practice.js`** and type an array of three interests named `interests`, for example `const interests = ["drawing", "cycling", "music"];`. Below it, log its `.length` and its last item using `length - 1`.
-2. **Push one more** interest with `.push()`.
-3. **Loop with indexes.** Write a `for` loop that logs each item with its index in front, like `0: drawing`.
-4. **Check and join.** Log `interests.includes(…)` for one item you have and one you do not. Then log `interests.join(" | ")`.
-5. **An array of objects.** Type this, with your own place names if you prefer:
+1. **Create `practice.js`.**
+2. In it, type an array of three interests named `interests`, for example `const interests = ["drawing", "cycling", "music"];`.
+3. Below it, log its `.length` and its last item using `length - 1`.
+4. **Push one more** interest with `.push()`.
+5. **Loop with indexes.** Write a `for` loop that logs each item with its index in front, like `0: drawing`.
+6. **Check and join.** Log `interests.includes(…)` for one item you have and one you do not.
+7. Then log `interests.join(" | ")`.
+8. **An array of objects.** Type this, with your own place names if you prefer:
 
    ```js
    const places = [
@@ -400,17 +405,20 @@ live || year === 2026
    }
    ```
 
-   Read the `if` to yourself, out loud, before you run it: "not visited, and free."
-6. **Run it.** Save, then type `node practice.js` in the terminal. Predict every line first. With the example data you should get 10 lines, ending in `Next free trip: River park`.
-7. **Break it on purpose.** In the `for` loop from step 3, change `i < interests.length` to `i <= interests.length`. Save and run.
+9. Read the `if` to yourself, out loud, before you run it: "not visited, and free."
+10. **Run it.** First, predict every line the file will print.
+11. Save, then type `node practice.js` in the terminal. With the example data you should get 10 lines, ending in `Next free trip: River park`.
+12. **Break it on purpose.** In the `for` loop from step 5, change `i < interests.length` to `i <= interests.length`.
+13. Save and run.
 
-   <img src="../images/m08-break-it.png" alt="A terminal running node practice.js where the index loop now prints a fifth line, 4: undefined, after 3: cooking." loading="lazy">
-   
-   *One character added, one extra lap. On the last lap `i` is 4, which equals the length, and `interests[4]` is `undefined`. No error message, just a wrong line. This is called an off-by-one error. (real output, rendered; captured on Linux, with the folder path changed to the course folder)*
+    <img src="../images/m08-break-it.png" alt="A terminal running node practice.js where the index loop now prints a fifth line, 4: undefined, after 3: cooking." loading="lazy">
+    
+    *One character added, one extra lap. On the last lap `i` is 4, which equals the length, and `interests[4]` is `undefined`. No error message, just a wrong line. This is called an off-by-one error. (real output, rendered; captured on Linux, with the folder path changed to the course folder)*
 
-   Change `<=` back to `<`, run again, and check the `undefined` line is gone.
-8. **Your own.** Below everything, write a loop that counts how many places are `free` and logs the count. With the example data, the answer is 2.
-9. **Modify.** Change the `if` in step 5 from `&&` to `||`. Predict which places print now, then run it.
+14. Change `<=` back to `<`, run again, and check the `undefined` line is gone.
+15. **Your own.** Below everything, write a loop that counts how many places are `free` and logs the count. With the example data, the answer is 2.
+16. **Modify.** Change the `if` in step 8 from `&&` to `||`.
+17. Predict which places print now, then run it.
 
 ## Project (in the full packet)
 
@@ -436,11 +444,21 @@ An array keeps a list of values in order, and its first index is 0. `.length` is
 
 ## Before next module
 
+**You should now be able to do these on your own:**
+
 - [ ] `practice.js` runs with `node practice.js` and every line matches your predictions
 - [ ] You saw the extra `undefined` line from `<=` and fixed it
 - [ ] You can say, for `.length`, `.push()` and `.trim()`, which is a property and which are methods
 - [ ] Your own projects or milestones are written on paper (or in a file) as an array of objects
 - [ ] If you did this module's packet project in my-site, saved it with the routine: git status → git add . → git commit -m "…" → git push → check the live page. (Your practice folder is not saved to GitHub.)
+
+**You have only been introduced to these so far:**
+
+- `.trim()`. You saw it in Concept 8 only. Module 10 uses it for real, to check form inputs.
+- An array stored inside an object, as in `project.tags.length`. You read one in Concept 9; the Exercise did not use one.
+- Parallel arrays. You saw why they drift apart, but you did not build any.
+- What `&&` and `||` hand back when the values are not `true` or `false`. This course uses them with `true` and `false` only.
+- Building a list on a web page from an array of objects. Module 9 does it for real.
 
 ## Go further
 
@@ -459,6 +477,6 @@ Keep `practice.js` and your array of objects for your own projects or milestones
 
 *Code559 is a 559 Solutions project. Portions adapted from Visual Studio Code documentation (CC BY 3.0 US), GitHub Docs (CC BY 4.0), and GitHub Skills (MIT). Screenshots used with permission from Microsoft.*
 
-*Sources checked 2026-10-09: MDN "Array.prototype.push()"; MDN "Array.prototype.includes()"; MDN "Array.prototype.join()"; MDN "for...of"; MDN "Logical AND (&&)"; MDN Glossary "Method"; MDN "String.prototype.trim()"; Chromium (via Playwright) for every Console result; Node 22.22.0 for every terminal result. Checked 2026-10-11: MDN "for...of" (plain-words summary); Chromium 141 for the split Concept 5 and 6 pictures (one Console session), the value shown after each loop, `project.tags.length` and `join(" / ")`. Checked 2026-10-12: Ozubko and MacLeod, "The Production Effect in Memory: Evidence That Distinctiveness Underlies the Benefit," *Journal of Experimental Psychology: Learning, Memory, and Cognition* 36(6), 2010 (the footnote on saying code out loud). Checked 2026-11-17: every MDN link in "Go further" opened; MDN "for"; MDN "Loops and iteration"; MDN "JavaScript object basics"; MDN "Working with objects"; MDN "Logical OR (||)"; MDN "Logical NOT (!)". The loop output and `project.title` in the two new diagrams run in Node 22.23.4.*
+*Sources checked 2026-10-09: MDN "Array.prototype.push()"; MDN "Array.prototype.includes()"; MDN "Array.prototype.join()"; MDN "for...of"; MDN "Logical AND (&&)"; MDN Glossary "Method"; MDN "String.prototype.trim()"; Chromium (via Playwright) for every Console result; Node 22.22.0 for every terminal result. Checked 2026-10-11: MDN "for...of" (plain-words summary); Chromium 141 for the split Concept 5 and 6 pictures (one Console session), the value shown after each loop, `project.tags.length` and `join(" / ")`. Checked 2026-10-12: Ozubko and MacLeod, "The Production Effect in Memory: Evidence That Distinctiveness Underlies the Benefit," *Journal of Experimental Psychology: Learning, Memory, and Cognition* 36(6), 2010 (the footnote on saying code out loud). Checked 2026-11-17: every MDN link in "Go further" opened; MDN "for"; MDN "Loops and iteration"; MDN "JavaScript object basics"; MDN "Working with objects"; MDN "Logical OR (||)"; MDN "Logical NOT (!)"; MDN "Array.prototype.push()" (a mutating method), MDN "Array.prototype.join()" (the separator) and MDN "TypeError", for the definitions added to Concepts 3, 7 and 8. The loop output and `project.title` in the two new diagrams run in Node 22.23.4.*
 
 [^recite]: **Why out loud?** Most people have recited something to learn it by heart: a phone number, a poem, lines for a play. Words you say aloud stick better than words you read silently; memory researchers call this the production effect (Ozubko and MacLeod, 2010). Explaining code to yourself out loud uses the same idea. It also shows you the line you cannot explain yet, and that line is the one to study next.
