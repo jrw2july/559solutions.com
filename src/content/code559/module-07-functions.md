@@ -81,12 +81,12 @@ Every core concept moves through the same four steps, called IEIA. Each step is 
 - Basic local scope: why a variable made inside a function cannot be seen outside it
 - How to test a function by itself, with several inputs, in the Console and in Node
 - A five-step method for writing a function from a one-sentence description
-- The difference between a function reference (`showMessage`) and a function call (`showMessage()`), and why event listeners in Module 9 need the first one
+- The difference between a function reference (`showMessage`) and a function call (`showMessage()`), and why event listeners in Module 9 need the first one (an event listener is a function the browser runs when something happens on the page, such as a click)
 - How to return `null` when there is no answer, and check for it with `=== null`
 
 ## Why this matters
 
-So far your JavaScript runs top to bottom, once. Every time you want the same work done again, you would have to type it again. A function fixes that. You write the steps once, give them a name, and run them whenever you want, with different inputs each time.
+So far your JavaScript runs top to bottom, once. Every time you want the same work done again, you would have to type it again. A function fixes that. You write the steps once, give them a name, and run them whenever you want, with different inputs each time. An **input** is a value you hand to the function to work with.
 
 There is a second reason, and it matters more. A function that **hands a value back** can be tested by itself. You can call it with three made-up inputs and check three answers before any web page exists. That is how working developers check their code, and it is the shape of almost every practice question and interview task you will meet: "write a function that takes this and returns that."
 
@@ -95,9 +95,11 @@ This module stays in the Console and in Node. There is no web page yet. In Modul
 ## Before you start
 
 1. Finish Module 6. You should be able to use `const` and `let`, compare values with `===` and `<`, and write an `if` statement.
-2. In your course folder (for example `Documents\code559`), create a throwaway folder called `practice-07`. Nothing in it is published. Open it in VS Code with **File → Open Folder…**.
-3. Open a terminal in VS Code with **Terminal → New Terminal**. Type `node --version`. Any `v` followed by numbers means Node is ready.
-4. Open Edge or Chrome. Press **F12** (or **Ctrl+Shift+J**) to open DevTools, then click the **Console** tab. Anything you type there runs at once and nothing is saved. Keep it open as your scratch pad.
+2. In your course folder (for example `Documents\code559`), create a throwaway folder called `practice-07`. Nothing in it is published.
+3. Open the `practice-07` folder in VS Code with **File → Open Folder…**.
+4. Open a terminal in VS Code with **Terminal → New Terminal**.
+5. Type `node --version`. Any `v` followed by numbers means Node is ready.
+6. Open Edge or Chrome. Press **F12** (or **Ctrl+Shift+J**) to open DevTools, then click the **Console** tab. Anything you type there runs at once and nothing is saved. Keep it open as your scratch pad.
 
 > **Checkpoint.** You have an empty `practice-07` folder open in VS Code, a terminal whose prompt ends in `practice-07>`, and a browser Console you can type into.
 
@@ -107,7 +109,7 @@ This module stays in the Console and in Node. There is no web page yet. In Modul
 
 <img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> A function is a named, reusable set of instructions. You write the instructions once. After that, the name runs them.
 
-<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> A function definition has four parts. The keyword `function` says a definition is coming. The **name** is how you run it later. The **parameters** in parentheses are names for the inputs. The **body** in curly braces is the work. The line that starts with `return` hands a value back.
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> A function definition has four parts. The keyword `function` says a definition is coming. (A **keyword** is a word that has a special meaning in JavaScript.) The **name** is how you run it later. The **parameters** in parentheses are names for the inputs. The **body** in curly braces is the work. The line that starts with `return` hands a value back.
 
 <div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
 
@@ -119,7 +121,7 @@ This module stays in the Console and in Node. There is no web page yet. In Modul
 
 ### 2. What is the difference between defining and calling?
 
-<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> Writing a function down and running it are two separate steps. MDN's *Functions* guide puts it this way: "Defining a function does not execute it."
+<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> Writing a function down and running it are two separate steps. MDN's *Functions* guide puts it this way: "Defining a function does not execute it." To execute code means to run it.
 
 <img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> When you define `toMinutes`, JavaScript stores the instructions under that name and does nothing else. When you **call** it, by writing the name followed by parentheses, `toMinutes(2)`, the body runs. You can call one definition as many times as you like.
 
@@ -149,6 +151,12 @@ toMinutes(0)
 <img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> A **parameter** is the name written in the definition: `hours`. An **argument** is the real value you give when you call: the `2` in `toMinutes(2)`. When the call runs, the parameter works like a variable that was just set to the argument. Call it again with `1.5`, and this time `hours` holds `1.5`.
 
 <img src="../images/brand/marker-illustrate.svg" alt="Illustrate" width="24" height="24" class="c559-badge"> In the picture under Concept 1, `hours` is the parameter and `2` is the argument. Inside that one call, `hours * 60` becomes `2 * 60`.
+
+<div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
+
+<img src="../images/m07-function-flow.png" alt="A diagram titled One function, written once and used twice. On the left, two calls: toMinutes(2) and toMinutes(1.5). An arrow from each call, labeled argument goes in, points to one function box in the middle. Two arrows leave the box, labeled return sends 120 back and return sends 90 back, and point to the results 120 and 90 on the right." loading="lazy">
+
+*The function is written once and reused. Each call sends its own argument in, and gets its own result back: `120` for the first call, `90` for the second. The word that sends the result back is `return`, which is Concept 4.*
 
 <img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> Predict what `toMinutes()` gives with **no** argument. Then try it. (You will see `NaN`, "not a number," because `hours` holds `undefined` and `undefined * 60` is not a number.)
 
@@ -183,7 +191,7 @@ b
 
 ### 5. What is local scope?
 
-<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> A variable created inside a function belongs to that function. Code outside cannot see it.
+<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> A variable created inside a function belongs to that function. Code outside cannot see it. The part of your code where a name can be used is called its **scope**. A name that works only inside one function has **local scope**.
 
 <img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> MDN's *Functions* guide says "variables defined inside a function cannot be accessed from anywhere outside the function." That is a feature. It means two functions can each have a variable called `total` without stepping on each other. If you need a value from inside, `return` it, and store it where you called.
 
@@ -210,7 +218,7 @@ total
 
 <img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> You call it with several inputs, one after another, and compare each answer with what you expected.
 
-<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> Pick at least three inputs: a normal one, a different normal one, and an edge. An **edge** is the value right at a boundary, like `0`, an empty string, or exactly the limit in an `if`. Edges are where mistakes hide. In the Console, you type each call. In a file, you put each call inside `console.log()` and run the file with Node, so the tests can be run again any time.
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> Pick at least three inputs: a normal one, a different normal one, and an edge. An **edge** is the value right at a boundary, like `0`, an empty string (`""`, a string with nothing between the quotes), or exactly the limit in an `if`. Edges are where mistakes hide. In the Console, you type each call. In a file, you put each call inside `console.log()` and run the file with Node, so the tests can be run again any time.
 
 <img src="../images/brand/marker-illustrate.svg" alt="Illustrate" width="24" height="24" class="c559-badge"> Here are three tests for `countLetters` from Concept 5, written in a file. The comment holds the predictions, and the empty string `""` is the edge.
 
@@ -279,7 +287,7 @@ later()
 
 <img src="../images/m07-reference-call.png" alt="The Console with showMessage defined. Typing showMessage shows the function itself; showMessage() returns 'Thanks for visiting!'; typeof gives 'function' for one and 'string' for the other; storing it in later and calling later() gives the same text." loading="lazy">
 
-<img src="../images/brand/marker-illustrate.svg" alt="Illustrate" width="24" height="24" class="c559-badge"> *Without parentheses you get the function. With them you get its answer. `typeof` proves it: `'function'` versus `'string'`. In Node, `console.log(showMessage)` prints `[Function: showMessage]` instead (see the picture in Exercise step 5). (real output, rendered)*
+<img src="../images/brand/marker-illustrate.svg" alt="Illustrate" width="24" height="24" class="c559-badge"> *Without parentheses you get the function. With them you get its answer. `typeof` proves it: `'function'` versus `'string'`. In Node, `console.log(showMessage)` prints `[Function: showMessage]` instead (see the picture in Exercise step 12). (real output, rendered)*
 
 This is the bridge to Module 9. There you will tell a button: "when you are clicked, run this function." The button needs **the function itself**, so it can call it later, every time someone clicks. It does not need the result of running it once, right now.
 
@@ -326,23 +334,31 @@ pickColor("light") === null
 *Your hands, about 45 minutes (estimate).* Type it, do not paste it. Work in `practice-07`. Nothing here is published.
 
 1. **Create the file.** In VS Code, create `helpers.js` inside `practice-07`.
-2. **Define and test `toMinutes`.** Type the function from Concept 1. Below it, type three test lines: `console.log(toMinutes(2));`, `console.log(toMinutes(1.5));` and `console.log(toMinutes(0));`. Write your three predictions in a comment above them, like `// expect 120, 90, 0`.
-3. **Run it.** Save, then in the terminal type `node helpers.js`. Compare each line with your comment.
-4. **Write `isNarrow` from its description.** Use the five steps from Concept 7, in order. At the bottom of the file, write your tests first, as a comment with your predictions: `// expect isNarrow(390) true, isNarrow(800) false, isNarrow(600) false`. Under the comment, type the function. Under the function, type the three `console.log` test lines. Run the file again.
-5. **Reference versus call.** Add `showMessage` from Concept 8, then two lines: `console.log(showMessage);` and `console.log(showMessage());`. Predict both lines, then run. Your output should now match this picture.
+2. **Define and test `toMinutes`.** Type the function from Concept 1.
+3. Below it, type three test lines: `console.log(toMinutes(2));`, `console.log(toMinutes(1.5));` and `console.log(toMinutes(0));`.
+4. Write your three predictions in a comment above them, like `// expect 120, 90, 0`.
+5. **Run it.** Save, then in the terminal type `node helpers.js`. Compare each line with your comment.
+6. **Write `isNarrow` from its description.** Use the five steps from Concept 7, in order. At the bottom of the file, write your tests first, as a comment with your predictions: `// expect isNarrow(390) true, isNarrow(800) false, isNarrow(600) false`.
+7. Under the comment, type the function.
+8. Under the function, type the three `console.log` test lines.
+9. Run the file again.
+10. **Reference versus call.** Add `showMessage` from Concept 8.
+11. Below it, add two lines: `console.log(showMessage);` and `console.log(showMessage());`.
+12. Predict both lines, then run. Your output should now match this picture.
 
-   <img src="../images/m07-node-tests.png" alt="A terminal running node helpers.js and printing 120, 90, 0, true, false, false, [Function: showMessage] and Thanks for visiting!" loading="lazy">
-   
-   *One run, eight answers. The `false` for `isNarrow(600)` is the edge test: 600 is not less than 600. (real output, rendered; captured on Linux, with the folder path changed to the course folder)*
-6. **Break it on purpose.** In `toMinutes`, delete the word `return` so the body reads `hours * 60;`. Save and run.
+    <img src="../images/m07-node-tests.png" alt="A terminal running node helpers.js and printing 120, 90, 0, true, false, false, [Function: showMessage] and Thanks for visiting!" loading="lazy">
+    
+    *One run, eight answers. The `false` for `isNarrow(600)` is the edge test: 600 is not less than 600. (real output, rendered; captured on Linux, with the folder path changed to the course folder)*
+13. **Break it on purpose.** In `toMinutes`, delete the word `return` so the body reads `hours * 60;`.
+14. Save and run.
 
-   <img src="../images/m07-break-it.png" alt="A terminal running node helpers.js after the return was removed. The first three lines are now undefined; the rest are unchanged." loading="lazy">
-   
-   *The work `hours * 60` still happens, but nothing hands the answer back, so each call gives `undefined`. No error message. That is what makes this mistake easy to miss. (real output, rendered; captured on Linux, with the folder path changed to the course folder)*
-
-   Put `return` back, run once more, and check that 120, 90 and 0 return.
-7. **Scope, in the Console.** In the browser Console, type `countLetters` from Concept 5, call it, then type `total`. Read the whole red message. Which word in it tells you the problem?
-8. **Your own.** Write one new function from this description, with its tests first: *"Write a function that takes a number of minutes and returns true when it is an hour or more."* Include the edge, `60`.
+    <img src="../images/m07-break-it.png" alt="A terminal running node helpers.js after the return was removed. The first three lines are now undefined; the rest are unchanged." loading="lazy">
+    
+    *The work `hours * 60` still happens, but nothing hands the answer back, so each call gives `undefined`. No error message. That is what makes this mistake easy to miss. (real output, rendered; captured on Linux, with the folder path changed to the course folder)*
+15. Put `return` back, run once more, and check that 120, 90 and 0 return.
+16. **Scope, in the Console.** In the browser Console, type `countLetters` from Concept 5, then call it.
+17. Type `total`. Read the whole red message. Which word in it tells you the problem?
+18. **Your own.** Write one new function from this description, with its tests first: *"Write a function that takes a number of minutes and returns true when it is an hour or more."* Include the edge, `60`.
 
 ## Project (in the full packet)
 
@@ -358,7 +374,7 @@ What would you say? Hint: store the result in a variable and look at what the va
 
 ## Summary
 
-A function is a named, reusable set of instructions. Defining it stores the instructions; calling it with parentheses runs them. A parameter is the name in the definition, and an argument is the value you send in the call. `return` hands a value back and ends the function, while `console.log()` only shows a value, so a function that only logs gives `undefined` to whoever called it. Variables made inside a function stay inside it; outside, they cause a `ReferenceError`. You test a function by calling it with several inputs, including an edge, and comparing each answer with your prediction. To write a function from a description, name it, list its inputs, state its output, write the tests, and only then write the body. `showMessage` is the function itself and `showMessage()` is its result, and an event listener needs the first. A function returns `null` on purpose when there is no answer, and the caller checks with `=== null`.
+A function is a named, reusable set of instructions. Defining it stores the instructions; calling it with parentheses runs them. A parameter is the name in the definition, and an argument is the value you send in the call. `return` hands a value back and ends the function, while `console.log()` only shows a value, so a function that only logs gives `undefined` to whoever called it. Variables made inside a function stay inside it; outside, they cause a `ReferenceError`. You test a function by calling it with several inputs, including an edge, and comparing each answer with your prediction. To write a function from a description, name it, list its inputs, state its output, write the tests, and only then write the body. `showMessage` is the function itself and `showMessage()` is its result, and an event listener needs the first. A function returns `null` on purpose when there is no answer, and the caller (the code that called the function) checks with `=== null`.
 
 ## Check your understanding
 
@@ -368,16 +384,26 @@ A function is a named, reusable set of instructions. Defining it stores the inst
 
 ## Before next module
 
+**You should now be able to do these on your own:**
+
 - [ ] `helpers.js` in `practice-07` runs with `node helpers.js` and every line matches your predictions
 - [ ] You wrote `isNarrow` and the "an hour or more" function with their tests first
 - [ ] You saw `undefined` appear when `return` was removed, and put it back
 - [ ] You can explain, without notes, why a listener gets `showMessage` and not `showMessage()`
 - [ ] If you did this module's packet project in my-site, saved it with the routine: git status → git add . → git commit -m "…" → git push → check the live page. (Your practice folder is not saved to GitHub.)
 
+**You have only been introduced to these so far:**
+
+- Handing a function to a button so that a click runs it. You saw this in a picture only. Module 9 uses it for real.
+- Returning `null` for "no answer" and checking with `=== null`. You tried it in the Console, but not in the Exercise. Module 9 meets `null` again.
+- `.length`, which you used inside `countLetters` to count the characters in a word. Module 8 covers it in full.
+- Storing a function under a second name and calling it through that name, as with `later` in Concept 8.
+
 ## Go further
 
-- MDN: *Functions* (the JavaScript Guide page) — read "Defining functions," "Calling functions" and "Function scopes and closures"
-- MDN: *return* (the statement reference page)
+- MDN: [*Functions*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions) (the JavaScript Guide page) — read "Defining functions," "Calling functions" and "Function scopes and closures"
+- MDN: [*return*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/return) (the statement reference page)
+- MDN Glossary: [*Parameter*](https://developer.mozilla.org/en-US/docs/Glossary/Parameter) and [*Argument*](https://developer.mozilla.org/en-US/docs/Glossary/Argument)
 - freeCodeCamp: the free [JavaScript Certification](https://www.freecodecamp.org/learn/javascript-v9/) (checked 2026-10-11) has practice on this topic.
 
 ## What to keep
@@ -388,6 +414,6 @@ Keep `helpers.js` with its predictions in comments, and your paper notes from th
 
 *Code559 is a 559 Solutions project. Portions adapted from Visual Studio Code documentation (CC BY 3.0 US), GitHub Docs (CC BY 4.0), and GitHub Skills (MIT). Screenshots used with permission from Microsoft.*
 
-*Sources checked 2026-10-09: MDN "Functions" (JavaScript Guide); MDN "return"; Chromium (via Playwright) for every Console result and the addEventListener TypeError; Node 22.22.0 for every terminal result. Checked 2026-10-11: MDN "String: length"; MDN "Functions" (section titles); MDN "EventTarget: addEventListener() method" (the listener may be `null`); Chromium 141 for `addEventListener("click", sayHi())` with a function that returns nothing (no error, one run at once, clicks do nothing) and for the Concept 9 Apply; Node 22.22.0 for the `countLetters` tests in Concept 6. Checked 2026-10-12: Ozubko and MacLeod, "The Production Effect in Memory: Evidence That Distinctiveness Underlies the Benefit," *Journal of Experimental Psychology: Learning, Memory, and Cognition* 36(6), 2010 (the footnote on saying code out loud).*
+*Sources checked 2026-10-09: MDN "Functions" (JavaScript Guide); MDN "return"; Chromium (via Playwright) for every Console result and the addEventListener TypeError; Node 22.22.0 for every terminal result. Checked 2026-10-11: MDN "String: length"; MDN "Functions" (section titles); MDN "EventTarget: addEventListener() method" (the listener may be `null`); Chromium 141 for `addEventListener("click", sayHi())` with a function that returns nothing (no error, one run at once, clicks do nothing) and for the Concept 9 Apply; Node 22.22.0 for the `countLetters` tests in Concept 6. Checked 2026-10-12: Ozubko and MacLeod, "The Production Effect in Memory: Evidence That Distinctiveness Underlies the Benefit," *Journal of Experimental Psychology: Learning, Memory, and Cognition* 36(6), 2010 (the footnote on saying code out loud). Checked 2026-11-17: every MDN link in "Go further" opened; MDN Glossary "Parameter"; MDN Glossary "Argument"; MDN "Lexical grammar" (keywords); MDN Glossary "Scope"; MDN Glossary "Local scope"; MDN "EventTarget: addEventListener() method" (what a listener is). `toMinutes(2)` and `toMinutes(1.5)` in the new diagram run in Node 22.23.4 (120 and 90).*
 
 [^recite]: **Why out loud?** Most people have recited something to learn it by heart: a phone number, a poem, lines for a play. Words you say aloud stick better than words you read silently; memory researchers call this the production effect (Ozubko and MacLeod, 2010). Explaining code to yourself out loud uses the same idea. It also shows you the line you cannot explain yet, and that line is the one to study next.

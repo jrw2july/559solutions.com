@@ -92,8 +92,10 @@ By the end you will style a page with one shared stylesheet and build a navigati
 ## Before you start
 
 1. Finish Module 1. Your `my-site` folder should be live on GitHub Pages, with your first page (or with your Home and About pages, if you did the Module 1 packet project).
-2. Make a throwaway folder next to `my-site` called `practice-02`. Copy your `practice-01/index.html` and your image into it.
-3. Open `practice-02` in VS Code (**File → Open Folder…**). Open `index.html` in Edge or Chrome (double-click it in File Explorer, or drag it onto a browser window). After each save, press **F5** to reload. Press **F12** (or **Ctrl+Shift+J**) to open DevTools, then click the **Console** tab.
+2. Make a throwaway folder next to `my-site` called `practice-02`.
+3. Copy your `practice-01/index.html` and your image into it.
+4. Open `practice-02` in VS Code (**File → Open Folder…**).
+5. Open `index.html` in Edge or Chrome (double-click it in File Explorer, or drag it onto a browser window). After each save, press **F5** to reload. Press **F12** (or **Ctrl+Shift+J**) to open DevTools, then click the **Console** tab. The Console is the part of DevTools where the browser lists messages about the page, such as errors. You need it in the Exercise, to find out why a page lost its styles.
 
 > **Checkpoint.** You can edit `practice-02/index.html`, save, refresh, and see the change. Your live site from Module 1 still opens.
 
@@ -103,7 +105,7 @@ By the end you will style a page with one shared stylesheet and build a navigati
 
 <img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> CSS lives in its own file, usually called `styles.css`, next to your HTML. A `<link>` element in the `<head>` tells the browser to fetch it.
 
-<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> `<link rel="stylesheet" href="styles.css">` has two parts. `rel="stylesheet"` says what kind of file it is. `href` is a relative path, exactly like the links you wrote in Module 1. The browser requests that file as a second request after the HTML. One stylesheet can be linked from every page of a site, so one change restyles all of them.
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> `<link rel="stylesheet" href="styles.css">` has two parts. `rel="stylesheet"` says what kind of file it is. `href` is a relative path, exactly like the links you wrote in Module 1. A relative path starts from the folder of the page that holds the link. When `styles.css` sits in the same folder as the page, the path is only the file name. The browser requests that file as a second request after the HTML. One stylesheet can be linked from every page of a site, so one change restyles all of them.
 
 ```html
 <head>
@@ -120,13 +122,19 @@ By the end you will style a page with one shared stylesheet and build a navigati
 
 <img src="../images/brand/marker-illustrate.svg" alt="Illustrate" width="24" height="24" class="c559-badge"> *The HTML is identical except for one `<link>` line. Each side was rendered at 560 px wide; the labels above them were added to the picture. (real: rendered in Chromium)*
 
+<div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
+
+<img src="../images/m02-folder-diagram.png" alt="A diagram of a folder named my-site that holds index.html, about.html, styles.css and image-one.jpg. Two boxes show the same link line, href equals styles.css, inside index.html and inside about.html. An arrow runs from each box to the one styles.css file." loading="lazy">
+
+*Where the shared stylesheet sits. `styles.css` is in the same folder as both pages, so each page's `href` is only the file name, and both pages ask for the same file. Your own folder may hold one page so far; the idea is the same.*
+
 <img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> Think this through: which part of the `<link>` element would you check first if a page showed no styles at all? (The `href`.)
 
 ### 2. What are the parts of a CSS rule?
 
 <img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> A stylesheet is a list of **rules**. Each rule picks some elements and says how they should look.
 
-<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> The **selector** comes first and chooses the elements. Inside the curly braces are **declarations**. Each declaration is a **property**, a colon, a **value** and a semicolon. A missing colon breaks that one declaration. A missing semicolon breaks that declaration *and the next one*, because the browser reads the two as one long value that makes no sense. (The semicolon after the last declaration, just before `}`, is optional, so leaving out that one breaks nothing.) The browser shows no error, so look closely when a line "does nothing," and check the line above it too.
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> The **selector** comes first and chooses the elements. Inside the curly braces (`{` and `}`) are **declarations**. Each declaration is a **property**, a colon, a **value** and a semicolon. A missing colon breaks that one declaration. A missing semicolon breaks that declaration *and the next one*, because the browser reads the two as one long value that makes no sense. (The semicolon after the last declaration, just before `}`, is optional, so leaving out that one breaks nothing.) The browser shows no error, so look closely when a line "does nothing," and check the line above it too.
 
 <div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
 
@@ -140,7 +148,7 @@ By the end you will style a page with one shared stylesheet and build a navigati
 
 <img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> A handful of properties do most of the work on a simple page.
 
-<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> `color` sets text color; `background-color` sets the color behind it. Colors can be names (`white`) or hex codes (`#2b2d42`). `font-family` lists fonts in order of preference, ending with a generic family such as `serif` or `sans-serif` as a fallback. `font-size` sets text size, and `line-height` sets the space between lines (a plain number like `1.5` means 1.5 times the font size). `padding` is space *inside* an element's edge; `margin` is space *outside* it. You will study the box model properly in Module 3. Some properties are **inherited**: MDN notes that `color` is, so setting it on `body` colors the text inside it, while `margin`, `padding` and `border` are not.
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> `color` sets text color; `background-color` sets the color behind it. Colors can be names (`white`) or hex codes (`#2b2d42`). A hex code is a `#` followed by six digits or letters that stand for amounts of red, green and blue. `font-family` lists fonts in order of preference, ending with a generic family such as `serif` or `sans-serif` as a fallback. The browser uses the first font in the list that it can find. A serif font has small finishing strokes at the ends of its letters, and a sans-serif font has plain ends. `font-size` sets text size (`px` is short for pixels, the unit of length used in this module), and `line-height` sets the space between lines (a plain number like `1.5` means 1.5 times the font size). `padding` is space *inside* an element's edge; `margin` is space *outside* it. You will study the box model properly in Module 3. Some properties are **inherited**: MDN notes that `color` is, so setting it on `body` colors the text inside it, while `margin`, `padding` and `border` are not.
 
 ```css
 body {
@@ -184,7 +192,7 @@ nav a { color: white; }      /* links inside the nav; other links keep their col
 
 <img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> Often more than one rule matches the same element and sets the same property. The **cascade** is the browser's method for choosing one.
 
-<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> For the rules you write, two tests decide. First, **specificity**: MDN (*Handling conflicts*) describes an id selector as more specific than a class selector, and a class selector as more specific than an element selector. Compare the columns left to right: MDN says "a *million* **class** selectors combined would not be able to overwrite the specificity of *one* **id** selector." Second, only if specificity ties, **source order**: "the one that is defined last in the stylesheet is the one that will be used." So a later rule does not automatically win. It wins only against a rule of equal specificity.
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> For the rules you write, two tests decide. First, **specificity**, the weight the browser gives a rule based on its selector. An id selector starts with `#`, such as `#special`, and matches the element with `id="special"`. MDN (*Handling conflicts*) describes an id selector as more specific than a class selector, and a class selector as more specific than an element selector. Compare the columns left to right: MDN says "a *million* **class** selectors combined would not be able to overwrite the specificity of *one* **id** selector." Second, only if specificity ties, **source order**: "the one that is defined last in the stylesheet is the one that will be used." So a later rule does not automatically win. It wins only against a rule of equal specificity.
 
 <div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
 
@@ -223,9 +231,9 @@ p        { color: gray; font-size: 20px; }
 
 ### 6. What is the difference between block and inline boxes?
 
-<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> Every element is drawn as a box. In normal flow, most boxes are either **block** or **inline**.
+<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> Every element is drawn as a box. Normal flow is the way the browser lays out elements when no CSS has changed their layout. In normal flow, most boxes are either **block** or **inline**.
 
-<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> Block boxes, such as `h1`–`h6`, `p`, `ul`, `section` and `nav`, start on a new line and, by default, stretch across the full width of their container. MDN (*Block and inline layout in normal flow*) says block elements in English "lay out vertically, one below the other," and even with a width set "they will continue to lay out one below the other." Inline boxes, such as `a`, `span`, `em` and `strong`, sit in the line of text like words. MDN (*The box model*) says that for an inline box, "The `width`, `height`, and top and bottom margins will have no effect." When a `width` rule seems to do nothing, check whether the element is inline.
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> Block boxes, such as `h1`–`h6`, `p`, `ul`, `section` and `nav`, start on a new line and, by default, stretch across the full width of their container (the element they sit inside). MDN (*Block and inline layout in normal flow*) says block elements in English "lay out vertically, one below the other," and even with a width set "they will continue to lay out one below the other." Inline boxes, such as `a`, `span`, `em` and `strong`, sit in the line of text like words. `em` marks words to stress, `strong` marks words that are very important, and `span` means nothing on its own: it only marks a piece of text so that you can style it. MDN (*The box model*) says that for an inline box, "The `width`, `height`, and top and bottom margins will have no effect." When a `width` rule seems to do nothing, check whether the element is inline.
 
 <div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
 
@@ -237,9 +245,9 @@ p        { color: gray; font-size: 20px; }
 
 ### 7. How does Flexbox lay out a navigation bar?
 
-<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> Your nav links sit in a line because they are inline. To control spacing and alignment you turn their container into a **flex container** with `display: flex`.
+<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> Your nav links sit in a line because they are inline. To control spacing and alignment you turn their container into a **flex container** with `display: flex`. This way of laying things out is called Flexbox, short for flexible box layout. It arranges items in one direction at a time, a row or a column.
 
-<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> `display: flex` goes on the *parent* (the `nav`). Its children become **flex items** and line up in a row. `gap` puts a fixed space between items. `justify-content` places items along the row: the default packs them at the start of the row; other values include `flex-end`, `center` or `space-between`, which pushes the first and last items to the edges and spreads the rest. `align-items` lines items up across the row; its default stretches them to the tallest item, and `center` centers them. One thing changes when you switch: the spaces from the line breaks between your `<a>` tags no longer show, so you use `gap` instead.
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> `display: flex` goes on the *parent* (the `nav`). Its children (the elements directly inside it) become **flex items** and line up in a row. `gap` puts a fixed space between items. `justify-content` places items along the row: the default packs them at the start of the row; other values include `flex-end`, `center` or `space-between`, which pushes the first and last items to the edges and spreads the rest. `align-items` lines items up across the row; its default stretches them to the tallest item, and `center` centers them. One thing changes when you switch: the spaces from the line breaks between your `<a>` tags no longer show, so you use `gap` instead.
 
 ```css
 nav {
@@ -277,31 +285,39 @@ The big label is what makes `align-items` visible. When every item is the same h
 
 1. Create a new file in `practice-02` called `styles.css`.
 2. In `index.html`, add `<link rel="stylesheet" href="styles.css">` as the last line inside `<head>`.
-3. Add a `<nav>` at the top of `<body>` with two same-page links to two of your `<h2>` headings (give each heading an `id`, as in Module 1). Add `class="highlight"` to one paragraph.
-4. **Predict.** Before you write any CSS, think this through: what will change when you add a `body` rule with a background color?
-5. In `styles.css`, type a `body` rule (font, color, background, margin, padding), an `h1` rule and an `h2` rule with different colors, a `.highlight` rule, a `nav` rule with `display: flex`, `gap`, `padding` and a background color, and a `nav a` rule that makes the links white. Use your own colors.
-6. **Run.** Save both files and press **F5** in the browser.
+3. Add a `<nav>` at the top of `<body>` with two same-page links to two of your `<h2>` headings (give each heading an `id`, as in Module 1).
+4. Add `class="highlight"` to one paragraph.
+5. **Predict.** Before you write any CSS, think this through: what will change when you add a `body` rule with a background color?
+6. In `styles.css`, type a `body` rule (font, color, background, margin, padding). Use your own colors, here and in the next four steps.
+7. Type an `h1` rule and an `h2` rule with different colors.
+8. Type a `.highlight` rule.
+9. Type a `nav` rule with `display: flex`, `gap`, `padding` and a background color.
+10. Type a `nav a` rule that makes the links white.
+11. **Run.** Save both files and press **F5** in the browser.
 
-   <img src="../images/m02-exercise-phone.png" alt="The practice page at phone width: a dark nav bar with two white links, a red main heading, an orange highlighted paragraph, teal section headings, a bulleted list, a paragraph with a blue link and a picture, on a cream background." loading="lazy">
-   
-   *One example, measured at 390 px wide, about the width of a phone. Your colors and words will differ. (page real: rendered in Chromium; browser frame drawn)*
+    <img src="../images/m02-exercise-phone.png" alt="The practice page at phone width: a dark nav bar with two white links, a red main heading, an orange highlighted paragraph, teal section headings, a bulleted list, a paragraph with a blue link and a picture, on a cream background." loading="lazy">
+    
+    *One example, measured at 390 px wide, about the width of a phone. Your colors and words will differ. (page real: rendered in Chromium; browser frame drawn)*
 
-7. **Modify.** Add `justify-content: center;` to the `nav` rule. Save, refresh, and check your prediction from Concept 7. Then add a second `.highlight` rule *below* the first with a different background color. Which one wins, and why?
-8. **Break it on purpose.** In `index.html`, change `href="styles.css"` to `href="style.css"` (one letter missing). Save and refresh.
+12. **Modify.** Add `justify-content: center;` to the `nav` rule. Save, refresh, and check your prediction from Concept 7.
+13. Add a second `.highlight` rule *below* the first with a different background color. Save and refresh. Which one wins, and why?
+14. **Break it on purpose.** In `index.html`, change `href="styles.css"` to `href="style.css"` (one letter missing). Save and refresh.
 
-   <img src="../images/m02-break-href.png" alt="The same practice page with no styles at all: black serif text, blue underlined links side by side, no colors or background." loading="lazy">
-   
-   *Every style is gone, but nothing on the page says why. The HTML still works; only the request for the stylesheet failed. (page real: rendered in Chromium; browser frame drawn)*
+    <img src="../images/m02-break-href.png" alt="The same practice page with no styles at all: black serif text, blue underlined links side by side, no colors or background." loading="lazy">
+    
+    *Every style is gone, but nothing on the page says why. The HTML still works; only the request for the stylesheet failed. (page real: rendered in Chromium; browser frame drawn)*
 
-   Press **F12** (or **Ctrl+Shift+J**) to open DevTools, then click the **Console** tab.
+15. Press **F12** (or **Ctrl+Shift+J**) to open DevTools, then click the **Console** tab.
 
-   <img src="../images/m02-break-console.png" alt="A DevTools-style Console showing one red error: Failed to load resource: net::ERR_FILE_NOT_FOUND." loading="lazy">
-   
-   *The browser did report the problem, just not on the page. In real DevTools the line also names the file it could not find. (real output, rendered; captured from Chromium loading the broken page from disk)*
+    <img src="../images/m02-break-console.png" alt="A DevTools-style Console showing one red error: Failed to load resource: net::ERR_FILE_NOT_FOUND." loading="lazy">
+    
+    *The browser did report the problem, just not on the page. In real DevTools the line also names the file it could not find. (real output, rendered; captured from Chromium loading the broken page from disk)*
 
-   Edge and Chrome may lay out this message a little differently. Look for the red error and the file name it could not load. If the page came from a server instead of from disk (for example through Live Preview), the same mistake shows `Failed to load resource: the server responded with a status of 404 (Not Found)` instead: the server answered that it has no such file.
+    Edge and Chrome may lay out this message a little differently. Look for the red error and the file name it could not load. If the page came from a server instead of from disk (for example through Live Preview), the same mistake shows `Failed to load resource: the server responded with a status of 404 (Not Found)` instead: the server answered that it has no such file.
 
-9. **Debug.** Fix the `href`, save and refresh. Then make a second, different mistake: delete the colon in one declaration, such as `color #d1495b;`. Which part of the page lost its style? Fix it.
+16. **Debug.** Fix the `href`, save and refresh.
+17. Make a second, different mistake: delete the colon in one declaration, such as `color #d1495b;`. Save and refresh. Which part of the page lost its style?
+18. Fix it, save and refresh.
 
 ## Project (in the full packet)
 
@@ -325,18 +341,30 @@ A `<link rel="stylesheet">` in the `<head>` fetches a CSS file by a relative pat
 
 ## Before next module
 
+**You should now be able to do these on your own:**
+
 - [ ] Your practice page links `styles.css` and shows your colors, fonts and spacing
 - [ ] You broke the `href`, saw the unstyled page and the Console error, and fixed it
 - [ ] You can explain why line 3 in the cascade test is purple
 - [ ] Your nav uses `display: flex` with `gap`
 - [ ] If you did this module's packet project in my-site, saved it with the routine: git status → git add . → git commit -m "…" → git push → check the live page. (Your practice folder is not saved to GitHub.)
 
+**You have only been introduced to these so far:**
+
+- The Console. You opened it to read one error. Module 5 teaches you to type into it.
+- The box model. You typed `padding` and `margin`, but Module 3 teaches how the parts of a box fit together.
+- Id selectors such as `#special`. You saw one win in the cascade test, but the Exercise did not ask you to write one.
+- Inheritance. You read that `color` passes from `body` to the text inside it, but you did not test it in the Exercise.
+- `justify-content: space-between` and `align-items`. You saw them in the picture of five nav bars; the Exercise nav used `gap` and `justify-content: center` only.
+
 ## Go further
 
-- MDN: *Handling conflicts* (cascade, specificity and inheritance)
-- MDN: *Block and inline layout in normal flow* and *The box model*
-- MDN: search "Basic concepts of flexbox" and the reference pages for `justify-content` and `align-items`
-- MDN: search "CSS selectors" for type and class selectors
+- MDN: [*Handling conflicts*](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Handling_conflicts) (cascade, specificity and inheritance)
+- MDN: [*Block and inline layout in normal flow*](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Display/Block_and_inline_layout) and [*The box model*](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Box_model)
+- MDN: [*Basic concepts of flexbox*](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Flexible_box_layout/Basic_concepts) and the reference pages for [`justify-content`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/justify-content) and [`align-items`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/align-items)
+- MDN: [*Basic CSS selectors*](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Basic_selectors) for type and class selectors
+- MDN: [*Creating links*](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Creating_links) (the section "A quick primer on URLs and paths" shows how a path such as `styles.css` is found)
+- MDN: the [`<link>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/link) reference page
 - freeCodeCamp: the CSS section of the Responsive Web Design curriculum
 
 ## What to keep
@@ -347,4 +375,4 @@ Keep your `practice-02` folder, including `cascade.html` and `cascade.css` if yo
 
 *Code559 is a 559 Solutions project. Portions adapted from Visual Studio Code documentation (CC BY 3.0 US), GitHub Docs (CC BY 4.0), and GitHub Skills (MIT). Screenshots used with permission from Microsoft.*
 
-*Sources checked 2026-10-09: MDN "Handling conflicts" (MDN's Learn page on cascade, specificity and inheritance); MDN "Block and inline layout in normal flow"; MDN "The box model". Checked 2026-10-11: MDN "Descendant combinator"; MDN "Introduction to CSS syntax: declarations, rulesets, and statements"; MDN "`<a>` HTML anchor element" (`href="#"` links to the top of the page); Live Preview source code (microsoft/vscode-livepreview on GitHub, `src/server/httpServer.ts`: a missing file gets status 404).*
+*Sources checked 2026-10-09: MDN "Handling conflicts" (MDN's Learn page on cascade, specificity and inheritance); MDN "Block and inline layout in normal flow"; MDN "The box model". Checked 2026-10-11: MDN "Descendant combinator"; MDN "Introduction to CSS syntax: declarations, rulesets, and statements"; MDN "`<a>` HTML anchor element" (`href="#"` links to the top of the page); Live Preview source code (microsoft/vscode-livepreview on GitHub, `src/server/httpServer.ts`: a missing file gets status 404). Checked 2026-11-17: every MDN link in "Go further" opened; MDN "Creating links" (a file in the same folder is reached by its file name alone); MDN "Basic concepts of flexbox"; MDN "justify-content"; MDN "align-items"; MDN "Basic CSS selectors"; MDN "`<link>`: The External Resource Link element"; MDN "`<hex-color>` CSS type"; MDN "font-family CSS property"; MDN "CSS values and units"; MDN "ID selectors"; MDN "Specificity"; MDN "Introduction to CSS layout" (normal flow); MDN "`<span>` HTML content span element"; MDN "`<strong>` HTML strong importance element"; MDN "`<em>` HTML emphasis element"; Chrome for Developers "Console overview"; Chrome for Developers "Log messages in the Console" (the browser logs its own messages, such as a 404 error, to the Console).*
