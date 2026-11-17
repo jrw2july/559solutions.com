@@ -60,6 +60,7 @@ Every core concept moves through the same four steps, called IEIA. Each step is 
   - [6. How does CSS Grid make a card layout?](#6-how-does-css-grid-make-a-card-layout)
   - [7. How do responsive images work?](#7-how-do-responsive-images-work)
   - [8. How do you test at different widths?](#8-how-do-you-test-at-different-widths)
+  - [9. What should you check for accessibility at every width?](#9-what-should-you-check-for-accessibility-at-every-width)
 - [Exercise](#exercise)
 - [Project (in the full packet)](#project-in-the-full-packet)
 - [Common misconception](#common-misconception)
@@ -81,6 +82,7 @@ Every core concept moves through the same four steps, called IEIA. Each step is 
 - CSS Grid: `display: grid`, `repeat(auto-fit, minmax(220px, 1fr))`, `gap` and `grid-column: span 2`
 - Responsive images: `srcset` with `w` descriptors, `sizes`, `width` and `height` to stop layout shift, `loading="lazy"`, and `figure` with `figcaption`
 - How to test a page at different widths with the DevTools device toolbar
+- A short accessibility checklist to run at every width
 
 ## Why this matters
 
@@ -294,6 +296,33 @@ The browser also counts pixel density. A phone screen often has two or three dev
 
 <img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> Open your Home page in Edge or Chrome, open device mode (F12, then Ctrl+Shift+M), and try 390, 800 and 1200. Write down one thing that looks wrong at 390.
 
+### 9. What should you check for accessibility at every width?
+
+<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> A page can fit a phone and still shut some visitors out. A short checklist, run at each width, catches the most common problems.
+
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> The checks below come from two places. Some are from MDN. The others are from **WCAG**, the Web Content Accessibility Guidelines, a shared standard for accessible web content developed through the W3C. Each check names its source so you can read the full rule. Three ideas run through the list. People with low vision zoom in, so nothing you write may block zoom. WCAG's *Resize Text* rule asks that text "can be resized without assistive technology up to 200 percent without loss of content or functionality." A zoomed page behaves like a narrow page, so WCAG's *Reflow* rule tests "a width equivalent to 320 CSS pixels" with no sideways scrolling. And layout tools such as Grid can move things on screen without moving them in the HTML. MDN's *Grid layout and accessibility* page warns that visual reordering "will not change how the items are ordered if the content is being read out by a screen reader" and "will not change tab order."
+
+<img src="../images/brand/marker-illustrate.svg" alt="Illustrate" width="24" height="24" class="c559-badge"> The checklist. Run it at 390, 800 and 1200, and once at 320.
+
+| Check | How to test it | Source |
+|---|---|---|
+| Zoom is not blocked | Read your viewport line. It must not contain `user-scalable=no` or `maximum-scale`. | MDN, `<meta name="viewport">` |
+| No sideways scrolling | In device mode, type a width of 320. You scroll down only, never sideways. | WCAG 1.4.10 *Reflow* |
+| Text can grow | Set your browser's zoom to 200%. No text is cut off or lost. | WCAG 1.4.4 *Resize Text* |
+| Links are big enough to tap | Each link and button is at least 24 by 24 CSS pixels. (The rule lists a few exceptions.) | WCAG 2.5.8 *Target Size (Minimum)* |
+| The order still makes sense | Press **Tab** through the page at each width. Focus moves in the order you read. | WCAG 2.4.3 *Focus Order*; MDN, *Grid layout and accessibility* |
+| The page works turned sideways | In device mode, swap the width and height numbers. Nothing is lost. | WCAG 1.3.4 *Orientation* |
+
+To measure a link for the fourth check, use the Console. Type this line exactly as shown. You will learn how it works in Module 9; for now, read the answer it gives.
+
+```js
+document.querySelector("nav a").offsetHeight
+```
+
+The answer is the height of the first link in your `nav`, in CSS pixels, with its padding counted. On our test page, a link with the padding from Concept 5 measured 31, and the same link with no padding measured 18. (Measured in Chromium at 390 px wide, with the browser's default 16 px text.)
+
+<img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> Run the first two checks now on any page you have built: read its viewport line, then set device mode to 320 wide. Write down what you find. When you finish the Exercise, run all six checks on `practice-03`.
+
 ## Exercise
 
 *Your hands, about 50 minutes (estimate).* Work in `practice-03`. Type it, do not paste it. The `srcset` and the grid line especially should go through your fingers once.
@@ -339,7 +368,7 @@ What would you say? Hint: look at how many media queries the Exercise page used,
 
 ## Summary
 
-Every element is a box of content, padding, border and margin, and `box-sizing: border-box` makes `width` mean the visible width. The viewport meta tag makes a phone lay the page out at its real width, so your media queries can fire. Mobile first means phone rules first, then `min-width` media queries below them, because the later of two equal rules wins. Responsive navigation stacks on a phone and becomes a row in a media query. `repeat(auto-fit, minmax(220px, 1fr))` makes as many columns as fit, `gap` spaces them, and `grid-column: span 2` widens one card. `srcset` with `w` descriptors and `sizes` let the browser pick an image file, `width` and `height` reserve its space, `loading="lazy"` delays it, and `figure` with `figcaption` keeps it with its caption. The DevTools device toolbar lets you test any width without another device.
+Every element is a box of content, padding, border and margin, and `box-sizing: border-box` makes `width` mean the visible width. The viewport meta tag makes a phone lay the page out at its real width, so your media queries can fire. Mobile first means phone rules first, then `min-width` media queries below them, because the later of two equal rules wins. Responsive navigation stacks on a phone and becomes a row in a media query. `repeat(auto-fit, minmax(220px, 1fr))` makes as many columns as fit, `gap` spaces them, and `grid-column: span 2` widens one card. `srcset` with `w` descriptors and `sizes` let the browser pick an image file, `width` and `height` reserve its space, `loading="lazy"` delays it, and `figure` with `figcaption` keeps it with its caption. The DevTools device toolbar lets you test any width without another device. A six-item accessibility checklist, run at each width, catches blocked zoom, sideways scrolling, text that cannot grow, small tap targets, a confusing order and a page that fails when turned sideways.
 
 ## Check your understanding
 
@@ -357,8 +386,11 @@ Every element is a box of content, padding, border and margin, and `box-sizing: 
 
 ## Go further
 
-- MDN: *The box model*; *Using media queries*; *Basic concepts of grid layout*; *repeat()*; *Using responsive images in HTML*; the `<img>` element page; `<meta name="viewport">`
-- Chrome for Developers: *Simulate mobile devices with device mode*; *Keyboard shortcuts* (DevTools)
+- MDN: [*The box model*](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Box_model); [*Using media queries*](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Media_queries/Using); [*Basic concepts of grid layout*](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout/Basic_concepts); [*repeat()*](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/repeat); [*Using responsive images in HTML*](https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Responsive_images); the [`<img>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img) page; [`<meta name="viewport">`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/meta/name/viewport)
+- Chrome for Developers: [*Simulate mobile devices with device mode*](https://developer.chrome.com/docs/devtools/device-mode); [*Keyboard shortcuts*](https://developer.chrome.com/docs/devtools/shortcuts) (DevTools)
+- MDN: [*Grid layout and accessibility*](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout/Accessibility) (why the order in your HTML still matters)
+- W3C: [*WCAG 2 Overview*](https://www.w3.org/WAI/standards-guidelines/wcag/), and the rules behind the checklist: [*Reflow*](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html); [*Resize Text*](https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html); [*Target Size (Minimum)*](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html); [*Focus Order*](https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html); [*Orientation*](https://www.w3.org/WAI/WCAG22/Understanding/orientation.html)
+- W3C: [*Easy Checks – A First Review of Web Accessibility*](https://www.w3.org/WAI/test-evaluate/preliminary/)
 - freeCodeCamp: the responsive web design and CSS Grid lessons in the current curriculum (search "CSS Grid")
 
 ## What to keep
@@ -369,4 +401,4 @@ Keep `practice-03` with the media query back at the bottom, and a note of which 
 
 *Code559 is a 559 Solutions project. Portions adapted from Visual Studio Code documentation (CC BY 3.0 US), GitHub Docs (CC BY 4.0), and GitHub Skills (MIT). Screenshots used with permission from Microsoft.*
 
-*Sources checked 2026-10-09: MDN "The box model"; MDN "Using media queries"; MDN "Basic concepts of grid layout"; MDN "repeat()"; MDN "Using responsive images in HTML"; MDN "`<img>`: The Image Embed element"; MDN "`<meta name="viewport">`"; Chrome for Developers "Simulate mobile devices with device mode" and "Keyboard shortcuts". Checked 2026-10-11: Chrome DevTools source code, `front_end/models/emulation/DeviceModeModel.ts` (GitHub, ChromeDevTools/devtools-frontend: Responsive defaults to Mobile with pixel ratio 2); HTML Standard "Rendering" (default margins of `body` and `figure`). Measurements made with Chromium 141 (headless, via Playwright).*
+*Sources checked 2026-10-09: MDN "The box model"; MDN "Using media queries"; MDN "Basic concepts of grid layout"; MDN "repeat()"; MDN "Using responsive images in HTML"; MDN "`<img>`: The Image Embed element"; MDN "`<meta name="viewport">`"; Chrome for Developers "Simulate mobile devices with device mode" and "Keyboard shortcuts". Checked 2026-10-11: Chrome DevTools source code, `front_end/models/emulation/DeviceModeModel.ts` (GitHub, ChromeDevTools/devtools-frontend: Responsive defaults to Mobile with pixel ratio 2); HTML Standard "Rendering" (default margins of `body` and `figure`). Measurements made with Chromium 141 (headless, via Playwright). Checked 2026-11-17: every MDN, Chrome for Developers and W3C link in "Go further" opened; W3C "WCAG 2 Overview"; W3C "Understanding Success Criterion 1.4.10: Reflow"; "Understanding Success Criterion 1.4.4: Resize Text"; "Understanding Success Criterion 2.5.8: Target Size (Minimum)"; "Understanding Success Criterion 2.4.3: Focus Order"; "Understanding Success Criterion 1.3.4: Orientation"; W3C "Easy Checks – A First Review of Web Accessibility"; MDN "`<meta name="viewport">`" (the `user-scalable` and `maximum-scale` warning); MDN "Grid layout and accessibility"; MDN "HTMLElement: offsetHeight property". Link heights measured in Chromium 153 (headless, via Playwright) at 390 px wide.*

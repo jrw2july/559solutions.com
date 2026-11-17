@@ -61,6 +61,7 @@ Every core concept moves through the same four steps, called IEIA. Each step is 
   - [7. What are `:focus-visible`, `aria-current` and a skip link?](#7-what-are-focus-visible-aria-current-and-a-skip-link)
   - [8. How do custom properties and state selectors style a control you cannot see?](#8-how-do-custom-properties-and-state-selectors-style-a-control-you-cannot-see)
   - [9. How do you read a design brief?](#9-how-do-you-read-a-design-brief)
+  - [10. How do you keep a visitor's information safe in a form?](#10-how-do-you-keep-a-visitors-information-safe-in-a-form)
 - [Exercise](#exercise)
 - [Project (in the full packet)](#project-in-the-full-packet)
 - [Common misconception](#common-misconception)
@@ -84,6 +85,7 @@ Every core concept moves through the same four steps, called IEIA. Each step is 
 - `:focus-visible`, `aria-current="page"` and the skip-link idea
 - CSS custom properties (`:root`, `var()`), the state selectors `:checked`, `:hover` and `:focus-visible`, and a `.visually-hidden` class that hides a control without breaking it
 - How to read a design brief and build the HTML before any CSS
+- How to treat a visitor's information with care: ask for less, know where it shows, and keep secrets off a practice site
 
 ## Why this matters
 
@@ -290,6 +292,26 @@ Finally, style the label from the radio's **state**. Put each input right before
 
 <img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> Look at the practice contact page you build in step 1 of the Exercise (`practice-04/contact.html`) and write its "brief" in three lines: what is on it, what the visitor can do, what it sends.
 
+### 10. How do you keep a visitor's information safe in a form?
+
+<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> A form asks a visitor to hand you something of theirs: a name, an email address, a message. Treat it with care from the first line of HTML.
+
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> Four habits cover most of it.
+
+**Ask only for what you need.** A field you leave out is information that can never leak. The W3C's *Privacy Principles* say it this way: "Data minimization limits the risks of data being disclosed or misused."
+
+**Know where the data shows.** The forms in this module use GET, so everything the visitor types appears in the address, as you saw in Concept 2. MDN's *Sending form data* warns: "If you need to send a password (or any other sensitive piece of data), never use the GET method or you risk displaying it in the URL bar." The other method is POST, written `method="post"` on the `<form>`. With POST, the same MDN page says, "you get no data appended to the URL." The data travels inside the request instead.
+
+**Send it over HTTPS.** HTTPS is the secure way a browser and a server talk. GitHub Docs says it "adds a layer of encryption that prevents others from snooping on or tampering with traffic to your site." MDN's `<input type="password">` page adds that "any forms involving sensitive information like passwords (such as login forms) should be served over HTTPS."
+
+**Keep secrets off a practice site.** GitHub Docs describes GitHub Pages as "a static site hosting service." It publishes your files. It does not run code of yours that could receive or store what a form sends. GitHub Docs also says Pages sites "shouldn't be used for sensitive transactions like sending passwords or credit card numbers." So never ask for a password, a card number or an ID number on a site you build in this course.
+
+One more point, for later. `required` and `type="email"` help the visitor fill in the form. They do not protect the data. MDN: "the server can't trust this validation because it has no way to truly know what has really happened on the client-side." Module 10 comes back to this.
+
+<img src="../images/brand/marker-illustrate.svg" alt="Illustrate" width="24" height="24" class="c559-badge"> Look again at the address bar picture in Concept 2. The email address is in plain view, as `sam%40example.com`. Anyone who can see the screen can read it. If the visitor copies that address and shares it, the data goes with it.
+
+<img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> List every field on your contact form. Next to each one, write down why you need it. Cross out any field you cannot give a reason for.
+
 ## Exercise
 
 *Your hands, about 45 minutes (estimate).* Work in `practice-04`. Type it, do not paste it. `id`, `for`, `name` and `value` should go through your fingers once.
@@ -340,7 +362,7 @@ What would you say? Hint: in step 3 of the Exercise, which element received your
 
 ## Summary
 
-A form holds controls, each joined to a `<label>` by `for` and `id`, and `required` stops the form until a control has a value. `id` is for the page and `name` is for the data. A form with no `method` sends `name=value` pairs in the address after a `?`, and a control with no `name` sends nothing. Radios with the same `name` form a group where only one can be on, and `required` on one radio covers the group. `<fieldset>` and `<legend>` give the group a title for people who cannot see it. `hidden` removes an element from sight, from screen readers and from the Tab order. Tab moves between controls and the arrow keys move inside a radio group. `:focus-visible` styles the keyboard focus ring, `aria-current="page"` marks the current nav link, and a skip link jumps past the menu. Custom properties on `:root` hold your colors, state selectors style the label from the radio's state, and `.visually-hidden` hides a control without breaking it. A brief is read twice and built as HTML first.
+A form holds controls, each joined to a `<label>` by `for` and `id`, and `required` stops the form until a control has a value. `id` is for the page and `name` is for the data. A form with no `method` sends `name=value` pairs in the address after a `?`, and a control with no `name` sends nothing. Radios with the same `name` form a group where only one can be on, and `required` on one radio covers the group. `<fieldset>` and `<legend>` give the group a title for people who cannot see it. `hidden` removes an element from sight, from screen readers and from the Tab order. Tab moves between controls and the arrow keys move inside a radio group. `:focus-visible` styles the keyboard focus ring, `aria-current="page"` marks the current nav link, and a skip link jumps past the menu. Custom properties on `:root` hold your colors, state selectors style the label from the radio's state, and `.visually-hidden` hides a control without breaking it. A brief is read twice and built as HTML first. A careful form asks only for what it needs, keeps sensitive data out of a GET address, is served over HTTPS, and never collects passwords or card numbers on a practice site.
 
 ## Check your understanding
 
@@ -358,7 +380,11 @@ A form holds controls, each joined to a `<label>` by `for` and `id`, and `requir
 
 ## Go further
 
-- MDN: `<form>`; `<label>`; `<input type="radio">`; `<fieldset>`; the `hidden` global attribute; `:focus-visible`; *ARIA: aria-current attribute*; *Using CSS custom properties (variables)*; *Sending form data*
+- MDN: [`<form>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/form); [`<label>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/label); [`<input type="radio">`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/radio); [`<fieldset>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/fieldset); the [`hidden` global attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/hidden); [`:focus-visible`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:focus-visible); [*ARIA: aria-current attribute*](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-current); [*Using CSS custom properties (variables)*](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Cascading_variables/Using_custom_properties)
+- MDN: [*Sending form data*](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Sending_and_retrieving_form_data) (GET, POST and the security notes) and [*Website security*](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/First_steps/Website_security)
+- W3C: the [*Forms Tutorial*](https://www.w3.org/WAI/tutorials/forms/), starting with [*Labeling Controls*](https://www.w3.org/WAI/tutorials/forms/labels/)
+- W3C: [*Privacy Principles*](https://www.w3.org/TR/privacy-principles/) (section 2.2, "Data Minimization")
+- GitHub Docs: [*Securing your GitHub Pages site with HTTPS*](https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https) and [*GitHub Pages limits*](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits)
 - freeCodeCamp: the HTML forms and accessibility lessons in the current curriculum (search "accessibility")
 
 ## What to keep
@@ -369,6 +395,6 @@ Keep `practice-04` with all three files fixed, and your sentences from steps 5, 
 
 *Code559 is a 559 Solutions project. Portions adapted from Visual Studio Code documentation (CC BY 3.0 US), GitHub Docs (CC BY 4.0), and GitHub Skills (MIT). Screenshots used with permission from Microsoft.*
 
-*Sources checked 2026-10-09: MDN "`<form>`: The Form element"; MDN "`<label>`: The Label element"; MDN "`<input type="radio">`"; MDN "`<fieldset>`: The Field Set element"; MDN "hidden" (global attribute); MDN ":focus-visible"; MDN "ARIA: aria-current attribute"; MDN "Using CSS custom properties (variables)"; MDN "Sending form data". Checked 2026-10-11: MDN "hidden" (global attribute, again); MDN ":root"; MDN "ARIA"; MDN "Attribute selectors"; MDN "position"; MDN "`<style>`: The Style Information element"; MDN "Color contrast"; MDN "outline-color"; MDN "clip" (deprecated; the page points to `clip-path`); MDN "clip-path". Submissions, validity checks and keyboard behavior tested in Chromium 141 (headless, via Playwright) on Linux. Checked 2026-10-12: Ozubko and MacLeod, "The Production Effect in Memory: Evidence That Distinctiveness Underlies the Benefit," *Journal of Experimental Psychology: Learning, Memory, and Cognition* 36(6), 2010 (the footnote on saying code out loud).*
+*Sources checked 2026-10-09: MDN "`<form>`: The Form element"; MDN "`<label>`: The Label element"; MDN "`<input type="radio">`"; MDN "`<fieldset>`: The Field Set element"; MDN "hidden" (global attribute); MDN ":focus-visible"; MDN "ARIA: aria-current attribute"; MDN "Using CSS custom properties (variables)"; MDN "Sending form data". Checked 2026-10-11: MDN "hidden" (global attribute, again); MDN ":root"; MDN "ARIA"; MDN "Attribute selectors"; MDN "position"; MDN "`<style>`: The Style Information element"; MDN "Color contrast"; MDN "outline-color"; MDN "clip" (deprecated; the page points to `clip-path`); MDN "clip-path". Submissions, validity checks and keyboard behavior tested in Chromium 141 (headless, via Playwright) on Linux. Checked 2026-10-12: Ozubko and MacLeod, "The Production Effect in Memory: Evidence That Distinctiveness Underlies the Benefit," *Journal of Experimental Psychology: Learning, Memory, and Cognition* 36(6), 2010 (the footnote on saying code out loud). Checked 2026-11-17: every MDN, W3C and GitHub Docs link in "Go further" opened; MDN "Sending form data" (GET, POST, and the security section); MDN "Website security"; MDN "`<input type="password">`"; W3C "Privacy Principles" (2.2 Data Minimization); W3C "Forms Tutorial" and "Labeling Controls"; GitHub Docs "Securing your GitHub Pages site with HTTPS"; GitHub Docs "GitHub Pages limits"; GitHub Docs "What is GitHub Pages?".*
 
 [^recite]: **Why out loud?** Most people have recited something to learn it by heart: a phone number, a poem, lines for a play. Words you say aloud stick better than words you read silently; memory researchers call this the production effect (Ozubko and MacLeod, 2010). Explaining code to yourself out loud uses the same idea. It also shows you the line you cannot explain yet, and that line is the one to study next.

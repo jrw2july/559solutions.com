@@ -3,14 +3,14 @@ title: "Module 6: JavaScript Language Foundations"
 subtitle: "Values, types, variables, operators and your first decisions, all in the Console."
 module: 6
 series: Code559 Front-End Developer Course
-estimated_time: "about 90 minutes (estimate)"
+estimated_time: "about 105 minutes (estimate)"
 ---
 
 # Module 6 — JavaScript Language Foundations
 
 *Values, types, variables, operators and your first decisions, all in the Console.*
 
-**Time:** about 90 minutes (estimate)
+**Time:** about 105 minutes (estimate)
 
 <!-- about:start -->
 <details>
@@ -166,6 +166,25 @@ As in Module 5, nothing touches your site yet. Every result in this post was pro
 <img src="../images/m06-equality.png" alt="The Console: 10 > 9 true, 10 >= 10 true, 3 !== 4 true, 5 === 5 true, 5 === &quot;5&quot; false, 5 == &quot;5&quot; true, 0 == false true, 0 === false false, null == undefined true, null === undefined false." loading="lazy">
 <img src="../images/brand/marker-illustrate.svg" alt="Illustrate" width="24" height="24" class="c559-badge"> *Every pair of `==` and `===` lines gives opposite answers. Strict equality is the one that agrees with what you can see. (real output, rendered; evaluated in Chromium)*
 
+**Quick reference: every operator so far.** Keep this table open while you do the Exercise. Each result was evaluated in Chromium.
+
+| Operator | What it does | Example | Result |
+|---|---|---|---|
+| `=` | Assigns: puts a value into a variable | `mood = "busy"` | `mood` now holds `"busy"` |
+| `+` | Adds two numbers | `7 + 2` | `9` |
+| `+` | Joins, if either side is a string | `"5" + 3` | `"53"` |
+| `-` | Subtracts | `7 - 2` | `5` |
+| `*` | Multiplies | `7 * 2` | `14` |
+| `/` | Divides | `7 / 2` | `3.5` |
+| `%` | Gives the remainder after dividing | `7 % 2` | `1` |
+| `===` | Asks: the same value and the same type? | `5 === "5"` | `false` |
+| `!==` | Asks: not the same? | `5 !== "5"` | `true` |
+| `>` | Asks: greater than? | `10 > 10` | `false` |
+| `>=` | Asks: greater than, or equal? | `10 >= 10` | `true` |
+| `<` | Asks: less than? | `10 < 10` | `false` |
+| `<=` | Asks: less than, or equal? | `10 <= 10` | `true` |
+| `typeof` | Names the type of a value | `typeof 7` | `"number"` |
+
 <img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> Predict `"7" === 7` and `"7" == 7` before you type them.
 
 ### 6. What does a comparison produce?
@@ -179,6 +198,23 @@ As in Module 5, nothing touches your site yet. Every result in this post was pro
 <img src="../images/m06-boolean-results.png" alt="The Console: const temp = 62, temp < 50 gives false, const needsJacket = temp < 70, needsJacket gives true, typeof needsJacket gives &quot;boolean&quot;." loading="lazy">
 
 <img src="../images/brand/marker-illustrate.svg" alt="Illustrate" width="24" height="24" class="c559-badge"> *The comparison `temp < 70` was worked out once and its answer, `true`, was stored. (real output, rendered; evaluated in Chromium)*
+
+More comparisons and the Boolean each one produces. Read the last column before you move on. Each result was evaluated in Chromium.
+
+| Comparison | Result | Why |
+|---|---|---|
+| `10 > 9` | `true` | 10 is more than 9 |
+| `10 > 10` | `false` | Equal is not greater |
+| `10 >= 10` | `true` | `>=` also says yes to equal |
+| `9 < 10` | `true` | 9 is less than 10 |
+| `10 <= 10` | `true` | `<=` also says yes to equal |
+| `5 === 5` | `true` | Same type, same value |
+| `5 === "5"` | `false` | A number and a string are different types |
+| `5 !== "5"` | `true` | They are not the same, so "not the same?" is true |
+| `"yes" === "yes"` | `true` | The same letters, in the same order |
+| `"Yes" === "yes"` | `false` | A capital letter and a small letter are different characters |
+
+The rows with `10` on both sides are **boundary** cases: the value sits exactly on the edge the comparison tests. They are the rows people get wrong, and the Exercise ends with practice on them.
 
 <img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> Write a line that stores whether a number is greater than 100, with a question-style name. Check its `typeof`.
 
@@ -219,7 +255,7 @@ console.log("Checked " + temp + " degrees");
 
 ## Exercise
 
-*Your hands, about 40 minutes (estimate).* Type it, do not paste it. Work in the Console unless a step says otherwise.
+*Your hands, about 55 minutes (estimate).* Type it, do not paste it. Work in the Console unless a step says otherwise.
 
 1. **Predict on paper.** Copy the **Type this** column of this table and write your prediction next to each line. Do not run anything yet.
 
@@ -276,6 +312,40 @@ console.log("Checked " + temp + " degrees");
 
    Fix it by changing `const` to `let` on line 1. Run again and confirm it prints `Chicago`. Then ask yourself whether `let` was the right fix, or whether the program should never have changed the city.
 
+7. **Boundary: `<` or `<=`?** The rule is "children under 13 pay the child price." Create `ticket.js` in `practice-06` with these lines and save:
+
+   ```js
+   // ticket.js: children under 13 pay the child price
+   const age = 12;
+
+   if (age < 13) {
+     console.log("Child ticket");
+   } else {
+     console.log("Adult ticket");
+   }
+   ```
+
+   Before you run it, write down what it will print for `age` set to `12`, to `13` and to `14`. Then run `node ticket.js` for each one, changing the number on line 2 each time. (Check: `12` prints `Child ticket`. `13` prints `Adult ticket`, because `13 < 13` is false. `14` prints `Adult ticket`.)
+
+   Now change `<` to `<=` and run all three again. Only one answer changes. Which one, and does the program still follow the rule? (Check: `13` now prints `Child ticket`, because `13 <= 13` is true. That breaks the rule, so put `<` back.)
+
+8. **Find the boundary bug.** The rule is "orders of $50 or more ship free." Create `shipping.js` with these lines and save:
+
+   ```js
+   // shipping.js: orders of $50 or more ship free
+   const total = 50;
+
+   if (total > 50) {
+     console.log("Free shipping");
+   } else {
+     console.log("Shipping: $5");
+   }
+   ```
+
+   Test three values: `49`, `50` and `51`. For each one, write down what the **rule** says should happen, then run the script and compare. One value gives the wrong answer. (Check: `50` prints `Shipping: $5`, but the rule says an order of exactly $50 ships free.) Fix it by changing one operator, and run all three values again. (Check: with `>=`, `49` prints `Shipping: $5`, and `50` and `51` both print `Free shipping`.)
+
+9. **Write your own, and pick your own test values.** The rule is "a library book is late after 14 days." Create `late.js`. Store a number of days in a `const` called `days`. Write an `if` and an `else` that print `Late` or `On time`. Before you run anything, choose three test values: one just below the edge, the edge itself, and one just above it. Write down what the rule says for each. Then run all three. (Check: with `days > 14`, the values `13` and `14` print `On time` and `15` prints `Late`. A book kept exactly 14 days is not late yet.)
+
 ## Project (in the full packet)
 
 The Project is a **"plan my day"** script. You set one number, the hour of the day from 0 to 23, and the script decides what to print: a different plan for the morning, the afternoon and the evening, plus a polite message when the hour makes no sense, like 25. You will choose your own time ranges, predict the output for the edge hours before you run them, and test every branch on purpose. The full brief, the step-by-step build, and the finishing work in Git are in the Module 6 packet. <a href="https://code559.gumroad.com/l/module-06-language-foundations" target="_blank" rel="noopener">Get the packet →<span class="visually-hidden"> (opens in a new tab)</span></a>
@@ -313,11 +383,12 @@ A value is one piece of data with a type, and this module's five types are strin
 
 ## Go further
 
-- MDN: *typeof* (including the section on `typeof null`)
-- MDN: *const*, *let* and *var*
-- MDN: *Strict equality (===)* and *Equality (==)*
-- MDN: *if...else*
-- MDN: *JavaScript error reference* (for *TypeError*)
+- MDN: [*typeof*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof) (including the section on `typeof null`)
+- MDN: [*const*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const), [*let*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let) and [*var*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var)
+- MDN: [*Strict equality (===)*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality) and [*Equality (==)*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Equality)
+- MDN: [*Expressions and operators*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_operators) (the guide to every operator), and the reference pages for [*Less than (<)*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Less_than), [*Less than or equal (<=)*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Less_than_or_equal), [*Greater than or equal (>=)*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Greater_than_or_equal) and [*Remainder (%)*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Remainder)
+- MDN: [*if...else*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else)
+- MDN: [*JavaScript error reference*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors) (for *TypeError*)
 - freeCodeCamp: the free [JavaScript Certification](https://www.freecodecamp.org/learn/javascript-v9/) (checked 2026-10-11) has practice on this topic.
 
 ## What to keep
@@ -328,6 +399,6 @@ Keep your filled-in prediction table, with a sentence beside every line you got 
 
 *Code559 is a 559 Solutions project. Portions adapted from Visual Studio Code documentation (CC BY 3.0 US), GitHub Docs (CC BY 4.0), and GitHub Skills (MIT). Screenshots used with permission from Microsoft.*
 
-*Sources checked 2026-10-09: MDN "typeof"; MDN "const"; MDN "let"; MDN "var"; MDN "Strict equality (===)"; MDN "Equality (==)"; MDN "if...else"; MDN "JavaScript error reference". Checked 2026-10-11: MDN "Empty statement" (the semicolon after `if`); MDN "typeof" (the `typeof null` section); MDN "JavaScript data types and data structures"; VS Code Docs "Basic editing" (Indentation); ChromeDevTools/devtools-frontend on GitHub (`ConsoleViewMessage.ts` and `StringUtilities.ts`: Console results use single quotes). Checked 2026-10-12: Ozubko and MacLeod, "The Production Effect in Memory: Evidence That Distinctiveness Underlies the Benefit," *Journal of Experimental Psychology: Learning, Memory, and Cognition* 36(6), 2010 (the footnote on saying code out loud).*
+*Sources checked 2026-10-09: MDN "typeof"; MDN "const"; MDN "let"; MDN "var"; MDN "Strict equality (===)"; MDN "Equality (==)"; MDN "if...else"; MDN "JavaScript error reference". Checked 2026-10-11: MDN "Empty statement" (the semicolon after `if`); MDN "typeof" (the `typeof null` section); MDN "JavaScript data types and data structures"; VS Code Docs "Basic editing" (Indentation); ChromeDevTools/devtools-frontend on GitHub (`ConsoleViewMessage.ts` and `StringUtilities.ts`: Console results use single quotes). Checked 2026-10-12: Ozubko and MacLeod, "The Production Effect in Memory: Evidence That Distinctiveness Underlies the Benefit," *Journal of Experimental Psychology: Learning, Memory, and Cognition* 36(6), 2010 (the footnote on saying code out loud). Checked 2026-11-17: every MDN link in "Go further" opened; MDN "Expressions and operators" (JavaScript Guide); MDN "Less than (<)"; MDN "Less than or equal (<=)"; MDN "Greater than or equal (>=)"; MDN "Strict inequality (!==)"; MDN "Remainder (%)". Every row of the two new tables evaluated in Chromium 153 (headless, via Playwright); `ticket.js`, `shipping.js` and `late.js` run with every value shown in Node 22.23.4.*
 
 [^recite]: **Why out loud?** Most people have recited something to learn it by heart: a phone number, a poem, lines for a play. Words you say aloud stick better than words you read silently; memory researchers call this the production effect (Ozubko and MacLeod, 2010). Explaining code to yourself out loud uses the same idea. It also shows you the line you cannot explain yet, and that line is the one to study next.

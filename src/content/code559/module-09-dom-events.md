@@ -63,6 +63,7 @@ Every core concept moves through the same four steps, called IEIA. Each step is 
   - [9. How do you build page items from an array of objects?](#9-how-do-you-build-page-items-from-an-array-of-objects)
   - [10. How is every script in this course organized?](#10-how-is-every-script-in-this-course-organized)
   - [11. Why does a real button work with the keyboard for free?](#11-why-does-a-real-button-work-with-the-keyboard-for-free)
+  - [12. How do you add this to a page you already have?](#12-how-do-you-add-this-to-a-page-you-already-have)
 - [Exercise](#exercise)
 - [Project (in the full packet)](#project-in-the-full-packet)
 - [Common misconception](#common-misconception)
@@ -88,6 +89,7 @@ Every core concept moves through the same four steps, called IEIA. Each step is 
 - How to build page items from an array of objects with `createElement()` and `append()`
 - The pattern every script in this course follows: find elements → define behavior → connect events
 - Why a real `<button>` works with Enter and Space for free
+- How to add a script like this to a page you already have, and keep one shared script safe on every page
 
 ## Why this matters
 
@@ -166,6 +168,12 @@ const toggleButton = document.querySelector("#toggle-btn");
 The variable does not hold a copy. It holds a **reference** to the real element on the page. Change `toggleButton.textContent` and the page changes.
 
 <img src="../images/brand/marker-illustrate.svg" alt="Illustrate" width="24" height="24" class="c559-badge"> See the first and fourth lines in the image under Concept 4.
+
+<div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
+
+<img src="../images/m09-dom-tree.png" alt="A tree diagram of the Exercise page. At the top is document, then html, which has two children: head and body. head holds meta, meta, title, link and script. body holds main, which holds an h1 and two section boxes. The first section holds an h2, a yellow box for button#toggle-btn, and p#details. The second section holds an h2 and ul#interest-list, with a dashed box under it for the three li items that buildList() adds." loading="lazy">
+
+*The DOM tree of the Exercise page. Each element sits inside its **parent**, the box above it, and may hold **children**, the boxes below it. `document.querySelector("#toggle-btn")` searches this tree and hands back the yellow box. The picture shows elements only; the real tree also holds the text inside them. Checked against the page as Chromium built it.*
 
 <img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> Predict what `document.querySelector("#toggle-button")` gives on the exercise page, where the id is `toggle-btn`.
 
@@ -319,6 +327,36 @@ The HTML holds only an empty `<ul id="interest-list"></ul>`. The data decides ho
 
 <img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> You will test this yourself in Exercise step 8.
 
+### 12. How do you add this to a page you already have?
+
+<img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> The Exercise builds a new practice page. On your own site the page already exists, so you add the pieces to it instead of starting over.
+
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> Work in the order of the three layers from Concept 1, and reload after each one.
+
+**HTML first.** Add the elements the script needs to the existing page, with the same `id` values the script looks for. Check that the page does not already use those `id` values. MDN's `id` page says an `id` "must be unique within the entire document."
+
+**Then CSS.** Add the new rules to the stylesheet the page already links. Do not make a second stylesheet for one feature.
+
+**Then JavaScript.** Put `script.js` in the same folder as the page. Add `<script src="script.js" defer></script>` to that page's `<head>`, under the stylesheet line. Open the Console and look for red before you click anything.
+
+**One script, many pages.** You may want to link the same `script.js` from every page of a site. That brings back the problem from Concept 2. On a page with no `#toggle-btn`, `querySelector()` gives `null`, and block 3 stops with the same `TypeError`. There are two fixes. Link the script only from the pages that have its elements. Or check for `null` in block 3 before you use an element, the way you checked a function's answer with `=== null` in Module 7.
+
+<img src="../images/brand/marker-illustrate.svg" alt="Illustrate" width="24" height="24" class="c559-badge"> Block 3 of the Exercise script, changed so that the same file is safe on any page:
+
+```js
+// 3. Connect events
+if (toggleButton !== null) {
+  toggleButton.addEventListener("click", toggleDetails);
+}
+if (list !== null) {
+  buildList();
+}
+```
+
+We tested both versions in Chromium on a page with no button and no list. The Exercise script stopped with `TypeError: Cannot read properties of null (reading 'addEventListener')`. The version above ran with no error. On the full Exercise page it still built the three list items and the button still worked.
+
+<img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> After you finish the Exercise, make a copy of `index.html` in `practice-09` and name it `plain.html`. In the copy, delete both `<section>` blocks. Open `plain.html` and read the Console. Then change block 3 of `script.js` to the version above, save, and reload both pages.
+
 ## Exercise
 
 *Your hands, about 60 minutes (estimate).* Type it, do not paste it. Work in `practice-09`. Nothing here is published.
@@ -451,7 +489,7 @@ What would you say? Hint: a function can be perfect and never run. Check the Con
 
 ## Summary
 
-HTML is structure, CSS is appearance, and JavaScript is behavior. A script in the `<head>` needs `defer`, or it runs before the body exists and every `querySelector()` gives `null`. `querySelector()` gives the first match or `null`; `querySelectorAll()` gives a NodeList, empty when nothing matches, that you loop through with `for...of`. You store each element reference in a `const` at the top of the script. `textContent` puts in text exactly as written, which is why text never goes in with `innerHTML` in this course. `addEventListener("click", toggleDetails)` hands the browser the function so the click can run it; with parentheses it runs once at load and clicks do nothing. `classList.add()`, `.remove()` and `.toggle()` switch CSS classes on and off. The `hidden` property shows and hides an element, unless a CSS `display` rule overrides it. `createElement()` and `append()` build page items from an array of objects. Every script follows the same order: find elements, define behavior, connect events. A native `<button>` responds to Enter and Space with no extra code; a `<div>` does not.
+HTML is structure, CSS is appearance, and JavaScript is behavior. A script in the `<head>` needs `defer`, or it runs before the body exists and every `querySelector()` gives `null`. `querySelector()` gives the first match or `null`; `querySelectorAll()` gives a NodeList, empty when nothing matches, that you loop through with `for...of`. You store each element reference in a `const` at the top of the script. `textContent` puts in text exactly as written, which is why text never goes in with `innerHTML` in this course. `addEventListener("click", toggleDetails)` hands the browser the function so the click can run it; with parentheses it runs once at load and clicks do nothing. `classList.add()`, `.remove()` and `.toggle()` switch CSS classes on and off. The `hidden` property shows and hides an element, unless a CSS `display` rule overrides it. `createElement()` and `append()` build page items from an array of objects. Every script follows the same order: find elements, define behavior, connect events. A native `<button>` responds to Enter and Space with no extra code; a `<div>` does not. To add a script to a page you already have, add the HTML, then the CSS, then the script tag, and check for `null` before using an element that some pages do not have.
 
 ## Check your understanding
 
@@ -470,13 +508,16 @@ HTML is structure, CSS is appearance, and JavaScript is behavior. A script in th
 
 ## Go further
 
-- MDN: *&lt;script&gt;: The Script element* (the `defer` attribute)
-- MDN: *Document: querySelector() method* and *Document: querySelectorAll() method*
-- MDN: *Node: textContent property* (the section "Differences from innerHTML")
-- MDN: *EventTarget: addEventListener() method*
-- MDN: *Element: classList property*; *HTMLElement: hidden property*; *hidden* (global attribute)
-- MDN: *Element: append() method*
-- MDN: *ARIA: button role* (the keyboard table, and why a native `<button>` is preferred)
+- MDN: [*&lt;script&gt;: The Script element*](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/script) (the `defer` attribute)
+- MDN: [*Document Object Model (DOM)*](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model) and the Glossary entry [*DOM*](https://developer.mozilla.org/en-US/docs/Glossary/DOM) (the tree of nodes)
+- MDN: [*DOM scripting introduction*](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/DOM_scripting)
+- MDN: [*Document: querySelector() method*](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) and [*Document: querySelectorAll() method*](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll)
+- MDN: [*Node: textContent property*](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent) (the section "Differences from innerHTML")
+- MDN: [*EventTarget: addEventListener() method*](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
+- MDN: [*Element: classList property*](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList); [*HTMLElement: hidden property*](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/hidden); [*hidden*](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/hidden) (global attribute)
+- MDN: [*Element: append() method*](https://developer.mozilla.org/en-US/docs/Web/API/Element/append)
+- MDN: the [`id` global attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/id) (why an `id` must be unique on a page)
+- MDN: [*ARIA: button role*](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/button_role) (the keyboard table, and why a native `<button>` is preferred)
 - freeCodeCamp: the free [JavaScript Certification](https://www.freecodecamp.org/learn/javascript-v9/) (checked 2026-10-11) has practice on this topic.
 
 ## What to keep
@@ -487,6 +528,6 @@ Keep `practice-09` with its three-block `script.js`, and a note of the two break
 
 *Code559 is a 559 Solutions project. Portions adapted from Visual Studio Code documentation (CC BY 3.0 US), GitHub Docs (CC BY 4.0), and GitHub Skills (MIT). Screenshots used with permission from Microsoft.*
 
-*Sources checked 2026-10-09: MDN "&lt;script&gt;: The Script element"; MDN "Document: querySelector() method"; MDN "Document: querySelectorAll() method"; MDN "Node: textContent property"; MDN "EventTarget: addEventListener() method"; MDN "Element: classList property"; MDN "HTMLElement: hidden property"; MDN "hidden" (HTML global attribute); MDN "Element: append() method"; MDN "&lt;button&gt;: The Button element"; MDN "ARIA: button role". Checked 2026-10-11: MDN "NodeList" (live and static lists). Every page render, Console result and key-press result was captured in Chromium 141.0.7390.37 (via Playwright) on Linux. Checked 2026-10-12: Ozubko and MacLeod, "The Production Effect in Memory: Evidence That Distinctiveness Underlies the Benefit," *Journal of Experimental Psychology: Learning, Memory, and Cognition* 36(6), 2010 (the footnote on saying code out loud).*
+*Sources checked 2026-10-09: MDN "&lt;script&gt;: The Script element"; MDN "Document: querySelector() method"; MDN "Document: querySelectorAll() method"; MDN "Node: textContent property"; MDN "EventTarget: addEventListener() method"; MDN "Element: classList property"; MDN "HTMLElement: hidden property"; MDN "hidden" (HTML global attribute); MDN "Element: append() method"; MDN "&lt;button&gt;: The Button element"; MDN "ARIA: button role". Checked 2026-10-11: MDN "NodeList" (live and static lists). Every page render, Console result and key-press result was captured in Chromium 141.0.7390.37 (via Playwright) on Linux. Checked 2026-10-12: Ozubko and MacLeod, "The Production Effect in Memory: Evidence That Distinctiveness Underlies the Benefit," *Journal of Experimental Psychology: Learning, Memory, and Cognition* 36(6), 2010 (the footnote on saying code out loud). Checked 2026-11-17: every MDN link in "Go further" opened; MDN "Document Object Model (DOM)"; MDN Glossary "DOM (Document Object Model)"; MDN "DOM scripting introduction"; MDN "id" (global attribute). The DOM tree diagram checked against the Exercise page as parsed by Chromium 153 (headless, via Playwright); the guarded block 3 and the page without a button tested in the same browser.*
 
 [^recite]: **Why out loud?** Most people have recited something to learn it by heart: a phone number, a poem, lines for a play. Words you say aloud stick better than words you read silently; memory researchers call this the production effect (Ozubko and MacLeod, 2010). Explaining code to yourself out loud uses the same idea. It also shows you the line you cannot explain yet, and that line is the one to study next.

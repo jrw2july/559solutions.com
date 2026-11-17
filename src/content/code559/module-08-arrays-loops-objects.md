@@ -186,6 +186,12 @@ count
 
 *Four laps, four lines. At the bottom, `count++` shows `0` because it hands back the old value and then adds 1. Asking for `count` on the next line shows the 1. Inside a loop you never use that handed-back value, so it does not matter there. (real output, rendered)*
 
+<div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
+
+<img src="../images/m08-loop-steps.png" alt="A diagram of the for loop working through the pages array one item at a time. Four rows, one per lap. In lap 1, i is 0, the box &quot;Home&quot; is yellow and the lap prints 0: Home. In lap 2, i is 1, &quot;About&quot; is yellow and it prints 1: About. Lap 3 prints 2: Interests and lap 4 prints 3: Projects. A last dashed row shows i at 4: the check, is 4 less than 4, is false, so the loop stops and prints nothing." loading="lazy">
+
+*The same loop, drawn lap by lap. One item is handled per lap, in order, and `i` is the index of that item. When `i` reaches 4 the check fails, so there is no fifth lap.*
+
 <img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> Change `i < pages.length` to `i < 2` and predict how many lines print.
 
 ### 5. How do you use a condition inside a loop?
@@ -319,6 +325,12 @@ for (const p of projects) {
 
 <img src="../images/brand/marker-illustrate.svg" alt="Illustrate" width="24" height="24" class="c559-badge"> *`projects[1].title` reads from left to right: the array, then item 1, then its `title`. The loop at the bottom visits each object and reads two of its properties. (real output, rendered)*
 
+<div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
+
+<img src="../images/m08-object-card.png" alt="A diagram titled One object: labeled facts about one thing. On the left, the code that makes the project object. An arrow labeled stores points to a card named project with two columns, property name and value: title is &quot;Rating card&quot;, year is 2026, live is true and tags is the array &quot;html&quot;, &quot;css&quot;. A second arrow, labeled the dot reads one fact, runs from project.title to the title row." loading="lazy">
+
+*One object keeps related facts together. Each property name is a label, and its value is the fact. `project.title` uses the label to read one fact.*
+
 <img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> Make an object for one of your own projects or milestones, with at least a `title` and a `year`. Read each property back.
 
 ### 10. When does an array of objects beat parallel arrays?
@@ -432,10 +444,11 @@ An array keeps a list of values in order, and its first index is 0. `.length` is
 
 ## Go further
 
-- MDN: *Array.prototype.push()*, *Array.prototype.includes()*, *Array.prototype.join()*
-- MDN: *for...of*; and search "for statement" for the counting loop
-- MDN: *Logical AND (&&)*, and the matching *Logical OR (||)* and *Logical NOT (!)* pages
-- MDN Glossary: *Method*; and *String.prototype.trim()*
+- MDN: [*Array.prototype.push()*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push), [*Array.prototype.includes()*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes), [*Array.prototype.join()*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join)
+- MDN: [*for...of*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of); the [*for*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for) statement, for the counting loop; and [*Loops and iteration*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration) (the JavaScript Guide page)
+- MDN: [*JavaScript object basics*](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Object_basics) and [*Working with objects*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects)
+- MDN: [*Logical AND (&&)*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_AND), and the matching [*Logical OR (||)*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_OR) and [*Logical NOT (!)*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_NOT) pages
+- MDN Glossary: [*Method*](https://developer.mozilla.org/en-US/docs/Glossary/Method); and [*String.prototype.trim()*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim)
 - freeCodeCamp: the free [JavaScript Certification](https://www.freecodecamp.org/learn/javascript-v9/) (checked 2026-10-11) has practice on this topic.
 
 ## What to keep
@@ -446,6 +459,6 @@ Keep `practice.js` and your array of objects for your own projects or milestones
 
 *Code559 is a 559 Solutions project. Portions adapted from Visual Studio Code documentation (CC BY 3.0 US), GitHub Docs (CC BY 4.0), and GitHub Skills (MIT). Screenshots used with permission from Microsoft.*
 
-*Sources checked 2026-10-09: MDN "Array.prototype.push()"; MDN "Array.prototype.includes()"; MDN "Array.prototype.join()"; MDN "for...of"; MDN "Logical AND (&&)"; MDN Glossary "Method"; MDN "String.prototype.trim()"; Chromium (via Playwright) for every Console result; Node 22.22.0 for every terminal result. Checked 2026-10-11: MDN "for...of" (plain-words summary); Chromium 141 for the split Concept 5 and 6 pictures (one Console session), the value shown after each loop, `project.tags.length` and `join(" / ")`. Checked 2026-10-12: Ozubko and MacLeod, "The Production Effect in Memory: Evidence That Distinctiveness Underlies the Benefit," *Journal of Experimental Psychology: Learning, Memory, and Cognition* 36(6), 2010 (the footnote on saying code out loud).*
+*Sources checked 2026-10-09: MDN "Array.prototype.push()"; MDN "Array.prototype.includes()"; MDN "Array.prototype.join()"; MDN "for...of"; MDN "Logical AND (&&)"; MDN Glossary "Method"; MDN "String.prototype.trim()"; Chromium (via Playwright) for every Console result; Node 22.22.0 for every terminal result. Checked 2026-10-11: MDN "for...of" (plain-words summary); Chromium 141 for the split Concept 5 and 6 pictures (one Console session), the value shown after each loop, `project.tags.length` and `join(" / ")`. Checked 2026-10-12: Ozubko and MacLeod, "The Production Effect in Memory: Evidence That Distinctiveness Underlies the Benefit," *Journal of Experimental Psychology: Learning, Memory, and Cognition* 36(6), 2010 (the footnote on saying code out loud). Checked 2026-11-17: every MDN link in "Go further" opened; MDN "for"; MDN "Loops and iteration"; MDN "JavaScript object basics"; MDN "Working with objects"; MDN "Logical OR (||)"; MDN "Logical NOT (!)". The loop output and `project.title` in the two new diagrams run in Node 22.23.4.*
 
 [^recite]: **Why out loud?** Most people have recited something to learn it by heart: a phone number, a poem, lines for a play. Words you say aloud stick better than words you read silently; memory researchers call this the production effect (Ozubko and MacLeod, 2010). Explaining code to yourself out loud uses the same idea. It also shows you the line you cannot explain yet, and that line is the one to study next.

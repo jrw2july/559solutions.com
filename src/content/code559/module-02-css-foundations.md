@@ -103,7 +103,7 @@ By the end you will style a page with one shared stylesheet and build a navigati
 
 <img src="../images/brand/marker-introduce.svg" alt="Introduce" width="24" height="24" class="c559-badge"> CSS lives in its own file, usually called `styles.css`, next to your HTML. A `<link>` element in the `<head>` tells the browser to fetch it.
 
-<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> `<link rel="stylesheet" href="styles.css">` has two parts. `rel="stylesheet"` says what kind of file it is. `href` is a relative path, exactly like the links you wrote in Module 1. The browser requests that file as a second request after the HTML. One stylesheet can be linked from every page of a site, so one change restyles all of them.
+<img src="../images/brand/marker-explain.svg" alt="Explain" width="24" height="24" class="c559-badge"> `<link rel="stylesheet" href="styles.css">` has two parts. `rel="stylesheet"` says what kind of file it is. `href` is a relative path, exactly like the links you wrote in Module 1. A relative path starts from the folder of the page that holds the link. When `styles.css` sits in the same folder as the page, the path is only the file name. The browser requests that file as a second request after the HTML. One stylesheet can be linked from every page of a site, so one change restyles all of them.
 
 ```html
 <head>
@@ -119,6 +119,12 @@ By the end you will style a page with one shared stylesheet and build a navigati
 <img src="../images/m02-before-after-link.png" alt="Two renders of the same page side by side. Left, without the link line: black serif text on white with blue underlined links. Right, with the link: a dark blue header with white text and links, a light background and sans-serif text." loading="lazy">
 
 <img src="../images/brand/marker-illustrate.svg" alt="Illustrate" width="24" height="24" class="c559-badge"> *The HTML is identical except for one `<link>` line. Each side was rendered at 560 px wide; the labels above them were added to the picture. (real: rendered in Chromium)*
+
+<div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
+
+<img src="../images/m02-folder-diagram.png" alt="A diagram of a folder named my-site that holds index.html, about.html, styles.css and image-one.jpg. Two boxes show the same link line, href equals styles.css, inside index.html and inside about.html. An arrow runs from each box to the one styles.css file." loading="lazy">
+
+*Where the shared stylesheet sits. `styles.css` is in the same folder as both pages, so each page's `href` is only the file name, and both pages ask for the same file. Your own folder may hold one page so far; the idea is the same.*
 
 <img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> Think this through: which part of the `<link>` element would you check first if a page showed no styles at all? (The `href`.)
 
@@ -333,10 +339,12 @@ A `<link rel="stylesheet">` in the `<head>` fetches a CSS file by a relative pat
 
 ## Go further
 
-- MDN: *Handling conflicts* (cascade, specificity and inheritance)
-- MDN: *Block and inline layout in normal flow* and *The box model*
-- MDN: search "Basic concepts of flexbox" and the reference pages for `justify-content` and `align-items`
-- MDN: search "CSS selectors" for type and class selectors
+- MDN: [*Handling conflicts*](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Handling_conflicts) (cascade, specificity and inheritance)
+- MDN: [*Block and inline layout in normal flow*](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Display/Block_and_inline_layout) and [*The box model*](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Box_model)
+- MDN: [*Basic concepts of flexbox*](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Flexible_box_layout/Basic_concepts) and the reference pages for [`justify-content`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/justify-content) and [`align-items`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/align-items)
+- MDN: [*Basic CSS selectors*](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Basic_selectors) for type and class selectors
+- MDN: [*Creating links*](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Creating_links) (the section "A quick primer on URLs and paths" shows how a path such as `styles.css` is found)
+- MDN: the [`<link>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/link) reference page
 - freeCodeCamp: the CSS section of the Responsive Web Design curriculum
 
 ## What to keep
@@ -347,4 +355,4 @@ Keep your `practice-02` folder, including `cascade.html` and `cascade.css` if yo
 
 *Code559 is a 559 Solutions project. Portions adapted from Visual Studio Code documentation (CC BY 3.0 US), GitHub Docs (CC BY 4.0), and GitHub Skills (MIT). Screenshots used with permission from Microsoft.*
 
-*Sources checked 2026-10-09: MDN "Handling conflicts" (MDN's Learn page on cascade, specificity and inheritance); MDN "Block and inline layout in normal flow"; MDN "The box model". Checked 2026-10-11: MDN "Descendant combinator"; MDN "Introduction to CSS syntax: declarations, rulesets, and statements"; MDN "`<a>` HTML anchor element" (`href="#"` links to the top of the page); Live Preview source code (microsoft/vscode-livepreview on GitHub, `src/server/httpServer.ts`: a missing file gets status 404).*
+*Sources checked 2026-10-09: MDN "Handling conflicts" (MDN's Learn page on cascade, specificity and inheritance); MDN "Block and inline layout in normal flow"; MDN "The box model". Checked 2026-10-11: MDN "Descendant combinator"; MDN "Introduction to CSS syntax: declarations, rulesets, and statements"; MDN "`<a>` HTML anchor element" (`href="#"` links to the top of the page); Live Preview source code (microsoft/vscode-livepreview on GitHub, `src/server/httpServer.ts`: a missing file gets status 404). Checked 2026-11-17: every MDN link in "Go further" opened; MDN "Creating links" (a file in the same folder is reached by its file name alone); MDN "Basic concepts of flexbox"; MDN "justify-content"; MDN "align-items"; MDN "Basic CSS selectors"; MDN "`<link>`: The External Resource Link element".*

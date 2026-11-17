@@ -150,6 +150,12 @@ toMinutes(0)
 
 <img src="../images/brand/marker-illustrate.svg" alt="Illustrate" width="24" height="24" class="c559-badge"> In the picture under Concept 1, `hours` is the parameter and `2` is the argument. Inside that one call, `hours * 60` becomes `2 * 60`.
 
+<div role="separator" class="c559-divider"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-1"><img src="../images/brand/divider-window.svg" alt="" class="c559-window"><img src="../images/brand/divider-wall.svg" alt="" class="c559-wall-3"><img src="../images/brand/divider-door.svg" alt="" class="c559-door"></div>
+
+<img src="../images/m07-function-flow.png" alt="A diagram titled One function, written once and used twice. On the left, two calls: toMinutes(2) and toMinutes(1.5). An arrow from each call, labeled argument goes in, points to one function box in the middle. Two arrows leave the box, labeled return sends 120 back and return sends 90 back, and point to the results 120 and 90 on the right." loading="lazy">
+
+*The function is written once and reused. Each call sends its own argument in, and gets its own result back: `120` for the first call, `90` for the second. The word that sends the result back is `return`, which is Concept 4.*
+
 <img src="../images/brand/marker-apply.svg" alt="Apply" width="24" height="24" class="c559-badge"> Predict what `toMinutes()` gives with **no** argument. Then try it. (You will see `NaN`, "not a number," because `hours` holds `undefined` and `undefined * 60` is not a number.)
 
 ### 4. What does `return` do, and why is `console.log()` not the same?
@@ -376,8 +382,9 @@ A function is a named, reusable set of instructions. Defining it stores the inst
 
 ## Go further
 
-- MDN: *Functions* (the JavaScript Guide page) — read "Defining functions," "Calling functions" and "Function scopes and closures"
-- MDN: *return* (the statement reference page)
+- MDN: [*Functions*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions) (the JavaScript Guide page) — read "Defining functions," "Calling functions" and "Function scopes and closures"
+- MDN: [*return*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/return) (the statement reference page)
+- MDN Glossary: [*Parameter*](https://developer.mozilla.org/en-US/docs/Glossary/Parameter) and [*Argument*](https://developer.mozilla.org/en-US/docs/Glossary/Argument)
 - freeCodeCamp: the free [JavaScript Certification](https://www.freecodecamp.org/learn/javascript-v9/) (checked 2026-10-11) has practice on this topic.
 
 ## What to keep
@@ -388,6 +395,6 @@ Keep `helpers.js` with its predictions in comments, and your paper notes from th
 
 *Code559 is a 559 Solutions project. Portions adapted from Visual Studio Code documentation (CC BY 3.0 US), GitHub Docs (CC BY 4.0), and GitHub Skills (MIT). Screenshots used with permission from Microsoft.*
 
-*Sources checked 2026-10-09: MDN "Functions" (JavaScript Guide); MDN "return"; Chromium (via Playwright) for every Console result and the addEventListener TypeError; Node 22.22.0 for every terminal result. Checked 2026-10-11: MDN "String: length"; MDN "Functions" (section titles); MDN "EventTarget: addEventListener() method" (the listener may be `null`); Chromium 141 for `addEventListener("click", sayHi())` with a function that returns nothing (no error, one run at once, clicks do nothing) and for the Concept 9 Apply; Node 22.22.0 for the `countLetters` tests in Concept 6. Checked 2026-10-12: Ozubko and MacLeod, "The Production Effect in Memory: Evidence That Distinctiveness Underlies the Benefit," *Journal of Experimental Psychology: Learning, Memory, and Cognition* 36(6), 2010 (the footnote on saying code out loud).*
+*Sources checked 2026-10-09: MDN "Functions" (JavaScript Guide); MDN "return"; Chromium (via Playwright) for every Console result and the addEventListener TypeError; Node 22.22.0 for every terminal result. Checked 2026-10-11: MDN "String: length"; MDN "Functions" (section titles); MDN "EventTarget: addEventListener() method" (the listener may be `null`); Chromium 141 for `addEventListener("click", sayHi())` with a function that returns nothing (no error, one run at once, clicks do nothing) and for the Concept 9 Apply; Node 22.22.0 for the `countLetters` tests in Concept 6. Checked 2026-10-12: Ozubko and MacLeod, "The Production Effect in Memory: Evidence That Distinctiveness Underlies the Benefit," *Journal of Experimental Psychology: Learning, Memory, and Cognition* 36(6), 2010 (the footnote on saying code out loud). Checked 2026-11-17: every MDN link in "Go further" opened; MDN Glossary "Parameter"; MDN Glossary "Argument". `toMinutes(2)` and `toMinutes(1.5)` in the new diagram run in Node 22.23.4 (120 and 90).*
 
 [^recite]: **Why out loud?** Most people have recited something to learn it by heart: a phone number, a poem, lines for a play. Words you say aloud stick better than words you read silently; memory researchers call this the production effect (Ozubko and MacLeod, 2010). Explaining code to yourself out loud uses the same idea. It also shows you the line you cannot explain yet, and that line is the one to study next.
