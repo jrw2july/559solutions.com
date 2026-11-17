@@ -5,7 +5,7 @@ import FloorplanDivider from "@/components/FloorplanDivider.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { sitePath } from "@/config/site";
-import { aiTools, aiToolsCheckedOn } from "@/data/ai-tools";
+import { aiTerms, aiTermSources, aiTools, aiToolsCheckedOn } from "@/data/ai-tools";
 
 // Code559: How to Choose the Right AI Tool (2026-10-14). The method comes from the 559 "Weekend CTO"
 // quick reference; the tool table lives in src/data/ai-tools.ts.
@@ -17,7 +17,7 @@ const steps = [
   },
   {
     title: "Pick a category, not a brand",
-    text: "Decide what kind of tool the job needs first: an image generator, a work copilot, an answer engine. Then compare two or three tools in that category against the same test.",
+    text: "Decide what kind of tool the job needs first: an image generator, an AI copilot, an answer engine. Then compare two or three tools in that category against the same test.",
   },
   {
     title: "Check the fit with what you already use",
@@ -100,7 +100,39 @@ const schema = {
     </div>
   </section>
 
-  <section class="section" id="quick-reference">
+  <section class="section" id="terms">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Plain words"
+        title="Four terms you will meet"
+        description="The table below sorts tools by the job they do. These four words come up most."
+      />
+      <ul class="guide-steps">
+        {
+          aiTerms.map((item) => (
+            <li class="card">
+              <h3>{item.term}</h3>
+              <p>{item.definition}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="small-note">
+        Based on:{" "}
+        {
+          aiTermSources.map((source, i) => (
+            <>
+              <ExternalLink href={source.url}>{source.label}</ExternalLink>
+              {i < aiTermSources.length - 1 ? "; " : ". "}
+            </>
+          ))
+        }
+        The answer engine line follows Perplexity's description of its own product, as checked for the table below.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-tinted" id="quick-reference">
     <div class="container">
       <SectionHeading
         eyebrow="Quick reference"
@@ -130,11 +162,12 @@ const schema = {
           </tbody>
         </table>
       </section>
+      <p class="small-note">Some of these tools have a free plan and paid plans. Features, prices and where a tool is available change often, so check the tool's own site before you decide.</p>
       <p class="small-note">Tool names are trademarks of their owners. This table is for education and planning, not an endorsement.</p>
     </div>
   </section>
 
-  <section class="section section-tinted" id="worksheet">
+  <section class="section" id="worksheet">
     <div class="container">
       <SectionHeading
         eyebrow="Worksheet"
