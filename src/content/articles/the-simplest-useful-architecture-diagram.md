@@ -6,8 +6,6 @@ publicationDate: "2026-10-13"
 updatedDate: "2026-10-13"
 author: "Joel Wells"
 category: "Systems Thinking"
-series: "Work that outlasts one person"
-seriesOrder: 3
 service: "technical-mentoring"
 tags: ["architecture", "documentation", "diagrams"]
 imageAlt: ""
@@ -15,7 +13,7 @@ draft: false
 featured: false
 seoTitle: "The Simplest Useful Architecture Diagram | 559 Solutions"
 seoDescription: "Start with the question, show people, systems and information flows, mark boundaries and owners, and cut detail that does not change the decision."
-relatedArticles: ["what-architects-should-document", "how-to-run-a-better-discovery-meeting"]
+relatedArticles: []
 ---
 
 <!-- ieia:introduce -->

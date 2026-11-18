@@ -197,27 +197,6 @@ test("the entry offer stays out of the build until the owner fills it in", async
   assert.match(contact, /<option value="systems-clarity-sprint">/, "the Services sprint link has a matching option");
 });
 
-test("the three process articles each render one primary lesson exercise", async () => {
-  const read = (slug) => readFile(path.join(dist, "blog", slug, "index.html"), "utf8");
-  const expected = {
-    "how-to-run-a-better-discovery-meeting": /data-worksheet="discovery-worksheet"/,
-    "when-a-process-depends-on-one-person": /data-selfcheck="dependency-check"/,
-    "why-good-processes-fail": /id="rehearse-absence"/,
-  };
-  for (const [slug, marker] of Object.entries(expected)) {
-    const html = await read(slug);
-    assert.doesNotMatch(html, /ieia:/, `${slug}: markers replaced`);
-    assert.match(html, marker, slug);
-    assert.equal((html.match(/id="lesson-apply"/g) || []).length, 1, `${slug}: one Apply step`);
-    assert.match(html, /<details class="article-fold ieia-deeper" id="lesson-deeper">/, `${slug}: Go deeper, closed`);
-    assert.doesNotMatch(html, /id="lesson-deeper" open/, `${slug}: Go deeper starts closed`);
-    assert.match(html, /name="source" value="newsletter:/, slug);
-  }
-  // The self-check shows no number or score anywhere in its markup.
-  const check = (await read("when-a-process-depends-on-one-person")).match(/<div class="selfcheck"[\s\S]*?Your answers are not sent/)[0];
-  assert.doesNotMatch(check.replace(/<[^>]+>/g, " "), /\d|%|score/i);
-});
-
 test("chess and science-fiction lessons render, with a labeled diagram and unchanged sources", async () => {
   const chess = await readFile(path.join(dist, "blog", "what-chess-teaches-about-technology-decisions", "index.html"), "utf8");
   const scifi = await readFile(path.join(dist, "blog", "science-fiction-and-architecture-of-consequences", "index.html"), "utf8");
@@ -237,28 +216,17 @@ test("chess and science-fiction lessons render, with a labeled diagram and uncha
   assert.match(scifi, /href="https:\/\/en\.wikipedia\.org\/wiki\/The_Machine_Stops"/);
 });
 
-test("the reading sequence chains from step 1 to the last with no dead end, and labels match exercises", async () => {
-  const order = [
-    "how-to-run-a-better-discovery-meeting",
-    "what-architects-should-document",
-    "the-simplest-useful-architecture-diagram",
-    "when-a-process-depends-on-one-person",
-    "why-good-processes-fail",
-    "the-hero-trap",
-  ];
-  for (const [i, slug] of order.entries()) {
+test("no article is in a reading sequence now, and labels match exercises", async () => {
+  // The "Work that outlasts one person" series was removed on 2026-11-18. The series feature itself
+  // (`series` and `seriesOrder` in an article's front matter) is still available for a future series.
+  for (const slug of ["the-simplest-useful-architecture-diagram", "the-hero-trap", "start-with-the-decision-not-the-ai-tool"]) {
     const html = await readFile(path.join(dist, "blog", slug, "index.html"), "utf8");
-    assert.match(html, new RegExp(`Step ${i + 1} of ${order.length}`), slug);
-    const target = i + 1 < order.length ? order[i + 1] : order[0];
-    assert.match(html, new RegExp(`class="series-next-link" href="/blog/${target}/"`), `${slug} links on`);
-    await assert.doesNotReject(access(path.join(dist, "blog", target, "index.html")));
+    assert.doesNotMatch(html, /series-next|series-step|outlasts one person/, `${slug}: no series label or Next block`);
   }
-  const pilot = await readFile(path.join(dist, "blog", "start-with-the-decision-not-the-ai-tool", "index.html"), "utf8");
-  assert.doesNotMatch(pilot, /series-next/, "articles outside a series have no Next block");
   // Format labels on the index only where the article has that exercise.
   const index = await readFile(path.join(dist, "blog", "index.html"), "utf8");
   const cards = index.match(/<article class="card article-card"[\s\S]*?<\/article>/g);
-  assert.equal(cards.length, 10);
+  assert.equal(cards.length, 6);
   for (const card of cards) {
     const hasLabel = /class="article-format"/.test(card);
     // Astro writes an empty attribute without a value, so a missing value means "no format".
@@ -290,9 +258,6 @@ test("every published article now has one lesson exercise, and the pilot has Go 
   const diagram = await readFile(path.join(dist, "blog", "the-simplest-useful-architecture-diagram", "index.html"), "utf8");
   assert.equal((diagram.match(/<svg class="context-diagram-(wide|tall)"[^>]*role="img"/g) || []).length, 2);
   assert.match(diagram, /href="https:\/\/c4model\.com\/"/, "C4 citation unchanged");
-  const record = await readFile(path.join(dist, "blog", "what-architects-should-document", "index.html"), "utf8");
-  assert.match(record, /data-worksheet="decision-record"/);
-  assert.match(record, /cognitect\.com\/blog\/2011\/11\/15\/documenting-architecture-decisions/, "Nygard citation unchanged");
 });
 
 test("measurement stays a no-op: no analytics script, no assertive live regions, and track() only knows five events", async () => {

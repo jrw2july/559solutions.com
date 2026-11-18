@@ -1,5 +1,6 @@
 export const primaryNavigation = [
-  { label: "Services", href: "/services/" },
+  // Services link commented out on all pages (2026-11-18, owner request). The /services/ page itself still exists.
+  // { label: "Services", href: "/services/" },
   { label: "The Curious Architect", href: "/blog/" },
   { label: "Code559", href: "/code559/" },
   { label: "About 559", href: "/about/" },
@@ -12,7 +13,7 @@ export const legalNavigation = [
   { label: "Accessibility", href: "/accessibility/" },
 ] as const;
 
-// Header and footer menus. Services is left out of the header for now (2026-10-14);
-// its page is unchanged and it is listed in the footer drawing index.
+// Header and footer menus. Services was left out of the header on 2026-10-14 and out of the
+// footer on 2026-11-18 (see above); its page is unchanged.
 const hiddenFromHeader: string[] = ["/services/"];
 export const headerNavigation = primaryNavigation.filter((item) => !hiddenFromHeader.includes(item.href));
