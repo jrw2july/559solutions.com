@@ -6,8 +6,6 @@ publicationDate: "2025-12-01"
 updatedDate: "2026-07-23"
 author: "Joel Wells"
 category: "Systems Thinking"
-series: "Work that outlasts one person"
-seriesOrder: 6
 service: "business-systems-clarity-session"
 tags:
   - "leadership"

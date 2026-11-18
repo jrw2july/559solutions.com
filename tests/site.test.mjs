@@ -216,20 +216,13 @@ test("chess and science-fiction lessons render, with a labeled diagram and uncha
   assert.match(scifi, /href="https:\/\/en\.wikipedia\.org\/wiki\/The_Machine_Stops"/);
 });
 
-test("the reading sequence chains from step 1 to the last with no dead end, and labels match exercises", async () => {
-  const order = [
-    "the-simplest-useful-architecture-diagram",
-    "the-hero-trap",
-  ];
-  for (const [i, slug] of order.entries()) {
+test("no article is in a reading sequence now, and labels match exercises", async () => {
+  // The "Work that outlasts one person" series was removed on 2026-11-18. The series feature itself
+  // (`series` and `seriesOrder` in an article's front matter) is still available for a future series.
+  for (const slug of ["the-simplest-useful-architecture-diagram", "the-hero-trap", "start-with-the-decision-not-the-ai-tool"]) {
     const html = await readFile(path.join(dist, "blog", slug, "index.html"), "utf8");
-    assert.match(html, new RegExp(`Step ${i + 1} of ${order.length}`), slug);
-    const target = i + 1 < order.length ? order[i + 1] : order[0];
-    assert.match(html, new RegExp(`class="series-next-link" href="/blog/${target}/"`), `${slug} links on`);
-    await assert.doesNotReject(access(path.join(dist, "blog", target, "index.html")));
+    assert.doesNotMatch(html, /series-next|series-step|outlasts one person/, `${slug}: no series label or Next block`);
   }
-  const pilot = await readFile(path.join(dist, "blog", "start-with-the-decision-not-the-ai-tool", "index.html"), "utf8");
-  assert.doesNotMatch(pilot, /series-next/, "articles outside a series have no Next block");
   // Format labels on the index only where the article has that exercise.
   const index = await readFile(path.join(dist, "blog", "index.html"), "utf8");
   const cards = index.match(/<article class="card article-card"[\s\S]*?<\/article>/g);
