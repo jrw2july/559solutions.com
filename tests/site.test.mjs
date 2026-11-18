@@ -197,22 +197,6 @@ test("the entry offer stays out of the build until the owner fills it in", async
   assert.match(contact, /<option value="systems-clarity-sprint">/, "the Services sprint link has a matching option");
 });
 
-test("the process article renders one primary lesson exercise", async () => {
-  const read = (slug) => readFile(path.join(dist, "blog", slug, "index.html"), "utf8");
-  const expected = {
-    "why-good-processes-fail": /id="rehearse-absence"/,
-  };
-  for (const [slug, marker] of Object.entries(expected)) {
-    const html = await read(slug);
-    assert.doesNotMatch(html, /ieia:/, `${slug}: markers replaced`);
-    assert.match(html, marker, slug);
-    assert.equal((html.match(/id="lesson-apply"/g) || []).length, 1, `${slug}: one Apply step`);
-    assert.match(html, /<details class="article-fold ieia-deeper" id="lesson-deeper">/, `${slug}: Go deeper, closed`);
-    assert.doesNotMatch(html, /id="lesson-deeper" open/, `${slug}: Go deeper starts closed`);
-    assert.match(html, /name="source" value="newsletter:/, slug);
-  }
-});
-
 test("chess and science-fiction lessons render, with a labeled diagram and unchanged sources", async () => {
   const chess = await readFile(path.join(dist, "blog", "what-chess-teaches-about-technology-decisions", "index.html"), "utf8");
   const scifi = await readFile(path.join(dist, "blog", "science-fiction-and-architecture-of-consequences", "index.html"), "utf8");
@@ -235,7 +219,6 @@ test("chess and science-fiction lessons render, with a labeled diagram and uncha
 test("the reading sequence chains from step 1 to the last with no dead end, and labels match exercises", async () => {
   const order = [
     "the-simplest-useful-architecture-diagram",
-    "why-good-processes-fail",
     "the-hero-trap",
   ];
   for (const [i, slug] of order.entries()) {
@@ -250,7 +233,7 @@ test("the reading sequence chains from step 1 to the last with no dead end, and 
   // Format labels on the index only where the article has that exercise.
   const index = await readFile(path.join(dist, "blog", "index.html"), "utf8");
   const cards = index.match(/<article class="card article-card"[\s\S]*?<\/article>/g);
-  assert.equal(cards.length, 7);
+  assert.equal(cards.length, 6);
   for (const card of cards) {
     const hasLabel = /class="article-format"/.test(card);
     // Astro writes an empty attribute without a value, so a missing value means "no format".
