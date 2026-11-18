@@ -565,60 +565,6 @@ export const exercises: Record<string, Exercise> = {
       questions: standingQuestions.map((question) => ({ question })),
     },
   },
-  "what-architects-should-document": {
-    introduce: {
-      question: "Which field do teams skip most?",
-      answer: [
-        "The reasons: the alternatives set aside and the assumptions that felt too obvious to write down. The system can show what was built. Only a record can say why.",
-      ],
-    },
-    explain: true,
-    illustrate: {
-      heading: "A completed record",
-      lead: "Here is this article's warehouse example written into every field of the template below.",
-      rows: [
-        { label: "Title and date", value: "Send order updates through a message queue. March." },
-        { label: "Context", value: "The warehouse system's outages started stopping checkout. Orders needed to keep flowing while it was down." },
-        { label: "Decision", value: "Send order updates through a message queue instead of calling the warehouse system directly." },
-        { label: "Assumptions", value: "Order volume stays under a few thousand a day. The vendor keeps supporting this version through next year." },
-        {
-          label: "Alternatives set aside",
-          value: "Call the warehouse directly with retries: checkout would still wait on the warehouse. Nightly batch file: the warehouse needs orders within minutes.",
-        },
-        {
-          label: "Consequences",
-          value: "Good: checkout keeps working during warehouse outages. Bad: one more system to run. Neutral: the queue is shared with the returns process.",
-        },
-        {
-          label: "Owner, constraints, failure handling",
-          value: "Owner: the operations team. Messages older than seven days are deleted. If the queue backs up, orders still save; the warehouse catches up when it recovers. Alert goes to the operations channel.",
-        },
-        { label: "Revisit when", value: "Daily orders pass ten thousand, the warehouse system is replaced, or the vendor contract comes up for renewal." },
-      ],
-      caption:
-        "Everything here comes from this article's examples, except the owner, which is inferred from the alert going to the operations channel, and the \"bad\" consequence, which is a reasonable guess.",
-    },
-    applyLead: "Now write the record for a decision your team has already made. Copy gives you Markdown to store beside the code.",
-    apply: {
-      kind: "worksheet",
-      id: "decision-record",
-      title: "Decision-record builder",
-      fields: [
-        { id: "title", label: "Title and date" },
-        { id: "context", label: "Context", hint: "What prompted the decision, and when." },
-        { id: "decision", label: "Decision", hint: "One or two plain sentences." },
-        { id: "assumptions", label: "Assumptions", hint: "Especially the ones that feel too obvious to mention." },
-        { id: "alternatives", label: "Alternatives set aside, with reasons" },
-        { id: "consequences", label: "Consequences", hint: "Good, bad, and neutral." },
-        { id: "operations", label: "Owner, constraints, and failure handling", hint: "The part the person on call at night needs." },
-        { id: "revisit", label: "Revisit when", hint: "What would make this decision worth looking at again?" },
-      ],
-    },
-    goDeeper: {
-      summary: "Go deeper (optional): five questions to think through",
-      questions: standingQuestions.map((question) => ({ question })),
-    },
-  },
   "how-to-choose-and-actually-use-ai-tools": {
     introduce: {
       question: "Category or brand first?",

@@ -240,7 +240,6 @@ test("chess and science-fiction lessons render, with a labeled diagram and uncha
 test("the reading sequence chains from step 1 to the last with no dead end, and labels match exercises", async () => {
   const order = [
     "how-to-run-a-better-discovery-meeting",
-    "what-architects-should-document",
     "the-simplest-useful-architecture-diagram",
     "when-a-process-depends-on-one-person",
     "why-good-processes-fail",
@@ -258,7 +257,7 @@ test("the reading sequence chains from step 1 to the last with no dead end, and 
   // Format labels on the index only where the article has that exercise.
   const index = await readFile(path.join(dist, "blog", "index.html"), "utf8");
   const cards = index.match(/<article class="card article-card"[\s\S]*?<\/article>/g);
-  assert.equal(cards.length, 10);
+  assert.equal(cards.length, 9);
   for (const card of cards) {
     const hasLabel = /class="article-format"/.test(card);
     // Astro writes an empty attribute without a value, so a missing value means "no format".
@@ -290,9 +289,6 @@ test("every published article now has one lesson exercise, and the pilot has Go 
   const diagram = await readFile(path.join(dist, "blog", "the-simplest-useful-architecture-diagram", "index.html"), "utf8");
   assert.equal((diagram.match(/<svg class="context-diagram-(wide|tall)"[^>]*role="img"/g) || []).length, 2);
   assert.match(diagram, /href="https:\/\/c4model\.com\/"/, "C4 citation unchanged");
-  const record = await readFile(path.join(dist, "blog", "what-architects-should-document", "index.html"), "utf8");
-  assert.match(record, /data-worksheet="decision-record"/);
-  assert.match(record, /cognitect\.com\/blog\/2011\/11\/15\/documenting-architecture-decisions/, "Nygard citation unchanged");
 });
 
 test("measurement stays a no-op: no analytics script, no assertive live regions, and track() only knows five events", async () => {
