@@ -15,7 +15,7 @@ draft: false
 featured: false
 seoTitle: "Why Good Processes Fail | 559 Solutions"
 seoDescription: "Why documented processes still fail: hidden exceptions, uncaptured judgment, unclear escalation, and absence never rehearsed. What to do instead."
-relatedArticles: ["the-hero-trap", "when-a-process-depends-on-one-person"]
+relatedArticles: ["the-hero-trap"]
 ---
 
 <!-- ieia:introduce -->

@@ -197,11 +197,9 @@ test("the entry offer stays out of the build until the owner fills it in", async
   assert.match(contact, /<option value="systems-clarity-sprint">/, "the Services sprint link has a matching option");
 });
 
-test("the three process articles each render one primary lesson exercise", async () => {
+test("the process article renders one primary lesson exercise", async () => {
   const read = (slug) => readFile(path.join(dist, "blog", slug, "index.html"), "utf8");
   const expected = {
-    "how-to-run-a-better-discovery-meeting": /data-worksheet="discovery-worksheet"/,
-    "when-a-process-depends-on-one-person": /data-selfcheck="dependency-check"/,
     "why-good-processes-fail": /id="rehearse-absence"/,
   };
   for (const [slug, marker] of Object.entries(expected)) {
@@ -213,9 +211,6 @@ test("the three process articles each render one primary lesson exercise", async
     assert.doesNotMatch(html, /id="lesson-deeper" open/, `${slug}: Go deeper starts closed`);
     assert.match(html, /name="source" value="newsletter:/, slug);
   }
-  // The self-check shows no number or score anywhere in its markup.
-  const check = (await read("when-a-process-depends-on-one-person")).match(/<div class="selfcheck"[\s\S]*?Your answers are not sent/)[0];
-  assert.doesNotMatch(check.replace(/<[^>]+>/g, " "), /\d|%|score/i);
 });
 
 test("chess and science-fiction lessons render, with a labeled diagram and unchanged sources", async () => {
@@ -239,9 +234,7 @@ test("chess and science-fiction lessons render, with a labeled diagram and uncha
 
 test("the reading sequence chains from step 1 to the last with no dead end, and labels match exercises", async () => {
   const order = [
-    "how-to-run-a-better-discovery-meeting",
     "the-simplest-useful-architecture-diagram",
-    "when-a-process-depends-on-one-person",
     "why-good-processes-fail",
     "the-hero-trap",
   ];
@@ -257,7 +250,7 @@ test("the reading sequence chains from step 1 to the last with no dead end, and 
   // Format labels on the index only where the article has that exercise.
   const index = await readFile(path.join(dist, "blog", "index.html"), "utf8");
   const cards = index.match(/<article class="card article-card"[\s\S]*?<\/article>/g);
-  assert.equal(cards.length, 9);
+  assert.equal(cards.length, 7);
   for (const card of cards) {
     const hasLabel = /class="article-format"/.test(card);
     // Astro writes an empty attribute without a value, so a missing value means "no format".
